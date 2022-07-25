@@ -16,8 +16,6 @@ namespace MyForest
 
         private DataSubject<ScoreData> _scoreDataSubject = new DataSubject<ScoreData>(new ScoreData());
 
-        public IObservable<ScoreData> ScoreChangedObservable => _scoreDataSubject.AsObservable(true);
-
         #endregion
 
         #region METHODS
@@ -59,6 +57,11 @@ namespace MyForest
         {
             Initialize();
         }
+    }
+
+    public partial class ScoreManager : IScorePointsUIDataSource
+    {
+        IObservable<ScoreData> IScorePointsUIDataSource.ScoreChangedObservable => _scoreDataSubject.AsObservable(true);
     }
 
     [Serializable]
