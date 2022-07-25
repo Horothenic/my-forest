@@ -14,10 +14,9 @@ namespace MyForest
 
         [Inject] private SaveManager _saveManager = null;
 
-        private Subject<ScoreData> _scoreDataSubject = new Subject<ScoreData>();
+        private DataSubject<ScoreData> _scoreDataSubject = new DataSubject<ScoreData>(new ScoreData());
 
-        public IObservable<ScoreData> ScoreChangedObservable => _scoreDataSubject.AsObservable();
-        public ScoreData CurrentScoreData { get; private set; }
+        public IObservable<ScoreData> ScoreChangedObservable => _scoreDataSubject.AsObservable(true);
 
         #endregion
 
@@ -30,32 +29,25 @@ namespace MyForest
 
         private void Load()
         {
-            CurrentScoreData = _saveManager.Load<ScoreData>(SCORE_DATA_KEY);
-            CurrentScoreData ??= new ScoreData();
+            _scoreDataSubject.OnNext(_saveManager.Load<ScoreData>(SCORE_DATA_KEY));
         }
 
         private void Save()
         {
-            _saveManager.Save(SCORE_DATA_KEY, CurrentScoreData);
-        }
-
-        private void NotifyChange()
-        {
-            _scoreDataSubject.OnNext(CurrentScoreData);
+            _saveManager.Save(SCORE_DATA_KEY, _scoreDataSubject.Value);
         }
 
         public void IncreaseScore(uint increment)
         {
-            CurrentScoreData.IncreaseScore(increment);
+            _scoreDataSubject.Value.IncreaseScore(increment);
+            _scoreDataSubject.OnNext();
             Save();
-            NotifyChange();
         }
 
         public void ResetScore()
         {
-            CurrentScoreData = new ScoreData();
+            _scoreDataSubject.OnNext(new ScoreData());
             Save();
-            NotifyChange();
         }
 
         #endregion

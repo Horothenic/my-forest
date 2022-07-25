@@ -38,7 +38,6 @@ namespace MyForest
         private void Initialize()
         {
             _scoreManager.ScoreChangedObservable.Subscribe(UpdateText).AddTo(_disposables);
-            UpdateText(_scoreManager.CurrentScoreData);
         }
 
         private void Clean()
