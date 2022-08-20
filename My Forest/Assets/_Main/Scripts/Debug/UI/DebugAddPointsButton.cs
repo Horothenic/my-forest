@@ -1,43 +1,25 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 using Zenject;
 
 namespace MyForest.Debug
 {
-    [RequireComponent(typeof(Button))]
-    public class DebugAddPointsButton : MonoBehaviour
+    public class DebugAddPointsButton : DebugButton
     {
         #region FIELDS
 
-        [Inject] private ScoreManager _scoreManager = null;
-
-        [Header("COMPONENTS")]
+        [Inject] private IScoreDebugSource _debugSource = null;
 
         [Header("CONFIGURATIONS")]
         [SerializeField] private uint _pointsToIncrement = 1;
 
         #endregion
 
-        #region UNITY
-
-        private void Awake()
-        {
-            Initialize();
-        }
-
-        #endregion
-
         #region METHODS
 
-        private void Initialize()
+        protected override void OnClickHandler()
         {
-            GetComponent<Button>().onClick.AddListener(OnClickHandler);
-        }
-
-        private void OnClickHandler()
-        {
-            _scoreManager.IncreaseScore(_pointsToIncrement);
+            _debugSource.IncreaseScore(_pointsToIncrement);
         }
 
         #endregion

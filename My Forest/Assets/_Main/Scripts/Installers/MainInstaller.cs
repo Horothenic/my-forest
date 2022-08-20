@@ -8,6 +8,7 @@ namespace MyForest
         {
             Container.BindInterfacesAndSelfTo<SaveManager>().AsSingle();
             Container.BindInterfacesAndSelfTo<ScoreManager>().AsSingle();
+            Container.BindInterfacesAndSelfTo<ForestManager>().AsSingle();
         }
     }
 }

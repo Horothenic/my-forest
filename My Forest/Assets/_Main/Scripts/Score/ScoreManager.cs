@@ -1,6 +1,5 @@
 using System;
 
-using Newtonsoft.Json;
 using Zenject;
 using UniRx;
 
@@ -12,7 +11,7 @@ namespace MyForest
 
         private const string SCORE_DATA_KEY = "score_data";
 
-        [Inject] private SaveManager _saveManager = null;
+        [Inject] private ISaveSource _saveSource = null;
 
         private DataSubject<ScoreData> _scoreDataSubject = new DataSubject<ScoreData>(new ScoreData());
 
@@ -27,22 +26,22 @@ namespace MyForest
 
         private void Load()
         {
-            _scoreDataSubject.OnNext(_saveManager.Load<ScoreData>(SCORE_DATA_KEY));
+            _scoreDataSubject.OnNext(_saveSource.Load<ScoreData>(SCORE_DATA_KEY));
         }
 
         private void Save()
         {
-            _saveManager.Save(SCORE_DATA_KEY, _scoreDataSubject.Value);
+            _saveSource.Save(SCORE_DATA_KEY, _scoreDataSubject.Value);
         }
 
-        public void IncreaseScore(uint increment)
+        private void IncreaseScore(uint increment)
         {
             _scoreDataSubject.Value.IncreaseScore(increment);
             _scoreDataSubject.OnNext();
             Save();
         }
 
-        public void ResetScore()
+        private void ResetScore()
         {
             _scoreDataSubject.OnNext(new ScoreData());
             Save();
@@ -53,33 +52,17 @@ namespace MyForest
 
     public partial class ScoreManager : IInitializable
     {
-        void IInitializable.Initialize()
-        {
-            Initialize();
-        }
+        void IInitializable.Initialize() => Initialize();
     }
 
-    public partial class ScoreManager : IScorePointsUIDataSource
+    public partial class ScoreManager : IScoreDataSource
     {
-        IObservable<ScoreData> IScorePointsUIDataSource.ScoreChangedObservable => _scoreDataSubject.AsObservable(true);
+        IObservable<ScoreData> IScoreDataSource.ScoreChangedObservable => _scoreDataSubject.AsObservable(true);
     }
 
-    [Serializable]
-    public class ScoreData
+    public partial class ScoreManager : Debug.IScoreDebugSource
     {
-        public uint Score { get; private set; }
-
-        public ScoreData() { }
-
-        [JsonConstructor]
-        public ScoreData(uint score)
-        {
-            Score = score;
-        }
-
-        public void IncreaseScore(uint increment)
-        {
-            Score += increment;
-        }
+        void Debug.IScoreDebugSource.IncreaseScore(uint increment) => IncreaseScore(increment);
+        void Debug.IScoreDebugSource.ResetScore() => ResetScore();
     }
 }

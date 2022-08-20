@@ -1,5 +1,4 @@
 using UnityEngine;
-using System;
 
 using Zenject;
 using UniRx;
@@ -7,16 +6,11 @@ using TMPro;
 
 namespace MyForest
 {
-    public interface IScorePointsUIDataSource
-    {
-        IObservable<ScoreData> ScoreChangedObservable { get; }
-    }
-
     public class ScorePointsUI : MonoBehaviour
     {
         #region FIELDS
 
-        [Inject] private IScorePointsUIDataSource _dataSource = null;
+        [Inject] private IScoreDataSource _dataSource = null;
 
         [Header("COMPONENTS")]
         [SerializeField] private TextMeshProUGUI _text = null;
