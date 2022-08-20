@@ -6,7 +6,10 @@ namespace MyForest
     {
         IObservable<ScoreData> ScoreChangedObservable { get; }
     }
+}
 
+namespace MyForest.Debug
+{
     public interface IScoreDebugSource
     {
         void IncreaseScore(uint increment);

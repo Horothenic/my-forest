@@ -13,7 +13,10 @@ namespace MyForest
     {
         IObservable<Unit> CreateNewForestObservable { get; }
     }
+}
 
+namespace MyForest.Debug
+{
     public interface IForestDebugSource
     {
         void RechargeForest();
