@@ -1,19 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-using Zenject;
-
 namespace MyForest.Debug
 {
     [RequireComponent(typeof(Button))]
-    public class DebugResetPointsButton : MonoBehaviour
+    public abstract class DebugButton : MonoBehaviour
     {
-        #region FIELDS
-
-        [Inject] private ScoreManager _scoreManager = null;
-
-        #endregion
-
         #region UNITY
 
         private void Awake()
@@ -30,10 +22,7 @@ namespace MyForest.Debug
             GetComponent<Button>().onClick.AddListener(OnClickHandler);
         }
 
-        private void OnClickHandler()
-        {
-            _scoreManager.ResetScore();
-        }
+        protected abstract void OnClickHandler();
 
         #endregion
     }

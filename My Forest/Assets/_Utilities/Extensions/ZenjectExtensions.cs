@@ -1,10 +1,12 @@
 using UnityEngine;
-using Zenject;
 
-public static class ZenjectExtensions
+namespace Zenject
 {
-    public static T Instantiate<T>(this DiContainer container, T prefab, Vector3 position, Quaternion rotation, Transform parent) where T : Object
+    public static class ZenjectExtensions
     {
-        return container.InstantiatePrefabForComponent<T>(prefab, position, rotation, parent);
+        public static T Instantiate<T>(this DiContainer container, T prefab, Vector3 position, Quaternion rotation, Transform parent) where T : Object
+        {
+            return container.InstantiatePrefabForComponent<T>(prefab, position, rotation, parent);
+        }
     }
 }

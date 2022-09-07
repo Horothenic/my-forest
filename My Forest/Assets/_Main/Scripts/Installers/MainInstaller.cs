@@ -7,7 +7,8 @@ namespace MyForest
         public override void InstallBindings()
         {
             Container.BindInterfacesAndSelfTo<SaveManager>().AsSingle();
-            Container.BindInterfacesAndSelfTo<ScoreManager>().AsSingle();
+            Container.BindInterfacesAndSelfTo<GrowthManager>().AsSingle();
+            Container.BindInterfacesAndSelfTo<ForestManager>().AsSingle();
         }
     }
 }

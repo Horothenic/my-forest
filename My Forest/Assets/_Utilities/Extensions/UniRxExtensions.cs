@@ -1,4 +1,3 @@
-using UniRx;
 using System;
 
 namespace UniRx
@@ -20,9 +19,9 @@ namespace UniRx
             compositeDisposable.Add(disposable);
         }
 
-        public static void OnNext<T>(this AsyncSubject<T> subject)
+        public static void OnNext(this Subject<Unit> subject)
         {
-            subject.OnNext(subject.Value);
+            subject.OnNext(Unit.Default);
         }
     }
 
