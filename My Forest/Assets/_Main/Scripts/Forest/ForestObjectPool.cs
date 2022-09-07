@@ -11,7 +11,6 @@ namespace MyForest
         #region FIELDS
 
         private const string MENU_NAME = nameof(MyForest) + "/Pool/" + nameof(ForestObjectPool);
-        private const string CLONE_SUFFIX = "(Clone)";
 
         [Header("PREFABS")]
         [SerializeField] private GameObject[] _simpleTrees = null;
@@ -22,6 +21,7 @@ namespace MyForest
         [SerializeField] private GameObject[] _bushes = null;
         [SerializeField] private GameObject[] _rocks = null;
         [SerializeField] private GameObject[] _grounds = null;
+        [SerializeField] private GameObject[] _twigs = null;
 
         private Dictionary<string, GameObject> _prefabsMap = new Dictionary<string, GameObject>();
         private Dictionary<string, Queue<GameObject>> _pool = new Dictionary<string, Queue<GameObject>>();
@@ -46,6 +46,11 @@ namespace MyForest
 
         public GameObject Borrow(string name)
         {
+            if (string.IsNullOrEmpty(name))
+            {
+                return null;
+            }
+
             if (!_pool.ContainsKey(name) || _pool[name] == null)
             {
                 _pool.Add(name, new Queue<GameObject>());
@@ -69,7 +74,7 @@ namespace MyForest
 
         public void Return(GameObject gameObject)
         {
-            var name = gameObject.name.Replace(CLONE_SUFFIX, string.Empty);
+            var name = gameObject.PrefabName();
             gameObject.SetActive(false);
 
             if (!_pool.ContainsKey(name) || _pool[name] == null)
@@ -92,6 +97,7 @@ namespace MyForest
                 case ForestElementType.Plant: return _plants;
                 case ForestElementType.Rock: return _rocks;
                 case ForestElementType.SimpleTree: return _simpleTrees;
+                case ForestElementType.Twig: return _twigs;
                 default: return null;
             }
         }

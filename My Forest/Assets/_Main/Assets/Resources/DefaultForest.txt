@@ -1,0 +1,26 @@
+{
+  "ForestSize": 0,
+  "ForestCells": [
+    {
+      "Type": 0,
+      "Level": 0,
+      "Ground": {
+        "PrefabName": "Ground_03",
+        "Position": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      },
+      "Tree": {
+        "PrefabName": "Twig_01",
+        "Position": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      },
+      "Decorations": []
+    }
+  ]
+}

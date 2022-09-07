@@ -16,8 +16,14 @@ namespace MyForest
 
         private void Save(string key, object data)
         {
-            var json = JsonConvert.SerializeObject(data);
+            var json = JsonConvert.SerializeObject(data, Formatting.Indented);
             PlayerPrefs.SetString(key, json);
+        }
+
+        private T LoadJSONFromResources<T>(string path) where T : new()
+        {
+            var json = Resources.Load<TextAsset>(path)?.text;
+            return string.IsNullOrEmpty(json) ? new T() : JsonConvert.DeserializeObject<T>(json);
         }
 
         #endregion
@@ -26,6 +32,9 @@ namespace MyForest
     public partial class SaveManager : ISaveSource
     {
         T ISaveSource.Load<T>(string key) => Load<T>(key);
+
+        T ISaveSource.LoadJSONFromResources<T>(string path) => LoadJSONFromResources<T>(path);
+
         void ISaveSource.Save(string key, object data) => Save(key, data);
     }
 }

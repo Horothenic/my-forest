@@ -1,10 +1,7 @@
 using System;
-using UnityEngine;
 
 using Zenject;
 using UniRx;
-using Newtonsoft.Json;
-using MyForest.Debug;
 
 namespace MyForest
 {
@@ -13,6 +10,8 @@ namespace MyForest
         #region FIELDS
 
         private const string FOREST_DATA_KEY = "forest_data";
+        private const string DEFAULT_FOREST_DATA_FILE = "DefaultForest";
+
         [Inject] private ISaveSource _saveSource = null;
 
         private DataSubject<ForestData> _forestDataSubject = new DataSubject<ForestData>(new ForestData());
@@ -29,7 +28,14 @@ namespace MyForest
 
         private void Load()
         {
-            _forestDataSubject.OnNext(_saveSource.Load<ForestData>(FOREST_DATA_KEY));
+            var storedForestData = _saveSource.Load<ForestData>(FOREST_DATA_KEY);
+
+            if (storedForestData.IsEmpty)
+            {
+                storedForestData = _saveSource.LoadJSONFromResources<ForestData>(DEFAULT_FOREST_DATA_FILE);
+            }
+
+            _forestDataSubject.OnNext(storedForestData);
         }
 
         private void Save()

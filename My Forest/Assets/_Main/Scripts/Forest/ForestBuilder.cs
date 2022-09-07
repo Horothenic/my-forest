@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 using Zenject;
 using UniRx;
@@ -52,15 +53,27 @@ namespace MyForest
         {
             ResetForest();
 
-            for (int i = 0; i < forestData.Length; i++)
+            for (int i = 0; i < forestData.ForestSize; i++)
             {
-                var prefabName = forestData.ElementPrefabsNames[i];
-                var gameObject = _pool.Borrow(prefabName);
+                var cell = forestData.ForestCells[i];
 
-                if (gameObject == null) return;
+                SetForestElement(cell.Ground);
+                SetForestElement(cell.Tree);
 
-                gameObject.Set(forestData.ElementPositions[i], forestData.ElementRotations[i], _root);
+                foreach (var element in cell.Decorations)
+                {
+                    SetForestElement(element);
+                }
             }
+        }
+
+        private void SetForestElement(ForestElementData forestElementData)
+        {
+            var newElement = _pool.Borrow(forestElementData?.PrefabName);
+
+            if (newElement == null) return;
+
+            newElement.Set(forestElementData.Position, _root);
         }
 
         private void ResetForest()
