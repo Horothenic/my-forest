@@ -6,11 +6,11 @@ using TMPro;
 
 namespace MyForest
 {
-    public class ScorePointsUI : MonoBehaviour
+    public class GrowthPointsUI : MonoBehaviour
     {
         #region FIELDS
 
-        [Inject] private IScoreDataSource _dataSource = null;
+        [Inject] private IGrowthDataSource _dataSource = null;
 
         [Header("COMPONENTS")]
         [SerializeField] private TextMeshProUGUI _text = null;
@@ -37,7 +37,7 @@ namespace MyForest
 
         private void Initialize()
         {
-            _dataSource.ScoreChangedObservable.Subscribe(UpdateText).AddTo(_disposables);
+            _dataSource.GrowthChangedObservable.Subscribe(UpdateText).AddTo(_disposables);
         }
 
         private void Clean()
@@ -45,11 +45,11 @@ namespace MyForest
             _disposables.Dispose();
         }
 
-        private void UpdateText(ScoreData scoreData)
+        private void UpdateText(GrowthData growthData)
         {
-            if (scoreData == null) return;
+            if (growthData == null) return;
 
-            _text.text = scoreData.CurrentScore.ToString();
+            _text.text = growthData.CurrentGrowth.ToString();
         }
 
         #endregion

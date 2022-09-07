@@ -817,6 +817,8 @@ PrefabInstance:
       propertyPath: m_Text
       value: 'Reset
 
+        Growth
+
         Points'
       objectReference: {fileID: 0}
     - target: {fileID: 7508161580686182558, guid: 03a12c898d337428c8aa20f895d44ee4, type: 3}
@@ -905,7 +907,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7508161580686182559, guid: 03a12c898d337428c8aa20f895d44ee4, type: 3}
       propertyPath: m_Name
-      value: ResetPoints
+      value: ResetGrowthPoints
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 03a12c898d337428c8aa20f895d44ee4, type: 3}
@@ -928,7 +930,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 663408228}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7c314e7742448e699b9f58784a592e, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b1992ebab14b44aea9abebeaa40051e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &664832864
@@ -1406,7 +1408,7 @@ GameObject:
   - component: {fileID: 997387195}
   - component: {fileID: 997387196}
   m_Layer: 5
-  m_Name: Score
+  m_Name: GrowthPoints
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1441,7 +1443,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 997387194}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a9456605010148ec8b8212406944238, type: 3}
+  m_Script: {fileID: 11500000, guid: a9e349c7a2e6b4436bd63b5c405e0235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _text: {fileID: 1621201070}
@@ -1607,6 +1609,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 715707097}
     m_Modifications:
+    - target: {fileID: 7508161580274656965, guid: 03a12c898d337428c8aa20f895d44ee4, type: 3}
+      propertyPath: m_Text
+      value: 'Add 1
+
+        Growth
+
+        Point'
+      objectReference: {fileID: 0}
     - target: {fileID: 7508161580686182558, guid: 03a12c898d337428c8aa20f895d44ee4, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1693,7 +1703,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7508161580686182559, guid: 03a12c898d337428c8aa20f895d44ee4, type: 3}
       propertyPath: m_Name
-      value: AddPoints
+      value: AddGrowthPoints
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 03a12c898d337428c8aa20f895d44ee4, type: 3}
@@ -1716,7 +1726,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1066079570}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b25a1a157af894b5f88a1916461c1146, type: 3}
+  m_Script: {fileID: 11500000, guid: d4192efe9a550467fbd2bbbca0fa20e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _pointsToIncrement: 1

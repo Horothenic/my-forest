@@ -2,11 +2,11 @@ using Zenject;
 
 namespace MyForest.Debug
 {
-    public class DebugResetPointsButton : DebugButton
+    public class DebugResetGrowthPointsButton : DebugButton
     {
         #region FIELDS
 
-        [Inject] private IScoreDebugSource _debugSource = null;
+        [Inject] private IGrowthDebugSource _debugSource = null;
 
         #endregion
 
@@ -14,7 +14,7 @@ namespace MyForest.Debug
 
         protected override void OnClickHandler()
         {
-            _debugSource.ResetScore();
+            _debugSource.ResetGrowth();
         }
 
         #endregion

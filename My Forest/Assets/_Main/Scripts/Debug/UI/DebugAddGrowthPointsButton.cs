@@ -4,11 +4,11 @@ using Zenject;
 
 namespace MyForest.Debug
 {
-    public class DebugAddPointsButton : DebugButton
+    public class DebugAddGrowthPointsButton : DebugButton
     {
         #region FIELDS
 
-        [Inject] private IScoreDebugSource _debugSource = null;
+        [Inject] private IGrowthDebugSource _debugSource = null;
 
         [Header("CONFIGURATIONS")]
         [SerializeField] private uint _pointsToIncrement = 1;
@@ -19,7 +19,7 @@ namespace MyForest.Debug
 
         protected override void OnClickHandler()
         {
-            _debugSource.IncreaseScore(_pointsToIncrement);
+            _debugSource.IncreaseGrowth(_pointsToIncrement);
         }
 
         #endregion

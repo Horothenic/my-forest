@@ -37,28 +37,6 @@ namespace MyForest
         }
     }
 
-    [Serializable]
-    public class ForestBuildParameter
-    {
-        [SerializeField] private int _scoreNeeded = 0;
-        [SerializeField] private int _gridSize = 0;
-        [SerializeField] private ForestElementAmount[] _elementsMap = null;
-
-        public int ScoreNeeded => _scoreNeeded;
-        public int GridSize => _gridSize;
-        public IReadOnlyList<ForestElementAmount> ElementsMap => _elementsMap;
-    }
-
-    [Serializable]
-    public class ForestElementAmount
-    {
-        [SerializeField] private ForestElementType _type = default;
-        [SerializeField] private int _amount = 0;
-
-        public ForestElementType Type => _type;
-        public int Amount => _amount;
-    }
-
     public enum ForestElementType
     {
         Bush,
