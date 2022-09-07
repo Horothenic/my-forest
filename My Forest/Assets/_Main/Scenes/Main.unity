@@ -2716,10 +2716,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2074332845}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5afe78d1323343078b36a5552d63abe, type: 3}
+  m_Script: {fileID: 11500000, guid: 76632d50f55eb4a59a4a660c92bb8639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pool: {fileID: 0}
+  _pool: {fileID: 11400000, guid: 427ef622f39df4189b9a279e59bac874, type: 2}
   _root: {fileID: 664832865}
 --- !u!4 &2074332847
 Transform:

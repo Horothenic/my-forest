@@ -67,7 +67,11 @@ These are only special cases that tend to change pretty easily bewteen code styl
 - Everything debug related must be under a debug namespace with project name `namespace MyProject.Debug`
 - All implementation of interfaces must be used on partial classes `public partial class Manager : ISource {}`
 - All interface implementations on partial classes must be explicit `ISource.MyImplementation`
-- Properties are PascalCase `ExampleProperty`
+- Interfaces are PascalCase and start with a letter I `public class IExampleInterface`
+- Classes are PascalCase `public class ExampleClass`
+- Properties are PascalCase `public int ExampleProperty { get; private set; }`
+- Methods are PascalCase `public void ExampleMethod()`
+- Fields are camelCase `public int _field;`
 - Properties in interfaces must be one line when possible `ISource.ExampleProperty => ExampleProperty`
 - Methods in interfaces must be one line when possible `ISource.ExampleMethod() => ExampleMethod()`
 - All member fields must have underscore first `_field`

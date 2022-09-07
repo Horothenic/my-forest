@@ -5,7 +5,7 @@ using UniRx;
 
 namespace MyForest
 {
-    public class ForestController : MonoBehaviour
+    public class ForestBuilder : MonoBehaviour
     {
         #region FIELDS
 
@@ -28,6 +28,11 @@ namespace MyForest
             Initialize();
         }
 
+        private void OnDestroy()
+        {
+            Dispose();
+        }
+
         #endregion
 
         #region METHODS
@@ -38,13 +43,18 @@ namespace MyForest
             _forestDataSource.ForestDataObservable.Subscribe(BuildForest).AddTo(_disposables);
         }
 
+        private void Dispose()
+        {
+            _disposables.Dispose();
+        }
+
         private void BuildForest(ForestData forestData)
         {
             ResetForest();
 
             for (int i = 0; i < forestData.Length; i++)
             {
-                var prefabName = forestData.ElementPrefabs[i];
+                var prefabName = forestData.ElementPrefabsNames[i];
                 var gameObject = _pool.Borrow(prefabName);
 
                 if (gameObject == null) return;

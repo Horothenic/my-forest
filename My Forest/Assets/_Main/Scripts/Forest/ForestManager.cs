@@ -4,6 +4,7 @@ using UnityEngine;
 using Zenject;
 using UniRx;
 using Newtonsoft.Json;
+using MyForest.Debug;
 
 namespace MyForest
 {
@@ -12,7 +13,6 @@ namespace MyForest
         #region FIELDS
 
         private const string FOREST_DATA_KEY = "forest_data";
-
         [Inject] private ISaveSource _saveSource = null;
 
         private DataSubject<ForestData> _forestDataSubject = new DataSubject<ForestData>(new ForestData());
@@ -48,11 +48,6 @@ namespace MyForest
             _forestDataSubject.OnNext();
         }
 
-        private void CreateNewForest()
-        {
-            _createForestSubject.OnNext();
-        }
-
         #endregion
     }
 
@@ -64,11 +59,8 @@ namespace MyForest
     public partial class ForestManager : IForestDataSource
     {
         IObservable<ForestData> IForestDataSource.ForestDataObservable => _forestDataSubject.AsObservable(true);
-    }
 
-    public partial class ForestManager : IForestEventSource
-    {
-        IObservable<Unit> IForestEventSource.CreateNewForestObservable => _createForestSubject.AsObservable();
+        void IForestDataSource.SetNewForest(ForestData newForest) => SetNewForest(newForest);
     }
 
     public partial class ForestManager : Debug.IForestDebugSource

@@ -7,19 +7,22 @@ namespace MyForest
     [Serializable]
     public class ScoreData
     {
-        public uint Score { get; private set; }
+        public uint PreviousScore { get; private set; }
+        public uint CurrentScore { get; private set; }
 
         public ScoreData() { }
 
         [JsonConstructor]
         public ScoreData(uint score)
         {
-            Score = score;
+            PreviousScore = score;
+            CurrentScore = score;
         }
 
         public void IncreaseScore(uint increment)
         {
-            Score += increment;
+            PreviousScore = CurrentScore;
+            CurrentScore += increment;
         }
     }
 }

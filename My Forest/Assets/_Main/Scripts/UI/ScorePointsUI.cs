@@ -49,7 +49,7 @@ namespace MyForest
         {
             if (scoreData == null) return;
 
-            _text.text = scoreData.Score.ToString();
+            _text.text = scoreData.CurrentScore.ToString();
         }
 
         #endregion
