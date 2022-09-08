@@ -14,7 +14,8 @@ namespace MyForest
         [Inject] private IForestDataSource _forestDataSource = null;
 
         [Header("CONFIGURATIONS")]
-        [SerializeField] private ForestObjectPool _pool = null;
+        [SerializeField] private ForestObjectPool _objectPool = null;
+        [SerializeField] private ForestElementConfigurations _elementConfigurations = null;
         [SerializeField] private Transform _root = null;
 
         private CompositeDisposable _disposables = new CompositeDisposable();
@@ -39,7 +40,7 @@ namespace MyForest
 
         private async void Initialize()
         {
-            await _pool.HydratePoolMap();
+            await _objectPool.HydratePoolMap();
             _forestDataSource.ForestDataObservable.Subscribe(BuildForest).AddTo(_disposables);
         }
 
@@ -67,7 +68,7 @@ namespace MyForest
 
         private void SetGroundElement(GroundElementData groundElementData)
         {
-            var newElement = _pool.Borrow(groundElementData?.GroundName);
+            var newElement = _objectPool.Borrow(groundElementData?.GroundName);
 
             if (newElement == null) return;
 
@@ -76,7 +77,10 @@ namespace MyForest
 
         private void SetForestElement(ForestElementData forestElementData)
         {
-            var newElement = _pool.Borrow(forestElementData?.ElementName);
+            var elementConfiguration = _elementConfigurations.GetElementConfiguration(forestElementData?.ElementName);
+            var prefab = elementConfiguration.GetLevelPrefab(forestElementData.Level);
+
+            var newElement = _objectPool.Borrow(prefab);
 
             if (newElement == null) return;
 
@@ -87,7 +91,7 @@ namespace MyForest
         {
             foreach (Transform t in _root)
             {
-                _pool.Return(t.gameObject);
+                _objectPool.Return(t.gameObject);
             }
         }
 

@@ -10,7 +10,7 @@ namespace MyForest
     {
         #region FIELDS
 
-        private const string MENU_NAME = nameof(MyForest) + "/Pool/" + nameof(ForestObjectPool);
+        private const string MENU_NAME = nameof(MyForest) + "/Pool/Object Pool";
 
         [Header("PREFABS")]
         [SerializeField] private GameObject[] _simpleTrees = null;
@@ -45,6 +45,11 @@ namespace MyForest
             return Task.CompletedTask;
         }
 
+        public GameObject Borrow(GameObject prefab)
+        {
+            return Borrow(prefab.name);
+        }
+
         public GameObject Borrow(string name)
         {
             if (string.IsNullOrEmpty(name))
@@ -77,12 +82,6 @@ namespace MyForest
         {
             var name = gameObject.PrefabName();
             gameObject.SetActive(false);
-
-            if (!_pool.ContainsKey(name) || _pool[name] == null)
-            {
-                _pool.Add(name, new Queue<GameObject>());
-            }
-
             _pool[name].Enqueue(gameObject);
         }
 
