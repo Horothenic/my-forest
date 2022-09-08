@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+using Cysharp.Threading.Tasks;
+
 namespace MyForest
 {
     [CreateAssetMenu(fileName = nameof(ForestObjectPool), menuName = MENU_NAME)]
@@ -31,7 +33,7 @@ namespace MyForest
 
         #region METHODS
 
-        public Task HydratePoolMap()
+        public UniTask HydratePoolMap()
         {
             foreach (var type in (ForestElementType[])Enum.GetValues(typeof(ForestElementType)))
             {
@@ -42,7 +44,7 @@ namespace MyForest
                 }
             }
 
-            return Task.CompletedTask;
+            return UniTask.CompletedTask;
         }
 
         public GameObject Borrow(GameObject prefab)

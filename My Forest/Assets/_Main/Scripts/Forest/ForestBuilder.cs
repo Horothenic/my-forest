@@ -2,6 +2,7 @@ using UnityEngine;
 
 using Zenject;
 using UniRx;
+using Cysharp.Threading.Tasks;
 
 namespace MyForest
 {
@@ -26,7 +27,7 @@ namespace MyForest
 
         private void Start()
         {
-            Initialize();
+            Initialize().Forget();
         }
 
         private void OnDestroy()
@@ -38,7 +39,7 @@ namespace MyForest
 
         #region METHODS
 
-        private async void Initialize()
+        private async UniTaskVoid Initialize()
         {
             await _objectPool.HydratePoolMap();
             _forestDataSource.ForestDataObservable.Subscribe(BuildForest).AddTo(_disposables);
