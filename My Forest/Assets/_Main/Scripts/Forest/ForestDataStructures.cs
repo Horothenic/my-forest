@@ -9,68 +9,64 @@ namespace MyForest
     [Serializable]
     public class ForestData
     {
-        private List<ForestCellData> _forestCells = new List<ForestCellData>();
+        private List<GroundElementData> _groundElements = new List<GroundElementData>();
+        private List<ForestElementData> _forestElements = new List<ForestElementData>();
 
-        public bool IsEmpty => _forestCells.Count == 0;
-        public int ForestSize { get; private set; }
-        public IReadOnlyList<ForestCellData> ForestCells => _forestCells;
+        [JsonIgnore]
+        public int GroundSize => _groundElements.Count;
+        [JsonIgnore]
+        public int ForestSize => _forestElements.Count;
+        public IReadOnlyList<GroundElementData> GroundElements => _groundElements;
+        public IReadOnlyList<ForestElementData> ForestElements => _forestElements;
 
         public ForestData() { }
 
         [JsonConstructor]
-        public ForestData(List<ForestCellData> forestCells)
+        public ForestData(List<GroundElementData> groundElements, List<ForestElementData> forestElements)
         {
-            _forestCells = forestCells;
-            ForestSize = _forestCells.Count;
+            _groundElements = groundElements;
+            _forestElements = forestElements;
         }
 
-        public void AddForestCell(ForestCellData newForestCell)
+        public void AddGroundElement(GroundElementData newGroundElement)
         {
-            _forestCells.Add(newForestCell);
+            _groundElements.Add(newGroundElement);
+        }
+
+        public void AddForestElement(ForestElementData newForestElement)
+        {
+            _forestElements.Add(newForestElement);
         }
     }
 
     [Serializable]
-    public class ForestCellData
+    public class GroundElementData
     {
-        private List<ForestElementData> _decorations = new List<ForestElementData>();
-
-        public ForestCellType Type { get; private set; }
-        public int Level { get; private set; }
-        public ForestElementData Ground { get; private set; }
-        public ForestElementData Tree { get; private set; }
-        public IReadOnlyList<ForestElementData> Decorations => _decorations;
+        public string GroundName { get; private set; }
+        public SerializedVector3 Position { get; private set; }
 
         [JsonConstructor]
-        public ForestCellData(ForestCellType type, int level, ForestElementData ground, ForestElementData tree, List<ForestElementData> decorations)
+        public GroundElementData(string groundName, Vector3 position)
         {
-            Type = type;
-            Level = level;
-            Ground = ground;
-            Tree = tree;
-            _decorations = decorations;
+            GroundName = groundName;
+            Position = position;
         }
     }
 
     [Serializable]
     public class ForestElementData
     {
-        public string PrefabName { get; private set; }
+        public string ElementName { get; private set; }
+        public int Level { get; private set; }
         public SerializedVector3 Position { get; private set; }
 
         [JsonConstructor]
-        public ForestElementData(string prefabName, Vector3 position)
+        public ForestElementData(string elementName, int level, Vector3 position)
         {
-            PrefabName = prefabName;
+            ElementName = elementName;
+            Level = level;
             Position = position;
         }
-    }
-
-    public enum ForestCellType
-    {
-        Tree,
-        Ground,
-        Decoration
     }
 
     public enum ForestElementType
@@ -83,6 +79,7 @@ namespace MyForest
         Plant,
         Rock,
         SimpleTree,
-        Twig
+        Twig,
+        Seed
     }
 }

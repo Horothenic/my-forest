@@ -14,7 +14,7 @@ namespace MyForest
 
         [Inject] private ISaveSource _saveSource = null;
 
-        private DataSubject<ForestData> _forestDataSubject = new DataSubject<ForestData>(new ForestData());
+        private DataSubject<ForestData> _forestDataSubject = new DataSubject<ForestData>();
         private Subject<Unit> _createForestSubject = new Subject<Unit>();
 
         #endregion
@@ -30,7 +30,7 @@ namespace MyForest
         {
             var storedForestData = _saveSource.Load<ForestData>(FOREST_DATA_KEY);
 
-            if (storedForestData.IsEmpty)
+            if (storedForestData == null)
             {
                 storedForestData = _saveSource.LoadJSONFromResources<ForestData>(DEFAULT_FOREST_DATA_FILE);
             }

@@ -22,6 +22,7 @@ namespace MyForest
         [SerializeField] private GameObject[] _rocks = null;
         [SerializeField] private GameObject[] _grounds = null;
         [SerializeField] private GameObject[] _twigs = null;
+        [SerializeField] private GameObject[] _seeds = null;
 
         private Dictionary<string, GameObject> _prefabsMap = new Dictionary<string, GameObject>();
         private Dictionary<string, Queue<GameObject>> _pool = new Dictionary<string, Queue<GameObject>>();
@@ -98,6 +99,7 @@ namespace MyForest
                 case ForestElementType.Rock: return _rocks;
                 case ForestElementType.SimpleTree: return _simpleTrees;
                 case ForestElementType.Twig: return _twigs;
+                case ForestElementType.Seed: return _seeds;
                 default: return null;
             }
         }

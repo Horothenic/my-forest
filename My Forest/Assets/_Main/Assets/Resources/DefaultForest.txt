@@ -1,26 +1,23 @@
 {
-  "ForestSize": 0,
-  "ForestCells": [
+  "GroundElements": [
     {
-      "Type": 0,
+      "GroundName": "Ground_03",
+      "Position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+  ],
+  "ForestElements": [
+    {
+      "ElementName": "Seed_01",
       "Level": 0,
-      "Ground": {
-        "PrefabName": "Ground_03",
-        "Position": {
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0
-        }
-      },
-      "Tree": {
-        "PrefabName": "Twig_01",
-        "Position": {
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0
-        }
-      },
-      "Decorations": []
+      "Position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
     }
   ]
 }

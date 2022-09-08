@@ -8,10 +8,16 @@ namespace MyForest
     {
         #region METHODS
 
-        private T Load<T>(string key) where T : new()
+        private T Load<T>(string key)
         {
             var json = PlayerPrefs.GetString(key, string.Empty);
-            return string.IsNullOrEmpty(json) ? new T() : JsonConvert.DeserializeObject<T>(json);
+            return string.IsNullOrEmpty(json) ? default : JsonConvert.DeserializeObject<T>(json);
+        }
+
+        private T LoadJSONFromResources<T>(string path)
+        {
+            var json = Resources.Load<TextAsset>(path)?.text;
+            return string.IsNullOrEmpty(json) ? default : JsonConvert.DeserializeObject<T>(json);
         }
 
         private void Save(string key, object data)
@@ -20,21 +26,13 @@ namespace MyForest
             PlayerPrefs.SetString(key, json);
         }
 
-        private T LoadJSONFromResources<T>(string path) where T : new()
-        {
-            var json = Resources.Load<TextAsset>(path)?.text;
-            return string.IsNullOrEmpty(json) ? new T() : JsonConvert.DeserializeObject<T>(json);
-        }
-
         #endregion
     }
 
     public partial class SaveManager : ISaveSource
     {
         T ISaveSource.Load<T>(string key) => Load<T>(key);
-
         T ISaveSource.LoadJSONFromResources<T>(string path) => LoadJSONFromResources<T>(path);
-
         void ISaveSource.Save(string key, object data) => Save(key, data);
     }
 }
