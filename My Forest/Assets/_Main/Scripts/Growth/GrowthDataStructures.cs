@@ -7,22 +7,34 @@ namespace MyForest
     [Serializable]
     public class GrowthData
     {
-        public uint PreviousGrowth { get; private set; }
+        public uint AllTimeGrowth { get; private set; }
         public uint CurrentGrowth { get; private set; }
 
         public GrowthData() { }
 
         [JsonConstructor]
-        public GrowthData(uint growth)
+        public GrowthData(uint currentGrowth, uint allTimeGrowth)
         {
-            PreviousGrowth = growth;
-            CurrentGrowth = growth;
+            AllTimeGrowth = allTimeGrowth;
+            CurrentGrowth = currentGrowth;
         }
 
         public void IncreaseGrowth(uint increment)
         {
-            PreviousGrowth = CurrentGrowth;
             CurrentGrowth += increment;
+            AllTimeGrowth += increment;
+        }
+
+        public bool DecreaseGrowth(uint decrement)
+        {
+            if (CurrentGrowth < decrement)
+            {
+                return false;
+            }
+
+            CurrentGrowth -= decrement;
+
+            return true;
         }
     }
 }

@@ -26,7 +26,7 @@ namespace MyForest
 
         private void Load()
         {
-            _growthDataSubject.OnNext(_saveSource.Load<GrowthData>(GROWTH_DATA_KEY));
+            _growthDataSubject.OnNext(_saveSource.Load<GrowthData>(GROWTH_DATA_KEY) ?? new GrowthData());
         }
 
         private void Save()
@@ -37,6 +37,13 @@ namespace MyForest
         private void IncreaseGrowth(uint increment)
         {
             _growthDataSubject.Value.IncreaseGrowth(increment);
+            _growthDataSubject.OnNext();
+            Save();
+        }
+
+        private void DecreaseGrowth(uint decrement)
+        {
+            _growthDataSubject.Value.DecreaseGrowth(decrement);
             _growthDataSubject.OnNext();
             Save();
         }
@@ -63,6 +70,7 @@ namespace MyForest
     public partial class GrowthManager : Debug.IGrowthDebugSource
     {
         void Debug.IGrowthDebugSource.IncreaseGrowth(uint increment) => IncreaseGrowth(increment);
+        void Debug.IGrowthDebugSource.DecreaseGrowth(uint decrement) => DecreaseGrowth(decrement);
         void Debug.IGrowthDebugSource.ResetGrowth() => ResetGrowth();
     }
 }

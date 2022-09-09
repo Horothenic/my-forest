@@ -6,7 +6,7 @@ using TMPro;
 
 namespace MyForest
 {
-    public class GrowthPointsUI : MonoBehaviour
+    public class CurrentGrowthPointsUI : MonoBehaviour
     {
         #region FIELDS
 
