@@ -68,9 +68,4 @@ namespace MyForest
 
         void IForestDataSource.SetNewForest(ForestData newForest) => SetNewForest(newForest);
     }
-
-    public partial class ForestManager : Debug.IForestDebugSource
-    {
-        void Debug.IForestDebugSource.RechargeForest() => RechargeForest();
-    }
 }
