@@ -1,0 +1,23 @@
+{
+  "GroundElements": [
+    {
+      "GroundName": "Ground_03",
+      "Position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+  ],
+  "ForestElements": [
+    {
+      "ElementName": "Tree_1",
+      "Level": 0,
+      "Position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    }
+  ]
+}

@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+using Cysharp.Threading.Tasks;
+
 namespace MyForest
 {
     [CreateAssetMenu(fileName = nameof(ForestObjectPool), menuName = MENU_NAME)]
@@ -10,8 +12,7 @@ namespace MyForest
     {
         #region FIELDS
 
-        private const string MENU_NAME = nameof(MyForest) + "/Pool/" + nameof(ForestObjectPool);
-        private const string CLONE_SUFFIX = "(Clone)";
+        private const string MENU_NAME = nameof(MyForest) + "/Pool/Object Pool";
 
         [Header("PREFABS")]
         [SerializeField] private GameObject[] _simpleTrees = null;
@@ -22,6 +23,8 @@ namespace MyForest
         [SerializeField] private GameObject[] _bushes = null;
         [SerializeField] private GameObject[] _rocks = null;
         [SerializeField] private GameObject[] _grounds = null;
+        [SerializeField] private GameObject[] _twigs = null;
+        [SerializeField] private GameObject[] _seeds = null;
 
         private Dictionary<string, GameObject> _prefabsMap = new Dictionary<string, GameObject>();
         private Dictionary<string, Queue<GameObject>> _pool = new Dictionary<string, Queue<GameObject>>();
@@ -30,7 +33,7 @@ namespace MyForest
 
         #region METHODS
 
-        public Task HydratePoolMap()
+        public UniTask HydratePoolMap()
         {
             foreach (var type in (ForestElementType[])Enum.GetValues(typeof(ForestElementType)))
             {
@@ -41,11 +44,21 @@ namespace MyForest
                 }
             }
 
-            return Task.CompletedTask;
+            return UniTask.CompletedTask;
+        }
+
+        public GameObject Borrow(GameObject prefab)
+        {
+            return Borrow(prefab.name);
         }
 
         public GameObject Borrow(string name)
         {
+            if (string.IsNullOrEmpty(name))
+            {
+                return null;
+            }
+
             if (!_pool.ContainsKey(name) || _pool[name] == null)
             {
                 _pool.Add(name, new Queue<GameObject>());
@@ -69,14 +82,8 @@ namespace MyForest
 
         public void Return(GameObject gameObject)
         {
-            var name = gameObject.name.Replace(CLONE_SUFFIX, string.Empty);
+            var name = gameObject.PrefabName();
             gameObject.SetActive(false);
-
-            if (!_pool.ContainsKey(name) || _pool[name] == null)
-            {
-                _pool.Add(name, new Queue<GameObject>());
-            }
-
             _pool[name].Enqueue(gameObject);
         }
 
@@ -92,6 +99,8 @@ namespace MyForest
                 case ForestElementType.Plant: return _plants;
                 case ForestElementType.Rock: return _rocks;
                 case ForestElementType.SimpleTree: return _simpleTrees;
+                case ForestElementType.Twig: return _twigs;
+                case ForestElementType.Seed: return _seeds;
                 default: return null;
             }
         }

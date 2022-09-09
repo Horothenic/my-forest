@@ -9,31 +9,63 @@ namespace MyForest
     [Serializable]
     public class ForestData
     {
-        private List<string> _elementPrefabsNames = new List<string>();
-        private List<Vector3> _elementPositions = new List<Vector3>();
-        private List<Vector3> _elementRotations = new List<Vector3>();
+        private List<GroundElementData> _groundElements = new List<GroundElementData>();
+        private List<ForestElementData> _forestElements = new List<ForestElementData>();
 
-        public int Length { get; private set; }
-        public IReadOnlyList<string> ElementPrefabsNames => _elementPrefabsNames;
-        public IReadOnlyList<Vector3> ElementPositions => _elementPositions;
-        public IReadOnlyList<Vector3> ElementRotations => _elementRotations;
+        [JsonIgnore]
+        public int GroundSize => _groundElements.Count;
+        [JsonIgnore]
+        public int ForestSize => _forestElements.Count;
+        public IReadOnlyList<GroundElementData> GroundElements => _groundElements;
+        public IReadOnlyList<ForestElementData> ForestElements => _forestElements;
 
         public ForestData() { }
 
         [JsonConstructor]
-        public ForestData(List<string> elementPrefabsNames, List<Vector3> elementPositions, List<Vector3> elementRotations)
+        public ForestData(List<GroundElementData> groundElements, List<ForestElementData> forestElements)
         {
-            Length = elementPrefabsNames.Count;
-            _elementPrefabsNames = elementPrefabsNames;
-            _elementPositions = elementPositions;
-            _elementRotations = elementRotations;
+            _groundElements = groundElements;
+            _forestElements = forestElements;
         }
 
-        public void AddElement(GameObject gameObject)
+        public void AddGroundElement(GroundElementData newGroundElement)
         {
-            _elementPrefabsNames.Add(gameObject.PrefabName());
-            _elementPositions.Add(gameObject.transform.position);
-            _elementRotations.Add(gameObject.transform.localEulerAngles);
+            _groundElements.Add(newGroundElement);
+        }
+
+        public void AddForestElement(ForestElementData newForestElement)
+        {
+            _forestElements.Add(newForestElement);
+        }
+    }
+
+    [Serializable]
+    public class GroundElementData
+    {
+        public string GroundName { get; private set; }
+        public SerializedVector3 Position { get; private set; }
+
+        [JsonConstructor]
+        public GroundElementData(string groundName, Vector3 position)
+        {
+            GroundName = groundName;
+            Position = position;
+        }
+    }
+
+    [Serializable]
+    public class ForestElementData
+    {
+        public string ElementName { get; private set; }
+        public int Level { get; private set; }
+        public SerializedVector3 Position { get; private set; }
+
+        [JsonConstructor]
+        public ForestElementData(string elementName, int level, Vector3 position)
+        {
+            ElementName = elementName;
+            Level = level;
+            Position = position;
         }
     }
 
@@ -46,6 +78,8 @@ namespace MyForest
         PineTree,
         Plant,
         Rock,
-        SimpleTree
+        SimpleTree,
+        Twig,
+        Seed
     }
 }

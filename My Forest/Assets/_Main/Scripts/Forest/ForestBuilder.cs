@@ -2,6 +2,7 @@ using UnityEngine;
 
 using Zenject;
 using UniRx;
+using Cysharp.Threading.Tasks;
 
 namespace MyForest
 {
@@ -14,7 +15,8 @@ namespace MyForest
         [Inject] private IForestDataSource _forestDataSource = null;
 
         [Header("CONFIGURATIONS")]
-        [SerializeField] private ForestObjectPool _pool = null;
+        [SerializeField] private ForestObjectPool _objectPool = null;
+        [SerializeField] private ForestElementConfigurations _elementConfigurations = null;
         [SerializeField] private Transform _root = null;
 
         private CompositeDisposable _disposables = new CompositeDisposable();
@@ -25,7 +27,7 @@ namespace MyForest
 
         private void Start()
         {
-            Initialize();
+            Initialize().Forget();
         }
 
         private void OnDestroy()
@@ -37,9 +39,9 @@ namespace MyForest
 
         #region METHODS
 
-        private async void Initialize()
+        private async UniTaskVoid Initialize()
         {
-            await _pool.HydratePoolMap();
+            await _objectPool.HydratePoolMap();
             _forestDataSource.ForestDataObservable.Subscribe(BuildForest).AddTo(_disposables);
         }
 
@@ -52,22 +54,45 @@ namespace MyForest
         {
             ResetForest();
 
-            for (int i = 0; i < forestData.Length; i++)
+            for (int i = 0; i < forestData.GroundSize; i++)
             {
-                var prefabName = forestData.ElementPrefabsNames[i];
-                var gameObject = _pool.Borrow(prefabName);
-
-                if (gameObject == null) return;
-
-                gameObject.Set(forestData.ElementPositions[i], forestData.ElementRotations[i], _root);
+                var groundElementData = forestData.GroundElements[i];
+                SetGroundElement(groundElementData);
             }
+
+            for (int i = 0; i < forestData.ForestSize; i++)
+            {
+                var forestElementData = forestData.ForestElements[i];
+                SetForestElement(forestElementData);
+            }
+        }
+
+        private void SetGroundElement(GroundElementData groundElementData)
+        {
+            var newElement = _objectPool.Borrow(groundElementData?.GroundName);
+
+            if (newElement == null) return;
+
+            newElement.Set(groundElementData.Position, _root);
+        }
+
+        private void SetForestElement(ForestElementData forestElementData)
+        {
+            var elementConfiguration = _elementConfigurations.GetElementConfiguration(forestElementData?.ElementName);
+            var prefab = elementConfiguration.GetLevelPrefab(forestElementData.Level);
+
+            var newElement = _objectPool.Borrow(prefab);
+
+            if (newElement == null) return;
+
+            newElement.Set(forestElementData.Position, _root);
         }
 
         private void ResetForest()
         {
             foreach (Transform t in _root)
             {
-                _pool.Return(t.gameObject);
+                _objectPool.Return(t.gameObject);
             }
         }
 
