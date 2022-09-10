@@ -1608,12 +1608,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2074332845}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76632d50f55eb4a59a4a660c92bb8639, type: 3}
+  m_Script: {fileID: 11500000, guid: ae873448c1dbd4a88bf94b27ac69da60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _objectPool: {fileID: 11400000, guid: 427ef622f39df4189b9a279e59bac874, type: 2}
   _elementConfigurations: {fileID: 11400000, guid: 4d976b4a05f6548beb671902371b8d10, type: 2}
+  _groundConfigurations: {fileID: 11400000, guid: 468e0a83b8c1249738b97e7ee3fc71b0, type: 2}
   _root: {fileID: 664832865}
+  _forestElementPrefab: {fileID: 4874896885170474990, guid: 3ad01476d207d4936b962c55596e9cf8, type: 3}
 --- !u!4 &2074332847
 Transform:
   m_ObjectHideFlags: 0

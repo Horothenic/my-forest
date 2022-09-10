@@ -5,6 +5,12 @@ namespace MyForest
     public interface IGrowthDataSource
     {
         IObservable<GrowthData> GrowthChangedObservable { get; }
+        bool TrySpendGrowth(uint level);
+    }
+
+    public interface IGrowthConfigurationsSource
+    {
+        uint GetNextLevelCost(uint level);
     }
 }
 

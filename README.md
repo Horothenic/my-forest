@@ -29,6 +29,8 @@ There are files to add data structures, named after each system `[SYSTEM_NAME]Da
 
 To use observables to their full we use **UniRx** `Subject` and our `DataSubject` to store the observable references.
 
+Sometimes we use `ScripatbleObjects` to store data, these are added to the `MainInstaller` and have their own interface.
+
 #### **Controllers**
 Controllers are not bound to systems, controllers can connect to different managers if they need to, but no manager can connect to controller, we need to maintain the dependency only in one direction.
 

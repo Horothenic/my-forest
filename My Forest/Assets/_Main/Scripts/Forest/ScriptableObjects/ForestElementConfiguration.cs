@@ -7,17 +7,18 @@ namespace MyForest
     {
         #region FIELDS
 
-        private const string MENU_NAME = nameof(MyForest) + "/Configurations/Element";
+        private const string MENU_NAME = nameof(MyForest) + "/Forest/" + nameof(ForestElementConfiguration);
 
         [SerializeField] private GameObject[] _levels = null;
 
         public string ElementName => name;
+        public int MaxLevel => _levels.Length - 1;
 
         #endregion
 
         #region METHODS
 
-        public GameObject GetLevelPrefab(int level)
+        public GameObject GetLevelPrefab(uint level)
         {
             if (_levels.Length - 1 < level)
             {

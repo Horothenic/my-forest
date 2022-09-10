@@ -2,22 +2,21 @@ using UnityEngine;
 
 using Zenject;
 using UniRx;
-using Cysharp.Threading.Tasks;
 
 namespace MyForest
 {
-    public class ForestBuilder : MonoBehaviour
+    public partial class ForestController : MonoBehaviour
     {
         #region FIELDS
 
-        private const int CELL_SIZE = 1;
-
+        [Inject] private IObjectPoolSource _objectPoolSource = null;
         [Inject] private IForestDataSource _forestDataSource = null;
+        [Inject] private DiContainer _zenjectContainer = null;
 
         [Header("CONFIGURATIONS")]
-        [SerializeField] private ForestObjectPool _objectPool = null;
-        [SerializeField] private ForestElementConfigurations _elementConfigurations = null;
+        [SerializeField] private GroundConfigurations _groundConfigurations = null;
         [SerializeField] private Transform _root = null;
+        [SerializeField] private ForestElement _forestElementPrefab = null;
 
         private CompositeDisposable _disposables = new CompositeDisposable();
 
@@ -27,7 +26,7 @@ namespace MyForest
 
         private void Start()
         {
-            Initialize().Forget();
+            Initialize();
         }
 
         private void OnDestroy()
@@ -39,9 +38,8 @@ namespace MyForest
 
         #region METHODS
 
-        private async UniTaskVoid Initialize()
+        private void Initialize()
         {
-            await _objectPool.HydratePoolMap();
             _forestDataSource.ForestDataObservable.Subscribe(BuildForest).AddTo(_disposables);
         }
 
@@ -52,8 +50,6 @@ namespace MyForest
 
         private void BuildForest(ForestData forestData)
         {
-            ResetForest();
-
             for (int i = 0; i < forestData.GroundSize; i++)
             {
                 var groundElementData = forestData.GroundElements[i];
@@ -69,31 +65,15 @@ namespace MyForest
 
         private void SetGroundElement(GroundElementData groundElementData)
         {
-            var newElement = _objectPool.Borrow(groundElementData?.GroundName);
-
-            if (newElement == null) return;
-
-            newElement.Set(groundElementData.Position, _root);
+            var prefab = _groundConfigurations.GetGroundPrefab(groundElementData?.GroundName);
+            _objectPoolSource.Borrow(prefab).Set(groundElementData.Position, _root);
         }
 
         private void SetForestElement(ForestElementData forestElementData)
         {
-            var elementConfiguration = _elementConfigurations.GetElementConfiguration(forestElementData?.ElementName);
-            var prefab = elementConfiguration.GetLevelPrefab(forestElementData.Level);
-
-            var newElement = _objectPool.Borrow(prefab);
-
-            if (newElement == null) return;
-
-            newElement.Set(forestElementData.Position, _root);
-        }
-
-        private void ResetForest()
-        {
-            foreach (Transform t in _root)
-            {
-                _objectPool.Return(t.gameObject);
-            }
+            var newForestElement = _objectPoolSource.Borrow(_forestElementPrefab);
+            newForestElement.gameObject.Set(forestElementData.Position, _root);
+            newForestElement.Initialize(forestElementData);
         }
 
         #endregion

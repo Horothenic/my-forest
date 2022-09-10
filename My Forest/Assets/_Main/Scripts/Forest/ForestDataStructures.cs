@@ -57,15 +57,30 @@ namespace MyForest
     public class ForestElementData
     {
         public string ElementName { get; private set; }
-        public int Level { get; private set; }
+        public uint Level { get; private set; }
         public SerializedVector3 Position { get; private set; }
 
+        [JsonIgnore]
+        public ForestElementConfiguration Configuration { get; private set; }
+        [JsonIgnore]
+        public bool IsMaxLevel => Level == Configuration.MaxLevel;
+
         [JsonConstructor]
-        public ForestElementData(string elementName, int level, Vector3 position)
+        public ForestElementData(string elementName, uint level, Vector3 position)
         {
             ElementName = elementName;
             Level = level;
             Position = position;
+        }
+
+        public void Hydrate(IForestElementConfigurationsSource elementConfigurationsSource)
+        {
+            Configuration = elementConfigurationsSource.GetElementConfiguration(ElementName);
+        }
+
+        public void IncreaseLevel()
+        {
+            Level++;
         }
     }
 

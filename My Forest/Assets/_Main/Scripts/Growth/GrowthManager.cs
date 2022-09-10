@@ -12,6 +12,7 @@ namespace MyForest
         private const string GROWTH_DATA_KEY = "growth_data";
 
         [Inject] private ISaveSource _saveSource = null;
+        [Inject] private IGrowthConfigurationsSource _configurations = null;
 
         private DataSubject<GrowthData> _growthDataSubject = new DataSubject<GrowthData>(new GrowthData());
 
@@ -41,17 +42,29 @@ namespace MyForest
             Save();
         }
 
-        private void DecreaseGrowth(uint decrement)
+        private bool DecreaseGrowth(uint decrement)
         {
-            _growthDataSubject.Value.DecreaseGrowth(decrement);
-            _growthDataSubject.OnNext();
-            Save();
+            var decreased = _growthDataSubject.Value.DecreaseGrowth(decrement);
+
+            if (decreased)
+            {
+                _growthDataSubject.OnNext();
+                Save();
+            }
+
+            return decreased;
         }
 
         private void ResetGrowth()
         {
             _growthDataSubject.OnNext(new GrowthData());
             Save();
+        }
+
+        private bool TrySpendGrowth(uint level)
+        {
+            var amountForNextLevel = _configurations.GetNextLevelCost(level);
+            return DecreaseGrowth(amountForNextLevel);
         }
 
         #endregion
@@ -65,6 +78,8 @@ namespace MyForest
     public partial class GrowthManager : IGrowthDataSource
     {
         IObservable<GrowthData> IGrowthDataSource.GrowthChangedObservable => _growthDataSubject.AsObservable(true);
+
+        bool IGrowthDataSource.TrySpendGrowth(uint level) => TrySpendGrowth(level);
     }
 
     public partial class GrowthManager : Debug.IGrowthDebugSource
