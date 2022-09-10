@@ -3,11 +3,11 @@ using UnityEngine;
 namespace MyForest
 {
     [CreateAssetMenu(fileName = nameof(ForestElementConfigurations), menuName = MENU_NAME)]
-    public class ForestElementConfigurations : ScriptableObject
+    public partial class ForestElementConfigurations : ScriptableObject
     {
         #region FIELDS
 
-        private const string MENU_NAME = nameof(MyForest) + "/Configurations/Elements Container";
+        private const string MENU_NAME = nameof(MyForest) + "/Forest/" + nameof(ForestElementConfigurations);
 
         [SerializeField] private ForestElementConfiguration[] _elementConfigurations = null;
 
@@ -15,7 +15,7 @@ namespace MyForest
 
         #region METHODS
 
-        public ForestElementConfiguration GetElementConfiguration(string elementName)
+        private ForestElementConfiguration GetElementConfiguration(string elementName)
         {
             foreach (var elementConfiguration in _elementConfigurations)
             {
@@ -29,5 +29,10 @@ namespace MyForest
         }
 
         #endregion
+    }
+
+    public partial class ForestElementConfigurations : IForestElementConfigurationsSource
+    {
+        ForestElementConfiguration IForestElementConfigurationsSource.GetElementConfiguration(string elementName) => GetElementConfiguration(elementName);
     }
 }

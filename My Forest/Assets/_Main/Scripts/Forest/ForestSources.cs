@@ -1,20 +1,15 @@
 using System;
 
-using UniRx;
-
 namespace MyForest
 {
     public interface IForestDataSource
     {
         IObservable<ForestData> ForestDataObservable { get; }
-        void SetNewForest(ForestData newForest);
+        bool TryIncreaseGrowthLevel(ForestElementData elementData);
     }
-}
 
-namespace MyForest.Debug
-{
-    public interface IForestDebugSource
+    public interface IForestElementConfigurationsSource
     {
-        void RechargeForest();
+        ForestElementConfiguration GetElementConfiguration(string elementName);
     }
 }

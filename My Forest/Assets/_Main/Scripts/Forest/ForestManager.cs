@@ -13,6 +13,8 @@ namespace MyForest
         private const string DEFAULT_FOREST_DATA_FILE = "DefaultForest";
 
         [Inject] private ISaveSource _saveSource = null;
+        [Inject] private IGrowthDataSource _growthDataSource = null;
+        [Inject] private IForestElementConfigurationsSource _elementConfigurations = null;
 
         private DataSubject<ForestData> _forestDataSubject = new DataSubject<ForestData>();
         private Subject<Unit> _createForestSubject = new Subject<Unit>();
@@ -35,6 +37,11 @@ namespace MyForest
                 storedForestData = _saveSource.LoadJSONFromResources<ForestData>(DEFAULT_FOREST_DATA_FILE);
             }
 
+            foreach (var element in storedForestData.ForestElements)
+            {
+                element.Hydrate(_elementConfigurations);
+            }
+
             _forestDataSubject.OnNext(storedForestData);
         }
 
@@ -43,15 +50,13 @@ namespace MyForest
             _saveSource.Save(FOREST_DATA_KEY, _forestDataSubject.Value);
         }
 
-        private void SetNewForest(ForestData newForest)
+        private bool TryIncreaseGrowthLevel(ForestElementData elementData)
         {
-            _forestDataSubject.OnNext(newForest);
-            Save();
-        }
+            if (!_growthDataSource.TrySpendGrowth(elementData.Level)) return false;
 
-        private void RechargeForest()
-        {
-            _forestDataSubject.OnNext();
+            elementData.IncreaseLevel();
+            Save();
+            return true;
         }
 
         #endregion
@@ -66,11 +71,6 @@ namespace MyForest
     {
         IObservable<ForestData> IForestDataSource.ForestDataObservable => _forestDataSubject.AsObservable(true);
 
-        void IForestDataSource.SetNewForest(ForestData newForest) => SetNewForest(newForest);
-    }
-
-    public partial class ForestManager : Debug.IForestDebugSource
-    {
-        void Debug.IForestDebugSource.RechargeForest() => RechargeForest();
+        bool IForestDataSource.TryIncreaseGrowthLevel(ForestElementData elementData) => TryIncreaseGrowthLevel(elementData);
     }
 }
