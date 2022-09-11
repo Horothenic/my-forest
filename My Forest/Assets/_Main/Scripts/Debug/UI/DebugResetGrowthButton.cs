@@ -2,7 +2,7 @@ using Zenject;
 
 namespace MyForest.Debug
 {
-    public class DebugResetGrowthPointsButton : DebugButton
+    public class DebugResetGrowthButton : DebugButton
     {
         #region FIELDS
 

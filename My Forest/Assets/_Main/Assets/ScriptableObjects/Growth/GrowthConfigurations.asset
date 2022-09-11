@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: GrowthConfigurations
   m_EditorClassIdentifier: 
   _levelCosts: 0000000001000000040000000800000014000000
+  _dailyGrowth: 1

@@ -10,6 +10,7 @@ namespace MyForest
         private const string MENU_NAME = nameof(MyForest) + "/Growth/" + nameof(GrowthConfigurations);
 
         [SerializeField] private uint[] _levelCosts = null;
+        [SerializeField] private uint _dailyGrowth = default;
 
         #endregion
 
@@ -25,6 +26,8 @@ namespace MyForest
 
     public partial class GrowthConfigurations : IGrowthConfigurationsSource
     {
+        uint IGrowthConfigurationsSource.DailyGrowth => _dailyGrowth;
+
         uint IGrowthConfigurationsSource.GetNextLevelCost(uint level) => GetNextLevelCost(level);
     }
 }
