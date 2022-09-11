@@ -15,6 +15,7 @@ namespace MyForest
         [Inject] private IGrowthConfigurationsSource _configurations = null;
 
         private DataSubject<GrowthData> _growthDataSubject = new DataSubject<GrowthData>(new GrowthData());
+        private DataSubject<bool> _growthDailyClaimAvailableSubject = new DataSubject<bool>();
 
         #endregion
 
@@ -28,6 +29,7 @@ namespace MyForest
         private void Load()
         {
             _growthDataSubject.OnNext(_saveSource.Load<GrowthData>(GROWTH_DATA_KEY) ?? new GrowthData());
+            _growthDailyClaimAvailableSubject.OnNext(_growthDataSubject.Value.IsDailyClaimAvailable());
         }
 
         private void Save()
@@ -55,16 +57,18 @@ namespace MyForest
             return decreased;
         }
 
-        private void ResetGrowth()
-        {
-            _growthDataSubject.OnNext(new GrowthData());
-            Save();
-        }
-
         private bool TrySpendGrowth(uint level)
         {
             var amountForNextLevel = _configurations.GetNextLevelCost(level);
             return DecreaseGrowth(amountForNextLevel);
+        }
+
+        private void ClaimDailyGrowth()
+        {
+            _growthDataSubject.Value.SetLastClaimDateTime(DateTime.Now);
+            _growthDailyClaimAvailableSubject.OnNext(false);
+
+            IncreaseGrowth(_configurations.DailyGrowth);
         }
 
         #endregion
@@ -78,14 +82,30 @@ namespace MyForest
     public partial class GrowthManager : IGrowthDataSource
     {
         IObservable<GrowthData> IGrowthDataSource.GrowthChangedObservable => _growthDataSubject.AsObservable(true);
+        IObservable<bool> IGrowthDataSource.ClaimDailyGrowthAvailable => _growthDailyClaimAvailableSubject.AsObservable(true);
+    }
 
-        bool IGrowthDataSource.TrySpendGrowth(uint level) => TrySpendGrowth(level);
+    public partial class GrowthManager : IGrowthEventSource
+    {
+        void IGrowthEventSource.ClaimDailyGrowth() => ClaimDailyGrowth();
+        bool IGrowthEventSource.TrySpendGrowth(uint level) => TrySpendGrowth(level);
     }
 
     public partial class GrowthManager : Debug.IGrowthDebugSource
     {
         void Debug.IGrowthDebugSource.IncreaseGrowth(uint increment) => IncreaseGrowth(increment);
         void Debug.IGrowthDebugSource.DecreaseGrowth(uint decrement) => DecreaseGrowth(decrement);
-        void Debug.IGrowthDebugSource.ResetGrowth() => ResetGrowth();
+
+        void Debug.IGrowthDebugSource.ResetGrowth()
+        {
+            _growthDataSubject.OnNext(new GrowthData());
+            _growthDailyClaimAvailableSubject.OnNext(true);
+            Save();
+        }
+
+        void Debug.IGrowthDebugSource.ResetDailyClaim()
+        {
+            _growthDailyClaimAvailableSubject.OnNext(true);
+        }
     }
 }

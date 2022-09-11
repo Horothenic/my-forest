@@ -13,7 +13,7 @@ namespace MyForest
         private const string DEFAULT_FOREST_DATA_FILE = "DefaultForest";
 
         [Inject] private ISaveSource _saveSource = null;
-        [Inject] private IGrowthDataSource _growthDataSource = null;
+        [Inject] private IGrowthEventSource _growthEventSource = null;
         [Inject] private IForestElementConfigurationsSource _elementConfigurations = null;
 
         private DataSubject<ForestData> _forestDataSubject = new DataSubject<ForestData>();
@@ -52,7 +52,7 @@ namespace MyForest
 
         private bool TryIncreaseGrowthLevel(ForestElementData elementData)
         {
-            if (!_growthDataSource.TrySpendGrowth(elementData.Level)) return false;
+            if (!_growthEventSource.TrySpendGrowth(elementData.Level)) return false;
 
             elementData.IncreaseLevel();
             Save();
