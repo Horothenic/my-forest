@@ -1221,6 +1221,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _text: {fileID: 1621201070}
+  _animationContainer: {fileID: 1621201069}
+  _animationStrength: 1.5
+  _animationDuration: 0.4
 --- !u!1 &1014480215
 GameObject:
   m_ObjectHideFlags: 0

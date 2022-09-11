@@ -37,6 +37,7 @@ namespace MyForest
 
         private void Initialize()
         {
+            UpdateText(_dataSource.GrowthData);
             _dataSource.GrowthChangedObservable.Subscribe(UpdateText).AddTo(_disposables);
         }
 

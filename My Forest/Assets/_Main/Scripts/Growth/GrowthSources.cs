@@ -4,6 +4,7 @@ namespace MyForest
 {
     public interface IGrowthDataSource
     {
+        GrowthData GrowthData { get; }
         IObservable<GrowthData> GrowthChangedObservable { get; }
         IObservable<bool> ClaimDailyGrowthAvailable { get; }
     }

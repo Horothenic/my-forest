@@ -81,7 +81,8 @@ namespace MyForest
 
     public partial class GrowthManager : IGrowthDataSource
     {
-        IObservable<GrowthData> IGrowthDataSource.GrowthChangedObservable => _growthDataSubject.AsObservable(true);
+        GrowthData IGrowthDataSource.GrowthData => _growthDataSubject.Value;
+        IObservable<GrowthData> IGrowthDataSource.GrowthChangedObservable => _growthDataSubject.AsObservable();
         IObservable<bool> IGrowthDataSource.ClaimDailyGrowthAvailable => _growthDailyClaimAvailableSubject.AsObservable(true);
     }
 
