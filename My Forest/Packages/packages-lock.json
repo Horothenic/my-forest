@@ -21,6 +21,15 @@
       "dependencies": {},
       "hash": "9b31a8544dfece9d81c8ae99a994ca8417fc5758"
     },
+    "com.unity.ads": {
+      "version": "4.3.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.ugui": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
     "com.unity.collab-proxy": {
       "version": "1.15.13",
       "depth": 0,

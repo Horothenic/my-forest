@@ -12,12 +12,13 @@ namespace MyForest
 
         public override void InstallBindings()
         {
-            Container.BindInterfacesTo<SaveManager>().AsSingle();
-            Container.BindInterfacesTo<GrowthManager>().AsSingle();
+            Container.BindInterfacesTo<AdsManager>().AsSingle();
             Container.BindInterfacesTo<ForestManager>().AsSingle();
+            Container.BindInterfacesTo<GrowthManager>().AsSingle();
+            Container.BindInterfacesTo<SaveManager>().AsSingle();
 
-            Container.BindInterfacesTo<GrowthConfigurations>().FromInstance(_growthConfigurations).AsSingle();
             Container.BindInterfacesTo<ForestElementConfigurations>().FromInstance(_forestElementConfigurations).AsSingle();
+            Container.BindInterfacesTo<GrowthConfigurations>().FromInstance(_growthConfigurations).AsSingle();
 
             Container.BindInterfacesTo<ObjectPool>().FromInstance(_objectPool).AsSingle();
         }

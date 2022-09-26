@@ -7,18 +7,22 @@ namespace MyForest
         GrowthData GrowthData { get; }
         IObservable<GrowthData> GrowthChangedObservable { get; }
         IObservable<bool> ClaimDailyGrowthAvailable { get; }
+        IObservable<bool> ClaimDailyExtraGrowthAvailable { get; }
+        double ExtraDailyGrowthSecondsLeft { get; }
     }
 
     public interface IGrowthEventSource
     {
         bool TrySpendGrowth(uint level);
         void ClaimDailyGrowth();
+        void ClaimExtraDailyGrowth();
     }
 
     public interface IGrowthConfigurationsSource
     {
         uint GetNextLevelCost(uint level);
         uint DailyGrowth { get; }
+        uint ExtraDailyGrowthSecondsInterval { get; }
     }
 }
 
