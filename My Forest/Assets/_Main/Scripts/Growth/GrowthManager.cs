@@ -16,6 +16,7 @@ namespace MyForest
 
         private DataSubject<GrowthData> _growthDataSubject = new DataSubject<GrowthData>(new GrowthData());
         private DataSubject<bool> _growthDailyClaimAvailableSubject = new DataSubject<bool>();
+        private DataSubject<bool> _growthDailyExtraClaimAvailableSubject = new DataSubject<bool>();
 
         #endregion
 
@@ -29,7 +30,12 @@ namespace MyForest
         private void Load()
         {
             _growthDataSubject.OnNext(_saveSource.Load<GrowthData>(GROWTH_DATA_KEY) ?? new GrowthData());
-            _growthDailyClaimAvailableSubject.OnNext(_growthDataSubject.Value.IsDailyClaimAvailable());
+
+            var isDailyClaimAvailable = _growthDataSubject.Value.IsDailyClaimAvailable();
+            var isDailyExtraClaimAvailable = _growthDataSubject.Value.IsDailyExtraClaimAvailable();
+
+            _growthDailyClaimAvailableSubject.OnNext(isDailyClaimAvailable);
+            _growthDailyExtraClaimAvailableSubject.OnNext(isDailyExtraClaimAvailable);
         }
 
         private void Save()
@@ -71,6 +77,14 @@ namespace MyForest
             IncreaseGrowth(_configurations.DailyGrowth);
         }
 
+        private void ClaimExtraDailyGrowth()
+        {
+            _growthDataSubject.Value.SetNextExtraClaimDateTime(_configurations.ExtraDailyGrowthSecondsInterval);
+            _growthDailyExtraClaimAvailableSubject.OnNext(false);
+
+            IncreaseGrowth(_configurations.DailyGrowth);
+        }
+
         #endregion
     }
 
@@ -84,11 +98,14 @@ namespace MyForest
         GrowthData IGrowthDataSource.GrowthData => _growthDataSubject.Value;
         IObservable<GrowthData> IGrowthDataSource.GrowthChangedObservable => _growthDataSubject.AsObservable();
         IObservable<bool> IGrowthDataSource.ClaimDailyGrowthAvailable => _growthDailyClaimAvailableSubject.AsObservable(true);
+        IObservable<bool> IGrowthDataSource.ClaimDailyExtraGrowthAvailable => _growthDailyExtraClaimAvailableSubject.AsObservable(true);
+        double IGrowthDataSource.ExtraDailyGrowthSecondsLeft => _growthDataSubject.Value.ExtraDailyGrowthSecondsLeft;
     }
 
     public partial class GrowthManager : IGrowthEventSource
     {
         void IGrowthEventSource.ClaimDailyGrowth() => ClaimDailyGrowth();
+        void IGrowthEventSource.ClaimExtraDailyGrowth() => ClaimExtraDailyGrowth();
         bool IGrowthEventSource.TrySpendGrowth(uint level) => TrySpendGrowth(level);
     }
 

@@ -14,6 +14,7 @@ namespace MyForest
         [Inject] private IGrowthEventSource _growthEventSource = null;
 
         [Header("COMPONENTS")]
+        [SerializeField] private GameObject _buttonContainer = null;
         [SerializeField] private Button _claimButton = null;
 
         private CompositeDisposable _disposables = new CompositeDisposable();
@@ -44,7 +45,7 @@ namespace MyForest
 
         private void SetClaimAvailableState(bool isAvailable)
         {
-            _claimButton.interactable = isAvailable;
+            _buttonContainer.SetActive(isAvailable);
         }
 
         #endregion
