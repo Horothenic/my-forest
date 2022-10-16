@@ -16,6 +16,7 @@ namespace MyForest
             Container.BindInterfacesTo<ForestManager>().AsSingle();
             Container.BindInterfacesTo<GrowthManager>().AsSingle();
             Container.BindInterfacesTo<SaveManager>().AsSingle();
+            Container.BindInterfacesTo<CameraManager>().AsSingle();
 
             Container.BindInterfacesTo<ForestElementConfigurations>().FromInstance(_forestElementConfigurations).AsSingle();
             Container.BindInterfacesTo<GrowthConfigurations>().FromInstance(_growthConfigurations).AsSingle();

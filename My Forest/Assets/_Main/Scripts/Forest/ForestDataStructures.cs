@@ -13,9 +13,11 @@ namespace MyForest
         private List<ForestElementData> _forestElements = new List<ForestElementData>();
 
         [JsonIgnore]
-        public int GroundSize => _groundElements.Count;
+        public int GroundWidth => Mathf.FloorToInt(Mathf.Sqrt(GroundElementsCount));
         [JsonIgnore]
-        public int ForestSize => _forestElements.Count;
+        public int GroundElementsCount => _groundElements.Count;
+        [JsonIgnore]
+        public int ForestElementsCount => _forestElements.Count;
         public IReadOnlyList<GroundElementData> GroundElements => _groundElements;
         public IReadOnlyList<ForestElementData> ForestElements => _forestElements;
 
