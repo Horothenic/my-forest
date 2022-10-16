@@ -50,13 +50,13 @@ namespace MyForest
 
         private void BuildForest(ForestData forestData)
         {
-            for (int i = 0; i < forestData.GroundSize; i++)
+            for (int i = 0; i < forestData.GroundElementsCount; i++)
             {
                 var groundElementData = forestData.GroundElements[i];
                 SetGroundElement(groundElementData);
             }
 
-            for (int i = 0; i < forestData.ForestSize; i++)
+            for (int i = 0; i < forestData.ForestElementsCount; i++)
             {
                 var forestElementData = forestData.ForestElements[i];
                 SetForestElement(forestElementData);
