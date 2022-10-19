@@ -2,14 +2,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
+using Zenject;
 using DG.Tweening;
 using Cysharp.Threading.Tasks;
 
 namespace MyForest
 {
-    public class ForestRotationController : MonoBehaviour
+    public class CameraRotationController : MonoBehaviour
     {
         #region FIELDS
+
+        [Inject] private ICameraRotationEventsSource _cameraEventsSource = null;
 
         [Header("COMPONENTS")]
         [SerializeField] private Button _rotateLeftButton = null;
@@ -53,6 +56,7 @@ namespace MyForest
 
         private void Rotate(int angles)
         {
+            _cameraEventsSource.OnCameraAnglesChanged(angles);
             _cameraContainer.DORotate(Vector3.up * angles, _rotationDuration).SetRelative().SetEase(_rotationEase);
             WaitEnableRotation().Forget();
         }
