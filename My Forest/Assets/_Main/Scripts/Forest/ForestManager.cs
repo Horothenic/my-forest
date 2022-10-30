@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 using Zenject;
 using UniRx;
@@ -17,6 +18,8 @@ namespace MyForest
         [Inject] private IForestElementConfigurationsSource _elementConfigurations = null;
 
         private DataSubject<ForestData> _forestDataSubject = new DataSubject<ForestData>();
+        private Dictionary<int, Subject<ForestElementData>> _forestElementDataSubjectMap = new Dictionary<int, Subject<ForestElementData>>();
+        private Subject<ForestElementData> _forestElementMenuRequestedSubject = new Subject<ForestElementData>();
         private Subject<Unit> _createForestSubject = new Subject<Unit>();
 
         #endregion
@@ -50,15 +53,6 @@ namespace MyForest
             _saveSource.Save(FOREST_DATA_KEY, _forestDataSubject.Value);
         }
 
-        private bool TryIncreaseGrowthLevel(ForestElementData elementData)
-        {
-            if (!_growthEventSource.TrySpendGrowth(elementData.Level)) return false;
-
-            elementData.IncreaseLevel();
-            Save();
-            return true;
-        }
-
         #endregion
     }
 
@@ -71,6 +65,39 @@ namespace MyForest
     {
         IObservable<ForestData> IForestDataSource.ForestDataObservable => _forestDataSubject.AsObservable(true);
 
-        bool IForestDataSource.TryIncreaseGrowthLevel(ForestElementData elementData) => TryIncreaseGrowthLevel(elementData);
+        IObservable<ForestElementData> IForestDataSource.GetForestElementDataObservable(ForestElementData elementData)
+        {
+            return GetForestElementDataSubject(elementData.Id).AsObservable();
+        }
+
+        private Subject<ForestElementData> GetForestElementDataSubject(int id)
+        {
+            if (!_forestElementDataSubjectMap.ContainsKey(id))
+            {
+                _forestElementDataSubjectMap.Add(id, new Subject<ForestElementData>());
+            }
+
+            return _forestElementDataSubjectMap[id];
+        }
+
+        bool IForestDataSource.TryIncreaseGrowthLevel(ForestElementData elementData)
+        {
+            if (!_growthEventSource.TrySpendGrowth(elementData.Level)) return false;
+
+            elementData.IncreaseLevel();
+            GetForestElementDataSubject(elementData.Id).OnNext(elementData);
+            Save();
+            return true;
+        }
+    }
+
+    public partial class ForestManager : IForestElementMenuSource
+    {
+        IObservable<ForestElementData> IForestElementMenuSource.ForestElementMenuRequestedObservable => _forestElementMenuRequestedSubject.AsObservable();
+
+        void IForestElementMenuSource.ResquestForestElementMenu(ForestElementData forestElementData)
+        {
+            _forestElementMenuRequestedSubject.OnNext(forestElementData);
+        }
     }
 }

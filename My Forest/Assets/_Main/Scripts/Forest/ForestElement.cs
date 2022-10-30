@@ -1,6 +1,7 @@
 using UnityEngine;
 
 using Zenject;
+using UniRx;
 
 namespace MyForest
 {
@@ -10,9 +11,11 @@ namespace MyForest
 
         [Inject] private IObjectPoolSource _objectPoolSource = null;
         [Inject] private IForestDataSource _forestDataSource = null;
+        [Inject] private IForestElementMenuSource _forestElementMenuSource = null;
 
         private ForestElementData _forestElementData = null;
         private GameObject _currentElement = null;
+        private CompositeDisposable _disposables = new CompositeDisposable();
 
         #endregion
 
@@ -20,7 +23,7 @@ namespace MyForest
 
         private void OnMouseDown()
         {
-            TryIncreaseGrowthLevel();
+            RequestForestElementMenu();
         }
 
         #endregion
@@ -30,6 +33,7 @@ namespace MyForest
         public void Initialize(ForestElementData forestElementData)
         {
             _forestElementData = forestElementData;
+            _forestDataSource.GetForestElementDataObservable(forestElementData).Subscribe(OnForestElementDataUpdated).AddTo(_disposables);
             SpawnCurrentLevelElement();
         }
 
@@ -40,14 +44,16 @@ namespace MyForest
             _currentElement.SetLocal(Vector3.zero, transform);
         }
 
-        private void TryIncreaseGrowthLevel()
+        private void OnForestElementDataUpdated(ForestElementData forestElementData)
         {
-            if (_forestElementData.IsMaxLevel) return;
-
-            if (!_forestDataSource.TryIncreaseGrowthLevel(_forestElementData)) return;
-
+            _forestElementData = forestElementData;
             _objectPoolSource.Return(_currentElement);
             SpawnCurrentLevelElement();
+        }
+
+        private void RequestForestElementMenu()
+        {
+            _forestElementMenuSource.ResquestForestElementMenu(_forestElementData);
         }
 
         #endregion

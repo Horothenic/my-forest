@@ -9,6 +9,7 @@ namespace MyForest
         IObservable<bool> ClaimDailyGrowthAvailable { get; }
         IObservable<bool> ClaimDailyExtraGrowthAvailable { get; }
         double ExtraDailyGrowthSecondsLeft { get; }
+        bool HaveEnoughGrowthForLevelUp(uint level);
     }
 
     public interface IGrowthEventSource
