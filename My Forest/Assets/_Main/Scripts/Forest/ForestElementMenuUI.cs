@@ -49,9 +49,9 @@ namespace MyForest
             _backgroundButton.onClick.AddListener(Disappear);
         }
 
-        private void Appear(ForestElementData forestElementData)
+        private void Appear(ForestElementMenuRequest forestElementMenuRequest)
         {
-            _forestElementData = forestElementData;
+            _forestElementData = forestElementMenuRequest.ForestElementData;
 
             CheckState();
 

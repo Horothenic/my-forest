@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace MyForest
 {
@@ -16,7 +17,7 @@ namespace MyForest
 
     public interface IForestElementMenuSource
     {
-        IObservable<ForestElementData> ForestElementMenuRequestedObservable { get; }
-        void ResquestForestElementMenu(ForestElementData forestElementData);
+        IObservable<ForestElementMenuRequest> ForestElementMenuRequestedObservable { get; }
+        void ResquestForestElementMenu(ForestElementMenuRequest request);
     }
 }

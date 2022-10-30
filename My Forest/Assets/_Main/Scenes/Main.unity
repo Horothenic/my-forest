@@ -5940,6 +5940,7 @@ GameObject:
   - component: {fileID: 436524482}
   - component: {fileID: 436524481}
   - component: {fileID: 436524480}
+  - component: {fileID: 436524484}
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: MainCamera
@@ -6045,6 +6046,22 @@ Transform:
   m_Father: {fileID: 1986815214}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 30, y: 45, z: 0}
+--- !u!114 &436524484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 436524479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c49b4cc203aa6414fae5c798d1d0e7d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_MaxRayIntersections: 0
 --- !u!1 &510303911
 GameObject:
   m_ObjectHideFlags: 0
@@ -6103,7 +6120,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Claim Growth
+  m_text: Coletar crescimento
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7387,7 +7404,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Claim Extra Growth
+  m_text: Coletar crescimento extra
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7536,7 +7553,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Watch an ad
+  m_text: "Veja um an\xFAncio"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -10027,6 +10044,7 @@ GameObject:
   - component: {fileID: 1986815214}
   - component: {fileID: 1986815216}
   - component: {fileID: 1986815215}
+  - component: {fileID: 1986815217}
   m_Layer: 0
   m_Name: CameraContainer
   m_TagString: Untagged
@@ -10083,6 +10101,21 @@ MonoBehaviour:
   _rotationAngles: 90
   _rotationDuration: 0.85
   _rotationEase: 15
+--- !u!114 &1986815217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1986815213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f49d00fcd87b942feb5f9a5f4c379739, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cameraContainer: {fileID: 1986815214}
+  _offset: {x: -0.4, y: 0, z: -0.4}
+  repositionTime: 0.2
 --- !u!1 &1995193815
 GameObject:
   m_ObjectHideFlags: 0

@@ -88,6 +88,18 @@ namespace MyForest
         }
     }
 
+    public class ForestElementMenuRequest
+    {
+        public GameObject Requester { get; private set; }
+        public ForestElementData ForestElementData { get; private set; }
+
+        public ForestElementMenuRequest(GameObject requester, ForestElementData forestElementData)
+        {
+            Requester = requester;
+            ForestElementData = forestElementData;
+        }
+    }
+
     public enum ForestElementType
     {
         Bush,

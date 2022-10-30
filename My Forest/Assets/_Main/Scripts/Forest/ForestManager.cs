@@ -19,7 +19,7 @@ namespace MyForest
 
         private DataSubject<ForestData> _forestDataSubject = new DataSubject<ForestData>();
         private Dictionary<int, Subject<ForestElementData>> _forestElementDataSubjectMap = new Dictionary<int, Subject<ForestElementData>>();
-        private Subject<ForestElementData> _forestElementMenuRequestedSubject = new Subject<ForestElementData>();
+        private Subject<ForestElementMenuRequest> _forestElementMenuRequestedSubject = new Subject<ForestElementMenuRequest>();
         private Subject<Unit> _createForestSubject = new Subject<Unit>();
 
         #endregion
@@ -93,11 +93,11 @@ namespace MyForest
 
     public partial class ForestManager : IForestElementMenuSource
     {
-        IObservable<ForestElementData> IForestElementMenuSource.ForestElementMenuRequestedObservable => _forestElementMenuRequestedSubject.AsObservable();
+        IObservable<ForestElementMenuRequest> IForestElementMenuSource.ForestElementMenuRequestedObservable => _forestElementMenuRequestedSubject.AsObservable();
 
-        void IForestElementMenuSource.ResquestForestElementMenu(ForestElementData forestElementData)
+        void IForestElementMenuSource.ResquestForestElementMenu(ForestElementMenuRequest request)
         {
-            _forestElementMenuRequestedSubject.OnNext(forestElementData);
+            _forestElementMenuRequestedSubject.OnNext(request);
         }
     }
 }

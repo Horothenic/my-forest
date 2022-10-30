@@ -1,11 +1,12 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 using Zenject;
 using UniRx;
 
 namespace MyForest
 {
-    public class ForestElement : MonoBehaviour
+    public class ForestElement : MonoBehaviour, IPointerClickHandler
     {
         #region FIELDS
 
@@ -21,7 +22,7 @@ namespace MyForest
 
         #region UNITY
 
-        private void OnMouseDown()
+        public void OnPointerClick(PointerEventData eventData)
         {
             RequestForestElementMenu();
         }
@@ -53,7 +54,7 @@ namespace MyForest
 
         private void RequestForestElementMenu()
         {
-            _forestElementMenuSource.ResquestForestElementMenu(_forestElementData);
+            _forestElementMenuSource.ResquestForestElementMenu(new ForestElementMenuRequest(gameObject, _forestElementData));
         }
 
         #endregion
