@@ -58,6 +58,7 @@ namespace MyForest
     [Serializable]
     public class ForestElementData
     {
+        public int Id { get; private set; }
         public string ElementName { get; private set; }
         public uint Level { get; private set; }
         public SerializedVector3 Position { get; private set; }
@@ -68,8 +69,9 @@ namespace MyForest
         public bool IsMaxLevel => Level == Configuration.MaxLevel;
 
         [JsonConstructor]
-        public ForestElementData(string elementName, uint level, Vector3 position)
+        public ForestElementData(int id, string elementName, uint level, Vector3 position)
         {
+            Id = id;
             ElementName = elementName;
             Level = level;
             Position = position;
@@ -83,6 +85,18 @@ namespace MyForest
         public void IncreaseLevel()
         {
             Level++;
+        }
+    }
+
+    public class ForestElementMenuRequest
+    {
+        public GameObject Requester { get; private set; }
+        public ForestElementData ForestElementData { get; private set; }
+
+        public ForestElementMenuRequest(GameObject requester, ForestElementData forestElementData)
+        {
+            Requester = requester;
+            ForestElementData = forestElementData;
         }
     }
 

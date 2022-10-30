@@ -63,12 +63,6 @@ namespace MyForest
             return decreased;
         }
 
-        private bool TrySpendGrowth(uint level)
-        {
-            var amountForNextLevel = _configurations.GetNextLevelCost(level);
-            return DecreaseGrowth(amountForNextLevel);
-        }
-
         private void ClaimDailyGrowth()
         {
             _growthDataSubject.Value.SetLastClaimDateTime(DateTime.Now);
@@ -100,13 +94,23 @@ namespace MyForest
         IObservable<bool> IGrowthDataSource.ClaimDailyGrowthAvailable => _growthDailyClaimAvailableSubject.AsObservable(true);
         IObservable<bool> IGrowthDataSource.ClaimDailyExtraGrowthAvailable => _growthDailyExtraClaimAvailableSubject.AsObservable(true);
         double IGrowthDataSource.ExtraDailyGrowthSecondsLeft => _growthDataSubject.Value.ExtraDailyGrowthSecondsLeft;
+
+        bool IGrowthDataSource.HaveEnoughGrowthForLevelUp(uint level)
+        {
+            return _configurations.GetNextLevelCost(level) <= _growthDataSubject.Value.CurrentGrowth;
+        }
     }
 
     public partial class GrowthManager : IGrowthEventSource
     {
         void IGrowthEventSource.ClaimDailyGrowth() => ClaimDailyGrowth();
         void IGrowthEventSource.ClaimExtraDailyGrowth() => ClaimExtraDailyGrowth();
-        bool IGrowthEventSource.TrySpendGrowth(uint level) => TrySpendGrowth(level);
+
+        bool IGrowthEventSource.TrySpendGrowth(uint level)
+        {
+            var amountForNextLevel = _configurations.GetNextLevelCost(level);
+            return DecreaseGrowth(amountForNextLevel);
+        }
     }
 
     public partial class GrowthManager : Debug.IGrowthDebugSource
