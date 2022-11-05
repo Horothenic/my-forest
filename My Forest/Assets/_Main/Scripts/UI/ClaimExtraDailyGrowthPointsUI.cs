@@ -1,15 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Advertisements;
-using System.Threading;
 
 using Zenject;
 using UniRx;
-using Cysharp.Threading.Tasks;
+using EasyMobile;
 
 namespace MyForest
 {
-    public class ClaimExtraDailyGrowthPointsUI : AdButtonBase
+    public class ClaimExtraDailyGrowthPointsUI : MonoBehaviour
     {
         #region FIELDS
 
@@ -17,24 +15,30 @@ namespace MyForest
         [Inject] private IGrowthEventSource _growthEventSource = null;
 
         [Header("COMPONENTS")]
+        [SerializeField] private Button _adButton = null;
         [SerializeField] private GameObject _buttonContainer = null;
         [SerializeField] private TimerUI _timerUI = null;
 
-        private CancellationTokenSource cancellationTokenSource = null;
+        private CompositeDisposable _disposables = new CompositeDisposable();
+        private bool _loaded = false;
 
         #endregion
 
         #region UNITY
 
-        protected override void Start()
+        private void Start()
         {
-            base.Start();
             Initialize();
+        }
+
+        private void OnDestroy()
+        {
+            Clean();
         }
 
         private void OnApplicationPause(bool paused)
         {
-            if (paused) return;
+            if (paused || !_loaded) return;
 
             StartTimer();
         }
@@ -46,9 +50,20 @@ namespace MyForest
         private void Initialize()
         {
             _buttonContainer.SetActive(false);
+            _adButton.onClick.AddListener(ShowAd);
+
             _growthDataSource.ClaimDailyGrowthAvailable.Subscribe(ClaimAvailableUpdated).AddTo(_disposables);
             _growthDataSource.ClaimDailyExtraGrowthAvailable.Subscribe(ExtraClaimAvailableUpdated).AddTo(_disposables);
             _timerUI.TimerCompleteObservable.Subscribe(OnTimerCompleted).AddTo(_disposables);
+
+            Advertising.RewardedAdCompleted += RewardedAdCompletedHandler;
+
+            _loaded = true;
+        }
+
+        private void Clean()
+        {
+            Advertising.RewardedAdCompleted -= RewardedAdCompletedHandler;
         }
 
         private void ClaimAvailableUpdated(bool available)
@@ -58,20 +73,22 @@ namespace MyForest
 
         private void ExtraClaimAvailableUpdated(bool available)
         {
-            cancellationTokenSource = new CancellationTokenSource();
-            ExtraClaimAvailableUpdatedAsync(available, cancellationTokenSource.Token).Forget();
-        }
-
-        private async UniTaskVoid ExtraClaimAvailableUpdatedAsync(bool available, CancellationToken cancellationToken)
-        {
             if (available)
             {
-                await EnableAfterAdLoadsAsync(cancellationToken);
+                EnableButton();
             }
             else
             {
                 StartTimer();
                 DisableButton();
+            }
+        }
+
+        private void ShowAd()
+        {
+            if (Advertising.IsRewardedAdReady())
+            {
+                Advertising.ShowRewardedAd();
             }
         }
 
@@ -82,31 +99,22 @@ namespace MyForest
 
         private void OnTimerCompleted()
         {
-            EnableAfterAdLoadsAsync(cancellationTokenSource.Token).Forget();
-        }
-
-        private async UniTask EnableAfterAdLoadsAsync(CancellationToken cancellationToken)
-        {
-            await UniTask.WaitUntil(() => _adLoaded, cancellationToken: cancellationToken);
-
-            if (cancellationToken.IsCancellationRequested) return;
-
             EnableButton();
         }
 
-        protected override void OnAdLoaded()
+        private void EnableButton()
         {
-            // Override to avoid setting interactable as true.
+            _adButton.interactable = true;
         }
 
-        protected override void OnAdCompleted()
+        private void DisableButton()
+        {
+            _adButton.interactable = false;
+        }
+
+        private void RewardedAdCompletedHandler(RewardedAdNetwork network, AdLocation location)
         {
             _growthEventSource.ClaimExtraDailyGrowth();
-        }
-
-        protected override void OnAdLoadFailed(UnityAdsLoadError error, string message)
-        {
-            cancellationTokenSource?.Cancel();
         }
 
         #endregion

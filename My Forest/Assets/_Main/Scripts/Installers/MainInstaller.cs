@@ -13,7 +13,7 @@ namespace MyForest
 
         public override void InstallBindings()
         {
-            Container.BindInterfacesTo<AdsManager>().AsSingle();
+            Container.BindInterfacesTo<ServicesManager>().AsSingle();
             Container.BindInterfacesTo<ForestManager>().AsSingle();
             Container.BindInterfacesTo<GrowthManager>().AsSingle();
             Container.BindInterfacesTo<SaveManager>().AsSingle();
