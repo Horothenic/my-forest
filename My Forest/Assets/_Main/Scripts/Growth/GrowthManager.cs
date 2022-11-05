@@ -93,7 +93,7 @@ namespace MyForest
         IObservable<GrowthData> IGrowthDataSource.GrowthChangedObservable => _growthDataSubject.AsObservable();
         IObservable<bool> IGrowthDataSource.ClaimDailyGrowthAvailable => _growthDailyClaimAvailableSubject.AsObservable(true);
         IObservable<bool> IGrowthDataSource.ClaimDailyExtraGrowthAvailable => _growthDailyExtraClaimAvailableSubject.AsObservable(true);
-        double IGrowthDataSource.ExtraDailyGrowthSecondsLeft => _growthDataSubject.Value.ExtraDailyGrowthSecondsLeft;
+        double IGrowthDataSource.ExtraDailyGrowthSecondsLeft => _growthDataSubject.Value.NextExtraDailyGrowthSecondsLeft;
 
         bool IGrowthDataSource.HaveEnoughGrowthForLevelUp(uint level)
         {

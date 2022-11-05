@@ -9895,9 +9895,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6a89758ae2b34019991cf4133edf14b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _androidAdUnitId: Rewarded_Android
-  _iOSAdUnitId: Rewarded_iOS
-  _showAdButton: {fileID: 1155879910}
+  _adButton: {fileID: 1155879910}
   _buttonContainer: {fileID: 1155879908}
   _timerUI: {fileID: 2074861435}
 --- !u!1 &1840921623

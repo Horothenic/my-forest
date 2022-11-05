@@ -27,7 +27,7 @@ namespace UnityEngine.UI
 
         #region UNITY
 
-        private void Start()
+        private void Awake()
         {
             ShowText(false);
         }

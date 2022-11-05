@@ -10,15 +10,28 @@ namespace MyForest
         public uint AllTimeGrowth { get; private set; }
         public uint CurrentGrowth { get; private set; }
         public DateTime LastClaimDateTime { get; private set; }
-        public DateTime LastExtraClaimDateTime { get; private set; }
+        public DateTime NextExtraClaimDateTime { get; private set; }
 
         [JsonIgnore]
-        public double ExtraDailyGrowthSecondsLeft => (LastExtraClaimDateTime - DateTime.Now).TotalSeconds;
+        public double NextExtraDailyGrowthSecondsLeft
+        {
+            get
+            {
+                if (NextExtraClaimDateTime.Ticks == 0)
+                {
+                    return default;
+                }
+                else
+                {
+                    return (NextExtraClaimDateTime - DateTime.Now).TotalSeconds;
+                }
+            }
+        }
 
         public GrowthData() { }
 
         [JsonConstructor]
-        public GrowthData(uint currentGrowth, uint allTimeGrowth, string lastClaimDateTime, string lastExtraClaimDateTime)
+        public GrowthData(uint currentGrowth, uint allTimeGrowth, string lastClaimDateTime, string nextExtraClaimDateTime)
         {
             AllTimeGrowth = allTimeGrowth;
             CurrentGrowth = currentGrowth;
@@ -28,9 +41,9 @@ namespace MyForest
                 LastClaimDateTime = DateTime.Parse(lastClaimDateTime);
             }
 
-            if (!string.IsNullOrEmpty(lastExtraClaimDateTime))
+            if (!string.IsNullOrEmpty(nextExtraClaimDateTime))
             {
-                LastExtraClaimDateTime = DateTime.Parse(lastExtraClaimDateTime);
+                NextExtraClaimDateTime = DateTime.Parse(nextExtraClaimDateTime);
             }
         }
 
@@ -59,7 +72,7 @@ namespace MyForest
 
         public void SetNextExtraClaimDateTime(ulong secondsToNextExtraClaimDate)
         {
-            LastExtraClaimDateTime = DateTime.Now + TimeSpan.FromSeconds(secondsToNextExtraClaimDate);
+            NextExtraClaimDateTime = DateTime.Now + TimeSpan.FromSeconds(secondsToNextExtraClaimDate);
         }
 
         public bool IsDailyClaimAvailable()
@@ -72,7 +85,7 @@ namespace MyForest
 
         public bool IsDailyExtraClaimAvailable()
         {
-            return ExtraDailyGrowthSecondsLeft <= 0;
+            return NextExtraDailyGrowthSecondsLeft <= 0;
         }
     }
 }
