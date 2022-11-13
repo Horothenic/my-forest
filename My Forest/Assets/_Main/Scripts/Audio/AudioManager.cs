@@ -73,4 +73,40 @@ namespace MyForest
             _soundsSource.PlayOneShot(sound);
         }
     }
+
+    public partial class AudioManager : IAudioChangeVolumeSource
+    {
+        float IAudioChangeVolumeSource.GetVolume(AudioType type)
+        {
+            switch (type)
+            {
+                case AudioType.Music:
+                    return _musicSource.volume;
+                case AudioType.Sound:
+                    return _soundsSource.volume;
+            }
+
+            return default;
+        }
+
+        void IAudioChangeVolumeSource.SetVolume(AudioType type, float t)
+        {
+            AudioSource audioSource = null;
+            float maxVolume = default;
+
+            switch (type)
+            {
+                case AudioType.Music:
+                    audioSource = _musicSource;
+                    maxVolume = _audioConfigurationsSource.MaxMusicVolume;
+                    break;
+                case AudioType.Sound:
+                    audioSource = _soundsSource;
+                    maxVolume = _audioConfigurationsSource.MaxSoundVolume;
+                    break;
+            }
+
+            audioSource.volume = Mathf.Lerp(default, maxVolume, t);
+        }
+    }
 }

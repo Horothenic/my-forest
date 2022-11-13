@@ -14,4 +14,10 @@ namespace MyForest
     {
         void PlaySound(AudioClip sound);
     }
+
+    public interface IAudioChangeVolumeSource
+    {
+        void SetVolume(AudioType type, float t);
+        float GetVolume(AudioType type);
+    }
 }
