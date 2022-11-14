@@ -17,7 +17,7 @@ namespace MyForest
 
     public interface IAudioChangeVolumeSource
     {
-        void SetVolume(AudioType type, float t);
-        float GetVolume(AudioType type);
+        void SetVolumePercentage(AudioType type, float t);
+        float GetVolumePercentage(AudioType type);
     }
 }

@@ -154,7 +154,7 @@ MonoBehaviour:
   data: 0
   entries:
   - Language: Portuguese
-    Text: Sonidos
+    Text: Efeitos
     Object: {fileID: 0}
   - Language: Spanish
     Text: Sonidos
@@ -208,7 +208,7 @@ MonoBehaviour:
   data: 0
   entries:
   - Language: Portuguese
-    Text: Audio
+    Text: "\xC1udio"
     Object: {fileID: 0}
   - Language: Spanish
     Text: Audio
