@@ -204,7 +204,7 @@ MonoBehaviour:
       mCustomRewardedAdIds:
         keys: []
         values: []
-      mEnableTestMode: 0
+      mEnableTestMode: 1
       mUseUnityAd4Client: 0
     mVungleAds:
       mEnable: 0

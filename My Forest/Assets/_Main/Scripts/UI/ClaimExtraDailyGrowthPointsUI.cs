@@ -112,6 +112,7 @@ namespace MyForest
             _adButton.interactable = false;
         }
 
+        [System.Obsolete]
         private void RewardedAdCompletedHandler(RewardedAdNetwork network, AdLocation location)
         {
             _growthEventSource.ClaimExtraDailyGrowth();
