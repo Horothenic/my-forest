@@ -30,7 +30,8 @@ namespace MyForest
 
         private void Start()
         {
-            _forestDataSource.ForestDataObservable.Subscribe(UpdateDragLimits).AddTo(_disposables);
+            _forestDataSource.CreatedForestObservable.Subscribe(forest => UpdateDragLimits(forest.GroundWidth)).AddTo(_disposables);
+            _forestDataSource.IncreaseGroundObservable.Subscribe(UpdateDragLimits).AddTo(_disposables);
         }
 
         private void OnDestroy()
@@ -51,9 +52,9 @@ namespace MyForest
 
         #region METHODS
 
-        private void UpdateDragLimits(ForestData newForest)
+        private void UpdateDragLimits(uint newWidth)
         {
-            var limit = newForest.GroundWidth.Half() + _dragExtraLimit;
+            var limit = newWidth.Half() + _dragExtraLimit;
             _dragLimits = new Vector2(-limit, limit);
         }
 

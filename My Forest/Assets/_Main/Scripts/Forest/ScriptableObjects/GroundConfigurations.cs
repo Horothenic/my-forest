@@ -21,8 +21,13 @@ namespace MyForest
         public GameObject GetGroundPrefab(string groundName)
         {
             return _grounds.FirstOrDefault(prefab => prefab.name == groundName);
-
-            #endregion
         }
+
+        public string GetRandomGroundName()
+        {
+            return _grounds[Random.Range(default, _grounds.Length)].name;
+        }
+
+        #endregion
     }
 }

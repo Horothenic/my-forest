@@ -14,7 +14,8 @@ namespace MyForest
 
     public interface IGrowthEventSource
     {
-        bool TrySpendGrowth(uint level);
+        bool TrySpendGrowthForLevel(uint level);
+        bool TrySpendGrowthForGround(uint width);
         void ClaimDailyGrowth();
         void ClaimExtraDailyGrowth();
     }
@@ -22,6 +23,7 @@ namespace MyForest
     public interface IGrowthConfigurationsSource
     {
         uint GetNextLevelCost(uint level);
+        uint GetNextGroundCost(uint level);
         uint DailyGrowth { get; }
         uint ExtraDailyGrowthSecondsInterval { get; }
     }

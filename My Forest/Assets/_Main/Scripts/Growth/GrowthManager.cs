@@ -106,9 +106,15 @@ namespace MyForest
         void IGrowthEventSource.ClaimDailyGrowth() => ClaimDailyGrowth();
         void IGrowthEventSource.ClaimExtraDailyGrowth() => ClaimExtraDailyGrowth();
 
-        bool IGrowthEventSource.TrySpendGrowth(uint level)
+        bool IGrowthEventSource.TrySpendGrowthForLevel(uint level)
         {
             var amountForNextLevel = _configurations.GetNextLevelCost(level);
+            return DecreaseGrowth(amountForNextLevel);
+        }
+
+        bool IGrowthEventSource.TrySpendGrowthForGround(uint width)
+        {
+            var amountForNextLevel = _configurations.GetNextGroundCost(width);
             return DecreaseGrowth(amountForNextLevel);
         }
     }
