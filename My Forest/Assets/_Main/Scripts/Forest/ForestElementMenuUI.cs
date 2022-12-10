@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using Zenject;
-using DG.Tweening;
 using UniRx;
 
 namespace MyForest
@@ -16,18 +15,11 @@ namespace MyForest
         [Inject] private IGrowthDataSource _growthDataSource = null;
 
         [Header("COMPONENTS")]
-        [SerializeField] private GameObject _mainContainer = null;
-        [SerializeField] private RectTransform _container = null;
-        [SerializeField] private Button _backgroundButton = null;
         [SerializeField] private Button _levelUpButton = null;
-
-        [Header("CONFIGURATIONS")]
-        [SerializeField] private float _appearTime = default;
+        [SerializeField] private BottomMenuOpenerUI _bottomMenuOpener = null;
 
         private CompositeDisposable _disposables = new CompositeDisposable();
         private ForestElementData _forestElementData = null;
-        private Sequence _appearSequence = null;
-        private Sequence _disappearSequence = null;
 
         #endregion
 
@@ -44,31 +36,15 @@ namespace MyForest
 
         private void Initialize()
         {
-            _forestElementMenuSource.ForestElementMenuRequestedObservable.Subscribe(Appear).AddTo(_disposables);
+            _forestElementMenuSource.ForestElementMenuRequestedObservable.Subscribe(Show).AddTo(_disposables);
             _levelUpButton.onClick.AddListener(LevelUpForestElement);
-            _backgroundButton.onClick.AddListener(Disappear);
         }
 
-        private void Appear(ForestElementMenuRequest forestElementMenuRequest)
+        private void Show(ForestElementMenuRequest forestElementMenuRequest)
         {
             _forestElementData = forestElementMenuRequest.ForestElementData;
-
             CheckState();
-
-            _disappearSequence.Kill();
-            _appearSequence = DOTween.Sequence();
-
-            _appearSequence.AppendCallback(() => _mainContainer.SetActive(true));
-            _appearSequence.Append(_container.DOAnchorPosY(default, _appearTime));
-        }
-
-        private void Disappear()
-        {
-            _appearSequence.Kill();
-            _disappearSequence = DOTween.Sequence();
-
-            _disappearSequence.Append(_container.DOAnchorPosY(-_container.rect.height, _appearTime));
-            _disappearSequence.AppendCallback(() => _mainContainer.SetActive(false));
+            _bottomMenuOpener.Appear();
         }
 
         private void LevelUpForestElement()

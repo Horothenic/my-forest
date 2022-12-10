@@ -3,13 +3,13 @@ using UnityEngine.UI;
 
 namespace MyForest
 {
-    public class SettingsMenuUI : MonoBehaviour
+    public class FullScreenMenuOpenerUI : MonoBehaviour
     {
         #region FIELDS
 
         [Header("COMPONENTS")]
         [SerializeField] private Button[] _toggleButtons = null;
-        [SerializeField] private GameObject _settingsContainer = null;
+        [SerializeField] private GameObject _container = null;
 
         #endregion
 
@@ -34,7 +34,7 @@ namespace MyForest
 
         private void ToggleContainer()
         {
-            _settingsContainer.SetActive(!_settingsContainer.activeSelf);
+            _container.SetActive(!_container.activeSelf);
         }
 
         #endregion
