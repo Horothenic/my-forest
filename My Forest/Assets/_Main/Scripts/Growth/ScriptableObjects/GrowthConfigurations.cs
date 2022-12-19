@@ -23,9 +23,9 @@ namespace MyForest
         uint IGrowthConfigurationsSource.DailyGrowth => _dailyGrowth;
         uint IGrowthConfigurationsSource.ExtraDailyGrowthSecondsInterval => _extraDailyGrowthSecondsInterval;
 
-        uint IGrowthConfigurationsSource.ElementMaxLevel => (uint)_levelCosts.Length;
+        uint IGrowthConfigurationsSource.ElementMaxLevel => (uint)_levelCosts.Length - 1;
 
-        uint IGrowthConfigurationsSource.GroundMaxLevel => (uint)_groundCosts.Length;
+        uint IGrowthConfigurationsSource.GroundMaxLevel => (uint)_groundCosts.Length - 1;
 
         uint IGrowthConfigurationsSource.GetNextElementLevelCost(uint level)
         {

@@ -5,7 +5,7 @@ namespace MyForest
     public interface IForestDataSource
     {
         IObservable<ForestData> CreatedForestObservable { get; }
-        IObservable<uint> IncreaseGroundObservable { get; }
+        IObservable<uint> IncreaseGroundLevelObservable { get; }
         IObservable<ForestElementData> GetForestElementDataObservable(ForestElementData elementData);
         bool TryIncreaseGrowthLevel(ForestElementData elementData);
         bool TryIncreaseGroundSize();

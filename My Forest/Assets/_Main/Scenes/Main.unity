@@ -10700,7 +10700,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cameraContainer: {fileID: 1986815214}
-  _dragStrength: 0.003
+  _dragStrength: 0.006
   _dragExtraLimit: 0.5
 --- !u!114 &1986815216
 MonoBehaviour:

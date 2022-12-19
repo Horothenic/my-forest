@@ -41,7 +41,7 @@ namespace MyForest
         private void Initialize()
         {
             _forestDataSource.CreatedForestObservable.Subscribe(BuildForest).AddTo(_disposables);
-            _forestDataSource.IncreaseGroundObservable.Subscribe(IncreaseWidth).AddTo(_disposables);
+            _forestDataSource.IncreaseGroundLevelObservable.Subscribe(IncreaseGroundWidth).AddTo(_disposables);
         }
 
         private void Dispose()
@@ -77,7 +77,7 @@ namespace MyForest
             newForestElement.Initialize(forestElementData);
         }
 
-        private void IncreaseWidth(uint newWidth)
+        private void IncreaseGroundWidth(uint level)
         {
             void CreateGroundElement(int row, int column)
             {
@@ -89,19 +89,19 @@ namespace MyForest
                 SetGroundElement(newGroundElement);
             }
 
-            int half = (int)(newWidth / 2);
+            var offset = (int)(level);
 
-            for (int column = -half; column <= half; column++)
+            for (int column = -offset; column <= offset; column++)
             {
-                CreateGroundElement(-half, column);
-                CreateGroundElement(half, column);
+                CreateGroundElement(-offset, column);
+                CreateGroundElement(offset, column);
             }
 
 
-            for (int row = -half + 1; row <= half - 1; row++)
+            for (int row = -offset + 1; row <= offset - 1; row++)
             {
-                CreateGroundElement(row, -half);
-                CreateGroundElement(row, half);
+                CreateGroundElement(row, -offset);
+                CreateGroundElement(row, offset);
             }
         }
 

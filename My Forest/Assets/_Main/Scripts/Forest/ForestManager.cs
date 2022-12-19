@@ -69,7 +69,7 @@ namespace MyForest
     {
         IObservable<ForestData> IForestDataSource.CreatedForestObservable => _loadedForestSubject.AsObservable(true);
 
-        IObservable<uint> IForestDataSource.IncreaseGroundObservable => _increaseGroundSubject.AsObservable();
+        IObservable<uint> IForestDataSource.IncreaseGroundLevelObservable => _increaseGroundSubject.AsObservable();
 
         IObservable<ForestElementData> IForestDataSource.GetForestElementDataObservable(ForestElementData elementData)
         {
@@ -100,7 +100,7 @@ namespace MyForest
         {
             if (!_growthEventSource.TrySpendGrowthForGround(CurrentForestData.GroundLevel)) return false;
 
-            _increaseGroundSubject.OnNext(CurrentForestData.GroundWidth + 1);
+            _increaseGroundSubject.OnNext(CurrentForestData.GroundLevel + 1);
             Save();
             return true;
         }

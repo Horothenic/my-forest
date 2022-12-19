@@ -36,12 +36,21 @@ namespace MyForest
         private void Initialize()
         {
             _openButton.onClick.AddListener(Show);
+            _levelUpButton.onClick.AddListener(LevelUpGround);
         }
 
         private void Show()
         {
             CheckState();
             _bottomMenuOpener.Appear();
+        }
+
+        private void LevelUpGround()
+        {
+            if (_forestDataSource.IsGroundMaxLevel) return;
+
+            _forestDataSource.TryIncreaseGroundSize();
+            CheckState();
         }
 
         private void CheckState()

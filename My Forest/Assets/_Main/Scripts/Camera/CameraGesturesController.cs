@@ -31,7 +31,7 @@ namespace MyForest
         private void Start()
         {
             _forestDataSource.CreatedForestObservable.Subscribe(forest => UpdateDragLimits(forest.GroundWidth)).AddTo(_disposables);
-            _forestDataSource.IncreaseGroundObservable.Subscribe(UpdateDragLimits).AddTo(_disposables);
+            _forestDataSource.IncreaseGroundLevelObservable.Subscribe(UpdateDragLimits).AddTo(_disposables);
         }
 
         private void OnDestroy()
