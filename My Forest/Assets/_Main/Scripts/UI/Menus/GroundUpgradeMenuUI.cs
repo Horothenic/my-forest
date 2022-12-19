@@ -6,20 +6,19 @@ using UniRx;
 
 namespace MyForest
 {
-    public class ForestElementMenuUI : MonoBehaviour
+    public class GroundUpgradeMenuUI : MonoBehaviour
     {
         #region FIELDS
 
-        [Inject] private IForestElementMenuSource _forestElementMenuSource = null;
         [Inject] private IForestDataSource _forestDataSource = null;
         [Inject] private IGrowthDataSource _growthDataSource = null;
 
         [Header("COMPONENTS")]
+        [SerializeField] private Button _openButton = null;
         [SerializeField] private Button _levelUpButton = null;
         [SerializeField] private BottomMenuOpenerUI _bottomMenuOpener = null;
 
         private CompositeDisposable _disposables = new CompositeDisposable();
-        private ForestElementData _forestElementData = null;
 
         #endregion
 
@@ -36,32 +35,22 @@ namespace MyForest
 
         private void Initialize()
         {
-            _forestElementMenuSource.ForestElementMenuRequestedObservable.Subscribe(Show).AddTo(_disposables);
-            _levelUpButton.onClick.AddListener(LevelUpForestElement);
+            _openButton.onClick.AddListener(Show);
         }
 
-        private void Show(ForestElementMenuRequest forestElementMenuRequest)
+        private void Show()
         {
-            _forestElementData = forestElementMenuRequest.ForestElementData;
             CheckState();
             _bottomMenuOpener.Appear();
         }
 
-        private void LevelUpForestElement()
-        {
-            if (_forestElementData.IsMaxLevel) return;
-
-            _forestDataSource.TryIncreaseGrowthLevel(_forestElementData);
-            CheckState();
-        }
-
         private void CheckState()
         {
-            if (_forestElementData.IsMaxLevel)
+            if (_forestDataSource.IsGroundMaxLevel)
             {
-                OnElementLoadedMaxLevel();
+                OnGroundMaxLevel();
             }
-            else if (!_growthDataSource.HaveEnoughGrowthForLevelUp(_forestElementData.Level))
+            else if (!_growthDataSource.HaveEnoughGrowthForGroundLevelUp(_forestDataSource.CurrentGroundLevel))
             {
                 OnInsufficientGrowth();
             }
@@ -71,7 +60,7 @@ namespace MyForest
             }
         }
 
-        private void OnElementLoadedMaxLevel()
+        private void OnGroundMaxLevel()
         {
             _levelUpButton.interactable = false;
         }

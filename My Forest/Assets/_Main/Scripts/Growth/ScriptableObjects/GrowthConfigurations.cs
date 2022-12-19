@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace MyForest
@@ -22,14 +23,34 @@ namespace MyForest
         uint IGrowthConfigurationsSource.DailyGrowth => _dailyGrowth;
         uint IGrowthConfigurationsSource.ExtraDailyGrowthSecondsInterval => _extraDailyGrowthSecondsInterval;
 
-        uint IGrowthConfigurationsSource.GetNextLevelCost(uint level)
+        uint IGrowthConfigurationsSource.ElementMaxLevel => (uint)_levelCosts.Length;
+
+        uint IGrowthConfigurationsSource.GroundMaxLevel => (uint)_groundCosts.Length;
+
+        uint IGrowthConfigurationsSource.GetNextElementLevelCost(uint level)
         {
-            return _levelCosts[level + 1];
+            try
+            {
+                return _levelCosts[level + 1];
+            }
+            catch (IndexOutOfRangeException e)
+            {
+                UnityEngine.Debug.LogError($"Growth Level {level + 1} does not exist.");
+                return default;
+            }
         }
 
-        uint IGrowthConfigurationsSource.GetNextGroundCost(uint width)
+        uint IGrowthConfigurationsSource.GetNextGroundLevelCost(uint level)
         {
-            return _groundCosts[width + 1];
+            try
+            {
+                return _groundCosts[level + 1];
+            }
+            catch (IndexOutOfRangeException e)
+            {
+                UnityEngine.Debug.LogError($"Ground Level {level + 1} does not exist.");
+                return default;
+            }
         }
     }
 }

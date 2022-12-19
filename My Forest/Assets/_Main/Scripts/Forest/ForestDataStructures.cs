@@ -14,6 +14,9 @@ namespace MyForest
 
         [JsonIgnore]
         public uint GroundWidth => (uint)Mathf.FloorToInt(Mathf.Sqrt(GroundElementsCount));
+
+        [JsonIgnore]
+        public uint GroundLevel => GroundWidth - (GroundWidth / 2);
         [JsonIgnore]
         public int GroundElementsCount => _groundElements.Count;
         [JsonIgnore]

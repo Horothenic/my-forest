@@ -9,6 +9,8 @@ namespace MyForest
         IObservable<ForestElementData> GetForestElementDataObservable(ForestElementData elementData);
         bool TryIncreaseGrowthLevel(ForestElementData elementData);
         bool TryIncreaseGroundSize();
+        uint CurrentGroundLevel { get; }
+        bool IsGroundMaxLevel { get; }
     }
 
     public interface IForestAddDataSource

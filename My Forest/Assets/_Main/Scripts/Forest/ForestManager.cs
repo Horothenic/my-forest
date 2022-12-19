@@ -15,7 +15,10 @@ namespace MyForest
 
         [Inject] private ISaveSource _saveSource = null;
         [Inject] private IGrowthEventSource _growthEventSource = null;
+        [Inject] private IGrowthDataSource _growthDataSource = null;
+        [Inject] private IGrowthConfigurationsSource _growthConfigurationsSource = null;
         [Inject] private IForestElementConfigurationsSource _elementConfigurations = null;
+        
         private DataSubject<ForestData> _loadedForestSubject = new DataSubject<ForestData>(new ForestData());
         private Subject<uint> _increaseGroundSubject = new Subject<uint>();
         private Subject<ForestElementMenuRequest> _forestElementMenuRequestedSubject = new Subject<ForestElementMenuRequest>();
@@ -95,12 +98,16 @@ namespace MyForest
 
         bool IForestDataSource.TryIncreaseGroundSize()
         {
-            if (!_growthEventSource.TrySpendGrowthForGround(CurrentForestData.GroundWidth)) return false;
+            if (!_growthEventSource.TrySpendGrowthForGround(CurrentForestData.GroundLevel)) return false;
 
             _increaseGroundSubject.OnNext(CurrentForestData.GroundWidth + 1);
             Save();
             return true;
         }
+        
+        uint IForestDataSource.CurrentGroundLevel => CurrentForestData.GroundLevel;
+
+        bool IForestDataSource.IsGroundMaxLevel => CurrentForestData.GroundLevel == _growthConfigurationsSource.GroundMaxLevel;
     }
 
     public partial class ForestManager : IForestAddDataSource
