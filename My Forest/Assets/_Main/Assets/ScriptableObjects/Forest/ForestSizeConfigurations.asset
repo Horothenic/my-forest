@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: ForestSizeConfigurations
   m_EditorClassIdentifier: 
   _diametersByLevel:
-  - 1
   - 2
   - 3
   - 4
   - 5
+  - 6
+  _increaseSizeTransitionTime: 0.5

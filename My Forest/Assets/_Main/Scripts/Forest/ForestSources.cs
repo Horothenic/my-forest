@@ -26,6 +26,7 @@ namespace MyForest
     public interface IForestSizeConfigurationsSource
     {
         float GetDiameterByLevel(uint level);
+        float IncreaseSizeTransitionTime { get; }
     }
 
     public interface IForestElementMenuSource

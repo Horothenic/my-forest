@@ -2,6 +2,7 @@ using UnityEngine;
 
 using Zenject;
 using UniRx;
+using DG.Tweening;
 
 namespace MyForest
 {
@@ -15,6 +16,7 @@ namespace MyForest
 
         [Header("CONFIGURATIONS")]
         [SerializeField] private Transform _root = null;
+        [SerializeField] private Transform _forestSizeGizmo = null;
         [SerializeField] private ForestElement _forestElementPrefab = null;
 
         private CompositeDisposable _disposables = new CompositeDisposable();
@@ -40,7 +42,7 @@ namespace MyForest
         private void Initialize()
         {
             _forestDataSource.CreatedForestObservable.Subscribe(BuildForest).AddTo(_disposables);
-            _forestDataSource.IncreaseForestSizeLevelObservable.Subscribe(SetForestSize).AddTo(_disposables);
+            _forestDataSource.IncreaseForestSizeLevelObservable.Subscribe(SetForestSizeSmooth).AddTo(_disposables);
         }
 
         private void Dispose()
@@ -50,7 +52,7 @@ namespace MyForest
 
         private void BuildForest(ForestData forestData)
         {
-            SetForestSize(forestData.SizeLevel);
+            SetForestSizeInstantly(forestData.SizeLevel);
 
             for (int i = 0; i < forestData.ForestElementsCount; i++)
             {
@@ -59,10 +61,16 @@ namespace MyForest
             }
         }
 
-        private void SetForestSize(uint level)
+        private void SetForestSizeInstantly(uint level)
         {
             var size = _forestSizeConfigurationsSource.GetDiameterByLevel(level);
-            // TODO
+            _forestSizeGizmo.localScale = Vector3.one * size;
+        }
+
+        private void SetForestSizeSmooth(uint level)
+        {
+            var size = _forestSizeConfigurationsSource.GetDiameterByLevel(level);
+            _forestSizeGizmo.DOScale(size, _forestSizeConfigurationsSource.IncreaseSizeTransitionTime);
         }
 
         private void SetForestElement(ForestElementData forestElementData)

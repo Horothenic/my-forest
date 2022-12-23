@@ -20,9 +20,9 @@ namespace MyForest
         public ForestData() { }
 
         [JsonConstructor]
-        public ForestData(List<ForestElementData> forestElements)
+        public ForestData(uint sizeLevel, List<ForestElementData> forestElements)
         {
-            SizeLevel = default;
+            SizeLevel = sizeLevel;
             _forestElements = forestElements;
         }
 

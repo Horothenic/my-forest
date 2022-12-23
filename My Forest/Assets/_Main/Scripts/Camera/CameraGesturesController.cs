@@ -18,7 +18,6 @@ namespace MyForest
         [Header("CONFIGURATIONS")]
         [SerializeField] private Transform _cameraContainer = null;
         [SerializeField] private float _dragStrength = 1;
-        [SerializeField] private float _dragExtraLimit = 1;
 
         private Vector2 _dragPreviousPosition = default;
         private Vector2 _dragNextPosition = default;
@@ -55,7 +54,7 @@ namespace MyForest
 
         private void UpdateDragLimits(uint forestSizeLevel)
         {
-            var limit = (_forestSizeConfigurationsSource.GetDiameterByLevel(forestSizeLevel) / 2f) + _dragExtraLimit;
+            var limit = _forestSizeConfigurationsSource.GetDiameterByLevel(forestSizeLevel) / 2f;
             _dragLimits = new Vector2(-limit, limit);
         }
 

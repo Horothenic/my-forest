@@ -11,12 +11,15 @@ namespace MyForest
         private const string MENU_NAME = nameof(MyForest) + "/Forest/" + nameof(ForestSizeConfigurations);
 
         [SerializeField] private float[] _diametersByLevel = null;
+        [SerializeField] private float _increaseSizeTransitionTime = default;
 
         #endregion
     }
 
     public partial class ForestSizeConfigurations : IForestSizeConfigurationsSource
     {
+        float IForestSizeConfigurationsSource.IncreaseSizeTransitionTime => _increaseSizeTransitionTime;
+
         float IForestSizeConfigurationsSource.GetDiameterByLevel(uint level)
         {
             try
