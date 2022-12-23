@@ -15,12 +15,11 @@ namespace MyForest
 
         [Inject] private ISaveSource _saveSource = null;
         [Inject] private IGrowthEventSource _growthEventSource = null;
-        [Inject] private IGrowthDataSource _growthDataSource = null;
         [Inject] private IGrowthConfigurationsSource _growthConfigurationsSource = null;
         [Inject] private IForestElementConfigurationsSource _elementConfigurations = null;
-        
+
         private DataSubject<ForestData> _loadedForestSubject = new DataSubject<ForestData>(new ForestData());
-        private Subject<uint> _increaseGroundSubject = new Subject<uint>();
+        private Subject<uint> _increaseForestSizeLevelSubject = new Subject<uint>();
         private Subject<ForestElementMenuRequest> _forestElementMenuRequestedSubject = new Subject<ForestElementMenuRequest>();
         private Dictionary<int, Subject<ForestElementData>> _forestElementDataSubjectMap = new Dictionary<int, Subject<ForestElementData>>();
 
@@ -69,7 +68,11 @@ namespace MyForest
     {
         IObservable<ForestData> IForestDataSource.CreatedForestObservable => _loadedForestSubject.AsObservable(true);
 
-        IObservable<uint> IForestDataSource.IncreaseGroundLevelObservable => _increaseGroundSubject.AsObservable();
+        IObservable<uint> IForestDataSource.IncreaseForestSizeLevelObservable => _increaseForestSizeLevelSubject.AsObservable();
+
+        uint IForestDataSource.CurrentForestSize => CurrentForestData.SizeLevel;
+
+        bool IForestDataSource.IsForestMaxSize => CurrentForestData.SizeLevel == _growthConfigurationsSource.ForestSizeMaxLevel;
 
         IObservable<ForestElementData> IForestDataSource.GetForestElementDataObservable(ForestElementData elementData)
         {
@@ -86,9 +89,9 @@ namespace MyForest
             return _forestElementDataSubjectMap[id];
         }
 
-        bool IForestDataSource.TryIncreaseGrowthLevel(ForestElementData elementData)
+        bool IForestDataSource.TryIncreaseForestElementLevel(ForestElementData elementData)
         {
-            if (!_growthEventSource.TrySpendGrowthForLevel(elementData.Level)) return false;
+            if (!_growthEventSource.TrySpendGrowthForForestElementLevel(elementData.Level)) return false;
 
             elementData.IncreaseLevel();
             GetForestElementDataSubject(elementData.Id).OnNext(elementData);
@@ -96,18 +99,15 @@ namespace MyForest
             return true;
         }
 
-        bool IForestDataSource.TryIncreaseGroundSize()
+        bool IForestDataSource.TryIncreaseForestSize()
         {
-            if (!_growthEventSource.TrySpendGrowthForGround(CurrentForestData.GroundLevel)) return false;
+            if (!_growthEventSource.TrySpendGrowthForForestSizeLevel(CurrentForestData.SizeLevel)) return false;
 
-            _increaseGroundSubject.OnNext(CurrentForestData.GroundLevel + 1);
+            CurrentForestData.IncreaseSizeLevel();
+            _increaseForestSizeLevelSubject.OnNext(CurrentForestData.SizeLevel);
             Save();
             return true;
         }
-        
-        uint IForestDataSource.CurrentGroundLevel => CurrentForestData.GroundLevel;
-
-        bool IForestDataSource.IsGroundMaxLevel => CurrentForestData.GroundLevel == _growthConfigurationsSource.GroundMaxLevel;
     }
 
     public partial class ForestManager : IForestAddDataSource
@@ -115,11 +115,6 @@ namespace MyForest
         void IForestAddDataSource.AddForestElement(ForestElementData newForestElement)
         {
             CurrentForestData.AddForestElement(newForestElement);
-        }
-
-        void IForestAddDataSource.AddGroundElement(GroundElementData newGroundElement)
-        {
-            CurrentForestData.AddGroundElement(newGroundElement);
         }
     }
 
@@ -135,9 +130,10 @@ namespace MyForest
 
     public partial class ForestManager : Debug.IForestDebugSource
     {
-        void Debug.IForestDebugSource.IncreaseGroundWidth()
+        void Debug.IForestDebugSource.IncreaseForestSize()
         {
-            _increaseGroundSubject.OnNext(CurrentForestData.GroundWidth + 1);
+            CurrentForestData.IncreaseSizeLevel();
+            _increaseForestSizeLevelSubject.OnNext(CurrentForestData.SizeLevel);
             Save();
         }
     }

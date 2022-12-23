@@ -51,7 +51,7 @@ namespace MyForest
         {
             if (_forestElementData.IsMaxLevel) return;
 
-            _forestDataSource.TryIncreaseGrowthLevel(_forestElementData);
+            _forestDataSource.TryIncreaseForestElementLevel(_forestElementData);
             CheckState();
         }
 

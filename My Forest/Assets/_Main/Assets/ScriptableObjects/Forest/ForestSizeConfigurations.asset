@@ -9,9 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2bbbcadc3ed764600a7273a73851e35d, type: 3}
-  m_Name: GroundConfigurations
+  m_Script: {fileID: 11500000, guid: cb7199565150a4b1ca009e59a01c0a72, type: 3}
+  m_Name: ForestSizeConfigurations
   m_EditorClassIdentifier: 
-  _grounds:
-  - {fileID: 1686021177304871604, guid: ebee340de387f334f9ac44e044abd8fb, type: 3}
-  - {fileID: 8957304962413023527, guid: 3f9b178ccd3b86f4ebbfc1f5a2815e56, type: 3}
+  _diametersByLevel:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5

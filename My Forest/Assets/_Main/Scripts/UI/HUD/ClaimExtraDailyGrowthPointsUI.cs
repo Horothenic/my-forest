@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 using Zenject;
 using UniRx;
@@ -26,11 +27,13 @@ namespace MyForest
 
         #region UNITY
 
+        [Obsolete]
         private void Start()
         {
             Initialize();
         }
 
+        [Obsolete]
         private void OnDestroy()
         {
             Clean();
@@ -47,6 +50,7 @@ namespace MyForest
 
         #region METHOD
 
+        [Obsolete]
         private void Initialize()
         {
             _buttonContainer.SetActive(false);
@@ -61,6 +65,7 @@ namespace MyForest
             _loaded = true;
         }
 
+        [Obsolete]
         private void Clean()
         {
             Advertising.RewardedAdCompleted -= RewardedAdCompletedHandler;

@@ -2,7 +2,7 @@ using Zenject;
 
 namespace MyForest.Debug
 {
-    public class DebugIncreaseGroundWidthButton : DebugButton
+    public class DebugIncreaseForestSizeButton : DebugButton
     {
         #region FIELDS
 
@@ -14,7 +14,7 @@ namespace MyForest.Debug
 
         protected override void OnClickHandler()
         {
-            _debugSource.IncreaseGroundWidth();
+            _debugSource.IncreaseForestSize();
         }
 
         #endregion

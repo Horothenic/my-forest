@@ -97,12 +97,12 @@ namespace MyForest
 
         bool IGrowthDataSource.HaveEnoughGrowthForElementLevelUp(uint level)
         {
-            return _configurations.GetNextElementLevelCost(level) <= _growthDataSubject.Value.CurrentGrowth;
+            return _configurations.GetNextForestElementLevelCost(level) <= _growthDataSubject.Value.CurrentGrowth;
         }
 
         bool IGrowthDataSource.HaveEnoughGrowthForGroundLevelUp(uint level)
         {
-            return _configurations.GetNextGroundLevelCost(level) <= _growthDataSubject.Value.CurrentGrowth;
+            return _configurations.GetNextForestSizeLevelCost(level) <= _growthDataSubject.Value.CurrentGrowth;
         }
     }
 
@@ -111,15 +111,15 @@ namespace MyForest
         void IGrowthEventSource.ClaimDailyGrowth() => ClaimDailyGrowth();
         void IGrowthEventSource.ClaimExtraDailyGrowth() => ClaimExtraDailyGrowth();
 
-        bool IGrowthEventSource.TrySpendGrowthForLevel(uint level)
+        bool IGrowthEventSource.TrySpendGrowthForForestElementLevel(uint level)
         {
-            var amountForNextLevel = _configurations.GetNextElementLevelCost(level);
+            var amountForNextLevel = _configurations.GetNextForestElementLevelCost(level);
             return DecreaseGrowth(amountForNextLevel);
         }
 
-        bool IGrowthEventSource.TrySpendGrowthForGround(uint level)
+        bool IGrowthEventSource.TrySpendGrowthForForestSizeLevel(uint level)
         {
-            var amountForNextLevel = _configurations.GetNextGroundLevelCost(level);
+            var amountForNextLevel = _configurations.GetNextForestSizeLevelCost(level);
             return DecreaseGrowth(amountForNextLevel);
         }
     }

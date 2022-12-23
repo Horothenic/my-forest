@@ -6,7 +6,7 @@ using UniRx;
 
 namespace MyForest
 {
-    public class GroundUpgradeMenuUI : MonoBehaviour
+    public class ForestSizeMenuUI : MonoBehaviour
     {
         #region FIELDS
 
@@ -36,7 +36,7 @@ namespace MyForest
         private void Initialize()
         {
             _openButton.onClick.AddListener(Show);
-            _levelUpButton.onClick.AddListener(LevelUpGround);
+            _levelUpButton.onClick.AddListener(LevelUpForestSize);
         }
 
         private void Show()
@@ -45,21 +45,21 @@ namespace MyForest
             _bottomMenuOpener.Appear();
         }
 
-        private void LevelUpGround()
+        private void LevelUpForestSize()
         {
-            if (_forestDataSource.IsGroundMaxLevel) return;
+            if (_forestDataSource.IsForestMaxSize) return;
 
-            _forestDataSource.TryIncreaseGroundSize();
+            _forestDataSource.TryIncreaseForestSize();
             CheckState();
         }
 
         private void CheckState()
         {
-            if (_forestDataSource.IsGroundMaxLevel)
+            if (_forestDataSource.IsForestMaxSize)
             {
                 OnGroundMaxLevel();
             }
-            else if (!_growthDataSource.HaveEnoughGrowthForGroundLevelUp(_forestDataSource.CurrentGroundLevel))
+            else if (!_growthDataSource.HaveEnoughGrowthForGroundLevelUp(_forestDataSource.CurrentForestSize))
             {
                 OnInsufficientGrowth();
             }

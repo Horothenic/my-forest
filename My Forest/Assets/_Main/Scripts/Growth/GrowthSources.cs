@@ -15,20 +15,20 @@ namespace MyForest
 
     public interface IGrowthEventSource
     {
-        bool TrySpendGrowthForLevel(uint level);
-        bool TrySpendGrowthForGround(uint width);
+        bool TrySpendGrowthForForestElementLevel(uint level);
+        bool TrySpendGrowthForForestSizeLevel(uint level);
         void ClaimDailyGrowth();
         void ClaimExtraDailyGrowth();
     }
 
     public interface IGrowthConfigurationsSource
     {
-        uint GetNextElementLevelCost(uint level);
-        uint GetNextGroundLevelCost(uint level);
+        uint GetNextForestElementLevelCost(uint level);
+        uint GetNextForestSizeLevelCost(uint level);
         uint DailyGrowth { get; }
         uint ExtraDailyGrowthSecondsInterval { get; }
-        uint ElementMaxLevel { get; }
-        uint GroundMaxLevel { get; }
+        uint ForestElementMaxLevel { get; }
+        uint ForestSizeMaxLevel { get; }
     }
 }
 

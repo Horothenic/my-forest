@@ -5,23 +5,27 @@ namespace MyForest
     public interface IForestDataSource
     {
         IObservable<ForestData> CreatedForestObservable { get; }
-        IObservable<uint> IncreaseGroundLevelObservable { get; }
+        IObservable<uint> IncreaseForestSizeLevelObservable { get; }
         IObservable<ForestElementData> GetForestElementDataObservable(ForestElementData elementData);
-        bool TryIncreaseGrowthLevel(ForestElementData elementData);
-        bool TryIncreaseGroundSize();
-        uint CurrentGroundLevel { get; }
-        bool IsGroundMaxLevel { get; }
+        bool TryIncreaseForestElementLevel(ForestElementData elementData);
+        bool TryIncreaseForestSize();
+        uint CurrentForestSize { get; }
+        bool IsForestMaxSize { get; }
     }
 
     public interface IForestAddDataSource
     {
-        void AddGroundElement(GroundElementData newGroundElement);
         void AddForestElement(ForestElementData newForestElement);
     }
 
     public interface IForestElementConfigurationsSource
     {
         ForestElementConfiguration GetElementConfiguration(string elementName);
+    }
+
+    public interface IForestSizeConfigurationsSource
+    {
+        float GetDiameterByLevel(uint level);
     }
 
     public interface IForestElementMenuSource
@@ -36,6 +40,6 @@ namespace MyForest.Debug
 {
     public interface IForestDebugSource
     {
-        void IncreaseGroundWidth();
+        void IncreaseForestSize();
     }
 }
