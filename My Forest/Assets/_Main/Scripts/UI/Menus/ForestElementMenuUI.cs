@@ -3,6 +3,8 @@ using UnityEngine.UI;
 
 using Zenject;
 using UniRx;
+using TMPro;
+using Lean.Localization;
 
 namespace MyForest
 {
@@ -13,9 +15,11 @@ namespace MyForest
         [Inject] private IForestElementMenuSource _forestElementMenuSource = null;
         [Inject] private IForestDataSource _forestDataSource = null;
         [Inject] private IGrowthDataSource _growthDataSource = null;
+        [Inject] private IGrowthConfigurationsSource _growthConfigurationsSource = null;
 
         [Header("COMPONENTS")]
         [SerializeField] private Button _levelUpButton = null;
+        [SerializeField] private TextMeshProUGUI _costText = null;
         [SerializeField] private BottomMenuOpenerUI _bottomMenuOpener = null;
 
         private CompositeDisposable _disposables = new CompositeDisposable();
@@ -73,17 +77,25 @@ namespace MyForest
 
         private void OnElementLoadedMaxLevel()
         {
+            _costText.text = LocalizationExtensions.Localize(Constants.UI.IS_MAX_LEVEL_KEY);
             _levelUpButton.interactable = false;
         }
 
         private void OnInsufficientGrowth()
         {
+            _costText.text = LocalizationExtensions.Localize(Constants.UI.GENERIC_COST_FORMAT_KEY, GetNextForestElementCost());
             _levelUpButton.interactable = false;
         }
 
         private void OnSufficientGrowth()
         {
+            _costText.text = LocalizationExtensions.Localize(Constants.UI.GENERIC_COST_FORMAT_KEY, GetNextForestElementCost());
             _levelUpButton.interactable = true;
+        }
+
+        private uint GetNextForestElementCost()
+        {
+            return _growthConfigurationsSource.GetNextForestElementLevelCost(_forestElementData.Level);
         }
 
         #endregion

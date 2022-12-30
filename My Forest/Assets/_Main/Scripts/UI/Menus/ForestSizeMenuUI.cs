@@ -81,7 +81,7 @@ namespace MyForest
 
         private void OnInsufficientGrowth()
         {
-            _costText.text = LocalizationExtensions.Localize(Constants.UI.INSUFFICIENT_FUNDS_KEY);
+            _costText.text = LocalizationExtensions.Localize(Constants.UI.GENERIC_COST_FORMAT_KEY, GetNextForestSizeCost());
             _levelUpButton.interactable = false;
         }
 
