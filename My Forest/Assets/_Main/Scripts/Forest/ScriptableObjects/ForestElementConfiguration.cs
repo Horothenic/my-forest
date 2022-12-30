@@ -20,12 +20,7 @@ namespace MyForest
 
         public GameObject GetLevelPrefab(uint level)
         {
-            if (_levels.Length - 1 < level)
-            {
-                return null;
-            }
-
-            return _levels[level];
+            return level > (_levels.Length - 1) ? null : _levels[level];
         }
 
         #endregion

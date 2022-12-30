@@ -54,7 +54,7 @@ namespace MyForest
 
         private void RequestForestElementMenu()
         {
-            _forestElementMenuSource.ResquestForestElementMenu(new ForestElementMenuRequest(gameObject, _forestElementData));
+            _forestElementMenuSource.RequestForestElementMenu(new ForestElementMenuRequest(gameObject, _forestElementData));
         }
 
         #endregion

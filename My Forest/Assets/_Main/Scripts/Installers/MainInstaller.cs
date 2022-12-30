@@ -6,9 +6,13 @@ namespace MyForest
 {
     public class MainInstaller : MonoInstaller
     {
+        [Header("CONFIGURATIONS")]
         [SerializeField] private ForestElementConfigurations _forestElementConfigurations = null;
+        [SerializeField] private ForestSizeConfigurations _forestSizeConfigurations = null;
         [SerializeField] private GrowthConfigurations _growthConfigurations = null;
         [SerializeField] private AudioConfigurations _audioConfigurations = null;
+
+        [Header("OTHERS")]
         [SerializeField] private ObjectPool _objectPool = null;
 
         public override void InstallBindings()
@@ -21,6 +25,7 @@ namespace MyForest
             Container.BindInterfacesTo<AudioManager>().AsSingle();
 
             Container.BindInterfacesTo<ForestElementConfigurations>().FromInstance(_forestElementConfigurations).AsSingle();
+            Container.BindInterfacesTo<ForestSizeConfigurations>().FromInstance(_forestSizeConfigurations).AsSingle();
             Container.BindInterfacesTo<GrowthConfigurations>().FromInstance(_growthConfigurations).AsSingle();
             Container.BindInterfacesTo<AudioConfigurations>().FromInstance(_audioConfigurations).AsSingle();
 

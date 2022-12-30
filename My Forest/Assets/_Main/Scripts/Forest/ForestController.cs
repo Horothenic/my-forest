@@ -2,6 +2,7 @@ using UnityEngine;
 
 using Zenject;
 using UniRx;
+using DG.Tweening;
 
 namespace MyForest
 {
@@ -11,11 +12,11 @@ namespace MyForest
 
         [Inject] private IObjectPoolSource _objectPoolSource = null;
         [Inject] private IForestDataSource _forestDataSource = null;
-        [Inject] private DiContainer _zenjectContainer = null;
+        [Inject] private IForestSizeConfigurationsSource _forestSizeConfigurationsSource = null;
 
         [Header("CONFIGURATIONS")]
-        [SerializeField] private GroundConfigurations _groundConfigurations = null;
         [SerializeField] private Transform _root = null;
+        [SerializeField] private Transform _forestSizeGizmo = null;
         [SerializeField] private ForestElement _forestElementPrefab = null;
 
         private CompositeDisposable _disposables = new CompositeDisposable();
@@ -40,7 +41,8 @@ namespace MyForest
 
         private void Initialize()
         {
-            _forestDataSource.ForestDataObservable.Subscribe(BuildForest).AddTo(_disposables);
+            _forestDataSource.CreatedForestObservable.Subscribe(BuildForest).AddTo(_disposables);
+            _forestDataSource.IncreaseForestSizeLevelObservable.Subscribe(SetForestSizeSmooth).AddTo(_disposables);
         }
 
         private void Dispose()
@@ -50,11 +52,7 @@ namespace MyForest
 
         private void BuildForest(ForestData forestData)
         {
-            for (int i = 0; i < forestData.GroundElementsCount; i++)
-            {
-                var groundElementData = forestData.GroundElements[i];
-                SetGroundElement(groundElementData);
-            }
+            SetForestSizeInstantly(forestData.SizeLevel);
 
             for (int i = 0; i < forestData.ForestElementsCount; i++)
             {
@@ -63,10 +61,16 @@ namespace MyForest
             }
         }
 
-        private void SetGroundElement(GroundElementData groundElementData)
+        private void SetForestSizeInstantly(uint level)
         {
-            var prefab = _groundConfigurations.GetGroundPrefab(groundElementData?.GroundName);
-            _objectPoolSource.Borrow(prefab).Set(groundElementData.Position, _root);
+            var size = _forestSizeConfigurationsSource.GetDiameterByLevel(level);
+            _forestSizeGizmo.localScale = Vector3.one * size;
+        }
+
+        private void SetForestSizeSmooth(uint level)
+        {
+            var size = _forestSizeConfigurationsSource.GetDiameterByLevel(level);
+            _forestSizeGizmo.DOScale(size, _forestSizeConfigurationsSource.IncreaseSizeTransitionTime);
         }
 
         private void SetForestElement(ForestElementData forestElementData)

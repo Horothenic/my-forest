@@ -9,49 +9,31 @@ namespace MyForest
     [Serializable]
     public class ForestData
     {
-        private List<GroundElementData> _groundElements = new List<GroundElementData>();
         private List<ForestElementData> _forestElements = new List<ForestElementData>();
 
-        [JsonIgnore]
-        public int GroundWidth => Mathf.FloorToInt(Mathf.Sqrt(GroundElementsCount));
-        [JsonIgnore]
-        public int GroundElementsCount => _groundElements.Count;
+        public uint SizeLevel { get; private set; }
+        public IReadOnlyList<ForestElementData> ForestElements => _forestElements;
+
         [JsonIgnore]
         public int ForestElementsCount => _forestElements.Count;
-        public IReadOnlyList<GroundElementData> GroundElements => _groundElements;
-        public IReadOnlyList<ForestElementData> ForestElements => _forestElements;
 
         public ForestData() { }
 
         [JsonConstructor]
-        public ForestData(List<GroundElementData> groundElements, List<ForestElementData> forestElements)
+        public ForestData(uint sizeLevel, List<ForestElementData> forestElements)
         {
-            _groundElements = groundElements;
+            SizeLevel = sizeLevel;
             _forestElements = forestElements;
-        }
-
-        public void AddGroundElement(GroundElementData newGroundElement)
-        {
-            _groundElements.Add(newGroundElement);
         }
 
         public void AddForestElement(ForestElementData newForestElement)
         {
             _forestElements.Add(newForestElement);
         }
-    }
 
-    [Serializable]
-    public class GroundElementData
-    {
-        public string GroundName { get; private set; }
-        public SerializedVector3 Position { get; private set; }
-
-        [JsonConstructor]
-        public GroundElementData(string groundName, Vector3 position)
+        public void IncreaseSizeLevel()
         {
-            GroundName = groundName;
-            Position = position;
+            SizeLevel++;
         }
     }
 

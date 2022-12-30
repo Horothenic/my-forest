@@ -4,6 +4,11 @@ namespace UnityEngine
     {
         private const float HALF_DIVIDER = 2f;
 
+        public static float Half(this uint value)
+        {
+            return value / HALF_DIVIDER;
+        }
+
         public static float Half(this int value)
         {
             return value / HALF_DIVIDER;

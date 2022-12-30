@@ -13,11 +13,11 @@ namespace MyForest
 
         [Inject] private IForestDataSource _forestDataSource = null;
         [Inject] private ICameraRotationDataSource _cameraRotationSource = null;
+        [Inject] private IForestSizeConfigurationsSource _forestSizeConfigurationsSource = null;
 
         [Header("CONFIGURATIONS")]
         [SerializeField] private Transform _cameraContainer = null;
         [SerializeField] private float _dragStrength = 1;
-        [SerializeField] private float _dragExtraLimit = 1;
 
         private Vector2 _dragPreviousPosition = default;
         private Vector2 _dragNextPosition = default;
@@ -30,7 +30,8 @@ namespace MyForest
 
         private void Start()
         {
-            _forestDataSource.ForestDataObservable.Subscribe(UpdateDragLimits).AddTo(_disposables);
+            _forestDataSource.CreatedForestObservable.Subscribe(forest => UpdateDragLimits(forest.SizeLevel)).AddTo(_disposables);
+            _forestDataSource.IncreaseForestSizeLevelObservable.Subscribe(UpdateDragLimits).AddTo(_disposables);
         }
 
         private void OnDestroy()
@@ -51,9 +52,9 @@ namespace MyForest
 
         #region METHODS
 
-        private void UpdateDragLimits(ForestData newForest)
+        private void UpdateDragLimits(uint forestSizeLevel)
         {
-            var limit = newForest.GroundWidth.Half() + _dragExtraLimit;
+            var limit = _forestSizeConfigurationsSource.GetDiameterByLevel(forestSizeLevel) / 2f;
             _dragLimits = new Vector2(-limit, limit);
         }
 

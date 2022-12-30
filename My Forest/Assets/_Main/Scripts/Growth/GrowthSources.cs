@@ -9,21 +9,26 @@ namespace MyForest
         IObservable<bool> ClaimDailyGrowthAvailable { get; }
         IObservable<bool> ClaimDailyExtraGrowthAvailable { get; }
         double ExtraDailyGrowthSecondsLeft { get; }
-        bool HaveEnoughGrowthForLevelUp(uint level);
+        bool HaveEnoughGrowthForElementLevelUp(uint level);
+        bool HaveEnoughGrowthForGroundLevelUp(uint level);
     }
 
     public interface IGrowthEventSource
     {
-        bool TrySpendGrowth(uint level);
+        bool TrySpendGrowthForForestElementLevel(uint level);
+        bool TrySpendGrowthForForestSizeLevel(uint level);
         void ClaimDailyGrowth();
         void ClaimExtraDailyGrowth();
     }
 
     public interface IGrowthConfigurationsSource
     {
-        uint GetNextLevelCost(uint level);
+        uint GetNextForestElementLevelCost(uint level);
+        uint GetNextForestSizeLevelCost(uint level);
         uint DailyGrowth { get; }
         uint ExtraDailyGrowthSecondsInterval { get; }
+        uint ForestElementMaxLevel { get; }
+        uint ForestSizeMaxLevel { get; }
     }
 }
 
