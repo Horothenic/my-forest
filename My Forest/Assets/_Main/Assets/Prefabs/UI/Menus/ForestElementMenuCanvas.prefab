@@ -417,6 +417,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3107922726695046276, guid: f1b09492eaa571340ab8fac272b67a51, type: 3}
+      propertyPath: m_SortingOrder
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3107922726695046276, guid: f1b09492eaa571340ab8fac272b67a51, type: 3}
+      propertyPath: m_PlaneDistance
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3107922726695046279, guid: f1b09492eaa571340ab8fac272b67a51, type: 3}
       propertyPath: m_Name
       value: ForestElementMenuCanvas

@@ -1083,7 +1083,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3686515770246866375, guid: c75ecef21e9734fe09a1a37b81d8c898, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 76.44605
+      value: 76.44606
       objectReference: {fileID: 0}
     - target: {fileID: 3686515770246866375, guid: c75ecef21e9734fe09a1a37b81d8c898, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1378,6 +1378,14 @@ PrefabInstance:
     - target: {fileID: 2126228193357502105, guid: d58316fa193eaf240be66eb211096b1a, type: 3}
       propertyPath: m_Name
       value: SettingsMenuCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 2126228193357502108, guid: d58316fa193eaf240be66eb211096b1a, type: 3}
+      propertyPath: m_SortingOrder
+      value: -4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2126228193357502108, guid: d58316fa193eaf240be66eb211096b1a, type: 3}
+      propertyPath: m_PlaneDistance
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2126228193357502109, guid: d58316fa193eaf240be66eb211096b1a, type: 3}
       propertyPath: m_Pivot.x
