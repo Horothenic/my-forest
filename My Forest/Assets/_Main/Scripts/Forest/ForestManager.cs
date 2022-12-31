@@ -10,69 +10,52 @@ namespace MyForest
     {
         #region FIELDS
 
-        private const string FOREST_DATA_KEY = "forest_data";
-        private const string DEFAULT_FOREST_DATA_FILE = "DefaultForest";
-
-        [Inject] private ISaveSource _saveSource = null;
         [Inject] private IGrowthEventSource _growthEventSource = null;
         [Inject] private IGrowthConfigurationsSource _growthConfigurationsSource = null;
         [Inject] private IForestElementConfigurationsSource _elementConfigurations = null;
 
-        private DataSubject<ForestData> _loadedForestSubject = new DataSubject<ForestData>(new ForestData());
         private Subject<uint> _increaseForestSizeLevelSubject = new Subject<uint>();
         private Subject<ForestElementMenuRequest> _forestElementMenuRequestedSubject = new Subject<ForestElementMenuRequest>();
         private Dictionary<int, Subject<ForestElementData>> _forestElementDataSubjectMap = new Dictionary<int, Subject<ForestElementData>>();
 
-        private ForestData CurrentForestData => _loadedForestSubject.Value;
-
         #endregion
+    }
 
-        #region METHODS
+    public partial class ForestManager : DataManager<ForestData>
+    {
+        protected override string Key => Constants.Forest.FOREST_DATA_KEY;
 
-        private void Initialize()
+        protected override void OnLoadReady(ref ForestData data)
         {
-            Load();
-        }
-
-        private void Load()
-        {
-            var _forestData = _saveSource.Load<ForestData>(FOREST_DATA_KEY);
-
-            if (_forestData == null)
+            if (data.IsEmpty)
             {
-                _forestData = _saveSource.LoadJSONFromResources<ForestData>(DEFAULT_FOREST_DATA_FILE);
+                data = _saveSource.LoadJSONFromResources<ForestData>(Constants.Forest.DEFAULT_FOREST_DATA_FILE);
             }
 
-            foreach (var element in _forestData.ForestElements)
+            foreach (var element in data.ForestElements)
             {
                 element.Hydrate(_elementConfigurations);
             }
-
-            _loadedForestSubject.OnNext(_forestData);
         }
-
-        private void Save()
-        {
-            _saveSource.Save(FOREST_DATA_KEY, CurrentForestData);
-        }
-
-        #endregion
     }
 
     public partial class ForestManager : IInitializable
     {
-        void IInitializable.Initialize() => Initialize();
+        void IInitializable.Initialize()
+        {
+            Load();
+        }
     }
 
     public partial class ForestManager : IForestDataSource
     {
-        IObservable<ForestData> IForestDataSource.CreatedForestObservable => _loadedForestSubject.AsObservable(true);
+        IObservable<ForestData> IForestDataSource.CreatedForestObservable => DataObservable;
 
         IObservable<uint> IForestDataSource.IncreaseForestSizeLevelObservable => _increaseForestSizeLevelSubject.AsObservable();
 
-        uint IForestDataSource.CurrentForestSize => CurrentForestData.SizeLevel;
+        uint IForestDataSource.CurrentForestSize => Data.SizeLevel;
 
-        bool IForestDataSource.IsForestMaxSize => CurrentForestData.SizeLevel == _growthConfigurationsSource.ForestSizeMaxLevel;
+        bool IForestDataSource.IsForestMaxSize => Data.SizeLevel == _growthConfigurationsSource.ForestSizeMaxLevel;
 
         IObservable<ForestElementData> IForestDataSource.GetForestElementDataObservable(ForestElementData elementData)
         {
@@ -101,10 +84,10 @@ namespace MyForest
 
         bool IForestDataSource.TryIncreaseForestSize()
         {
-            if (!_growthEventSource.TrySpendGrowthForForestSizeLevel(CurrentForestData.SizeLevel)) return false;
+            if (!_growthEventSource.TrySpendGrowthForForestSizeLevel(Data.SizeLevel)) return false;
 
-            CurrentForestData.IncreaseSizeLevel();
-            _increaseForestSizeLevelSubject.OnNext(CurrentForestData.SizeLevel);
+            Data.IncreaseSizeLevel();
+            _increaseForestSizeLevelSubject.OnNext(Data.SizeLevel);
             Save();
             return true;
         }
@@ -114,7 +97,7 @@ namespace MyForest
     {
         void IForestAddDataSource.AddForestElement(ForestElementData newForestElement)
         {
-            CurrentForestData.AddForestElement(newForestElement);
+            Data.AddForestElement(newForestElement);
         }
     }
 
@@ -132,8 +115,8 @@ namespace MyForest
     {
         void Debug.IForestDebugSource.IncreaseForestSize()
         {
-            CurrentForestData.IncreaseSizeLevel();
-            _increaseForestSizeLevelSubject.OnNext(CurrentForestData.SizeLevel);
+            Data.IncreaseSizeLevel();
+            _increaseForestSizeLevelSubject.OnNext(Data.SizeLevel);
             Save();
         }
     }

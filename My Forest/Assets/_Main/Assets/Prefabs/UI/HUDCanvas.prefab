@@ -559,7 +559,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -5.2294}
+  m_AnchoredPosition: {x: 0, y: -5.2294006}
   m_SizeDelta: {x: 0, y: -10.4587}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2752933486732083308
@@ -845,7 +845,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -33.520412}
+  m_AnchoredPosition: {x: 0, y: -33.520416}
   m_SizeDelta: {x: 0, y: -67.0409}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2752933486904915151
@@ -1299,6 +1299,7 @@ GameObject:
   - component: {fileID: 2752933487420754131}
   - component: {fileID: 2752933487420754130}
   - component: {fileID: 2752933487420754129}
+  - component: {fileID: 2748337093772635298}
   m_Layer: 5
   m_Name: HUDCanvas
   m_TagString: Untagged
@@ -1340,9 +1341,9 @@ Canvas:
   m_GameObject: {fileID: 2752933487420754128}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_PlaneDistance: 0
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -1350,7 +1351,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -5
   m_TargetDisplay: 0
 --- !u!114 &2752933487420754130
 MonoBehaviour:
@@ -1392,6 +1393,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!225 &2748337093772635298
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2752933487420754128}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2752933487606260105
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,6 +16,8 @@ namespace MyForest
 
         [JsonIgnore]
         public int ForestElementsCount => _forestElements.Count;
+        [JsonIgnore]
+        public bool IsEmpty => _forestElements.Count == default;
 
         public ForestData() { }
 
