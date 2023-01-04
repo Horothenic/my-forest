@@ -7,7 +7,7 @@ using DG.Tweening;
 namespace MyForest
 {
     [RequireComponent(typeof(RectTransform))]
-    public class MoveOnCameraIntroUI : MonoBehaviour
+    public class MoveAfterCameraIntroUI : MonoBehaviour
     {
         #region FIELDS
 
