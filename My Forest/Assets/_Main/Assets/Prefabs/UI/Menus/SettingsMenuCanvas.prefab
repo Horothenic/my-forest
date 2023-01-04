@@ -1375,13 +1375,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2126228192354184208, guid: d58316fa193eaf240be66eb211096b1a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 2126228193357502105, guid: d58316fa193eaf240be66eb211096b1a, type: 3}
       propertyPath: m_Name
       value: SettingsMenuCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 2126228193357502108, guid: d58316fa193eaf240be66eb211096b1a, type: 3}
       propertyPath: m_SortingOrder
-      value: -4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2126228193357502108, guid: d58316fa193eaf240be66eb211096b1a, type: 3}
       propertyPath: m_PlaneDistance
@@ -1478,3 +1482,23 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2126228192876075476, guid: d58316fa193eaf240be66eb211096b1a, type: 3}
   m_PrefabInstance: {fileID: 1413006393063665240}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1017216023278600775 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2126228192354184223, guid: d58316fa193eaf240be66eb211096b1a, type: 3}
+  m_PrefabInstance: {fileID: 1413006393063665240}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7969264211316286773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1017216023278600775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b613a959d1901450896060a114971483, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _endPosition: {x: -10, y: -10}
+  _transitionTime: 0.3
+  _delay: 0

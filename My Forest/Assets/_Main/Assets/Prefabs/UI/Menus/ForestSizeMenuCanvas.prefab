@@ -148,6 +148,7 @@ GameObject:
   - component: {fileID: 1066965662}
   - component: {fileID: 1066965661}
   - component: {fileID: 1066965663}
+  - component: {fileID: 8304179407494841668}
   m_Layer: 5
   m_Name: ForestSizeOpenButton
   m_TagString: Untagged
@@ -172,7 +173,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -10, y: -195}
+  m_AnchoredPosition: {x: 150, y: -195}
   m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &1066965664
@@ -270,6 +271,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sound: {fileID: 8300000, guid: 37a022f08150f4b5196489e13a19609c, type: 3}
+--- !u!114 &8304179407494841668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1066965660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b613a959d1901450896060a114971483, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _endPosition: {x: -10, y: -195}
+  _transitionTime: 0.3
+  _delay: 0.1
 --- !u!1 &1425257546
 GameObject:
   m_ObjectHideFlags: 0
@@ -562,7 +578,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3107922726695046276, guid: f1b09492eaa571340ab8fac272b67a51, type: 3}
       propertyPath: m_SortingOrder
-      value: -3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3107922726695046276, guid: f1b09492eaa571340ab8fac272b67a51, type: 3}
       propertyPath: m_PlaneDistance
