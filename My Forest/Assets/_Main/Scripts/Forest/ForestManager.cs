@@ -16,6 +16,7 @@ namespace MyForest
 
         private Subject<uint> _increaseForestSizeLevelSubject = new Subject<uint>();
         private Subject<ForestElementMenuRequest> _forestElementMenuRequestedSubject = new Subject<ForestElementMenuRequest>();
+        private Subject<Unit> _forestElementMenuClosedSubject = new Subject<Unit>();
         private Dictionary<int, Subject<ForestElementData>> _forestElementDataSubjectMap = new Dictionary<int, Subject<ForestElementData>>();
 
         #endregion
@@ -104,10 +105,16 @@ namespace MyForest
     public partial class ForestManager : IForestElementMenuSource
     {
         IObservable<ForestElementMenuRequest> IForestElementMenuSource.ForestElementMenuRequestedObservable => _forestElementMenuRequestedSubject.AsObservable();
+        IObservable<Unit> IForestElementMenuSource.ForestElementMenuClosedObservable => _forestElementMenuClosedSubject.AsObservable();
 
         void IForestElementMenuSource.RequestForestElementMenu(ForestElementMenuRequest request)
         {
             _forestElementMenuRequestedSubject.OnNext(request);
+        }
+
+        void IForestElementMenuSource.RaiseCloseForestElementMenu()
+        {
+            _forestElementMenuClosedSubject.OnNext();
         }
     }
 

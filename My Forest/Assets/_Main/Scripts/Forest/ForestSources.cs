@@ -1,5 +1,7 @@
 using System;
 
+using UniRx;
+
 namespace MyForest
 {
     public interface IForestDataSource
@@ -32,7 +34,9 @@ namespace MyForest
     public interface IForestElementMenuSource
     {
         IObservable<ForestElementMenuRequest> ForestElementMenuRequestedObservable { get; }
+        IObservable<Unit> ForestElementMenuClosedObservable { get; }
         void RequestForestElementMenu(ForestElementMenuRequest request);
+        void RaiseCloseForestElementMenu();
     }
 }
 

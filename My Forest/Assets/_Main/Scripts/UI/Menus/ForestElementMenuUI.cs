@@ -51,6 +51,11 @@ namespace MyForest
             _bottomMenuOpener.Appear();
         }
 
+        public void RaiseClosedForestElementMenu()
+        {
+            _forestElementMenuSource.RaiseCloseForestElementMenu();
+        }
+
         private void LevelUpForestElement()
         {
             if (_forestElementData.IsMaxLevel) return;

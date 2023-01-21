@@ -41,6 +41,7 @@ namespace MyForest
 
         public void IntroFinishedPlaying()
         {
+            _animator.enabled = false;
             _cameraFirstIntroSource.IntroFinishedPlaying();
         }
 
