@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 using Zenject;
@@ -10,19 +11,44 @@ namespace MyForest
         #region FIELDS
 
         private const int FIRST_TOUCH_INDEX = 0;
+        private const int SECOND_TOUCH_INDEX = 1;
+        private const float PINCH_GESTURE_THRESHOLD = 10f;
+        private const string MOUSE_SCROLL_WHEEL_KEY = "Mouse ScrollWheel";
 
         [Inject] private IForestDataSource _forestDataSource = null;
+        [Inject] private IForestElementMenuSource _forestElementMenuSource = null;
         [Inject] private ICameraRotationDataSource _cameraRotationSource = null;
         [Inject] private IForestSizeConfigurationsSource _forestSizeConfigurationsSource = null;
 
-        [Header("CONFIGURATIONS")]
+        [Header("DRAG CONFIGURATIONS")]
         [SerializeField] private Transform _cameraContainer = null;
+        [SerializeField] private Camera _camera = null;
         [SerializeField] private float _dragStrength = 1;
+        
+        [Header("PINCH CONFIGURATIONS")]
+        [SerializeField] private float _minZoom = 2;
+        [SerializeField] private float _maxZoom = 8;
+        [SerializeField] private float _defaultZoom = 3;
+        [SerializeField] private float _zoomTouchSensitivity = 1;
+        [SerializeField] private float _zoomMouseSensitivity = 1;
+        [SerializeField] private float _zoomTransitionTime = 0.5f;
 
         private Vector2 _dragPreviousPosition = default;
         private Vector2 _dragNextPosition = default;
         private Vector2 _dragLimits = default;
-        private CompositeDisposable _disposables = new CompositeDisposable();
+        private float? _firstDistanceBetweenTouches = null;
+        private float _currentZoom = default;
+        private float _zoomOnStartPinch = default;
+        private GestureType _currentGesture = GestureType.None;
+        private bool _inputEnabled = true;
+        private Tween _zoomTween = null;
+        
+        private enum GestureType
+        {
+            None,
+            Drag,
+            Pinch
+        }
 
         #endregion
 
@@ -30,38 +56,103 @@ namespace MyForest
 
         private void Start()
         {
-            _forestDataSource.CreatedForestObservable.Subscribe(forest => UpdateDragLimits(forest.SizeLevel)).AddTo(_disposables);
-            _forestDataSource.IncreaseForestSizeLevelObservable.Subscribe(UpdateDragLimits).AddTo(_disposables);
-        }
-
-        private void OnDestroy()
-        {
-            _disposables.Dispose();
+            _currentZoom = _minZoom;
+                
+            _forestDataSource.CreatedForestObservable.Subscribe(forest => UpdateDragLimits(forest.SizeLevel)).AddTo(this);
+            _forestDataSource.IncreaseForestSizeLevelObservable.Subscribe(UpdateDragLimits).AddTo(this);
+            _forestElementMenuSource.ForestElementMenuRequestedObservable.Subscribe(_ => SetDefaultZoomForElementMenu()).AddTo(this);
+            _forestElementMenuSource.ForestElementMenuClosedObservable.Subscribe(EnableInput).AddTo(this);
         }
 
         private void Update()
         {
-#if UNITY_EDITOR
-            DragMouse();
-#else
-            DragTouch();
-#endif
+            CheckInput();
         }
 
         #endregion
 
         #region METHODS
 
-        private void UpdateDragLimits(uint forestSizeLevel)
+        private void CheckInput()
         {
-            var limit = _forestSizeConfigurationsSource.GetDiameterByLevel(forestSizeLevel) / 2f;
-            _dragLimits = new Vector2(-limit, limit);
+            if (!_inputEnabled) return;
+            
+#if UNITY_EDITOR
+            DragMouse();
+            PinchMouse();
+#else
+            if (Input.touchCount == 0) return;
+
+            _currentGesture = SelectGestureType();
+
+            switch (_currentGesture)
+            {
+                case GestureType.Drag:
+                    DragTouch();
+                    break;
+                case GestureType.Pinch:
+                    PinchTouch();
+                    break;
+            }
+#endif
         }
+
+        private GestureType SelectGestureType()
+        {
+            if (Input.touchCount == 1)
+            {
+                if (_currentGesture == GestureType.Pinch)
+                {
+                    _firstDistanceBetweenTouches = null;
+                    _dragPreviousPosition = Input.GetTouch(FIRST_TOUCH_INDEX).position;
+                }
+
+                return GestureType.Drag;
+            }
+            
+            if (Input.touchCount == 2)
+            {
+                if (_currentGesture == GestureType.Pinch)
+                {
+                    return GestureType.Pinch;
+                }
+                
+                if (_firstDistanceBetweenTouches == null)
+                {
+                    _firstDistanceBetweenTouches = Vector2.Distance(Input.GetTouch(FIRST_TOUCH_INDEX).position, Input.GetTouch(SECOND_TOUCH_INDEX).position);
+                }
+                
+                var distanceBetweenTouches = Vector2.Distance(Input.touches[0].position, Input.touches[1].position);
+                
+                if (Mathf.Abs(distanceBetweenTouches - (float)_firstDistanceBetweenTouches) > PINCH_GESTURE_THRESHOLD)
+                {
+                    _zoomOnStartPinch = _currentZoom;
+                    return GestureType.Pinch;
+                }
+                
+                return GestureType.Drag;
+            }
+            
+            _firstDistanceBetweenTouches = null;
+            return GestureType.None;
+        }
+
+        private void EnableInput()
+        {
+            _inputEnabled = true;
+        }
+
+        private void BlockInput()
+        {
+            _inputEnabled = false;
+        }
+
+        #endregion
+        
+        #region TOUCH
 
         private void DragTouch()
         {
-            if (Input.touchCount == 0) return;
-
             var firstTouch = Input.GetTouch(FIRST_TOUCH_INDEX);
 
             switch (firstTouch.phase)
@@ -76,6 +167,20 @@ namespace MyForest
             }
         }
 
+        private void PinchTouch()
+        {
+            if (_firstDistanceBetweenTouches == null) return;
+            
+            var currentDistance = Vector2.Distance(Input.GetTouch(FIRST_TOUCH_INDEX).position, Input.GetTouch(SECOND_TOUCH_INDEX).position);
+            var zoomFactor = Mathf.Pow(((float)_firstDistanceBetweenTouches / currentDistance), _zoomTouchSensitivity);
+            
+            SetZoom(_zoomOnStartPinch * zoomFactor);
+        }
+        
+        #endregion
+        
+        #region MOUSE
+
         private void DragMouse()
         {
             if (Input.GetMouseButtonDown(FIRST_TOUCH_INDEX))
@@ -88,6 +193,25 @@ namespace MyForest
                 _dragNextPosition = Input.mousePosition;
                 SetContainerDragPosition();
             }
+        }
+
+        private void PinchMouse()
+        {
+            var mouseWheelDirection = Input.GetAxisRaw(MOUSE_SCROLL_WHEEL_KEY);
+            
+            if (mouseWheelDirection == default) return;
+
+            SetZoom(_currentZoom - (_zoomMouseSensitivity * mouseWheelDirection));
+        }
+        
+        #endregion
+        
+        #region DRAG
+        
+        private void UpdateDragLimits(uint forestSizeLevel)
+        {
+            var limit = _forestSizeConfigurationsSource.GetDiameterByLevel(forestSizeLevel) / 2f;
+            _dragLimits = new Vector2(-limit, limit);
         }
 
         private void SetContainerDragPosition()
@@ -128,6 +252,28 @@ namespace MyForest
             }
 
             return newPosition;
+        }
+        
+        #endregion
+        
+        #region ZOOM
+
+        private void SetZoom(float newZoom)
+        {
+            _currentZoom = Mathf.Clamp(newZoom, _minZoom, _maxZoom);
+            _camera.orthographicSize = _currentZoom;
+        }
+
+        private void SetZoomWithTransition(float newZoom)
+        {
+            _zoomTween?.Kill();
+            _zoomTween = DOTween.To(()=> _camera.orthographicSize, x => _camera.orthographicSize = x, newZoom, _zoomTransitionTime);
+        }
+        
+        private void SetDefaultZoomForElementMenu()
+        {
+            SetZoomWithTransition(_defaultZoom);
+            BlockInput();
         }
 
         #endregion

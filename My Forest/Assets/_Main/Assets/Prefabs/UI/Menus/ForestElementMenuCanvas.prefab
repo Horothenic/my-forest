@@ -413,6 +413,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1492048266685492491, guid: f1b09492eaa571340ab8fac272b67a51, type: 3}
+      propertyPath: _onDisappear.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1492048266685492491, guid: f1b09492eaa571340ab8fac272b67a51, type: 3}
+      propertyPath: _onDisappear.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1492048266685492491, guid: f1b09492eaa571340ab8fac272b67a51, type: 3}
+      propertyPath: _onDisappear.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1142433229}
+    - target: {fileID: 1492048266685492491, guid: f1b09492eaa571340ab8fac272b67a51, type: 3}
+      propertyPath: _onDisappear.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1492048266685492491, guid: f1b09492eaa571340ab8fac272b67a51, type: 3}
+      propertyPath: _onDisappear.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RaiseClosedForestElementMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 1492048266685492491, guid: f1b09492eaa571340ab8fac272b67a51, type: 3}
+      propertyPath: _onDisappear.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MyForest.ForestElementMenuUI, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1492048266685492491, guid: f1b09492eaa571340ab8fac272b67a51, type: 3}
+      propertyPath: _onDisappear.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3107922725426110761, guid: f1b09492eaa571340ab8fac272b67a51, type: 3}
       propertyPath: m_IsActive
       value: 0
