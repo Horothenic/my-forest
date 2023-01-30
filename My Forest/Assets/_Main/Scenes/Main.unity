@@ -7009,10 +7009,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cameraContainer: {fileID: 1986815214}
   _camera: {fileID: 436524482}
-  _dragStrength: 0.006
+  _dragStrength: 0.01
   _minZoom: 2
   _maxZoom: 8
   _defaultZoom: 3
+  _zoomTouchSensitivity: 1.6
   _zoomMouseSensitivity: 5
   _zoomTransitionTime: 0.5
 --- !u!114 &1986815216

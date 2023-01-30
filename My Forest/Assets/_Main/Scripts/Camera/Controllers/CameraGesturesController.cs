@@ -11,6 +11,7 @@ namespace MyForest
         #region FIELDS
 
         private const int FIRST_TOUCH_INDEX = 0;
+        private const int SECOND_TOUCH_INDEX = 1;
         private const float PINCH_GESTURE_THRESHOLD = 10f;
         private const string MOUSE_SCROLL_WHEEL_KEY = "Mouse ScrollWheel";
 
@@ -28,6 +29,7 @@ namespace MyForest
         [SerializeField] private float _minZoom = 2;
         [SerializeField] private float _maxZoom = 8;
         [SerializeField] private float _defaultZoom = 3;
+        [SerializeField] private float _zoomTouchSensitivity = 1;
         [SerializeField] private float _zoomMouseSensitivity = 1;
         [SerializeField] private float _zoomTransitionTime = 0.5f;
 
@@ -36,6 +38,7 @@ namespace MyForest
         private Vector2 _dragLimits = default;
         private float? _firstDistanceBetweenTouches = null;
         private float _currentZoom = default;
+        private float _zoomOnStartPinch = default;
         private GestureType _currentGesture = GestureType.None;
         private bool _inputEnabled = true;
         private Tween _zoomTween = null;
@@ -98,7 +101,12 @@ namespace MyForest
         {
             if (Input.touchCount == 1)
             {
-                _firstDistanceBetweenTouches = null;
+                if (_currentGesture == GestureType.Pinch)
+                {
+                    _firstDistanceBetweenTouches = null;
+                    _dragPreviousPosition = Input.GetTouch(FIRST_TOUCH_INDEX).position;
+                }
+
                 return GestureType.Drag;
             }
             
@@ -111,13 +119,14 @@ namespace MyForest
                 
                 if (_firstDistanceBetweenTouches == null)
                 {
-                    _firstDistanceBetweenTouches = Vector2.Distance(Input.touches[0].rawPosition, Input.touches[1].rawPosition);
+                    _firstDistanceBetweenTouches = Vector2.Distance(Input.GetTouch(FIRST_TOUCH_INDEX).position, Input.GetTouch(SECOND_TOUCH_INDEX).position);
                 }
                 
                 var distanceBetweenTouches = Vector2.Distance(Input.touches[0].position, Input.touches[1].position);
                 
                 if (Mathf.Abs(distanceBetweenTouches - (float)_firstDistanceBetweenTouches) > PINCH_GESTURE_THRESHOLD)
                 {
+                    _zoomOnStartPinch = _currentZoom;
                     return GestureType.Pinch;
                 }
                 
@@ -160,7 +169,12 @@ namespace MyForest
 
         private void PinchTouch()
         {
-            // TODO: compare first distance with new distance and n/x will give you the factor needed to zoom down or up.
+            if (_firstDistanceBetweenTouches == null) return;
+            
+            var currentDistance = Vector2.Distance(Input.GetTouch(FIRST_TOUCH_INDEX).position, Input.GetTouch(SECOND_TOUCH_INDEX).position);
+            var zoomFactor = Mathf.Pow(((float)_firstDistanceBetweenTouches / currentDistance), _zoomTouchSensitivity);
+            
+            SetZoom(_zoomOnStartPinch * zoomFactor);
         }
         
         #endregion
@@ -187,8 +201,7 @@ namespace MyForest
             
             if (mouseWheelDirection == default) return;
 
-            _currentZoom = Mathf.Clamp(_currentZoom - (_zoomMouseSensitivity * mouseWheelDirection), _minZoom, _maxZoom);
-            _camera.orthographicSize = _currentZoom;
+            SetZoom(_currentZoom - (_zoomMouseSensitivity * mouseWheelDirection));
         }
         
         #endregion
@@ -244,6 +257,12 @@ namespace MyForest
         #endregion
         
         #region ZOOM
+
+        private void SetZoom(float newZoom)
+        {
+            _currentZoom = Mathf.Clamp(newZoom, _minZoom, _maxZoom);
+            _camera.orthographicSize = _currentZoom;
+        }
 
         private void SetZoomWithTransition(float newZoom)
         {
