@@ -16,6 +16,7 @@ namespace MyForest
         [Inject] private IForestDataSource _forestDataSource = null;
         [Inject] private IGrowthDataSource _growthDataSource = null;
         [Inject] private IGrowthConfigurationsSource _growthConfigurationsSource = null;
+        [Inject] private ICameraGesturesControlSource _cameraGesturesControlSource = null;
 
         [Header("COMPONENTS")]
         [SerializeField] private Button _levelUpButton = null;
@@ -46,6 +47,8 @@ namespace MyForest
 
         private void Show(ForestElementMenuRequest forestElementMenuRequest)
         {
+            _cameraGesturesControlSource.SetDefaultZoom();
+            
             _forestElementData = forestElementMenuRequest.ForestElementData;
             CheckState();
             _bottomMenuOpener.Appear();

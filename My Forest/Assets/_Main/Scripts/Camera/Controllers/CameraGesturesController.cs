@@ -15,9 +15,9 @@ namespace MyForest
         private const float PINCH_GESTURE_THRESHOLD = 10f;
         private const string MOUSE_SCROLL_WHEEL_KEY = "Mouse ScrollWheel";
 
-        [Inject] private IForestDataSource _forestDataSource = null;
-        [Inject] private IForestElementMenuSource _forestElementMenuSource = null;
         [Inject] private ICameraRotationDataSource _cameraRotationSource = null;
+        [Inject] private ICameraGesturesControlSource _cameraGesturesControlSource = null;
+        [Inject] private IForestDataSource _forestDataSource = null;
         [Inject] private IForestSizeConfigurationsSource _forestSizeConfigurationsSource = null;
 
         [Header("DRAG CONFIGURATIONS")]
@@ -60,8 +60,10 @@ namespace MyForest
                 
             _forestDataSource.CreatedForestObservable.Subscribe(forest => UpdateDragLimits(forest.SizeLevel)).AddTo(this);
             _forestDataSource.IncreaseForestSizeLevelObservable.Subscribe(UpdateDragLimits).AddTo(this);
-            _forestElementMenuSource.ForestElementMenuRequestedObservable.Subscribe(_ => SetDefaultZoomForElementMenu()).AddTo(this);
-            _forestElementMenuSource.ForestElementMenuClosedObservable.Subscribe(EnableInput).AddTo(this);
+            
+            _cameraGesturesControlSource.SetDefaultZoomObservable.Subscribe(SetDefaultZoom).AddTo(this);
+            _cameraGesturesControlSource.EnableInputObservable.Subscribe(EnableInput).AddTo(this);
+            _cameraGesturesControlSource.BlockInputObservable.Subscribe(BlockInput).AddTo(this);
         }
 
         private void Update()
@@ -270,10 +272,9 @@ namespace MyForest
             _zoomTween = DOTween.To(()=> _camera.orthographicSize, x => _camera.orthographicSize = x, newZoom, _zoomTransitionTime);
         }
         
-        private void SetDefaultZoomForElementMenu()
+        private void SetDefaultZoom()
         {
             SetZoomWithTransition(_defaultZoom);
-            BlockInput();
         }
 
         #endregion

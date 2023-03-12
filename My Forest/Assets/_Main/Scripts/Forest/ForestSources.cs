@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 using UniRx;
 
@@ -23,6 +24,7 @@ namespace MyForest
     public interface IForestElementConfigurationsSource
     {
         ForestElementConfiguration GetElementConfiguration(string elementName);
+        IReadOnlyList<ForestElementConfiguration> GetAllElementConfigurations();
     }
 
     public interface IForestSizeConfigurationsSource
