@@ -25,7 +25,7 @@ namespace MyForest
         uint IGrowthConfigurationsSource.ForestElementMaxLevel => (uint)_levelCosts.Length - 1;
         uint IGrowthConfigurationsSource.ForestSizeMaxLevel => (uint)_forestSizeCosts.Length - 1;
 
-        uint IGrowthConfigurationsSource.GetNextForestElementLevelCost(uint level)
+        uint IGrowthConfigurationsSource.GetNextForestElementLevelCost(int level)
         {
             try
             {

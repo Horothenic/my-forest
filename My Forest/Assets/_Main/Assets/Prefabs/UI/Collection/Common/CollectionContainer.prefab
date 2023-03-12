@@ -180,7 +180,7 @@ MonoBehaviour:
   _screenPercentageToSnap: 33
   _snapTransitionTime: 0.5
   _elementSpacing: 1250
-  _gizmoPrefab: {fileID: 5752911723316591341, guid: 44b9b93c4c808524cab706330f5387fd, type: 3}
+  _gizmoPrefab: {fileID: 7081331606552628668, guid: 44b9b93c4c808524cab706330f5387fd, type: 3}
   _gizmoNormalSize: 1
   _gizmoCurrentSize: 1.5
 --- !u!1 &7798079142846761671

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 using DG.Tweening;
+using Zenject;
 
 namespace MyForest
 {
@@ -18,7 +19,13 @@ namespace MyForest
         #region FIELDS
         
         private const int MAX_SIMULTANEOUS_ELEMENTS = 3;
-
+        private const int LEFT = 0;
+        private const int MIDDLE = 1;
+        private const int RIGHT = 2;
+        
+        [Inject] private IObjectPoolSource _objectPoolSource = null;
+        [Inject] private IVisualizerLoaderSource _visualizerLoaderSource = null;
+ 
         [Header("COMPONENTS")]
         [SerializeField] private RectTransform _elementsParent = null;
         [SerializeField] private RectTransform _gizmosParent = null;
@@ -31,14 +38,14 @@ namespace MyForest
         [SerializeField] private float _elementSpacing = 500;
 
         [Header("GIZMOS")]
-        [SerializeField] private Transform _gizmoPrefab = null;
+        [SerializeField] private GameObject _gizmoPrefab = null;
         [SerializeField] private float _gizmoNormalSize = 1;
         [SerializeField] private float _gizmoCurrentSize = 1;
 
-        private MonoBehaviour _prefab = null;
+        private GameObject _prefab = null;
         private IReadOnlyList<object> _dataCollection = null;
         private List<ICollectionElementUI> _elementsList = new();
-        private List<Transform> _gizmoList = new();
+        private List<GameObject> _gizmoList = new();
         private int _currentElementIndex = 0;
         private int _currentGizmo = 0;
         
@@ -101,7 +108,7 @@ namespace MyForest
 
         #region METHODS
 
-        public void Initialize<T>(T prefab, IReadOnlyList<object> dataCollection) where T : MonoBehaviour
+        public void Initialize(GameObject prefab, IReadOnlyList<object> dataCollection)
         {
             _currentElementIndex = 0;
             _prefab = prefab;
@@ -115,7 +122,9 @@ namespace MyForest
         {
             for (var i = 0; i < MAX_SIMULTANEOUS_ELEMENTS; i++)
             {
-                _elementsList.Add(Instantiate(_prefab, _elementsParent).GetComponent(typeof(ICollectionElementUI)) as ICollectionElementUI);
+                var element = _objectPoolSource.Borrow<ICollectionElementUI>(_prefab);
+                element.Transform.SetParent(_elementsParent);
+                _elementsList.Add(element);
             }
 
             for (var i = 0; i < _elementsList.Count; i++)
@@ -123,32 +132,33 @@ namespace MyForest
                 _elementsList[i].Transform.localPosition = new Vector3((i - 1) * _elementSpacing, 0);
             }
 
-            RefreshElementsData();
+            RefreshElementsAtWith(MIDDLE, _dataCollection[_currentElementIndex]);
         }
         
         private void CreateGizmos()
         {
             for (var i = 0; i < _dataCollection.Count; i++)
             {
-                _gizmoList.Add(Instantiate(_gizmoPrefab, _gizmosParent));
+                var gizmo = _objectPoolSource.Borrow(_gizmoPrefab);
+                gizmo.transform.SetParent(_gizmosParent);
+                _gizmoList.Add(gizmo);
             }
         }
 
-        private void RefreshElementsData()
+        private void RefreshElementsAtWith(int index, object data)
         {
-            _elementsList[0].Load(_dataCollection[CurrentLeft]);
-            _elementsList[1].Load(_dataCollection[_currentElementIndex]);
-            _elementsList[2].Load(_dataCollection[CurrentRight]);
+            _elementsList[index].Load(data);
         }
 
         private void ShiftElementsLeft()
         {
-            _currentElementIndex = CurrentLeft;
+            RefreshElementsAtWith(RIGHT, _dataCollection[CurrentRight]);
+            
+            _currentElementIndex = CurrentRight;
             _endPosition -= _elementSpacing;
             
             var left = _elementsList[0];
             left.Transform.localPosition = _elementsList.Last().Transform.localPosition + Vector3.right * _elementSpacing;
-            
             _elementsList.RemoveAt(0);
             _elementsList.Add(left);
 
@@ -157,12 +167,13 @@ namespace MyForest
 
         private void ShiftElementsRight()
         {
-            _currentElementIndex = CurrentRight;
+            RefreshElementsAtWith(LEFT, _dataCollection[CurrentLeft]);
+            
+            _currentElementIndex = CurrentLeft;
             _endPosition += _elementSpacing;
             
             var right = _elementsList.Last();
             right.Transform.localPosition = _elementsList.First().Transform.localPosition + Vector3.left * _elementSpacing;
-            
             _elementsList.RemoveAt(_elementsList.Count - 1);
             _elementsList.Insert(0, right);
             
@@ -172,13 +183,12 @@ namespace MyForest
         private void Snap()
         {
             _elementsParent
-                .DOLocalMoveX(_endPosition, _snapTransitionTime)
-                .OnComplete(RefreshElementsData);
+                .DOLocalMoveX(_endPosition, _snapTransitionTime);
             
             if (_currentElementIndex == _currentGizmo) return;
             
-            _gizmoList[_currentGizmo].DOScale(_gizmoNormalSize, _snapTransitionTime);
-            _gizmoList[_currentGizmo = _currentElementIndex].DOScale(_gizmoCurrentSize, _snapTransitionTime);
+            _gizmoList[_currentGizmo].transform.DOScale(_gizmoNormalSize, _snapTransitionTime);
+            _gizmoList[_currentGizmo = _currentElementIndex].transform.DOScale(_gizmoCurrentSize, _snapTransitionTime);
         }
         
         #endregion

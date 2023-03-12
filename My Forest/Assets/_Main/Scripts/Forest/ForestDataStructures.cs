@@ -44,7 +44,7 @@ namespace MyForest
     {
         public int Id { get; private set; }
         public string ElementName { get; private set; }
-        public uint Level { get; private set; }
+        public int Level { get; private set; }
         public SerializedVector3 Position { get; private set; }
 
         [JsonIgnore]
@@ -53,7 +53,7 @@ namespace MyForest
         public bool IsMaxLevel => Level == Configuration.MaxLevel;
 
         [JsonConstructor]
-        public ForestElementData(int id, string elementName, uint level, Vector3 position)
+        public ForestElementData(int id, string elementName, int level, Vector3 position)
         {
             Id = id;
             ElementName = elementName;

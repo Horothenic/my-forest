@@ -14,13 +14,13 @@ namespace MyForest
         private CollectionContainerUI _collectionContainer = null;
 
         [Header("CONFIGURATIONS")]
-        [SerializeField] private TreeCollectionElementUI _treeCollectionElementUIPrefab = null;
+        [SerializeField] private GameObject _treeCollectionElementUIPrefab = null;
 
         #endregion
 
         #region UNITY
 
-        private void Awake()
+        private void Start()
         {
             Initialize();
         }

@@ -23,6 +23,7 @@ namespace MyForest
             Container.BindInterfacesTo<SaveManager>().AsSingle();
             Container.BindInterfacesTo<CameraManager>().AsSingle();
             Container.BindInterfacesTo<AudioManager>().AsSingle();
+            Container.BindInterfacesTo<VisualizerManager>().AsSingle();
 
             Container.BindInterfacesTo<ForestElementConfigurations>().FromInstance(_forestElementConfigurations).AsSingle();
             Container.BindInterfacesTo<ForestSizeConfigurations>().FromInstance(_forestSizeConfigurations).AsSingle();

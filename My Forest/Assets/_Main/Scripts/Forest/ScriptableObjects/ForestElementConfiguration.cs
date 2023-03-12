@@ -32,7 +32,7 @@ namespace MyForest
 
         #region METHODS
 
-        public GameObject GetLevelPrefab(uint level)
+        public GameObject GetLevelPrefab(int level)
         {
             return level > (_levels.Length - 1) ? null : _levels[level];
         }
