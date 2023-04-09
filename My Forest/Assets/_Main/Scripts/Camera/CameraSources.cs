@@ -4,15 +4,14 @@ using UniRx;
 
 namespace MyForest
 {
-    public interface ICameraRotationDataSource
+    public interface ICameraRotationSource
     {
-        IObservable<float> RotationAnglesObservable { get; }
+        IObservable<Unit> RotatedLeftObservable { get; }
+        IObservable<Unit> RotatedRightObservable { get; }
         float CurrentRotationAngles { get; }
-    }
-
-    public interface ICameraRotationEventsSource
-    {
-        void OnCameraAnglesChanged(float anglesChange);
+        void RotateLeft();
+        void RotateRight();
+        void ChangeCameraAngle(float anglesChange);
     }
 
     public interface ICameraFirstIntroSource

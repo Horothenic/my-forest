@@ -5,7 +5,7 @@ using UniRx;
 using TMPro;
 using DG.Tweening;
 
-namespace MyForest
+namespace MyForest.UI
 {
     public class CurrentGrowthPointsUI : MonoBehaviour
     {
@@ -57,7 +57,7 @@ namespace MyForest
         {
             if (growthData == null) return;
 
-            _text.text = growthData.CurrentGrowth.ToString();
+            _text.text = growthData.CurrentGrowthDays.ToString();
 
             if (animate)
             {

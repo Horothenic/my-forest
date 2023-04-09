@@ -10,14 +10,9 @@ namespace MyForest
     {
         #region FIELDS
 
-        [Inject] private IGrowthEventSource _growthEventSource = null;
-        [Inject] private IGrowthConfigurationsSource _growthConfigurationsSource = null;
-        [Inject] private IForestElementConfigurationsSource _elementConfigurations = null;
+        [Inject] private ITreeCollectionSource _elementConfigurations = null;
 
-        private Subject<uint> _increaseForestSizeLevelSubject = new Subject<uint>();
-        private Subject<ForestElementMenuRequest> _forestElementMenuRequestedSubject = new Subject<ForestElementMenuRequest>();
-        private Subject<Unit> _forestElementMenuClosedSubject = new Subject<Unit>();
-        private Dictionary<int, Subject<ForestElementData>> _forestElementDataSubjectMap = new Dictionary<int, Subject<ForestElementData>>();
+        private Dictionary<int, Subject<TreeData>> _treeDataSubjectMap = new Dictionary<int, Subject<TreeData>>();
 
         #endregion
     }
@@ -33,7 +28,7 @@ namespace MyForest
                 data = _saveSource.LoadJSONFromResources<ForestData>(Constants.Forest.DEFAULT_FOREST_DATA_FILE);
             }
 
-            foreach (var element in data.ForestElements)
+            foreach (var element in data.Trees)
             {
                 element.Hydrate(_elementConfigurations);
             }
@@ -50,81 +45,21 @@ namespace MyForest
 
     public partial class ForestManager : IForestDataSource
     {
-        IObservable<ForestData> IForestDataSource.CreatedForestObservable => DataObservable;
+        IObservable<ForestData> IForestDataSource.ForestObservable => DataObservable;
 
-        IObservable<uint> IForestDataSource.IncreaseForestSizeLevelObservable => _increaseForestSizeLevelSubject.AsObservable();
-
-        uint IForestDataSource.CurrentForestSize => Data.SizeLevel;
-
-        bool IForestDataSource.IsForestMaxSize => Data.SizeLevel == _growthConfigurationsSource.ForestSizeMaxLevel;
-
-        IObservable<ForestElementData> IForestDataSource.GetForestElementDataObservable(ForestElementData elementData)
+        IObservable<TreeData> IForestDataSource.GetTreeDataObservable(TreeData elementData)
         {
             return GetForestElementDataSubject(elementData.Id).AsObservable();
         }
 
-        private Subject<ForestElementData> GetForestElementDataSubject(int id)
+        private Subject<TreeData> GetForestElementDataSubject(int id)
         {
-            if (!_forestElementDataSubjectMap.ContainsKey(id))
+            if (!_treeDataSubjectMap.ContainsKey(id))
             {
-                _forestElementDataSubjectMap.Add(id, new Subject<ForestElementData>());
+                _treeDataSubjectMap.Add(id, new Subject<TreeData>());
             }
 
-            return _forestElementDataSubjectMap[id];
-        }
-
-        bool IForestDataSource.TryIncreaseForestElementLevel(ForestElementData elementData)
-        {
-            if (!_growthEventSource.TrySpendGrowthForForestElementLevel(elementData.Level)) return false;
-
-            elementData.IncreaseLevel();
-            GetForestElementDataSubject(elementData.Id).OnNext(elementData);
-            Save();
-            return true;
-        }
-
-        bool IForestDataSource.TryIncreaseForestSize()
-        {
-            if (!_growthEventSource.TrySpendGrowthForForestSizeLevel(Data.SizeLevel)) return false;
-
-            Data.IncreaseSizeLevel();
-            _increaseForestSizeLevelSubject.OnNext(Data.SizeLevel);
-            Save();
-            return true;
-        }
-    }
-
-    public partial class ForestManager : IForestAddDataSource
-    {
-        void IForestAddDataSource.AddForestElement(ForestElementData newForestElement)
-        {
-            Data.AddForestElement(newForestElement);
-        }
-    }
-
-    public partial class ForestManager : IForestElementMenuSource
-    {
-        IObservable<ForestElementMenuRequest> IForestElementMenuSource.ForestElementMenuRequestedObservable => _forestElementMenuRequestedSubject.AsObservable();
-        IObservable<Unit> IForestElementMenuSource.ForestElementMenuClosedObservable => _forestElementMenuClosedSubject.AsObservable();
-
-        void IForestElementMenuSource.RequestForestElementMenu(ForestElementMenuRequest request)
-        {
-            _forestElementMenuRequestedSubject.OnNext(request);
-        }
-
-        void IForestElementMenuSource.RaiseCloseForestElementMenu()
-        {
-            _forestElementMenuClosedSubject.OnNext();
-        }
-    }
-
-    public partial class ForestManager : Debug.IForestDebugSource
-    {
-        void Debug.IForestDebugSource.IncreaseForestSize()
-        {
-            Data.IncreaseSizeLevel();
-            _increaseForestSizeLevelSubject.OnNext(Data.SizeLevel);
-            Save();
+            return _treeDataSubjectMap[id];
         }
     }
 }

@@ -6,26 +6,25 @@ using UnityEngine.EventSystems;
 using DG.Tweening;
 using Zenject;
 
-namespace MyForest
+namespace MyForest.UI
 {
     public interface ICollectionElementUI
     {
         void Load(object data);
         Transform Transform { get; }
     }
-    
+
     public class CollectionContainerUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         #region FIELDS
-        
+
         private const int MAX_SIMULTANEOUS_ELEMENTS = 3;
         private const int LEFT = 0;
         private const int MIDDLE = 1;
         private const int RIGHT = 2;
-        
+
         [Inject] private IObjectPoolSource _objectPoolSource = null;
-        [Inject] private IVisualizerLoaderSource _visualizerLoaderSource = null;
- 
+
         [Header("COMPONENTS")]
         [SerializeField] private RectTransform _elementsParent = null;
         [SerializeField] private RectTransform _gizmosParent = null;
@@ -48,7 +47,7 @@ namespace MyForest
         private List<GameObject> _gizmoList = new();
         private int _currentElementIndex = 0;
         private int _currentGizmo = 0;
-        
+
         private float _offsetToSnap = default;
         private float _startPosition = default;
         private float _endPosition = default;
@@ -77,16 +76,16 @@ namespace MyForest
         void IDragHandler.OnDrag(PointerEventData eventData)
         {
             if (_snapped) return;
-            
+
             _currentDragOffset = eventData.position.x - _startDragPosition;
             _elementsParent.localPosition = new Vector3(_startPosition + _currentDragOffset, 0);
-            
+
             if (_currentDragOffset > _offsetToSnap)
             {
                 _snapped = true;
                 ShiftElementsRight();
             }
-            else if (_currentDragOffset <  -_offsetToSnap)
+            else if (_currentDragOffset < -_offsetToSnap)
             {
                 _snapped = true;
                 ShiftElementsLeft();
@@ -100,7 +99,7 @@ namespace MyForest
                 _snapped = false;
                 return;
             }
-            
+
             Snap();
         }
 
@@ -113,11 +112,11 @@ namespace MyForest
             _currentElementIndex = 0;
             _prefab = prefab;
             _dataCollection = dataCollection;
-            
+
             CreateElements();
             CreateGizmos();
         }
-        
+
         private void CreateElements()
         {
             for (var i = 0; i < MAX_SIMULTANEOUS_ELEMENTS; i++)
@@ -134,7 +133,7 @@ namespace MyForest
 
             RefreshElementsAtWith(MIDDLE, _dataCollection[_currentElementIndex]);
         }
-        
+
         private void CreateGizmos()
         {
             for (var i = 0; i < _dataCollection.Count; i++)
@@ -153,10 +152,10 @@ namespace MyForest
         private void ShiftElementsLeft()
         {
             RefreshElementsAtWith(RIGHT, _dataCollection[CurrentRight]);
-            
+
             _currentElementIndex = CurrentRight;
             _endPosition -= _elementSpacing;
-            
+
             var left = _elementsList[0];
             left.Transform.localPosition = _elementsList.Last().Transform.localPosition + Vector3.right * _elementSpacing;
             _elementsList.RemoveAt(0);
@@ -168,15 +167,15 @@ namespace MyForest
         private void ShiftElementsRight()
         {
             RefreshElementsAtWith(LEFT, _dataCollection[CurrentLeft]);
-            
+
             _currentElementIndex = CurrentLeft;
             _endPosition += _elementSpacing;
-            
+
             var right = _elementsList.Last();
             right.Transform.localPosition = _elementsList.First().Transform.localPosition + Vector3.left * _elementSpacing;
             _elementsList.RemoveAt(_elementsList.Count - 1);
             _elementsList.Insert(0, right);
-            
+
             Snap();
         }
 
@@ -184,13 +183,13 @@ namespace MyForest
         {
             _elementsParent
                 .DOLocalMoveX(_endPosition, _snapTransitionTime);
-            
+
             if (_currentElementIndex == _currentGizmo) return;
-            
+
             _gizmoList[_currentGizmo].transform.DOScale(_gizmoNormalSize, _snapTransitionTime);
             _gizmoList[_currentGizmo = _currentElementIndex].transform.DOScale(_gizmoCurrentSize, _snapTransitionTime);
         }
-        
+
         #endregion
     }
 }

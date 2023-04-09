@@ -15,16 +15,14 @@ namespace MyForest
         private const float PINCH_GESTURE_THRESHOLD = 10f;
         private const string MOUSE_SCROLL_WHEEL_KEY = "Mouse ScrollWheel";
 
-        [Inject] private ICameraRotationDataSource _cameraRotationSource = null;
+        [Inject] private ICameraRotationSource _cameraRotationSource = null;
         [Inject] private ICameraGesturesControlSource _cameraGesturesControlSource = null;
-        [Inject] private IForestDataSource _forestDataSource = null;
-        [Inject] private IForestSizeConfigurationsSource _forestSizeConfigurationsSource = null;
 
         [Header("DRAG CONFIGURATIONS")]
         [SerializeField] private Transform _cameraContainer = null;
         [SerializeField] private Camera _camera = null;
         [SerializeField] private float _dragStrength = 1;
-        
+
         [Header("PINCH CONFIGURATIONS")]
         [SerializeField] private float _minZoom = 2;
         [SerializeField] private float _maxZoom = 8;
@@ -42,7 +40,7 @@ namespace MyForest
         private GestureType _currentGesture = GestureType.None;
         private bool _inputEnabled = true;
         private Tween _zoomTween = null;
-        
+
         private enum GestureType
         {
             None,
@@ -57,10 +55,7 @@ namespace MyForest
         private void Start()
         {
             _currentZoom = _minZoom;
-                
-            _forestDataSource.CreatedForestObservable.Subscribe(forest => UpdateDragLimits(forest.SizeLevel)).AddTo(this);
-            _forestDataSource.IncreaseForestSizeLevelObservable.Subscribe(UpdateDragLimits).AddTo(this);
-            
+
             _cameraGesturesControlSource.SetDefaultZoomObservable.Subscribe(SetDefaultZoom).AddTo(this);
             _cameraGesturesControlSource.EnableInputObservable.Subscribe(EnableInput).AddTo(this);
             _cameraGesturesControlSource.BlockInputObservable.Subscribe(BlockInput).AddTo(this);
@@ -78,7 +73,7 @@ namespace MyForest
         private void CheckInput()
         {
             if (!_inputEnabled) return;
-            
+
 #if UNITY_EDITOR
             DragMouse();
             PinchMouse();
@@ -111,30 +106,30 @@ namespace MyForest
 
                 return GestureType.Drag;
             }
-            
+
             if (Input.touchCount == 2)
             {
                 if (_currentGesture == GestureType.Pinch)
                 {
                     return GestureType.Pinch;
                 }
-                
+
                 if (_firstDistanceBetweenTouches == null)
                 {
                     _firstDistanceBetweenTouches = Vector2.Distance(Input.GetTouch(FIRST_TOUCH_INDEX).position, Input.GetTouch(SECOND_TOUCH_INDEX).position);
                 }
-                
+
                 var distanceBetweenTouches = Vector2.Distance(Input.touches[0].position, Input.touches[1].position);
-                
+
                 if (Mathf.Abs(distanceBetweenTouches - (float)_firstDistanceBetweenTouches) > PINCH_GESTURE_THRESHOLD)
                 {
                     _zoomOnStartPinch = _currentZoom;
                     return GestureType.Pinch;
                 }
-                
+
                 return GestureType.Drag;
             }
-            
+
             _firstDistanceBetweenTouches = null;
             return GestureType.None;
         }
@@ -150,7 +145,7 @@ namespace MyForest
         }
 
         #endregion
-        
+
         #region TOUCH
 
         private void DragTouch()
@@ -172,15 +167,15 @@ namespace MyForest
         private void PinchTouch()
         {
             if (_firstDistanceBetweenTouches == null) return;
-            
+
             var currentDistance = Vector2.Distance(Input.GetTouch(FIRST_TOUCH_INDEX).position, Input.GetTouch(SECOND_TOUCH_INDEX).position);
             var zoomFactor = Mathf.Pow(((float)_firstDistanceBetweenTouches / currentDistance), _zoomTouchSensitivity);
-            
+
             SetZoom(_zoomOnStartPinch * zoomFactor);
         }
-        
+
         #endregion
-        
+
         #region MOUSE
 
         private void DragMouse()
@@ -200,21 +195,15 @@ namespace MyForest
         private void PinchMouse()
         {
             var mouseWheelDirection = Input.GetAxisRaw(MOUSE_SCROLL_WHEEL_KEY);
-            
+
             if (mouseWheelDirection == default) return;
 
             SetZoom(_currentZoom - (_zoomMouseSensitivity * mouseWheelDirection));
         }
-        
+
         #endregion
-        
+
         #region DRAG
-        
-        private void UpdateDragLimits(uint forestSizeLevel)
-        {
-            var limit = _forestSizeConfigurationsSource.GetDiameterByLevel(forestSizeLevel) / 2f;
-            _dragLimits = new Vector2(-limit, limit);
-        }
 
         private void SetContainerDragPosition()
         {
@@ -255,9 +244,9 @@ namespace MyForest
 
             return newPosition;
         }
-        
+
         #endregion
-        
+
         #region ZOOM
 
         private void SetZoom(float newZoom)
@@ -269,9 +258,9 @@ namespace MyForest
         private void SetZoomWithTransition(float newZoom)
         {
             _zoomTween?.Kill();
-            _zoomTween = DOTween.To(()=> _camera.orthographicSize, x => _camera.orthographicSize = x, newZoom, _zoomTransitionTime);
+            _zoomTween = DOTween.To(() => _camera.orthographicSize, x => _camera.orthographicSize = x, newZoom, _zoomTransitionTime);
         }
-        
+
         private void SetDefaultZoom()
         {
             SetZoomWithTransition(_defaultZoom);

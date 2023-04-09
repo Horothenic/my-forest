@@ -5,12 +5,12 @@ using UnityEngine.Events;
 using DG.Tweening;
 using Zenject;
 
-namespace MyForest
+namespace MyForest.UI
 {
     public class FullScreenMenuOpenerUI : MonoBehaviour
     {
         #region FIELDS
-        
+
         [Inject] private ICameraGesturesControlSource _cameraGesturesControlSource = null;
 
         [Header("COMPONENTS")]
@@ -26,7 +26,7 @@ namespace MyForest
         [SerializeField] private UnityEvent _onDisappear = default;
 
         private Vector2 _originalInnerContainerPosition = default;
-        
+
         #endregion
 
         #region UNITY
@@ -49,7 +49,7 @@ namespace MyForest
 
             var anchoredPosition = _innerContainer.anchoredPosition;
             _originalInnerContainerPosition = anchoredPosition;
-            
+
             anchoredPosition += Vector2.up * _mainContainer.rect.height;
             _innerContainer.anchoredPosition = anchoredPosition;
         }
@@ -71,13 +71,13 @@ namespace MyForest
 
             _mainContainer.gameObject.SetActive(appear);
         }
-        
+
         private void OnAppear()
         {
             _cameraGesturesControlSource.BlockInput();
             _onAppear?.Invoke();
         }
-        
+
         private void OnDisappear()
         {
             _cameraGesturesControlSource.EnableInput();

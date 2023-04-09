@@ -9,6 +9,8 @@ namespace MyForest
     {
         #region FIELDS
 
+        private Subject<Unit> _rotateLeftSubject = new Subject<Unit>();
+        private Subject<Unit> _rotateRightSubject = new Subject<Unit>();
         private DataSubject<float> _rotationAnglesSubject = new DataSubject<float>(Constants.Camera.QUARTER_CIRCLE_ANGLE);
         private Subject<Unit> _introFinishedSubject = new Subject<Unit>();
         private Subject<Unit> _enableInputSubject = new Subject<Unit>();
@@ -31,17 +33,25 @@ namespace MyForest
         }
     }
 
-    public partial class CameraManager : ICameraRotationDataSource
+    public partial class CameraManager : ICameraRotationSource
     {
-        IObservable<float> ICameraRotationDataSource.RotationAnglesObservable => throw new NotImplementedException();
-        float ICameraRotationDataSource.CurrentRotationAngles => _rotationAnglesSubject.Value;
-    }
+        float ICameraRotationSource.CurrentRotationAngles => _rotationAnglesSubject.Value;
+        IObservable<Unit> ICameraRotationSource.RotatedLeftObservable => _rotateLeftSubject.AsObservable();
+        IObservable<Unit> ICameraRotationSource.RotatedRightObservable => _rotateRightSubject.AsObservable();
 
-    public partial class CameraManager : ICameraRotationEventsSource
-    {
-        void ICameraRotationEventsSource.OnCameraAnglesChanged(float anglesChange)
+        void ICameraRotationSource.ChangeCameraAngle(float anglesChange)
         {
             _rotationAnglesSubject.OnNext(_rotationAnglesSubject.Value + anglesChange);
+        }
+
+        void ICameraRotationSource.RotateLeft()
+        {
+            _rotateLeftSubject.OnNext();
+        }
+
+        void ICameraRotationSource.RotateRight()
+        {
+            _rotateRightSubject.OnNext();
         }
     }
 

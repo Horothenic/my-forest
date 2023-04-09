@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using UniRx;
 using Zenject;
 
-namespace MyForest
+namespace MyForest.UI
 {
     public class ClaimDailyGrowthPointsUI : MonoBehaviour
     {

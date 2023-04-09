@@ -1,10 +1,10 @@
 using UnityEngine;
-using UnityEngine.UI;
 using System;
 
 using Zenject;
 using DG.Tweening;
 using Cysharp.Threading.Tasks;
+using UniRx;
 
 namespace MyForest
 {
@@ -12,11 +12,7 @@ namespace MyForest
     {
         #region FIELDS
 
-        [Inject] private ICameraRotationEventsSource _cameraEventsSource = null;
-
-        [Header("COMPONENTS")]
-        [SerializeField] private Button _rotateLeftButton = null;
-        [SerializeField] private Button _rotateRightButton = null;
+        [Inject] private ICameraRotationSource _cameraEventsSource = null;
 
         [Header("CONFIGURATIONS")]
         [SerializeField] private Transform _cameraContainer = null;
@@ -32,8 +28,8 @@ namespace MyForest
 
         private void Awake()
         {
-            _rotateLeftButton.onClick.AddListener(RotateLeft);
-            _rotateRightButton.onClick.AddListener(RotateRight);
+            _cameraEventsSource.RotatedLeftObservable.Subscribe(RotateLeft).AddTo(this);
+            _cameraEventsSource.RotatedRightObservable.Subscribe(RotateRight).AddTo(this);
         }
 
         #endregion
@@ -56,7 +52,7 @@ namespace MyForest
 
         private void Rotate(int angles)
         {
-            _cameraEventsSource.OnCameraAnglesChanged(angles);
+            _cameraEventsSource.ChangeCameraAngle(angles);
             _cameraContainer.DORotate(Vector3.up * angles, _rotationDuration).SetRelative().SetEase(_rotationEase);
             WaitEnableRotation().Forget();
         }

@@ -7,8 +7,7 @@ namespace MyForest
     [Serializable]
     public class GrowthData
     {
-        public uint AllTimeGrowth { get; private set; }
-        public uint CurrentGrowth { get; private set; }
+        public int CurrentGrowthDays { get; private set; }
         public DateTime LastClaimDateTime { get; private set; }
         public DateTime NextExtraClaimDateTime { get; private set; }
 
@@ -31,10 +30,9 @@ namespace MyForest
         public GrowthData() { }
 
         [JsonConstructor]
-        public GrowthData(uint currentGrowth, uint allTimeGrowth, string lastClaimDateTime, string nextExtraClaimDateTime)
+        public GrowthData(int currentGrowthDays, string lastClaimDateTime, string nextExtraClaimDateTime)
         {
-            AllTimeGrowth = allTimeGrowth;
-            CurrentGrowth = currentGrowth;
+            CurrentGrowthDays = currentGrowthDays;
 
             if (!string.IsNullOrEmpty(lastClaimDateTime))
             {
@@ -47,22 +45,9 @@ namespace MyForest
             }
         }
 
-        public void IncreaseGrowth(uint increment)
+        public void IncreaseGrowth(int increment)
         {
-            CurrentGrowth += increment;
-            AllTimeGrowth += increment;
-        }
-
-        public bool DecreaseGrowth(uint decrement)
-        {
-            if (CurrentGrowth < decrement)
-            {
-                return false;
-            }
-
-            CurrentGrowth -= decrement;
-
-            return true;
+            CurrentGrowthDays += increment;
         }
 
         public void SetLastClaimDateTime(DateTime dateTime)
@@ -70,7 +55,7 @@ namespace MyForest
             LastClaimDateTime = dateTime;
         }
 
-        public void SetNextExtraClaimDateTime(ulong secondsToNextExtraClaimDate)
+        public void SetNextExtraClaimDateTime(int secondsToNextExtraClaimDate)
         {
             NextExtraClaimDateTime = DateTime.Now + TimeSpan.FromSeconds(secondsToNextExtraClaimDate);
         }

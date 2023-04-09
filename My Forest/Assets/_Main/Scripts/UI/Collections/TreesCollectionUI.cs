@@ -2,15 +2,16 @@ using UnityEngine;
 
 using Zenject;
 
-namespace MyForest
+namespace MyForest.UI
 {
     public class TreesCollectionUI : MonoBehaviour
     {
         #region FIELDS
-        
-        [Inject] private IForestElementConfigurationsSource _forestElementConfigurationsSource = null;
 
-        [Header("COMPONENTS")] [SerializeField]
+        [Inject] private ITreeCollectionSource _forestElementConfigurationsSource = null;
+
+        [Header("COMPONENTS")]
+        [SerializeField]
         private CollectionContainerUI _collectionContainer = null;
 
         [Header("CONFIGURATIONS")]
