@@ -5,12 +5,12 @@ using UnityEngine.Events;
 using DG.Tweening;
 using Zenject;
 
-namespace MyForest
+namespace MyForest.UI
 {
     public class BottomMenuOpenerUI : MonoBehaviour
     {
         #region FIELDS
-        
+
         [Inject] private ICameraGesturesControlSource _cameraGesturesControlSource = null;
 
         [Header("COMPONENTS")]
@@ -48,7 +48,7 @@ namespace MyForest
         public void Appear()
         {
             OnAppear();
-            
+
             _currentSequence.Kill();
             _currentSequence = DOTween.Sequence();
 
@@ -59,20 +59,20 @@ namespace MyForest
         public void Disappear()
         {
             OnDisappear();
-            
+
             _currentSequence.Kill();
             _currentSequence = DOTween.Sequence();
 
             _currentSequence.Append(_container.DOAnchorPosY(-_container.rect.height, _transitionTime));
             _currentSequence.AppendCallback(() => _mainContainer.SetActive(false));
         }
-        
+
         private void OnAppear()
         {
             _cameraGesturesControlSource.BlockInput();
             _onAppear?.Invoke();
         }
-        
+
         private void OnDisappear()
         {
             _cameraGesturesControlSource.EnableInput();

@@ -6,7 +6,7 @@ using Zenject;
 using UniRx;
 using EasyMobile;
 
-namespace MyForest
+namespace MyForest.UI
 {
     public class ClaimExtraDailyGrowthPointsUI : MonoBehaviour
     {

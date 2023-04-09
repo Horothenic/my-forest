@@ -9,92 +9,62 @@ namespace MyForest
     [Serializable]
     public class ForestData
     {
-        private List<ForestElementData> _forestElements = new List<ForestElementData>();
+        private List<TreeData> _trees = new List<TreeData>();
 
-        public uint SizeLevel { get; private set; }
-        public IReadOnlyList<ForestElementData> ForestElements => _forestElements;
+        public IReadOnlyList<TreeData> Trees => _trees;
 
         [JsonIgnore]
-        public int ForestElementsCount => _forestElements.Count;
+        public int TreeCount => _trees.Count;
         [JsonIgnore]
-        public bool IsEmpty => _forestElements.Count == default;
+        public bool IsEmpty => _trees.Count == default;
 
         public ForestData() { }
 
         [JsonConstructor]
-        public ForestData(uint sizeLevel, List<ForestElementData> forestElements)
+        public ForestData(List<TreeData> trees)
         {
-            SizeLevel = sizeLevel;
-            _forestElements = forestElements;
+            _trees = trees;
         }
 
-        public void AddForestElement(ForestElementData newForestElement)
+        public void AddForestElement(TreeData newForestElement)
         {
-            _forestElements.Add(newForestElement);
-        }
-
-        public void IncreaseSizeLevel()
-        {
-            SizeLevel++;
+            _trees.Add(newForestElement);
         }
     }
 
     [Serializable]
-    public class ForestElementData
+    public class TreeData
     {
         public int Id { get; private set; }
-        public string ElementName { get; private set; }
-        public int Level { get; private set; }
+        public string TreeID { get; private set; }
+        public int CreationDay { get; private set; }
         public SerializedVector3 Position { get; private set; }
+        public SerializedVector3 Rotation { get; private set; }
 
         [JsonIgnore]
-        public ForestElementConfiguration Configuration { get; private set; }
-        [JsonIgnore]
-        public bool IsMaxLevel => Level == Configuration.MaxLevel;
+        public TreeConfiguration Configuration { get; private set; }
 
         [JsonConstructor]
-        public ForestElementData(int id, string elementName, int level, Vector3 position)
+        public TreeData(int id, string treeID, int level, Vector3 position, Vector3 rotation)
         {
             Id = id;
-            ElementName = elementName;
-            Level = level;
+            TreeID = treeID;
+            CreationDay = level;
             Position = position;
+            Rotation = rotation;
         }
 
-        public void Hydrate(IForestElementConfigurationsSource elementConfigurationsSource)
+        public void Hydrate(ITreeCollectionSource elementConfigurationsSource)
         {
-            Configuration = elementConfigurationsSource.GetElementConfiguration(ElementName);
-        }
-
-        public void IncreaseLevel()
-        {
-            Level++;
+            Configuration = elementConfigurationsSource.GetTreeConfiguration(TreeID);
         }
     }
 
-    public class ForestElementMenuRequest
+    public enum TreeRarity
     {
-        public GameObject Requester { get; private set; }
-        public ForestElementData ForestElementData { get; private set; }
-
-        public ForestElementMenuRequest(GameObject requester, ForestElementData forestElementData)
-        {
-            Requester = requester;
-            ForestElementData = forestElementData;
-        }
-    }
-
-    public enum ForestElementType
-    {
-        Bush,
-        DeadTree,
-        Ground,
-        PalmTree,
-        PineTree,
-        Plant,
-        Rock,
-        SimpleTree,
-        Twig,
-        Seed
+        Common,
+        Rare,
+        Exquisite,
+        Endangered
     }
 }

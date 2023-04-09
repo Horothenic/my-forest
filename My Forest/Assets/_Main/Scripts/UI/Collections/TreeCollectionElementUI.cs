@@ -4,12 +4,12 @@ using UnityEngine.UI;
 using Lean.Localization;
 using Zenject;
 
-namespace MyForest
+namespace MyForest.UI
 {
     public partial class TreeCollectionElementUI : MonoBehaviour
     {
         #region FIELDS
-        
+
         [Inject] private IVisualizerLoaderSource _visualizerLoaderSource = null;
 
         [Header("COMPONENTS")]
@@ -17,11 +17,11 @@ namespace MyForest
         [SerializeField] private LeanLocalizedTextMeshProUGUI _description = null;
         [SerializeField] private Button _previousButton = null;
         [SerializeField] private Button _nextButton = null;
-        
+
         [Header("CONFIGURATIONS")]
         [SerializeField] private string _levelToken = null;
-        
-        private ForestElementConfiguration _currentElementConfiguration = null;
+
+        private TreeConfiguration _currentElementConfiguration = null;
         private int _currentLevel = default;
 
         private void Awake()
@@ -54,25 +54,25 @@ namespace MyForest
 
         private void RefreshVisualizer()
         {
-            _visualizerLoaderSource.LoadVisualizer(_currentElementConfiguration.GetLevelPrefab(_currentLevel));
+            _visualizerLoaderSource.LoadVisualizer(_currentElementConfiguration.GetConfigurationLevel(_currentLevel).Prefab);
         }
 
         #endregion
     }
-    
+
     public partial class TreeCollectionElementUI : ICollectionElementUI
     {
         Transform ICollectionElementUI.Transform => transform;
 
         void ICollectionElementUI.Load(object newElementConfiguration)
         {
-            if (newElementConfiguration is not ForestElementConfiguration configuration) return;
+            if (newElementConfiguration is not TreeConfiguration configuration) return;
 
             _currentElementConfiguration = configuration;
-            
+
             _displayName.TranslationName = _currentElementConfiguration.DisplayName;
             _description.TranslationName = _currentElementConfiguration.Description;
-            
+
             _currentLevel = default;
             RefreshLevel();
             RefreshVisualizer();

@@ -1,20 +1,15 @@
 {
-  "GroundElements": [
+  "Trees": [
     {
-      "GroundName": "Ground_03",
+      "Id": "0",
+      "TreeID": "Tree_1",
+      "CreationDay": 0,
       "Position": {
         "x": 0.0,
         "y": 0.0,
         "z": 0.0
-      }
-    },
-  ],
-  "ForestElements": [
-    {
-      "Id": "0",
-      "ElementName": "Tree_1",
-      "Level": 0,
-      "Position": {
+      },
+      "Rotation": {
         "x": 0.0,
         "y": 0.0,
         "z": 0.0
