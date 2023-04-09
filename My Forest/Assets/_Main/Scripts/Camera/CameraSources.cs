@@ -22,4 +22,14 @@ namespace MyForest
         IObservable<Unit> IntroFinishedObservable { get; }
         void IntroFinishedPlaying();
     }
+
+    public interface ICameraGesturesControlSource
+    {
+        IObservable<Unit> EnableInputObservable { get; }
+        void EnableInput();
+        IObservable<Unit> BlockInputObservable { get; }
+        void BlockInput();
+        IObservable<Unit> SetDefaultZoomObservable { get; }
+        void SetDefaultZoom();
+    }
 }

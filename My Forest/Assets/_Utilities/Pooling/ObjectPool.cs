@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using Zenject;
@@ -43,9 +44,9 @@ namespace UnityEngine
             return gameObject;
         }
 
-        private T Borrow<T>(T prefab) where T : MonoBehaviour
+        private T Borrow<T>(GameObject prefab) where T : class
         {
-            return Borrow(prefab.gameObject).GetComponent<T>();
+            return Borrow(prefab).GetComponent(typeof(T)) as T;
         }
 
         private void Return(GameObject gameObject)
@@ -68,8 +69,8 @@ namespace UnityEngine
     public partial class ObjectPool : IObjectPoolSource
     {
         GameObject IObjectPoolSource.Borrow(GameObject prefab) => Borrow(prefab);
-        T IObjectPoolSource.Borrow<T>(T prefab) => Borrow<T>(prefab);
-
+        T IObjectPoolSource.Borrow<T>(GameObject prefab) => Borrow<T>(prefab);
+        T IObjectPoolSource.Borrow<T>(T prefab) => Borrow<T>(prefab.gameObject);
         void IObjectPoolSource.Return(GameObject gameObject) => Return(gameObject);
     }
 }

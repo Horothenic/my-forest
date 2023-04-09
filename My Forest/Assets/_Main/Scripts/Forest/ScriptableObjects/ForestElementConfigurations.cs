@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace MyForest
@@ -34,5 +35,6 @@ namespace MyForest
     public partial class ForestElementConfigurations : IForestElementConfigurationsSource
     {
         ForestElementConfiguration IForestElementConfigurationsSource.GetElementConfiguration(string elementName) => GetElementConfiguration(elementName);
+        IReadOnlyList<ForestElementConfiguration> IForestElementConfigurationsSource.GetAllElementConfigurations() => _elementConfigurations;
     }
 }

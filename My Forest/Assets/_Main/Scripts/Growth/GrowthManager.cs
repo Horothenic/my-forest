@@ -71,7 +71,7 @@ namespace MyForest
         IObservable<bool> IGrowthDataSource.ClaimDailyExtraGrowthAvailable => _growthDailyExtraClaimAvailableSubject.AsObservable(true);
         double IGrowthDataSource.ExtraDailyGrowthSecondsLeft => Data.NextExtraDailyGrowthSecondsLeft;
 
-        bool IGrowthDataSource.HaveEnoughGrowthForElementLevelUp(uint level)
+        bool IGrowthDataSource.HaveEnoughGrowthForElementLevelUp(int level)
         {
             return _configurations.GetNextForestElementLevelCost(level) <= Data.CurrentGrowth;
         }
@@ -100,7 +100,7 @@ namespace MyForest
             IncreaseGrowth(_configurations.DailyGrowth);
         }
 
-        bool IGrowthEventSource.TrySpendGrowthForForestElementLevel(uint level)
+        bool IGrowthEventSource.TrySpendGrowthForForestElementLevel(int level)
         {
             var amountForNextLevel = _configurations.GetNextForestElementLevelCost(level);
             return DecreaseGrowth(amountForNextLevel);
