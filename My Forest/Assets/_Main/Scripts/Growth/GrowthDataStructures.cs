@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 using Newtonsoft.Json;
 
@@ -72,5 +73,42 @@ namespace MyForest
         {
             return NextExtraDailyGrowthSecondsLeft <= 0;
         }
+    }
+
+    public interface IGrowthTrackEvent
+    {
+        string Name { get; }
+        public GrowthTrackEventType EventType { get; }
+    }
+
+    [Serializable]
+    public class GrowthTrackRecurringEvent : IGrowthTrackEvent
+    {
+        [SerializeField] private string _name = default;
+        [SerializeField] private GrowthTrackEventType _eventType = default;
+        [SerializeField] private int _startDay = default;
+        [SerializeField] private int _daysInterval = default;
+
+        public string Name => _name;
+        public GrowthTrackEventType EventType => _eventType;
+        public int StartDay => _startDay;
+        public int DaysInterval => _daysInterval;
+    }
+
+    [Serializable]
+    public class GrowthTrackEvent : IGrowthTrackEvent
+    {
+        [SerializeField] private string _name = default;
+        [SerializeField] private GrowthTrackEventType _eventType = default;
+        [SerializeField] private int _dayForEvent = default;
+
+        public string Name => _name;
+        public GrowthTrackEventType EventType => _eventType;
+        public int DayForEvent => _dayForEvent;
+    }
+
+    public enum GrowthTrackEventType
+    {
+        NewTree
     }
 }
