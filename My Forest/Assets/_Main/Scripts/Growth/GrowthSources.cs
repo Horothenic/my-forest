@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace MyForest
 {
@@ -21,6 +22,12 @@ namespace MyForest
     {
         int DailyGrowth { get; }
         int ExtraDailyGrowthSecondsInterval { get; }
+    }
+
+    public interface IGrowthTrackSource
+    {
+        IReadOnlyList<GrowthTrackRecurringEvent> AllRecurrentEvents { get; }
+        IReadOnlyList<GrowthTrackEvent> AllPinPointEvents { get; }
     }
 }
 

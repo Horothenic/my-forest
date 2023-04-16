@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _forestElementConfigurations: {fileID: 11400000, guid: 4d976b4a05f6548beb671902371b8d10, type: 2}
-  _forestSizeConfigurations: {fileID: 11400000, guid: e6ae808bfddbd43ff9af44f0ba16321a, type: 2}
   _growthConfigurations: {fileID: 11400000, guid: c0afdc9f676f14c49a954d2ba2a5ec7f, type: 2}
+  _growthTrack: {fileID: 11400000, guid: 1265dc948b2de42c788744f38a838a8c, type: 2}
   _audioConfigurations: {fileID: 11400000, guid: 89ded05031aee4cbda75b33330484ae6, type: 2}
   _objectPool: {fileID: 3292561770650177765}
