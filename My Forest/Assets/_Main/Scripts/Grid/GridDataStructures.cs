@@ -38,9 +38,6 @@ namespace MyForest
         public int Q { get; private set; }
         public int R { get; private set; }
 
-        [JsonIgnore]
-        public TreeConfiguration Configuration { get; private set; }
-
         [JsonConstructor]
         public TileData(BiomeType biomeType, int q, int r)
         {
