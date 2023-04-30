@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
@@ -33,7 +34,8 @@ namespace MyForest
 
         private Vector2 _dragPreviousPosition = default;
         private Vector2 _dragNextPosition = default;
-        private Vector2 _dragLimits = default;
+        private Vector2 _minDragLimits = default;
+        private Vector2 _maxDragLimits = default;
         private float? _firstDistanceBetweenTouches = null;
         private float _currentZoom = default;
         private float _zoomOnStartPinch = default;
@@ -56,9 +58,10 @@ namespace MyForest
         {
             _currentZoom = _minZoom;
 
-            _cameraGesturesControlSource.SetDefaultZoomObservable.Subscribe(SetDefaultZoom).AddTo(this);
+            _cameraGesturesControlSource.SetDefaultZoomObservable.Subscribe(SetDefaultZoomWithTransition).AddTo(this);
             _cameraGesturesControlSource.EnableInputObservable.Subscribe(EnableInput).AddTo(this);
             _cameraGesturesControlSource.BlockInputObservable.Subscribe(BlockInput).AddTo(this);
+            _cameraGesturesControlSource.UpdateDragLimitsObservable.Subscribe(UpdateDragLimits).AddTo(this);
         }
 
         private void Update()
@@ -204,6 +207,34 @@ namespace MyForest
         #endregion
 
         #region DRAG
+        
+        private void UpdateDragLimits(IReadOnlyList<HexagonTile> hexagonTiles)
+        {
+            var minX = float.MaxValue;
+            var minZ = float.MaxValue;
+            var maxX = float.MinValue;
+            var maxZ = float.MinValue;
+
+            foreach (var tile in hexagonTiles)
+            {
+                var position = tile.transform.position;
+
+                if (position.x < minX)
+                    minX = position.x;
+
+                if (position.z < minZ)
+                    minZ = position.z;
+
+                if (position.x > maxX)
+                    maxX = position.x;
+
+                if (position.z > maxZ)
+                    maxZ = position.z;
+            }
+
+            _minDragLimits = new Vector2(minX, minZ);
+            _maxDragLimits = new Vector2(maxX, maxZ);
+        }
 
         private void SetContainerDragPosition()
         {
@@ -222,27 +253,10 @@ namespace MyForest
 
         private Vector3 ClampDragPositionInBounds(Vector3 newPosition)
         {
-            if (newPosition.x < _dragLimits.x)
-            {
-                newPosition.x = _dragLimits.x;
-            }
+            var x = Mathf.Clamp(newPosition.x, _minDragLimits.x, _maxDragLimits.x);
+            var z = Mathf.Clamp(newPosition.z, _minDragLimits.y, _maxDragLimits.y);
 
-            if (newPosition.z < _dragLimits.x)
-            {
-                newPosition.z = _dragLimits.x;
-            }
-
-            if (newPosition.x > _dragLimits.y)
-            {
-                newPosition.x = _dragLimits.y;
-            }
-
-            if (newPosition.z > _dragLimits.y)
-            {
-                newPosition.z = _dragLimits.y;
-            }
-
-            return newPosition;
+            return new Vector3(x, newPosition.y, z);
         }
 
         #endregion
@@ -261,7 +275,7 @@ namespace MyForest
             _zoomTween = DOTween.To(() => _camera.orthographicSize, x => _camera.orthographicSize = x, newZoom, _zoomTransitionTime);
         }
 
-        private void SetDefaultZoom()
+        private void SetDefaultZoomWithTransition()
         {
             SetZoomWithTransition(_defaultZoom);
         }

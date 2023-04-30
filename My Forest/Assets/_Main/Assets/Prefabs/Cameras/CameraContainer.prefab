@@ -177,7 +177,7 @@ Camera:
   far clip plane: 100
   field of view: 60
   orthographic: 1
-  orthographic size: 3.05
+  orthographic size: 6
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -492,8 +492,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5922a22bf6f1458a8b6edb6111c67f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rotateLeftButton: {fileID: 0}
-  _rotateRightButton: {fileID: 0}
   _cameraContainer: {fileID: 8937603819298328205}
   _rotationAngles: 90
   _rotationDuration: 0.85
@@ -513,9 +511,9 @@ MonoBehaviour:
   _cameraContainer: {fileID: 8937603819298328205}
   _camera: {fileID: 8937603817614819233}
   _dragStrength: 0.01
-  _minZoom: 2
-  _maxZoom: 8
-  _defaultZoom: 3
+  _minZoom: 3
+  _maxZoom: 12
+  _defaultZoom: 6
   _zoomTouchSensitivity: 1.6
   _zoomMouseSensitivity: 5
   _zoomTransitionTime: 0.5

@@ -13,10 +13,15 @@ namespace MyForest
             public const string GROWTH_DATA_KEY = "growth_data";
         }
 
+        public class Grid
+        {
+            public const string GRID_DATA_KEY = "grid_data";
+        }
+
         public class Camera
         {
             public const string CAMERA_DATA_KEY = "camera_data";
-            public const float QUARTER_CIRCLE_ANGLE = 45f;
+            public const float ROTATION_STEP_ANGLES = 45f;
             public const string FIRST_INTRO_KEY = "first_intro";
             public const string INTRO_KEY = "intro";
         }
