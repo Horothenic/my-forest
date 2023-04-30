@@ -158,4 +158,5 @@ MonoBehaviour:
   _growthConfigurations: {fileID: 11400000, guid: c0afdc9f676f14c49a954d2ba2a5ec7f, type: 2}
   _growthTrack: {fileID: 11400000, guid: 1265dc948b2de42c788744f38a838a8c, type: 2}
   _audioConfigurations: {fileID: 11400000, guid: 89ded05031aee4cbda75b33330484ae6, type: 2}
+  _gridConfigurations: {fileID: 11400000, guid: b04f0416126882641928f2ed9cbb7a0d, type: 2}
   _objectPool: {fileID: 3292561770650177765}

@@ -1,5 +1,5 @@
 using System;
-
+using Cysharp.Threading.Tasks;
 using Zenject;
 using UniRx;
 
@@ -36,6 +36,13 @@ namespace MyForest
 
         protected void EmitData(T newData = null)
         {
+            EmitDataAsync(newData).Forget();
+        }
+
+        private async UniTaskVoid EmitDataAsync(T newData = null)
+        {
+            await UniTask.NextFrame();
+            
             if (newData != null)
             {
                 _dataSubject.OnNext(newData);
