@@ -6,7 +6,7 @@ using Lean.Localization;
 namespace MyForest.UI
 {
     [RequireComponent(typeof(Button))]
-    public class ChangeLanguageButton : MonoBehaviour
+    public class ChangeLanguageButtonUI : MonoBehaviour
     {
         #region FIELDS
 
