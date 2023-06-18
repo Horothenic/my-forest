@@ -1870,7 +1870,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3747643220568381143, guid: ec71fc76c9b634ddebb71958ee6daa25, type: 3}
       propertyPath: m_Name
-      value: GrowthTrackerContainer
+      value: GrowthTrackerUI
       objectReference: {fileID: 0}
     - target: {fileID: 7293897130557798877, guid: ec71fc76c9b634ddebb71958ee6daa25, type: 3}
       propertyPath: _endPosition.x
