@@ -51,6 +51,8 @@ namespace UnityEngine
 
         private void Return(GameObject gameObject)
         {
+            if (gameObject == null) return;
+
             var prefabName = gameObject.PrefabName();
 
             if (!_pool.ContainsKey(prefabName))
