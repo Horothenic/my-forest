@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace MyForest
 {
@@ -10,7 +10,6 @@ namespace MyForest
 
         private const string MENU_NAME = nameof(MyForest) + "/Growth/" + nameof(GrowthTrack);
 
-        [Header("CONFIGURAITIONS")]
         [SerializeField] private List<GrowthTrackRecurringEvent> _growthTrackRecurrentEvents = null;
         [SerializeField] private List<GrowthTrackEvent> _growthTrackPinPointEvents = null;
 
@@ -19,8 +18,27 @@ namespace MyForest
 
     public partial class GrowthTrack : IGrowthTrackSource
     {
-        IReadOnlyList<GrowthTrackRecurringEvent> IGrowthTrackSource.AllRecurrentEvents => _growthTrackRecurrentEvents;
+        IReadOnlyList<IGrowthTrackEvent> IGrowthTrackSource.GetEventsForGrowth(int growth)
+        {
+            var list = new List<IGrowthTrackEvent>();
 
-        IReadOnlyList<GrowthTrackEvent> IGrowthTrackSource.AllPinPointEvents => _growthTrackPinPointEvents;
+            foreach (var growthTrackEvent in _growthTrackPinPointEvents)
+            {
+                if (growthTrackEvent.DayForEvent == growth)
+                {
+                    list.Add(growthTrackEvent);
+                }
+            }
+
+            foreach (var growthTrackEvent in _growthTrackRecurrentEvents)
+            {
+                if (growth >= growthTrackEvent.StartDay && growth % growthTrackEvent.DaysInterval == default)
+                {
+                    list.Add(growthTrackEvent);
+                }
+            }
+
+            return list;
+        }
     }
 }

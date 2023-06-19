@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace MyForest
 {
@@ -22,12 +23,12 @@ namespace MyForest
     {
         int DailyGrowth { get; }
         int ExtraDailyGrowthSecondsInterval { get; }
+        string GetIcon(GrowthTrackEventType eventType);
     }
 
     public interface IGrowthTrackSource
     {
-        IReadOnlyList<GrowthTrackRecurringEvent> AllRecurrentEvents { get; }
-        IReadOnlyList<GrowthTrackEvent> AllPinPointEvents { get; }
+        IReadOnlyList<IGrowthTrackEvent> GetEventsForGrowth(int growth);
     }
 }
 
