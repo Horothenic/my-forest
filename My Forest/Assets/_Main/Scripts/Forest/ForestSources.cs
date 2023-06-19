@@ -6,7 +6,6 @@ namespace MyForest
     public interface IForestDataSource
     {
         IObservable<ForestData> ForestObservable { get; }
-        IObservable<TreeData> GetTreeDataObservable(TreeData treeData);
     }
 
     public interface ITreeCollectionSource

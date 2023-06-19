@@ -12,8 +12,6 @@ namespace MyForest
 
         [Inject] private ITreeCollectionSource _elementConfigurations = null;
 
-        private Dictionary<int, Subject<TreeData>> _treeDataSubjectMap = new Dictionary<int, Subject<TreeData>>();
-
         #endregion
     }
 
@@ -46,20 +44,5 @@ namespace MyForest
     public partial class ForestManager : IForestDataSource
     {
         IObservable<ForestData> IForestDataSource.ForestObservable => DataObservable;
-
-        IObservable<TreeData> IForestDataSource.GetTreeDataObservable(TreeData elementData)
-        {
-            return GetForestElementDataSubject(elementData.Id).AsObservable();
-        }
-
-        private Subject<TreeData> GetForestElementDataSubject(int id)
-        {
-            if (!_treeDataSubjectMap.ContainsKey(id))
-            {
-                _treeDataSubjectMap.Add(id, new Subject<TreeData>());
-            }
-
-            return _treeDataSubjectMap[id];
-        }
     }
 }
