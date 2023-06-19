@@ -11,6 +11,7 @@ namespace MyForest
     {
         #region FIELDS
 
+        [Inject] private DiContainer _container = null;
         [Inject] private IGrowthDataSource _growthDataSource = null;
         [Inject] private IGrowthTrackSource _growthTrackSource = null;
 
@@ -20,12 +21,14 @@ namespace MyForest
         [SerializeField] private RectTransform _currentStepGizmo = null;
         [SerializeField] private RectTransform _stepsContainer = null;
         [SerializeField] private RectTransform _stepsStartingPoint = null;
-        [SerializeField] private RectTransform _stepPrefab = null;
+        [SerializeField] private GrowthTrackerStepUI _stepPrefab = null;
 
         [Header("CONFIGURATIONS")]
         [SerializeField] private int _stepsToShow = 10;
 
-        private readonly List<RectTransform> _steps = new List<RectTransform>();
+        private int _lastLowLimit = -1;
+
+        private readonly List<GrowthTrackerStepUI> _steps = new List<GrowthTrackerStepUI>();
 
         #endregion
 
@@ -44,10 +47,10 @@ namespace MyForest
         private void Initialize()
         {
             var positionStep = _stepsContainer.rect.width / (float)_stepsToShow;
-            for (var i = 0; i < _stepsToShow; i++)
+            for (var i = 0; i < _stepsToShow + 1; i++)
             {
-                var newStep = Instantiate(_stepPrefab, _stepsStartingPoint.position, Quaternion.identity, _stepsContainer);
-                newStep.anchoredPosition += Vector2.right * positionStep * i;
+                var newStep = _container.Instantiate(_stepPrefab, _stepsStartingPoint.position, Quaternion.identity, _stepsContainer);
+                newStep.GetRectTransform().anchoredPosition += Vector2.right * positionStep * i;
                 _steps.Add(newStep);
             }
         }
@@ -55,15 +58,23 @@ namespace MyForest
         private void Refresh(GrowthData growthData)
         {
             var currentGrowth = growthData.CurrentGrowthDays;
-
-            var lowLimit = currentGrowth / _stepsToShow;
-            var highLimit = lowLimit + _stepsToShow;
+            var lowLimit = (currentGrowth / _stepsToShow) * _stepsToShow;
             var currentStep = currentGrowth % _stepsToShow;
+
+            _currentStepGizmo.position = _steps[currentStep].transform.position;
+
+            if (_lastLowLimit >= lowLimit) return;
+
+            _lastLowLimit = lowLimit;
+            var highLimit = lowLimit + _stepsToShow;
 
             _lowLimitStepText.text = lowLimit.ToString();
             _highLimitStepText.text = highLimit.ToString();
 
-            _currentStepGizmo.position = _steps[currentStep].position;
+            for (var i = 0; i < _steps.Count; i++)
+            {
+                _steps[i].Initialize(_growthTrackSource.GetEventsForGrowth(lowLimit + i));
+            }
         }
 
         #endregion

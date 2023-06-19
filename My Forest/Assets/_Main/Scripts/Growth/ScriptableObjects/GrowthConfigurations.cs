@@ -9,8 +9,12 @@ namespace MyForest
 
         private const string MENU_NAME = nameof(MyForest) + "/Growth/" + nameof(GrowthConfigurations);
 
+        [Header("INCREASE")]
         [SerializeField] private int _dailyGrowth = default;
         [SerializeField] private int _extraDailyGrowthSecondsInterval = 10;
+
+        [Header("ICONS")]
+        [SerializeField] private string _treeCharIcon = default;
 
         #endregion
     }
@@ -19,5 +23,15 @@ namespace MyForest
     {
         int IGrowthConfigurationsSource.DailyGrowth => _dailyGrowth;
         int IGrowthConfigurationsSource.ExtraDailyGrowthSecondsInterval => _extraDailyGrowthSecondsInterval;
+
+        string IGrowthConfigurationsSource.GetIcon(GrowthTrackEventType eventType)
+        {
+            switch (eventType)
+            {
+                case GrowthTrackEventType.NewTree: return _treeCharIcon;
+            }
+
+            return null;
+        }
     }
 }

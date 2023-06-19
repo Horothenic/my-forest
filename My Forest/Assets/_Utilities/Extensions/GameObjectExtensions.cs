@@ -6,6 +6,11 @@ namespace UnityEngine
     {
         private const string CLONE_SUFFIX = "(Clone)";
 
+        public static RectTransform GetRectTransform(this MonoBehaviour monoBehaviour)
+        {
+            return monoBehaviour.gameObject.transform as RectTransform;
+        }
+
         public static GameObject Set(this GameObject gameObject, Vector3 position, Transform parent)
         {
             gameObject.transform.SetParent(parent);

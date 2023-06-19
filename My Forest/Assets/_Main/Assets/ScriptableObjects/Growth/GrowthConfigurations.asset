@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39f22456ba8804139969945aaea58660, type: 3}
   m_Name: GrowthConfigurations
   m_EditorClassIdentifier: 
-  _levelCosts: 0000000001000000040000000800000014000000
-  _forestSizeCosts: 000000000a000000190000003200000064000000
   _dailyGrowth: 1
   _extraDailyGrowthSecondsInterval: 1800
+  _treeCharIcon: \uf1bb

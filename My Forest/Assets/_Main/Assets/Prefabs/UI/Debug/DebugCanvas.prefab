@@ -872,7 +872,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4192efe9a550467fbd2bbbca0fa20e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pointsToIncrement: 10
+  _pointsToIncrement: 1
 --- !u!224 &1020146574818446263 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7508161580686182558, guid: 03a12c898d337428c8aa20f895d44ee4, type: 3}
