@@ -11,6 +11,7 @@ namespace MyForest
         [SerializeField] private TreeConfigurationCollection _treeConfigurationCollection = null;
         [SerializeField] private GrowthConfigurations _growthConfigurations = null;
         [SerializeField] private AudioConfigurations _audioConfigurations = null;
+        [SerializeField] private GridConfigurations _gridConfigurations = null;
 
         [Header("INSTANCES")]
         [SerializeField] private GrowthTrack _growthTrack = null;
@@ -27,11 +28,13 @@ namespace MyForest
             Container.BindInterfacesTo<CameraManager>().AsSingle();
             Container.BindInterfacesTo<AudioManager>().AsSingle();
             Container.BindInterfacesTo<VisualizerManager>().AsSingle();
+            Container.BindInterfacesTo<GridManager>().AsSingle();
 
             Container.BindInterfacesTo<ForestConfiguration>().FromInstance(_forestConfigurations).AsSingle();
             Container.BindInterfacesTo<TreeConfigurationCollection>().FromInstance(_treeConfigurationCollection).AsSingle();
             Container.BindInterfacesTo<GrowthConfigurations>().FromInstance(_growthConfigurations).AsSingle();
             Container.BindInterfacesTo<AudioConfigurations>().FromInstance(_audioConfigurations).AsSingle();
+            Container.BindInterfacesTo<GridConfigurations>().FromInstance(_gridConfigurations).AsSingle();
 
             Container.BindInterfacesTo<GrowthTrack>().FromInstance(_growthTrack).AsSingle();
 
