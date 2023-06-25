@@ -80,7 +80,7 @@ namespace MyForest
         {
             if (_tiles.ContainsKey((q, r))) return null;
 
-            var tileData = new TileData(biomeType, q, r);
+            var tileData = new TileData(biomeType, q, r, false);
             return tileData;
         }
 

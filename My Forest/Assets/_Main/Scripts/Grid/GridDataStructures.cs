@@ -52,12 +52,12 @@ namespace MyForest
         public (int, int) Coordinates => (Q, R);
 
         [JsonConstructor]
-        public TileData(BiomeType biomeType, int q, int r)
+        public TileData(BiomeType biomeType, int q, int r, bool surrounded)
         {
             BiomeType = biomeType;
             Q = q;
             R = r;
-            Surrounded = false;
+            Surrounded = surrounded;
         }
 
         public void SetAsSurrounded()

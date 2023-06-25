@@ -44,7 +44,7 @@ namespace MyForest
 
         private void CheckIfNewTileSurroundedAnotherTile((int, int) coordinates)
         {
-            var tileCoordinatesToCheck = GetTileSurroundingCoordinates(coordinates);
+            var tileCoordinatesToCheck = GetTileSurroundingCoordinates(coordinates, true);
 
             foreach (var tileCoordinate in tileCoordinatesToCheck)
             {
@@ -80,7 +80,7 @@ namespace MyForest
 
             foreach (var possibleOriginTile in possibleOriginTiles)
             {
-                var surroundingCoordinates = GetTileSurroundingCoordinates((possibleOriginTile.Q, possibleOriginTile.R));
+                var surroundingCoordinates = GetTileSurroundingCoordinates(possibleOriginTile.Coordinates);
 
                 foreach (var surroundingCoordinate in surroundingCoordinates)
                 {
@@ -96,11 +96,16 @@ namespace MyForest
             return false;
         }
 
-        private IReadOnlyList<(int, int)> GetTileSurroundingCoordinates((int, int) coordinates)
+        private IReadOnlyList<(int, int)> GetTileSurroundingCoordinates((int, int) coordinates, bool includeSelf = false)
         {
             var q = coordinates.Item1;
             var r = coordinates.Item2;
             var possibleTiles = new List<(int, int)>();
+
+            if (includeSelf)
+            {
+                possibleTiles.Add((q, r));
+            }
 
             possibleTiles.Add((q, r + 1));
             possibleTiles.Add((q + 1, r));
