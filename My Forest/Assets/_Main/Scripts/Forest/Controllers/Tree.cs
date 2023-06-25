@@ -5,7 +5,7 @@ using UniRx;
 
 namespace MyForest
 {
-    public class ForestElement : MonoBehaviour
+    public class Tree : MonoBehaviour
     {
         #region FIELDS
 
@@ -15,6 +15,8 @@ namespace MyForest
         private TreeData _treeData = null;
         private TreeConfiguration.TreeConfigurationLevel _currentLevel = null;
         private GameObject _currentPrefab = null;
+
+        public TreeData TreeData => _treeData;
 
         #endregion
 
@@ -28,7 +30,7 @@ namespace MyForest
 
         private void OnGrowthChanged(GrowthData growthData)
         {
-            var age = _growthDataSource.GrowthData.CurrentGrowthDays - _treeData.CreationDay;
+            var age = _growthDataSource.GrowthData.CurrentGrowth - _treeData.CreationGrowth;
             var currentLevel = _treeData.Configuration.GetConfigurationLevelByAge(age);
 
             if (currentLevel == _currentLevel) return;

@@ -8,7 +8,7 @@ namespace MyForest.UI
     {
         #region FIELDS
 
-        [Inject] private ITreeCollectionSource _forestElementConfigurationsSource = null;
+        [Inject] private ITreeConfigurationCollectionSource _forestElementConfigurationsSource = null;
 
         [Header("COMPONENTS")]
         [SerializeField]

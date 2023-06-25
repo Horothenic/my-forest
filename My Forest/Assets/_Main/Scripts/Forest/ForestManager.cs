@@ -1,8 +1,7 @@
 using System;
-using System.Collections.Generic;
 
-using Zenject;
 using UniRx;
+using Zenject;
 
 namespace MyForest
 {
@@ -10,7 +9,9 @@ namespace MyForest
     {
         #region FIELDS
 
-        [Inject] private ITreeCollectionSource _elementConfigurations = null;
+        [Inject] private ITreeConfigurationCollectionSource _treeConfigurationCollectionSource = null;
+
+        private Subject<TreeData> _growthDailyClaimAvailableSubject = new Subject<TreeData>();
 
         #endregion
     }
@@ -28,7 +29,7 @@ namespace MyForest
 
             foreach (var element in data.Trees)
             {
-                element.Hydrate(_elementConfigurations);
+                element.Hydrate(_treeConfigurationCollectionSource);
             }
         }
     }
@@ -43,6 +44,16 @@ namespace MyForest
 
     public partial class ForestManager : IForestDataSource
     {
+        ForestData IForestDataSource.ForestData => Data;
         IObservable<ForestData> IForestDataSource.ForestObservable => DataObservable;
+    }
+
+    public partial class ForestManager : IForestEventSource
+    {
+        void IForestEventSource.AddNewTree(TreeData treeData)
+        {
+            Data.AddForestElement(treeData);
+            Save();
+        }
     }
 }

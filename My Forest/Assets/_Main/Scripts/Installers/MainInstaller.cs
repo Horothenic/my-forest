@@ -6,11 +6,14 @@ namespace MyForest
 {
     public class MainInstaller : MonoInstaller
     {
-        [Header("INSTANCES")]
-        [SerializeField] private TreeCollection _forestElementConfigurations = null;
+        [Header("CONFIGURATIONS")]
+        [SerializeField] private ForestConfiguration _forestConfigurations = null;
+        [SerializeField] private TreeConfigurationCollection _treeConfigurationCollection = null;
         [SerializeField] private GrowthConfigurations _growthConfigurations = null;
-        [SerializeField] private GrowthTrack _growthTrack = null;
         [SerializeField] private AudioConfigurations _audioConfigurations = null;
+
+        [Header("INSTANCES")]
+        [SerializeField] private GrowthTrack _growthTrack = null;
 
         [Header("OTHERS")]
         [SerializeField] private ObjectPool _objectPool = null;
@@ -25,10 +28,12 @@ namespace MyForest
             Container.BindInterfacesTo<AudioManager>().AsSingle();
             Container.BindInterfacesTo<VisualizerManager>().AsSingle();
 
-            Container.BindInterfacesTo<TreeCollection>().FromInstance(_forestElementConfigurations).AsSingle();
+            Container.BindInterfacesTo<ForestConfiguration>().FromInstance(_forestConfigurations).AsSingle();
+            Container.BindInterfacesTo<TreeConfigurationCollection>().FromInstance(_treeConfigurationCollection).AsSingle();
             Container.BindInterfacesTo<GrowthConfigurations>().FromInstance(_growthConfigurations).AsSingle();
-            Container.BindInterfacesTo<GrowthTrack>().FromInstance(_growthTrack).AsSingle();
             Container.BindInterfacesTo<AudioConfigurations>().FromInstance(_audioConfigurations).AsSingle();
+
+            Container.BindInterfacesTo<GrowthTrack>().FromInstance(_growthTrack).AsSingle();
 
             Container.BindInterfacesTo<ObjectPool>().FromInstance(_objectPool).AsSingle();
         }

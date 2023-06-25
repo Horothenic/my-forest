@@ -37,7 +37,7 @@ namespace MyForest
     {
         public int Id { get; private set; }
         public string TreeID { get; private set; }
-        public int CreationDay { get; private set; }
+        public int CreationGrowth { get; private set; }
         public SerializedVector3 Position { get; private set; }
         public SerializedVector3 Rotation { get; private set; }
 
@@ -45,16 +45,16 @@ namespace MyForest
         public TreeConfiguration Configuration { get; private set; }
 
         [JsonConstructor]
-        public TreeData(int id, string treeID, int level, Vector3 position, Vector3 rotation)
+        public TreeData(int id, string treeID, int creationGrowth, Vector3 position, Vector3 rotation)
         {
             Id = id;
             TreeID = treeID;
-            CreationDay = level;
+            CreationGrowth = creationGrowth;
             Position = position;
             Rotation = rotation;
         }
 
-        public void Hydrate(ITreeCollectionSource elementConfigurationsSource)
+        public void Hydrate(ITreeConfigurationCollectionSource elementConfigurationsSource)
         {
             Configuration = elementConfigurationsSource.GetTreeConfiguration(TreeID);
         }

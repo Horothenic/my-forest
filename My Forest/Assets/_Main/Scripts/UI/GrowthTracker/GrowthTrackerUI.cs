@@ -57,7 +57,7 @@ namespace MyForest
 
         private void Refresh(GrowthData growthData)
         {
-            var currentGrowth = growthData.CurrentGrowthDays;
+            var currentGrowth = growthData.CurrentGrowth;
             var lowLimit = (currentGrowth / _stepsToShow) * _stepsToShow;
             var currentStep = currentGrowth % _stepsToShow;
 
