@@ -61,7 +61,6 @@ namespace MyForest
             _cameraGesturesControlSource.SetDefaultZoomObservable.Subscribe(SetDefaultZoomWithTransition).AddTo(this);
             _cameraGesturesControlSource.EnableInputObservable.Subscribe(EnableInput).AddTo(this);
             _cameraGesturesControlSource.BlockInputObservable.Subscribe(BlockInput).AddTo(this);
-            _cameraGesturesControlSource.UpdateDragLimitsObservable.Subscribe(UpdateDragLimits).AddTo(this);
         }
 
         private void Update()
@@ -207,34 +206,6 @@ namespace MyForest
         #endregion
 
         #region DRAG
-        
-        private void UpdateDragLimits(IReadOnlyList<HexagonTile> hexagonTiles)
-        {
-            var minX = float.MaxValue;
-            var minZ = float.MaxValue;
-            var maxX = float.MinValue;
-            var maxZ = float.MinValue;
-
-            foreach (var tile in hexagonTiles)
-            {
-                var position = tile.transform.position;
-
-                if (position.x < minX)
-                    minX = position.x;
-
-                if (position.z < minZ)
-                    minZ = position.z;
-
-                if (position.x > maxX)
-                    maxX = position.x;
-
-                if (position.z > maxZ)
-                    maxZ = position.z;
-            }
-
-            _minDragLimits = new Vector2(minX, minZ);
-            _maxDragLimits = new Vector2(maxX, maxZ);
-        }
 
         private void SetContainerDragPosition()
         {

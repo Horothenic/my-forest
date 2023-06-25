@@ -30,7 +30,5 @@ namespace MyForest
         void BlockInput();
         IObservable<Unit> SetDefaultZoomObservable { get; }
         void SetDefaultZoom();
-        IObservable<IReadOnlyList<HexagonTile>> UpdateDragLimitsObservable { get; }
-        void UpdateDragLimits(IReadOnlyList<HexagonTile> gridData);
     }
 }
