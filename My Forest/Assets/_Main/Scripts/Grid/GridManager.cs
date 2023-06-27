@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Zenject;
+using UniRx;
 
 namespace MyForest
 {
@@ -12,11 +13,21 @@ namespace MyForest
         private float _hexRadius = 0;
         private float _squareRootOfThree = 0;
         private float _threeOverTwo = 0;
+
+        private Subject<TileData> _newTileAddedSubject = new Subject<TileData>();
     }
 
     public partial class GridManager : DataManager<GridData>
     {
         protected override string Key => Constants.Grid.GRID_DATA_KEY;
+
+        protected override void OnPreLoad(ref GridData data)
+        {
+            if (data.IsEmpty)
+            {
+                data = _saveSource.LoadJSONFromResources<GridData>(Constants.Grid.DEFAULT_GRID_DATA_FILE);
+            }
+        }
     }
 
     public partial class GridManager : IInitializable
@@ -33,13 +44,51 @@ namespace MyForest
     public partial class GridManager : IGridDataSource
     {
         IObservable<GridData> IGridDataSource.GridObservable => DataObservable;
+        IObservable<TileData> IGridDataSource.NewTileAddedObservable => _newTileAddedSubject.AsObservable();
+    }
 
-        void IGridDataSource.AddTile(TileData newTile)
+    public partial class GridManager : IGridEventSource
+    {
+        TileData IGridEventSource.CreateRandomTileForBiome(BiomeType biomeType)
         {
-            Data.AddTile(newTile);
-            CheckIfNewTileSurroundedAnotherTile(newTile.Coordinates);
+            var possibleOriginTiles = Data.Tiles.Where(t => !t.Surrounded && t.BiomeType == biomeType);
+
+            if (possibleOriginTiles.Count() == default)
+            {
+                possibleOriginTiles = Data.TilesMap.Values;
+            }
+
+            possibleOriginTiles.Shuffle();
+
+            (int, int) coordinates = default;
+
+            foreach (var possibleOriginTile in possibleOriginTiles)
+            {
+                var surroundingCoordinates = GetTileSurroundingCoordinates(possibleOriginTile.Coordinates);
+
+                foreach (var surroundingCoordinate in surroundingCoordinates)
+                {
+                    if (!Data.TilesMap.ContainsKey((surroundingCoordinate)))
+                    {
+                        coordinates = surroundingCoordinate;
+                    }
+                }
+            }
+
+            var newTileData = new TileData
+            (
+                biomeType,
+                coordinates,
+                false
+            );
+
+            CheckIfNewTileSurroundedAnotherTile(newTileData.Coordinates);
+            Data.AddTile(newTileData);
             Save();
-            EmitData();
+
+            _newTileAddedSubject.OnNext(newTileData);
+
+            return newTileData;
         }
 
         private void CheckIfNewTileSurroundedAnotherTile((int, int) coordinates)
@@ -65,35 +114,6 @@ namespace MyForest
                     Data.TilesMap[tileCoordinate].SetAsSurrounded();
                 }
             }
-        }
-
-        bool IGridDataSource.GetRandomTilePositionForBiome(BiomeType biomeType, out (int, int) foundValue)
-        {
-            var possibleOriginTiles = Data.Tiles.Where(t => !t.Surrounded && t.BiomeType == biomeType);
-
-            if (possibleOriginTiles.Count() == default)
-            {
-                possibleOriginTiles = Data.TilesMap.Values;
-            }
-
-            possibleOriginTiles.Shuffle();
-
-            foreach (var possibleOriginTile in possibleOriginTiles)
-            {
-                var surroundingCoordinates = GetTileSurroundingCoordinates(possibleOriginTile.Coordinates);
-
-                foreach (var surroundingCoordinate in surroundingCoordinates)
-                {
-                    if (!Data.TilesMap.ContainsKey((surroundingCoordinate)))
-                    {
-                        foundValue = surroundingCoordinate;
-                        return true;
-                    }
-                }
-            }
-
-            foundValue = default;
-            return false;
         }
 
         private IReadOnlyList<(int, int)> GetTileSurroundingCoordinates((int, int) coordinates, bool includeSelf = false)
@@ -125,8 +145,11 @@ namespace MyForest
             _hexRadius = radius;
         }
 
-        Vector3 IGridPositioningSource.GetWorldPosition(int q, int r)
+        Vector3 IGridPositioningSource.GetWorldPosition((int, int) coordinates)
         {
+            var q = coordinates.Item1;
+            var r = coordinates.Item2;
+
             var positionX = _hexRadius * _squareRootOfThree * (q + r / 2f);
             var positionZ = _hexRadius * _threeOverTwo * r;
 

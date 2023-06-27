@@ -7,11 +7,7 @@ namespace MyForest
     {
         ForestData ForestData { get; }
         IObservable<ForestData> ForestObservable { get; }
-    }
-
-    public interface IForestEventSource
-    {
-        void AddNewTree(TreeData treeData);
+        IObservable<TreeData> NewTreeAddedObservable { get; }
     }
 
     public interface IForestConfigurationSource

@@ -25,6 +25,7 @@ namespace MyForest
         private const string MENU_NAME = nameof(MyForest) + "/Forest/" + nameof(TreeConfiguration);
 
         [SerializeField] private TreeRarity _rarity = default;
+        [SerializeField] private BiomeType _biome = default;
 
         [Header("Display Name")]
         [LeanTranslationName]
@@ -42,6 +43,7 @@ namespace MyForest
         public string DisplayName => _displayName;
         public string Description => _description;
         public TreeRarity Rarity => _rarity;
+        public BiomeType Biome => _biome;
         public int MaxLevel => _levels.Length - 1;
 
         #endregion

@@ -39,6 +39,7 @@ namespace MyForest
         {
             CalculateParameters();
             _gridDataSource.GridObservable.Subscribe(LoadGrid).AddTo(this);
+            _gridDataSource.NewTileAddedObservable.Subscribe(CreateTile).AddTo(this);
         }
 
         private void CalculateParameters()
@@ -48,40 +49,19 @@ namespace MyForest
 
         private void LoadGrid(GridData gridData)
         {
-            if (gridData.IsEmpty)
-            {
-                _gridDataSource.AddTile(CreateNewTile(BiomeType.Forest, 0, 0));
-                return;
-            }
-
             foreach (var tileData in gridData.Tiles)
             {
-                LoadTile(tileData);
+                CreateTile(tileData);
             }
 
             _cameraGesturesControlSource.UpdateDragLimits(_tiles.Values.ToList());
         }
 
-        private void LoadTile(TileData tileData)
+        private void CreateTile(TileData tileData)
         {
-            var q = tileData.Q;
-            var r = tileData.R;
-
-            if (!_tiles.TryGetValue((q, r), out var tile))
-            {
-                tile = _container.Instantiate(_tilePrefab, _gridPositioningSource.GetWorldPosition(q, r), Quaternion.identity, _gridParent);
-                _tiles.Add((q, r), tile);
-            }
-
+            var tile = _container.Instantiate(_tilePrefab, _gridPositioningSource.GetWorldPosition(tileData.Coordinates), Quaternion.identity, _gridParent);
+            _tiles.Add(tileData.Coordinates, tile);
             tile.Initialize(tileData);
-        }
-
-        private TileData CreateNewTile(BiomeType biomeType, int q, int r)
-        {
-            if (_tiles.ContainsKey((q, r))) return null;
-
-            var tileData = new TileData(biomeType, q, r, false);
-            return tileData;
         }
 
         #endregion

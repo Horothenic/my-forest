@@ -54,9 +54,9 @@ namespace MyForest
             Rotation = rotation;
         }
 
-        public void Hydrate(ITreeConfigurationCollectionSource elementConfigurationsSource)
+        public void Hydrate(ITreeConfigurationCollectionSource treeConfigurationCollectionSource)
         {
-            Configuration = elementConfigurationsSource.GetTreeConfiguration(TreeID);
+            Configuration = treeConfigurationCollectionSource.GetTreeConfiguration(TreeID);
         }
     }
 

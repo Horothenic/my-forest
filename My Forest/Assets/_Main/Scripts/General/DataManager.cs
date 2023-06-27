@@ -25,7 +25,7 @@ namespace MyForest
         {
             var data = _saveSource.Load<T>(Key, new T());
 
-            OnLoadReady(ref data);
+            OnPreLoad(ref data);
             _dataSubject.OnNext(data);
         }
 
@@ -42,7 +42,7 @@ namespace MyForest
         private async UniTaskVoid EmitDataAsync(T newData = null)
         {
             await UniTask.NextFrame();
-            
+
             if (newData != null)
             {
                 _dataSubject.OnNext(newData);
@@ -52,7 +52,7 @@ namespace MyForest
             _dataSubject.OnNext();
         }
 
-        protected virtual void OnLoadReady(ref T data) { }
+        protected virtual void OnPreLoad(ref T data) { }
 
         #endregion
     }

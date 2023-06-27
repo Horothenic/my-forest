@@ -60,6 +60,14 @@ namespace MyForest
             Surrounded = surrounded;
         }
 
+        public TileData(BiomeType biomeType, (int, int) coordinates, bool surrounded)
+        {
+            BiomeType = biomeType;
+            Q = coordinates.Item1;
+            R = coordinates.Item2;
+            Surrounded = surrounded;
+        }
+
         public void SetAsSurrounded()
         {
             Surrounded = true;

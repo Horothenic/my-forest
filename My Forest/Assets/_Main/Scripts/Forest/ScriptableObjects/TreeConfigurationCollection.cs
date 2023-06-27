@@ -41,15 +41,17 @@ namespace MyForest
         {
             var randomRarity = _forestConfigurationSource.GetRandomTreeRarity();
 
-            IEnumerable<TreeConfiguration> configurationsWithRarity = null;
+            randomRarity = TreeRarity.Endangered;
+
+            List<TreeConfiguration> configurationsWithRarity = null;
             do
             {
-                configurationsWithRarity = _treeConfigurations.Where(c => c.Rarity == randomRarity);
+                configurationsWithRarity = _treeConfigurations.Where(c => c.Rarity == randomRarity).ToList();
                 randomRarity--;
             }
-            while (configurationsWithRarity == null);
+            while (configurationsWithRarity.Count == default);
 
-            return configurationsWithRarity.Shuffle().ElementAt(Random.Range(default, configurationsWithRarity.Count() - 1));
+            return configurationsWithRarity.Shuffle()[Random.Range(default, configurationsWithRarity.Count - 1)];
         }
     }
 }

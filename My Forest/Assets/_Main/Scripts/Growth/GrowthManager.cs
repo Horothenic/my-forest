@@ -41,7 +41,7 @@ namespace MyForest
     {
         protected override string Key => Constants.Growth.GROWTH_DATA_KEY;
 
-        protected override void OnLoadReady(ref GrowthData data)
+        protected override void OnPreLoad(ref GrowthData data)
         {
             var isDailyClaimAvailable = data.IsDailyClaimAvailable();
             var isDailyExtraClaimAvailable = data.IsDailyExtraClaimAvailable();

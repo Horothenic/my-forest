@@ -30,13 +30,13 @@ namespace MyForest
             Container.BindInterfacesTo<VisualizerManager>().AsSingle();
             Container.BindInterfacesTo<GridManager>().AsSingle();
 
-            Container.BindInterfacesTo<ForestConfiguration>().FromInstance(_forestConfigurations).AsSingle();
-            Container.BindInterfacesTo<TreeConfigurationCollection>().FromInstance(_treeConfigurationCollection).AsSingle();
-            Container.BindInterfacesTo<GrowthConfigurations>().FromInstance(_growthConfigurations).AsSingle();
-            Container.BindInterfacesTo<AudioConfigurations>().FromInstance(_audioConfigurations).AsSingle();
-            Container.BindInterfacesTo<GridConfigurations>().FromInstance(_gridConfigurations).AsSingle();
+            Container.BindInterfacesTo<ForestConfiguration>().FromScriptableObject(_forestConfigurations).AsSingle();
+            Container.BindInterfacesTo<TreeConfigurationCollection>().FromScriptableObject(_treeConfigurationCollection).AsSingle();
+            Container.BindInterfacesTo<GrowthConfigurations>().FromScriptableObject(_growthConfigurations).AsSingle();
+            Container.BindInterfacesTo<AudioConfigurations>().FromScriptableObject(_audioConfigurations).AsSingle();
+            Container.BindInterfacesTo<GridConfigurations>().FromScriptableObject(_gridConfigurations).AsSingle();
 
-            Container.BindInterfacesTo<GrowthTrack>().FromInstance(_growthTrack).AsSingle();
+            Container.BindInterfacesTo<GrowthTrack>().FromScriptableObject(_growthTrack).AsSingle();
 
             Container.BindInterfacesTo<ObjectPool>().FromInstance(_objectPool).AsSingle();
         }

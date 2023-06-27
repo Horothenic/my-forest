@@ -6,14 +6,18 @@ namespace MyForest
     public interface IGridDataSource
     {
         IObservable<GridData> GridObservable { get; }
-        void AddTile(TileData newTile);
-        bool GetRandomTilePositionForBiome(BiomeType biomeType, out (int, int) foundValue);
+        IObservable<TileData> NewTileAddedObservable { get; }
+    }
+
+    public interface IGridEventSource
+    {
+        TileData CreateRandomTileForBiome(BiomeType biomeType);
     }
 
     public interface IGridPositioningSource
     {
         void SetRadius(float radius);
-        Vector3 GetWorldPosition(int q, int r);
+        Vector3 GetWorldPosition((int, int) coordinates);
     }
 
     public interface IGridConfigurationsSource
