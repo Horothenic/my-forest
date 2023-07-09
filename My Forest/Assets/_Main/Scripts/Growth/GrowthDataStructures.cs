@@ -31,9 +31,9 @@ namespace MyForest
         public GrowthData() { }
 
         [JsonConstructor]
-        public GrowthData(int currentGrowthDays, string lastClaimDateTime, string nextExtraClaimDateTime)
+        public GrowthData(int currentGrowth, string lastClaimDateTime, string nextExtraClaimDateTime)
         {
-            CurrentGrowth = currentGrowthDays;
+            CurrentGrowth = currentGrowth;
 
             if (!string.IsNullOrEmpty(lastClaimDateTime))
             {
