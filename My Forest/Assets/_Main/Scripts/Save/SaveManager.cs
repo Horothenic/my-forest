@@ -28,5 +28,15 @@ namespace MyForest
             var json = JsonConvert.SerializeObject(data, Formatting.Indented);
             PlayerPrefs.SetString(key, json);
         }
+
+        void ISaveSource.Delete(string key)
+        {
+            PlayerPrefs.DeleteKey(key);
+        }
+
+        void ISaveSource.DeleteAll()
+        {
+            PlayerPrefs.DeleteAll();
+        }
     }
 }

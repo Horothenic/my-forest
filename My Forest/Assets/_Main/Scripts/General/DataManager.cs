@@ -1,16 +1,30 @@
 using System;
+
 using Cysharp.Threading.Tasks;
 using Zenject;
 using UniRx;
 
 namespace MyForest
 {
-    public abstract class DataManager<T> where T : class, new()
+    public abstract partial class DataManager<T> : IInitializable
+    {
+        [Inject] private Debug.IGameDebugSource _gameDebugSource = null;
+
+        void IInitializable.Initialize()
+        {
+            Load();
+
+            _gameDebugSource.OnResetManagersObservable.Subscribe(Reset);
+        }
+    }
+
+    public abstract partial class DataManager<T> where T : class, new()
     {
         #region FIELDS
 
         [Inject] protected ISaveSource _saveSource = null;
 
+        protected CompositeDisposable _disposables = new CompositeDisposable();
         private DataSubject<T> _dataSubject = new DataSubject<T>();
 
         protected abstract string Key { get; }
@@ -27,11 +41,21 @@ namespace MyForest
 
             OnPreLoad(ref data);
             _dataSubject.OnNext(data);
+            OnPostLoad(data);
         }
 
         protected void Save()
         {
             _saveSource.Save(Key, Data);
+        }
+
+        protected void Reset()
+        {
+            _disposables.Dispose();
+            _disposables = new CompositeDisposable();
+
+            _saveSource.Delete(Key);
+            Load();
         }
 
         protected void EmitData(T newData = null)
@@ -53,6 +77,8 @@ namespace MyForest
         }
 
         protected virtual void OnPreLoad(ref T data) { }
+
+        protected virtual void OnPostLoad(T data) { }
 
         #endregion
     }

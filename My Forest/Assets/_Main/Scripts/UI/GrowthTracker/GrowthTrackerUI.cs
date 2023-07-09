@@ -11,9 +11,10 @@ namespace MyForest
     {
         #region FIELDS
 
-        [Inject] private DiContainer _container = null;
+        [Inject] private IObjectPoolSource _objectPoolSource = null;
         [Inject] private IGrowthDataSource _growthDataSource = null;
         [Inject] private IGrowthTrackSource _growthTrackSource = null;
+        [Inject] private Debug.IGameDebugSource _gameDebugSource = null;
 
         [Header("COMPONENTS")]
         [SerializeField] private TextMeshProUGUI _lowLimitStepText = null;
@@ -37,7 +38,6 @@ namespace MyForest
         private void Start()
         {
             Initialize();
-            _growthDataSource.GrowthChangedObservable.Subscribe(Refresh).AddTo(this);
         }
 
         #endregion
@@ -49,10 +49,20 @@ namespace MyForest
             var positionStep = _stepsContainer.rect.width / (float)_stepsToShow;
             for (var i = 0; i < _stepsToShow + 1; i++)
             {
-                var newStep = _container.Instantiate(_stepPrefab, _stepsStartingPoint.position, Quaternion.identity, _stepsContainer);
+                var newStep = _objectPoolSource.Borrow<GrowthTrackerStepUI>(_stepPrefab);
+                newStep.gameObject.Set(_stepsStartingPoint.position, _stepsContainer);
+
                 newStep.GetRectTransform().anchoredPosition += Vector2.right * positionStep * i;
                 _steps.Add(newStep);
             }
+
+            _growthDataSource.GrowthChangedObservable.Subscribe(Refresh).AddTo(this);
+            _gameDebugSource.OnResetControllersObservable.Subscribe(ResetTracker).AddTo(this);
+        }
+
+        private void ResetTracker()
+        {
+            _lastLowLimit = -1;
         }
 
         private void Refresh(GrowthData growthData)

@@ -51,14 +51,6 @@ namespace MyForest
         }
     }
 
-    public partial class GrowthManager : IInitializable
-    {
-        void IInitializable.Initialize()
-        {
-            Load();
-        }
-    }
-
     public partial class GrowthManager : IGrowthDataSource
     {
         GrowthData IGrowthDataSource.GrowthData => Data;

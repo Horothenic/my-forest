@@ -28,14 +28,9 @@ namespace MyForest
                 data = _saveSource.LoadJSONFromResources<GridData>(Constants.Grid.DEFAULT_GRID_DATA_FILE);
             }
         }
-    }
 
-    public partial class GridManager : IInitializable
-    {
-        void IInitializable.Initialize()
+        protected override void OnPostLoad(GridData data)
         {
-            Load();
-
             _squareRootOfThree = Mathf.Sqrt(3.0f);
             _threeOverTwo = 3.0f / 2.0f;
         }

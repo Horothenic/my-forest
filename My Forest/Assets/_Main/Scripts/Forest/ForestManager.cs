@@ -69,15 +69,10 @@ namespace MyForest
                 element.Hydrate(_treeConfigurationCollectionSource);
             }
         }
-    }
 
-    public partial class ForestManager : IInitializable
-    {
-        void IInitializable.Initialize()
+        protected override void OnPostLoad(ForestData data)
         {
-            Load();
-
-            _growthDataSource.GrowthEventsOcurredObservable.Subscribe(OnGrowthEventOcurred);
+            _growthDataSource.GrowthEventsOcurredObservable.Subscribe(OnGrowthEventOcurred).AddTo(_disposables);
         }
     }
 

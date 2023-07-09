@@ -33,7 +33,7 @@ namespace MyForest
             var age = _growthDataSource.GrowthData.CurrentGrowth - _treeData.CreationGrowth;
             var currentLevel = _treeData.Configuration.GetConfigurationLevelByAge(age);
 
-            if (currentLevel == _currentLevel) return;
+            if (currentLevel == null || currentLevel == _currentLevel) return;
 
             _currentLevel = currentLevel;
             _objectPoolSource.Return(_currentPrefab);

@@ -8,17 +8,17 @@ namespace MyForest
     public partial class CameraManager
     {
         #region FIELDS
-        
+
         [Inject] private IGridDataSource _gridDataSource = null;
 
-        private readonly Subject<Unit> _rotateLeftSubject = new ();
-        private readonly Subject<Unit> _rotateRightSubject = new ();
-        private readonly DataSubject<float> _rotationAnglesSubject = new (Constants.Camera.ROTATION_STEP_ANGLES);
-        private readonly Subject<Unit> _introFinishedSubject = new ();
-        private readonly Subject<Unit> _enableInputSubject = new ();
-        private readonly Subject<Unit> _blockInputSubject = new ();
-        private readonly Subject<Unit> _setDefaultZoomSubject = new ();
-        private readonly Subject<IReadOnlyList<HexagonTile>> _updateDragLimitsSubject = new ();
+        private readonly Subject<Unit> _rotateLeftSubject = new();
+        private readonly Subject<Unit> _rotateRightSubject = new();
+        private readonly DataSubject<float> _rotationAnglesSubject = new(Constants.Camera.ROTATION_STEP_ANGLES);
+        private readonly Subject<Unit> _introFinishedSubject = new();
+        private readonly Subject<Unit> _enableInputSubject = new();
+        private readonly Subject<Unit> _blockInputSubject = new();
+        private readonly Subject<Unit> _setDefaultZoomSubject = new();
+        private readonly Subject<IReadOnlyList<HexagonTile>> _updateDragLimitsSubject = new();
 
         #endregion
     }
@@ -26,14 +26,6 @@ namespace MyForest
     public partial class CameraManager : DataManager<CameraData>
     {
         protected override string Key => Constants.Camera.CAMERA_DATA_KEY;
-    }
-
-    public partial class CameraManager : IInitializable
-    {
-        void IInitializable.Initialize()
-        {
-            Load();
-        }
     }
 
     public partial class CameraManager : ICameraRotationSource

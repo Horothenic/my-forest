@@ -12,6 +12,7 @@ namespace MyForest
 
         [Inject] private IObjectPoolSource _objectPoolSource = null;
         [Inject] private IForestDataSource _forestDataSource = null;
+        [Inject] private Debug.IGameDebugSource _gameDebugSource = null;
 
         [Header("CONFIGURATIONS")]
         [SerializeField] private Transform _root = null;
@@ -36,16 +37,20 @@ namespace MyForest
         {
             _forestDataSource.ForestObservable.Subscribe(BuildForest).AddTo(this);
             _forestDataSource.NewTreeAddedObservable.Subscribe(CreateTree).AddTo(this);
+            _gameDebugSource.OnResetControllersObservable.Subscribe(ResetForest).AddTo(this);
         }
 
-        private void BuildForest(ForestData forestData)
+        private void ResetForest()
         {
             foreach (var tree in _trees)
             {
                 _objectPoolSource.Return(tree.gameObject);
             }
             _trees.Clear();
+        }
 
+        private void BuildForest(ForestData forestData)
+        {
             for (int i = 0; i < forestData.TreeCount; i++)
             {
                 var treeData = forestData.Trees[i];

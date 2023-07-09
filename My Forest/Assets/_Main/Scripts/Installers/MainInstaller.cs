@@ -21,6 +21,7 @@ namespace MyForest
 
         public override void InstallBindings()
         {
+            Container.BindInterfacesTo<GameManager>().AsSingle();
             Container.BindInterfacesTo<ServicesManager>().AsSingle();
             Container.BindInterfacesTo<ForestManager>().AsSingle();
             Container.BindInterfacesTo<GrowthManager>().AsSingle();
