@@ -11,10 +11,10 @@ namespace MyForest
         private const string MENU_NAME = nameof(MyForest) + "/Forest/" + nameof(ForestConfiguration);
 
         [Header("PROBABILITIES")]
-        [SerializeField][Range(0, 1)] private float _endangeredProbability = 0.05f;
-        [SerializeField][Range(0, 1)] private float _exquisiteProbability = 0.10f;
-        [SerializeField][Range(0, 1)] private float _rareProbability = 0.30f;
-        [SerializeField][Range(0, 1)] private float _commonProbability = 0.55f;
+        [SerializeField][Range(0, 1)] private float _endangeredThreshold = 0.05f;
+        [SerializeField][Range(0, 1)] private float _exquisiteThreshold = 0.10f;
+        [SerializeField][Range(0, 1)] private float _rareThreshold = 0.30f;
+        [SerializeField][Range(0, 1)] private float _commonThreshold = 0.55f;
 
         #endregion
     }
@@ -25,15 +25,15 @@ namespace MyForest
         {
             var randomValue = UnityEngine.Random.value;
 
-            if (randomValue >= _commonProbability)
+            if (randomValue >= _commonThreshold)
             {
                 return TreeRarity.Common;
             }
-            else if (randomValue >= _rareProbability)
+            else if (randomValue >= _rareThreshold)
             {
                 return TreeRarity.Rare;
             }
-            else if (randomValue >= _commonProbability)
+            else if (randomValue >= _exquisiteThreshold)
             {
                 return TreeRarity.Exquisite;
             }
