@@ -6,8 +6,7 @@ namespace MyForest.Debug
 {
     public interface IGameDebugSource
     {
-        IObservable<Unit> OnResetControllersObservable { get; }
-        IObservable<Unit> OnResetManagersObservable { get; }
+        IObservable<Unit> OnResetGameObservable { get; }
         void ResetGame();
     }
 }

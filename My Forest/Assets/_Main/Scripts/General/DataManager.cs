@@ -14,7 +14,7 @@ namespace MyForest
         {
             Load();
 
-            _gameDebugSource.OnResetManagersObservable.Subscribe(Reset);
+            _gameDebugSource.OnResetGameObservable.Subscribe(Reset);
         }
     }
 

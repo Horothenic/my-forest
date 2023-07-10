@@ -15,7 +15,6 @@ namespace MyForest
         [Inject] private IGridDataSource _gridDataSource = null;
         [Inject] private IGridPositioningSource _gridPositioningSource = null;
         [Inject] private IObjectPoolSource _objectPoolSource = null;
-        [Inject] private Debug.IGameDebugSource _gameDebugSource = null;
 
         [Header("COMPONENTS")]
         [SerializeField] private Transform _gridParent = null;
@@ -41,7 +40,6 @@ namespace MyForest
             CalculateParameters();
             _gridDataSource.GridObservable.Subscribe(LoadGrid).AddTo(this);
             _gridDataSource.NewTileAddedObservable.Subscribe(CreateTile).AddTo(this);
-            _gameDebugSource.OnResetControllersObservable.Subscribe(ResetGrid).AddTo(this);
         }
 
         private void CalculateParameters()
@@ -61,6 +59,8 @@ namespace MyForest
 
         private void LoadGrid(GridData gridData)
         {
+            ResetGrid();
+
             foreach (var tileData in gridData.Tiles)
             {
                 CreateTile(tileData);

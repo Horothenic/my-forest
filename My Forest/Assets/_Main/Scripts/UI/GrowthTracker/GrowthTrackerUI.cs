@@ -14,7 +14,6 @@ namespace MyForest
         [Inject] private IObjectPoolSource _objectPoolSource = null;
         [Inject] private IGrowthDataSource _growthDataSource = null;
         [Inject] private IGrowthTrackSource _growthTrackSource = null;
-        [Inject] private Debug.IGameDebugSource _gameDebugSource = null;
 
         [Header("COMPONENTS")]
         [SerializeField] private TextMeshProUGUI _lowLimitStepText = null;
@@ -57,17 +56,17 @@ namespace MyForest
             }
 
             _growthDataSource.GrowthChangedObservable.Subscribe(Refresh).AddTo(this);
-            _gameDebugSource.OnResetControllersObservable.Subscribe(ResetTracker).AddTo(this);
-        }
-
-        private void ResetTracker()
-        {
-            _lastLowLimit = -1;
         }
 
         private void Refresh(GrowthData growthData)
         {
             var currentGrowth = growthData.CurrentGrowth;
+
+            if (currentGrowth == default && _lastLowLimit > currentGrowth)
+            {
+                _lastLowLimit = -1;
+            }
+
             var lowLimit = (currentGrowth / _stepsToShow) * _stepsToShow;
             var currentStep = currentGrowth % _stepsToShow;
 
