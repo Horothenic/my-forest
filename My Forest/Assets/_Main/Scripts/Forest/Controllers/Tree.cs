@@ -14,9 +14,8 @@ namespace MyForest
 
         private TreeData _treeData = null;
         private TreeConfiguration.TreeConfigurationLevel _currentLevel = null;
-        private GameObject _currentPrefab = null;
-
-        public TreeData TreeData => _treeData;
+        private GameObject _currentTree = null;
+        private Vector3 _currentTreeBaseSize = default;
 
         #endregion
 
@@ -33,12 +32,40 @@ namespace MyForest
             var age = _growthDataSource.GrowthData.CurrentGrowth - _treeData.CreationGrowth;
             var currentLevel = _treeData.Configuration.GetConfigurationLevelByAge(age);
 
-            if (currentLevel == null || currentLevel == _currentLevel) return;
+            if (currentLevel == null) return;
 
-            _currentLevel = currentLevel;
-            _objectPoolSource.Return(_currentPrefab);
-            _currentPrefab = _objectPoolSource.Borrow(_currentLevel.Prefab);
-            _currentPrefab.SetLocal(Vector3.zero, transform);
+            if (currentLevel == _currentLevel)
+            {
+                OnTreeSizeChanged(age);
+                return;
+            }
+
+            OnTreeLevelChanged(currentLevel);
+        }
+
+        private void OnTreeLevelChanged(TreeConfiguration.TreeConfigurationLevel newLevel)
+        {
+            _currentLevel = newLevel;
+            _objectPoolSource.Return(_currentTree);
+            _currentTree = _objectPoolSource.Borrow(_currentLevel.Prefab);
+            _currentTree.SetLocal(Vector3.zero, transform);
+
+            _currentTreeBaseSize = _currentLevel.Prefab.transform.localScale;
+            _currentTree.transform.localScale = _currentTreeBaseSize;
+        }
+
+        private void OnTreeSizeChanged(int age)
+        {
+            var steps = age - _currentLevel.GrowthNeeded;
+
+            if (steps == default) return;
+
+            if (_currentLevel.HasMaxSteps)
+            {
+                steps = Mathf.Clamp(steps, default, _currentLevel.MaxSizeSteps);
+            }
+
+            _currentTree.transform.localScale = _currentTreeBaseSize + Vector3.one * steps * _currentLevel.ExtraSizeStep;
         }
 
         #endregion

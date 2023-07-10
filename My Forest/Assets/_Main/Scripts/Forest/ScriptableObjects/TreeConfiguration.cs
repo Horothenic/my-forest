@@ -14,10 +14,15 @@ namespace MyForest
             [SerializeField] private string _name = default;
             [SerializeField] private int _growthNeeded = default;
             [SerializeField] private GameObject _prefab = null;
+            [SerializeField] private float _extraSizeStep = .01f;
+            [SerializeField] private int _maxSizeSteps = -1;
 
             public string ID => _name;
             public int GrowthNeeded => _growthNeeded;
             public GameObject Prefab => _prefab;
+            public float ExtraSizeStep => _extraSizeStep;
+            public int MaxSizeSteps => _maxSizeSteps;
+            public bool HasMaxSteps => _maxSizeSteps > 0;
         }
 
         #region FIELDS
