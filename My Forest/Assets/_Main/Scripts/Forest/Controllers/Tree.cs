@@ -65,7 +65,7 @@ namespace MyForest
                 steps = Mathf.Clamp(steps, default, _currentLevel.MaxSizeSteps);
             }
 
-            _currentTree.transform.localScale = _currentTreeBaseSize + Vector3.one * steps * _currentLevel.ExtraSizeStep;
+            _currentTree.transform.localScale = (_currentTreeBaseSize + Vector3.one * steps * _currentLevel.SizeStep) * _treeData.SizeVariance;
         }
 
         #endregion

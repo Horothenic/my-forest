@@ -40,18 +40,20 @@ namespace MyForest
         public int CreationGrowth { get; private set; }
         public SerializedVector3 Position { get; private set; }
         public SerializedVector3 Rotation { get; private set; }
+        public float SizeVariance { get; private set; }
 
         [JsonIgnore]
         public TreeConfiguration Configuration { get; private set; }
 
         [JsonConstructor]
-        public TreeData(int id, string treeID, int creationGrowth, Vector3 position, Vector3 rotation)
+        public TreeData(int id, string treeID, int creationGrowth, Vector3 position, Vector3 rotation, float sizeVariance)
         {
             Id = id;
             TreeID = treeID;
             CreationGrowth = creationGrowth;
             Position = position;
             Rotation = rotation;
+            SizeVariance = sizeVariance;
         }
 
         public void Hydrate(ITreeConfigurationCollectionSource treeConfigurationCollectionSource)

@@ -14,13 +14,13 @@ namespace MyForest
             [SerializeField] private string _name = default;
             [SerializeField] private int _growthNeeded = default;
             [SerializeField] private GameObject _prefab = null;
-            [SerializeField] private float _extraSizeStep = .01f;
+            [SerializeField] private float _sizeStep = .01f;
             [SerializeField] private int _maxSizeSteps = -1;
 
             public string ID => _name;
             public int GrowthNeeded => _growthNeeded;
             public GameObject Prefab => _prefab;
-            public float ExtraSizeStep => _extraSizeStep;
+            public float SizeStep => _sizeStep;
             public int MaxSizeSteps => _maxSizeSteps;
             public bool HasMaxSteps => _maxSizeSteps > 0;
         }
@@ -42,6 +42,8 @@ namespace MyForest
         [SerializeField]
         private string _description = null;
 
+        [SerializeField] private float _minSizeVariance = .8f;
+        [SerializeField] private float _maxSizeVariance = 1.2f;
         [SerializeField] private TreeConfigurationLevel[] _levels = null;
 
         public string ID => name;
@@ -50,6 +52,8 @@ namespace MyForest
         public TreeRarity Rarity => _rarity;
         public BiomeType Biome => _biome;
         public int MaxLevel => _levels.Length - 1;
+        public float MinSizeVariance => _minSizeVariance;
+        public float MaxSizeVariance => _maxSizeVariance;
 
         #endregion
 

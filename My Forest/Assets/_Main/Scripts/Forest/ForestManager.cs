@@ -42,7 +42,8 @@ namespace MyForest
                 randomTreeConfiguration.ID,
                 _growthDataSource.GrowthData.CurrentGrowth,
                 _gridPositioningSource.GetWorldPosition(newTile.Coordinates),
-                Vector3.up * UnityEngine.Random.Range(default, MAX_TREE_ROTATION)
+                Vector3.up * UnityEngine.Random.Range(default, MAX_TREE_ROTATION),
+                UnityEngine.Random.Range(randomTreeConfiguration.MinSizeVariance, randomTreeConfiguration.MaxSizeVariance)
             );
 
             newTreeData.Hydrate(_treeConfigurationCollectionSource);
