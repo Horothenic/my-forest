@@ -17,6 +17,8 @@ namespace MyForest
         [Header("COMPONENTS")]
         [SerializeField] private float _transitionTime = 0.6f;
 
+        private Tween _currentTween = null;
+
         #endregion
 
         #region UNITY
@@ -32,7 +34,8 @@ namespace MyForest
 
         private void OnNewCenterPosition(Vector3 newCenterPosition)
         {
-            _cameraContainer.DOMove(newCenterPosition, _transitionTime);
+            _currentTween?.Kill();
+            _currentTween = _cameraContainer.DOMove(newCenterPosition, _transitionTime);
         }
 
         #endregion
