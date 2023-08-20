@@ -3,7 +3,7 @@
     {
       "Id": "0",
       "TreeID": "Tree_1",
-      "CreationDay": 0,
+      "CreationGrowth": 0,
       "Position": {
         "x": 0.0,
         "y": 0.0,
@@ -13,7 +13,8 @@
         "x": 0.0,
         "y": 0.0,
         "z": 0.0
-      }
+      },
+      "SizeVariance": 1
     }
   ]
 }

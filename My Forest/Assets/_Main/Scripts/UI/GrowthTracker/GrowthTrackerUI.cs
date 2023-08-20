@@ -56,6 +56,8 @@ namespace MyForest
             }
 
             _growthDataSource.GrowthChangedObservable.Subscribe(Refresh).AddTo(this);
+            
+            Refresh(_growthDataSource.GrowthData);
         }
 
         private void Refresh(GrowthData growthData)

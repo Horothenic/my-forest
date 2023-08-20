@@ -12,10 +12,12 @@ namespace MyForest
 
         void IInitializable.Initialize()
         {
-            Load();
-
             _gameDebugSource.OnResetGameObservable.Subscribe(Reset);
+            Load();
+            Initialize();
         }
+
+        protected virtual void Initialize() { }
     }
 
     public abstract partial class DataManager<T> where T : class, new()
@@ -25,17 +27,17 @@ namespace MyForest
         [Inject] protected ISaveSource _saveSource = null;
 
         protected CompositeDisposable _disposables = new CompositeDisposable();
-        private DataSubject<T> _dataSubject = new DataSubject<T>();
+        private readonly DataSubject<T> _dataSubject = new DataSubject<T>();
 
         protected abstract string Key { get; }
         protected T Data => _dataSubject.Value;
-        protected IObservable<T> DataObservable => _dataSubject.AsObservable(true);
+        protected IObservable<T> DataObservable => _dataSubject.AsObservable();
 
         #endregion
 
         #region METHODS
 
-        protected void Load()
+        private void Load()
         {
             var data = _saveSource.Load<T>(Key, new T());
 
@@ -49,7 +51,7 @@ namespace MyForest
             _saveSource.Save(Key, Data);
         }
 
-        protected void Reset()
+        private void Reset()
         {
             _disposables.Dispose();
             _disposables = new CompositeDisposable();

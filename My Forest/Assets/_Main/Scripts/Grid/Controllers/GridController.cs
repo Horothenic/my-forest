@@ -20,7 +20,7 @@ namespace MyForest
         [SerializeField] private Transform _gridParent = null;
         [SerializeField] private HexagonTile _tilePrefab = null;
 
-        private readonly Dictionary<(int, int), HexagonTile> _tiles = new();
+        private readonly Dictionary<TileCoordinates, HexagonTile> _tiles = new Dictionary<TileCoordinates, HexagonTile>();
 
         #endregion
 
@@ -39,7 +39,9 @@ namespace MyForest
         {
             CalculateParameters();
             _gridDataSource.GridObservable.Subscribe(LoadGrid).AddTo(this);
-            _gridDataSource.NewTileAddedObservable.Subscribe(CreateTile).AddTo(this);
+            _gridDataSource.NewTileAddedObservable.Subscribe(CreateNewTile).AddTo(this);
+
+            LoadGrid(_gridDataSource.GridData);
         }
 
         private void CalculateParameters()
@@ -66,16 +68,24 @@ namespace MyForest
                 CreateTile(tileData);
             }
 
-            _cameraGesturesControlSource.UpdateDragLimits(_tiles.Values.ToList());
+            var tilesPositions = _tiles.Values.Select(tile => tile.transform.position).ToList();
+            _cameraGesturesControlSource.UpdateDragLimits(tilesPositions);
         }
 
-        private void CreateTile(TileData tileData)
+        private HexagonTile CreateTile(TileData tileData)
         {
             var tile = _objectPoolSource.Borrow<HexagonTile>(_tilePrefab);
             tile.gameObject.Set(_gridPositioningSource.GetWorldPosition(tileData.Coordinates), _gridParent);
 
             _tiles.Add(tileData.Coordinates, tile);
             tile.Initialize(tileData);
+            return tile;
+        }
+
+        private void CreateNewTile(TileData tileData)
+        {
+            var newTile = CreateTile(tileData);
+            _cameraGesturesControlSource.UpdateDragLimits(newTile.transform.position);
         }
 
         #endregion

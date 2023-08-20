@@ -17,8 +17,6 @@ namespace MyForest.UI
         [SerializeField] private GameObject _buttonContainer = null;
         [SerializeField] private Button _claimButton = null;
 
-        private CompositeDisposable _disposables = new CompositeDisposable();
-
         #endregion
 
         #region UNITY
@@ -28,11 +26,6 @@ namespace MyForest.UI
             Initialize();
         }
 
-        private void OnDestroy()
-        {
-            _disposables.Dispose();
-        }
-
         #endregion
 
         #region METHODS
@@ -40,7 +33,9 @@ namespace MyForest.UI
         private void Initialize()
         {
             _claimButton.onClick.AddListener(_growthEventSource.ClaimDailyGrowth);
-            _growthDataSource.ClaimDailyGrowthAvailable.Subscribe(SetClaimAvailableState).AddTo(_disposables);
+            _growthDataSource.ClaimDailyGrowthAvailable.Subscribe(SetClaimAvailableState).AddTo(this);
+
+            SetClaimAvailableState(_growthDataSource.GrowthData.IsDailyClaimAvailable());
         }
 
         private void SetClaimAvailableState(bool isAvailable)

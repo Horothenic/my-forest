@@ -34,8 +34,8 @@ namespace MyForest
 
         private Vector2 _dragPreviousPosition = default;
         private Vector2 _dragNextPosition = default;
-        private Vector2 _minDragLimits = default;
-        private Vector2 _maxDragLimits = default;
+        private Vector2 _minDragLimits = new Vector2(float.MaxValue, float.MaxValue);
+        private Vector2 _maxDragLimits = new Vector2(float.MinValue, float.MinValue);
         private float? _firstDistanceBetweenTouches = null;
         private float _currentZoom = default;
         private float _zoomOnStartPinch = default;
@@ -199,7 +199,7 @@ namespace MyForest
         {
             var mouseWheelDirection = Input.GetAxisRaw(MOUSE_SCROLL_WHEEL_KEY);
 
-            if (mouseWheelDirection == default) return;
+            if (mouseWheelDirection == 0f) return;
 
             SetZoom(_currentZoom - (_zoomMouseSensitivity * mouseWheelDirection));
         }
@@ -208,17 +208,15 @@ namespace MyForest
 
         #region DRAG
         
-        private void UpdateDragLimits(IReadOnlyList<HexagonTile> hexagonTiles)
+        private void UpdateDragLimits(IReadOnlyList<Vector3> hexagonTiles)
         {
-            var minX = float.MaxValue;
-            var minZ = float.MaxValue;
-            var maxX = float.MinValue;
-            var maxZ = float.MinValue;
+            var minX = _minDragLimits.x;
+            var minZ = _minDragLimits.y;
+            var maxX = _maxDragLimits.x;
+            var maxZ = _maxDragLimits.y;
 
-            foreach (var tile in hexagonTiles)
+            foreach (var position in hexagonTiles)
             {
-                var position = tile.transform.position;
-
                 if (position.x < minX)
                     minX = position.x;
 

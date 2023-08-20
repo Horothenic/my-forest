@@ -1,5 +1,4 @@
 using UnityEngine;
-using System;
 
 namespace MyForest
 {
@@ -12,9 +11,8 @@ namespace MyForest
 
         [Header("PROBABILITIES")]
         [SerializeField][Range(0, 1)] private float _endangeredThreshold = 0.05f;
-        [SerializeField][Range(0, 1)] private float _exquisiteThreshold = 0.10f;
-        [SerializeField][Range(0, 1)] private float _rareThreshold = 0.30f;
-        [SerializeField][Range(0, 1)] private float _commonThreshold = 0.55f;
+        [SerializeField][Range(0, 1)] private float _exquisiteThreshold = 0.15f;
+        [SerializeField][Range(0, 1)] private float _rareThreshold = 0.45f;
 
         #endregion
     }
@@ -23,22 +21,24 @@ namespace MyForest
     {
         TreeRarity IForestConfigurationSource.GetRandomTreeRarity()
         {
-            var randomValue = UnityEngine.Random.value;
+            var randomValue = Random.value;
 
-            if (randomValue >= _commonThreshold)
+            if (randomValue <= _endangeredThreshold)
             {
-                return TreeRarity.Common;
+                return TreeRarity.Endangered;
             }
-            else if (randomValue >= _rareThreshold)
-            {
-                return TreeRarity.Rare;
-            }
-            else if (randomValue >= _exquisiteThreshold)
+            
+            if (randomValue <= _exquisiteThreshold)
             {
                 return TreeRarity.Exquisite;
             }
+            
+            if (randomValue <= _rareThreshold)
+            {
+                return TreeRarity.Rare;
+            }
 
-            return TreeRarity.Endangered;
+            return TreeRarity.Common;
         }
     }
 }

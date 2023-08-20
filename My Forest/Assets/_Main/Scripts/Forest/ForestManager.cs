@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
-using UniRx;
 using UnityEngine;
+
+using UniRx;
 using Zenject;
 
 namespace MyForest
@@ -17,11 +18,13 @@ namespace MyForest
         [Inject] private IGridEventSource _gridEventSource = null;
         [Inject] private IGridPositioningSource _gridPositioningSource = null;
 
-        private Subject<TreeData> _newTreeAddedSubject = new Subject<TreeData>();
+        private readonly Subject<TreeData> _newTreeAddedSubject = new Subject<TreeData>();
 
         #endregion
 
-        private void OnGrowthEventOcurred(IReadOnlyList<IGrowthTrackEvent> growthTrackEvents)
+        #region METHODS
+        
+        private void OnGrowthEventOccurred(IReadOnlyList<IGrowthTrackEvent> growthTrackEvents)
         {
             foreach (var growthTrackEvent in growthTrackEvents)
             {
@@ -42,7 +45,7 @@ namespace MyForest
                 randomTreeConfiguration.ID,
                 _growthDataSource.GrowthData.CurrentGrowth,
                 _gridPositioningSource.GetWorldPosition(newTile.Coordinates),
-                Vector3.up * UnityEngine.Random.Range(default, MAX_TREE_ROTATION),
+                Vector3.up * UnityEngine.Random.Range(default(int), MAX_TREE_ROTATION),
                 UnityEngine.Random.Range(randomTreeConfiguration.MinSizeVariance, randomTreeConfiguration.MaxSizeVariance)
             );
 
@@ -52,6 +55,8 @@ namespace MyForest
 
             _newTreeAddedSubject.OnNext(newTreeData);
         }
+        
+        #endregion
     }
 
     public partial class ForestManager : DataManager<ForestData>
@@ -73,7 +78,7 @@ namespace MyForest
 
         protected override void OnPostLoad(ForestData data)
         {
-            _growthDataSource.GrowthEventsOcurredObservable.Subscribe(OnGrowthEventOcurred).AddTo(_disposables);
+            _growthDataSource.GrowthEventsOccurredObservable.Subscribe(OnGrowthEventOccurred).AddTo(_disposables);
         }
     }
 

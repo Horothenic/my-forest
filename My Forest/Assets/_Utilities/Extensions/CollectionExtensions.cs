@@ -11,14 +11,14 @@ namespace System.Collections.Generic
             collection.Add(element);
         }
 
-        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> enumerable)
-        {
-            return enumerable = enumerable.OrderBy(x => UnityEngine.Random.value);
-        }
-
         public static List<T> Shuffle<T>(this List<T> list)
         {
-            return list = list.OrderBy(x => UnityEngine.Random.value).ToList();
+            return list.OrderBy(x => UnityEngine.Random.value).ToList();
+        }
+
+        public static T GetRandom<T>(this List<T> list)
+        {
+            return list[UnityEngine.Random.Range(0, list.Count)];
         }
     }
 }

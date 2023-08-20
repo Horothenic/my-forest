@@ -35,7 +35,9 @@ namespace MyForest
         private void Initialize()
         {
             _forestDataSource.ForestObservable.Subscribe(BuildForest).AddTo(this);
-            _forestDataSource.NewTreeAddedObservable.Subscribe(CreateTree).AddTo(this);
+            _forestDataSource.NewTreeAddedObservable.Subscribe(CreateTreeWithEntryAnimation).AddTo(this);
+
+            BuildForest(_forestDataSource.ForestData);
         }
 
         private void ResetForest()
@@ -51,18 +53,23 @@ namespace MyForest
         {
             ResetForest();
 
-            for (int i = 0; i < forestData.TreeCount; i++)
+            for (var i = 0; i < forestData.TreeCount; i++)
             {
                 var treeData = forestData.Trees[i];
-                CreateTree(treeData);
+                CreateTree(treeData, false);
             }
         }
 
-        private void CreateTree(TreeData treeData)
+        private void CreateTreeWithEntryAnimation(TreeData treeData)
+        {
+            CreateTree(treeData, true);
+        }
+
+        private void CreateTree(TreeData treeData, bool withEntryAnimation)
         {
             var newForestElement = _objectPoolSource.Borrow(_treePrefab);
             newForestElement.gameObject.Set(treeData.Position, _root);
-            newForestElement.Initialize(treeData);
+            newForestElement.Initialize(treeData, withEntryAnimation);
             _trees.Add(newForestElement);
         }
 

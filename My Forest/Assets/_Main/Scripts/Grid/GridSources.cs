@@ -5,6 +5,7 @@ namespace MyForest
 {
     public interface IGridDataSource
     {
+        GridData GridData { get; }
         IObservable<GridData> GridObservable { get; }
         IObservable<TileData> NewTileAddedObservable { get; }
     }
@@ -17,7 +18,7 @@ namespace MyForest
     public interface IGridPositioningSource
     {
         void SetRadius(float radius);
-        Vector3 GetWorldPosition((int, int) coordinates);
+        Vector3 GetWorldPosition(TileCoordinates coordinates);
     }
 
     public interface IGridConfigurationsSource

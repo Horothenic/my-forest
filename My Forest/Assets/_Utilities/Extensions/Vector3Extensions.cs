@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 
 namespace UnityEngine
@@ -6,7 +7,7 @@ namespace UnityEngine
     {
         public static Vector3 Deserialize(this SerializedVector3 serializedVector3)
         {
-            return new Vector3(serializedVector3.x, serializedVector3.y, serializedVector3.z);
+            return new Vector3(serializedVector3.X, serializedVector3.Y, serializedVector3.Z);
         }
 
         public static SerializedVector3 Serialize(this Vector3 vector3)
@@ -16,24 +17,25 @@ namespace UnityEngine
     }
 
     [Serializable]
-    public class SerializedVector3
+    public struct SerializedVector3
     {
-        public float x;
-        public float y;
-        public float z;
+        public float X { get; private set; }
+        public float Y { get; private set; }
+        public float Z { get; private set; }
 
+        [JsonConstructor]
         public SerializedVector3(float x, float y, float z)
         {
-            this.x = x;
-            this.y = y;
-            this.z = z;
+            X = x;
+            Y = y;
+            Z = z;
         }
 
         public SerializedVector3(Vector3 vector3)
         {
-            x = vector3.x;
-            y = vector3.y;
-            z = vector3.z;
+            X = vector3.x;
+            Y = vector3.y;
+            Z = vector3.z;
         }
 
         public static implicit operator Vector3(SerializedVector3 serializedVector) => serializedVector.Deserialize();

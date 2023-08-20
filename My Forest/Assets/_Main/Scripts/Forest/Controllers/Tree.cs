@@ -8,6 +8,9 @@ namespace MyForest
     public class Tree : MonoBehaviour
     {
         #region FIELDS
+        
+        private const string APPEAR_STATE_NAME = "Appear";
+        private const string IDLE_STATE_NAME = "Idle";
 
         [Inject] private IObjectPoolSource _objectPoolSource = null;
         [Inject] private IGrowthDataSource _growthDataSource = null;
@@ -21,15 +24,45 @@ namespace MyForest
 
         #region METHODS
 
-        public void Initialize(TreeData treeData)
+        public void Initialize(TreeData treeData, bool withEntryAnimation)
         {
             _treeData = treeData;
             _growthDataSource.GrowthChangedObservable.Subscribe(OnGrowthChanged).AddTo(this);
+            
+            OnGrowthChanged(_growthDataSource.GrowthData);
+
+            if (withEntryAnimation)
+            {
+                StartAppearAnimation();
+            }
+            else
+            {
+                StartIdleAnimation();
+            }
+        }
+
+        private void StartIdleAnimation()
+        {
+            var currentTreeAnimator = _currentTree.GetComponentInChildren<Animator>();
+                
+            if (currentTreeAnimator == null) return;
+                
+            currentTreeAnimator.speed = Random.Range(0.8f, 1.2f);
+            currentTreeAnimator.Play(IDLE_STATE_NAME, 0, Random.value);
+        }
+
+        private void StartAppearAnimation()
+        {
+            var currentTreeAnimator = _currentTree.GetComponentInChildren<Animator>();
+                
+            if (currentTreeAnimator == null) return;
+                
+            currentTreeAnimator.Play(APPEAR_STATE_NAME);
         }
 
         private void OnGrowthChanged(GrowthData growthData)
         {
-            var age = _growthDataSource.GrowthData.CurrentGrowth - _treeData.CreationGrowth;
+            var age = growthData.CurrentGrowth - _treeData.CreationGrowth;
             var currentLevel = _treeData.Configuration.GetConfigurationLevelByAge(age);
 
             if (currentLevel == null) return;
@@ -43,6 +76,20 @@ namespace MyForest
             OnTreeLevelChanged(currentLevel);
         }
 
+        private void OnTreeSizeChanged(int age)
+        {
+            var steps = age - _currentLevel.GrowthNeeded;
+
+            if (steps == 0) return;
+
+            if (_currentLevel.HasMaxSteps)
+            {
+                steps = Mathf.Clamp(steps, 0, _currentLevel.MaxSizeSteps);
+            }
+
+            _currentTree.transform.localScale = (_currentTreeBaseSize + Vector3.one * steps * _currentLevel.SizeStep) * _treeData.SizeVariance;
+        }
+
         private void OnTreeLevelChanged(TreeConfiguration.TreeConfigurationLevel newLevel)
         {
             _currentLevel = newLevel;
@@ -52,20 +99,8 @@ namespace MyForest
 
             _currentTreeBaseSize = _currentLevel.Prefab.transform.localScale;
             _currentTree.transform.localScale = _currentTreeBaseSize;
-        }
 
-        private void OnTreeSizeChanged(int age)
-        {
-            var steps = age - _currentLevel.GrowthNeeded;
-
-            if (steps == default) return;
-
-            if (_currentLevel.HasMaxSteps)
-            {
-                steps = Mathf.Clamp(steps, default, _currentLevel.MaxSizeSteps);
-            }
-
-            _currentTree.transform.localScale = (_currentTreeBaseSize + Vector3.one * steps * _currentLevel.SizeStep) * _treeData.SizeVariance;
+            StartAppearAnimation();
         }
 
         #endregion

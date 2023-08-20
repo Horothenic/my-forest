@@ -2,23 +2,23 @@ using System;
 using System.Collections.Generic;
 
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace MyForest
 {
     [Serializable]
     public class GridData
     {
-        private List<TileData> _tiles = new();
-        private Dictionary<(int, int), TileData> _tilesMap = new();
+        private List<TileData> _tiles = new List<TileData>();
 
         public IReadOnlyList<TileData> Tiles => _tiles;
-
+        
         [JsonIgnore]
-        public int TilesCount => _tiles.Count;
+        public Dictionary<TileCoordinates, TileData> TilesMap { get; private set; } = new Dictionary<TileCoordinates, TileData>();
         [JsonIgnore]
-        public Dictionary<(int, int), TileData> TilesMap => _tilesMap;
+        public int TilesCount => TilesMap.Values.Count;
         [JsonIgnore]
-        public bool IsEmpty => _tiles.Count == default;
+        public bool IsEmpty => TilesCount == default(int);
 
         public GridData() { }
 
@@ -27,16 +27,16 @@ namespace MyForest
         {
             _tiles = tiles;
 
-            foreach (var tile in _tiles)
+            foreach (var tile in Tiles)
             {
-                _tilesMap.Add((tile.Q, tile.R), tile);
+                TilesMap.Add(tile.Coordinates, tile);
             }
         }
 
         public void AddTile(TileData newTile)
         {
             _tiles.Add(newTile);
-            _tilesMap.Add((newTile.Q, newTile.R), newTile);
+            TilesMap.Add(newTile.Coordinates, newTile);
         }
     }
 
@@ -44,33 +44,34 @@ namespace MyForest
     public class TileData
     {
         public BiomeType BiomeType { get; private set; }
-        public int Q { get; private set; }
-        public int R { get; private set; }
         public bool Surrounded { get; private set; }
-
-        [JsonIgnore]
-        public (int, int) Coordinates => (Q, R);
+        public TileCoordinates Coordinates { get; private set; }
 
         [JsonConstructor]
-        public TileData(BiomeType biomeType, int q, int r, bool surrounded)
+        public TileData(BiomeType biomeType, TileCoordinates coordinates, bool surrounded)
         {
             BiomeType = biomeType;
-            Q = q;
-            R = r;
             Surrounded = surrounded;
-        }
-
-        public TileData(BiomeType biomeType, (int, int) coordinates, bool surrounded)
-        {
-            BiomeType = biomeType;
-            Q = coordinates.Item1;
-            R = coordinates.Item2;
-            Surrounded = surrounded;
+            Coordinates = coordinates;
         }
 
         public void SetAsSurrounded()
         {
             Surrounded = true;
+        }
+    }
+    
+    [Serializable]
+    public struct TileCoordinates
+    {
+        public int Q { get; private set; }
+        public int R { get; private set; }
+        
+        [JsonConstructor]
+        public TileCoordinates(int q, int r)
+        {
+            Q = q;
+            R = r;
         }
     }
 
