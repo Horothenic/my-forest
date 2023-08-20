@@ -74,6 +74,7 @@ namespace MyForest
             }
 
             OnTreeLevelChanged(currentLevel);
+            OnTreeSizeChanged(age);
         }
 
         private void OnTreeSizeChanged(int age)
