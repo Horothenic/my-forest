@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 using Zenject;
 using UniRx;
@@ -10,7 +11,9 @@ namespace MyForest
         #region FIELDS
 
         [Inject] private IGrowthConfigurationsSource _configurations = null;
+        [Inject] private IGrowthTrackSource _growthTrackSource = null;
 
+        private DataSubject<IReadOnlyList<IGrowthTrackEvent>> _growthEventsOcurredSubject = new DataSubject<IReadOnlyList<IGrowthTrackEvent>>();
         private DataSubject<bool> _growthDailyClaimAvailableSubject = new DataSubject<bool>();
         private DataSubject<bool> _growthDailyExtraClaimAvailableSubject = new DataSubject<bool>();
 
@@ -23,6 +26,12 @@ namespace MyForest
             Data.IncreaseGrowth(increment);
             EmitData();
             Save();
+
+            var events = _growthTrackSource.GetEventsForGrowth(Data.CurrentGrowth);
+            if (events.Count > 0)
+            {
+                _growthEventsOcurredSubject.OnNext(events);
+            }
         }
 
         #endregion
@@ -32,7 +41,7 @@ namespace MyForest
     {
         protected override string Key => Constants.Growth.GROWTH_DATA_KEY;
 
-        protected override void OnLoadReady(ref GrowthData data)
+        protected override void OnPreLoad(ref GrowthData data)
         {
             var isDailyClaimAvailable = data.IsDailyClaimAvailable();
             var isDailyExtraClaimAvailable = data.IsDailyExtraClaimAvailable();
@@ -42,20 +51,13 @@ namespace MyForest
         }
     }
 
-    public partial class GrowthManager : IInitializable
-    {
-        void IInitializable.Initialize()
-        {
-            Load();
-        }
-    }
-
     public partial class GrowthManager : IGrowthDataSource
     {
         GrowthData IGrowthDataSource.GrowthData => Data;
         IObservable<GrowthData> IGrowthDataSource.GrowthChangedObservable => DataObservable;
-        IObservable<bool> IGrowthDataSource.ClaimDailyGrowthAvailable => _growthDailyClaimAvailableSubject.AsObservable(true);
-        IObservable<bool> IGrowthDataSource.ClaimDailyExtraGrowthAvailable => _growthDailyExtraClaimAvailableSubject.AsObservable(true);
+        IObservable<IReadOnlyList<IGrowthTrackEvent>> IGrowthDataSource.GrowthEventsOccurredObservable => _growthEventsOcurredSubject.AsObservable();
+        IObservable<bool> IGrowthDataSource.ClaimDailyGrowthAvailable => _growthDailyClaimAvailableSubject.AsObservable();
+        IObservable<bool> IGrowthDataSource.ClaimDailyExtraGrowthAvailable => _growthDailyExtraClaimAvailableSubject.AsObservable();
         double IGrowthDataSource.ExtraDailyGrowthSecondsLeft => Data.NextExtraDailyGrowthSecondsLeft;
     }
 

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace MyForest
 {
@@ -8,6 +7,7 @@ namespace MyForest
     {
         GrowthData GrowthData { get; }
         IObservable<GrowthData> GrowthChangedObservable { get; }
+        IObservable<IReadOnlyList<IGrowthTrackEvent>> GrowthEventsOccurredObservable { get; }
         IObservable<bool> ClaimDailyGrowthAvailable { get; }
         IObservable<bool> ClaimDailyExtraGrowthAvailable { get; }
         double ExtraDailyGrowthSecondsLeft { get; }

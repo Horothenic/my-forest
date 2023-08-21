@@ -22,12 +22,8 @@ namespace MyForest
         
         [Header("CONFIGURATIONS")]
         [SerializeField] private float _radius = 1f;
-        
-        [Header("DATA")]
-        [SerializeField] [ReadOnly] private Vector2 _coordinates = default;
 
         private Mesh _mesh = null;
-        private TileData _tileData = null;
 
         public float Radius => _radius;
         
@@ -63,7 +59,6 @@ namespace MyForest
 
         public void Initialize(TileData tileData)
         {
-            _tileData = tileData;
             _meshRenderer.material.SetColor(ShaderColorProperty, _gridConfigurationsSource.GetBiomeColor(tileData.BiomeType));
         }
 

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 using Zenject;
 using UniRx;
@@ -14,9 +15,9 @@ namespace MyForest
 
         [Header("CONFIGURATIONS")]
         [SerializeField] private Transform _root = null;
-        [SerializeField] private ForestElement _forestElementPrefab = null;
+        [SerializeField] private Tree _treePrefab = null;
 
-        private CompositeDisposable _disposables = new CompositeDisposable();
+        private readonly List<Tree> _trees = new List<Tree>();
 
         #endregion
 
@@ -27,39 +28,49 @@ namespace MyForest
             Initialize();
         }
 
-        private void OnDestroy()
-        {
-            Dispose();
-        }
-
         #endregion
 
         #region METHODS
 
         private void Initialize()
         {
-            _forestDataSource.ForestObservable.Subscribe(BuildForest).AddTo(_disposables);
+            _forestDataSource.ForestObservable.Subscribe(BuildForest).AddTo(this);
+            _forestDataSource.NewTreeAddedObservable.Subscribe(CreateNewTree).AddTo(this);
+
+            BuildForest(_forestDataSource.ForestData);
         }
 
-        private void Dispose()
+        private void ResetForest()
         {
-            _disposables.Dispose();
+            foreach (var tree in _trees)
+            {
+                _objectPoolSource.Return(tree.gameObject);
+            }
+            _trees.Clear();
         }
 
         private void BuildForest(ForestData forestData)
         {
-            for (int i = 0; i < forestData.TreeCount; i++)
+            ResetForest();
+
+            for (var i = 0; i < forestData.TreeCount; i++)
             {
-                var forestElementData = forestData.Trees[i];
-                SetForestElement(forestElementData);
+                var treeData = forestData.Trees[i];
+                CreateTree(treeData, false);
             }
         }
 
-        private void SetForestElement(TreeData forestElementData)
+        private void CreateNewTree(TreeData treeData)
         {
-            var newForestElement = _objectPoolSource.Borrow(_forestElementPrefab);
-            newForestElement.gameObject.Set(forestElementData.Position, _root);
-            newForestElement.Initialize(forestElementData);
+            CreateTree(treeData);
+        }
+
+        private void CreateTree(TreeData treeData, bool withAnimation = true)
+        {
+            var newForestElement = _objectPoolSource.Borrow(_treePrefab);
+            newForestElement.gameObject.Set(treeData.Position, _root);
+            newForestElement.Initialize(treeData, withAnimation);
+            _trees.Add(newForestElement);
         }
 
         #endregion

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
+
 using UniRx;
 
 namespace MyForest
@@ -30,7 +32,13 @@ namespace MyForest
         void BlockInput();
         IObservable<Unit> SetDefaultZoomObservable { get; }
         void SetDefaultZoom();
-        IObservable<IReadOnlyList<HexagonTile>> UpdateDragLimitsObservable { get; }
-        void UpdateDragLimits(IReadOnlyList<HexagonTile> gridData);
+        IObservable<IReadOnlyList<Vector3>> UpdateDragLimitsObservable { get; }
+        void UpdateDragLimits(IReadOnlyList<Vector3> newPositions);
+        void UpdateDragLimits(Vector3 newPosition);
+    }
+
+    public interface ICameraRepositionDataSource
+    {
+        IObservable<Vector3> NewCenterPositionObservable { get; }
     }
 }

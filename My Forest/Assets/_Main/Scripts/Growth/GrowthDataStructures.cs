@@ -8,7 +8,7 @@ namespace MyForest
     [Serializable]
     public class GrowthData
     {
-        public int CurrentGrowthDays { get; private set; }
+        public int CurrentGrowth { get; private set; }
         public DateTime LastClaimDateTime { get; private set; }
         public DateTime NextExtraClaimDateTime { get; private set; }
 
@@ -31,9 +31,9 @@ namespace MyForest
         public GrowthData() { }
 
         [JsonConstructor]
-        public GrowthData(int currentGrowthDays, string lastClaimDateTime, string nextExtraClaimDateTime)
+        public GrowthData(int currentGrowth, string lastClaimDateTime, string nextExtraClaimDateTime)
         {
-            CurrentGrowthDays = currentGrowthDays;
+            CurrentGrowth = currentGrowth;
 
             if (!string.IsNullOrEmpty(lastClaimDateTime))
             {
@@ -48,7 +48,7 @@ namespace MyForest
 
         public void IncreaseGrowth(int increment)
         {
-            CurrentGrowthDays += increment;
+            CurrentGrowth += increment;
         }
 
         public void SetLastClaimDateTime(DateTime dateTime)

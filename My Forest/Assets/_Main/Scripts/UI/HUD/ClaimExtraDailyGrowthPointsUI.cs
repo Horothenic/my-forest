@@ -19,8 +19,7 @@ namespace MyForest.UI
         [SerializeField] private Button _adButton = null;
         [SerializeField] private GameObject _buttonContainer = null;
         [SerializeField] private TimerUI _timerUI = null;
-
-        private CompositeDisposable _disposables = new CompositeDisposable();
+        
         private bool _loaded = false;
 
         #endregion
@@ -56,13 +55,16 @@ namespace MyForest.UI
             _buttonContainer.SetActive(false);
             _adButton.onClick.AddListener(ShowAd);
 
-            _growthDataSource.ClaimDailyGrowthAvailable.Subscribe(ClaimAvailableUpdated).AddTo(_disposables);
-            _growthDataSource.ClaimDailyExtraGrowthAvailable.Subscribe(ExtraClaimAvailableUpdated).AddTo(_disposables);
-            _timerUI.TimerCompleteObservable.Subscribe(OnTimerCompleted).AddTo(_disposables);
+            _growthDataSource.ClaimDailyGrowthAvailable.Subscribe(ClaimAvailableUpdated).AddTo(this);
+            _growthDataSource.ClaimDailyExtraGrowthAvailable.Subscribe(ExtraClaimAvailableUpdated).AddTo(this);
+            _timerUI.TimerCompleteObservable.Subscribe(OnTimerCompleted).AddTo(this);
 
             Advertising.RewardedAdCompleted += RewardedAdCompletedHandler;
 
             _loaded = true;
+            
+            ClaimAvailableUpdated(_growthDataSource.GrowthData.IsDailyClaimAvailable());
+            ExtraClaimAvailableUpdated(_growthDataSource.GrowthData.IsDailyExtraClaimAvailable());
         }
 
         [Obsolete]

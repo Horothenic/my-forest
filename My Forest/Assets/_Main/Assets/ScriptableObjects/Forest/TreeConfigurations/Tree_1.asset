@@ -13,18 +13,30 @@ MonoBehaviour:
   m_Name: Tree_1
   m_EditorClassIdentifier: 
   _rarity: 0
+  _biome: 0
   _displayName: trees/display_names/tree_1
   _description: trees/descriptions/tree_1
+  _minSizeVariance: 0.8
+  _maxSizeVariance: 1.2
+  _sizeStepsLimit: 10
   _levels:
   - _name: 1
     _growthNeeded: 0
     _prefab: {fileID: 2864931769401390778, guid: d31e30d66e65445018793fce3cff1398, type: 3}
+    _sizeStep: 0.01
+    _maxSizeSteps: -1
   - _name: 2
     _growthNeeded: 5
     _prefab: {fileID: 2864931769401390778, guid: 00fc30775ade34525aa8e56c5d2fd3a1, type: 3}
+    _sizeStep: 0.01
+    _maxSizeSteps: -1
   - _name: 3
-    _growthNeeded: 10
+    _growthNeeded: 20
     _prefab: {fileID: 127550, guid: 87a6cef862ce2cb4a88c5ca5d5af5d2b, type: 3}
+    _sizeStep: 0.01
+    _maxSizeSteps: -1
   - _name: 4
-    _growthNeeded: 15
+    _growthNeeded: 50
     _prefab: {fileID: 116970, guid: 38ade0ba7c293f14a9b1b610879e9390, type: 3}
+    _sizeStep: 0.01
+    _maxSizeSteps: 50

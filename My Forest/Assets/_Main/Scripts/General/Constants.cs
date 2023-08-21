@@ -16,6 +16,7 @@ namespace MyForest
         public class Grid
         {
             public const string GRID_DATA_KEY = "grid_data";
+            public const string DEFAULT_GRID_DATA_FILE = "DefaultGrid";
         }
 
         public class Camera

@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _root: {fileID: 6787032632560747870}
-  _forestElementPrefab: {fileID: 4874896885170474990, guid: 3ad01476d207d4936b962c55596e9cf8, type: 3}
+  _treePrefab: {fileID: 4874896885170474990, guid: 3ad01476d207d4936b962c55596e9cf8, type: 3}
 --- !u!1 &6787032632560747871
 GameObject:
   m_ObjectHideFlags: 0
