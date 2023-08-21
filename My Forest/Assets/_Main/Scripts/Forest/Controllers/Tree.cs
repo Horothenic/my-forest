@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 using Zenject;
@@ -9,8 +10,8 @@ namespace MyForest
     {
         #region FIELDS
         
-        private const string APPEAR_STATE_NAME = "Appear";
-        private const string IDLE_STATE_NAME = "Idle";
+        private const float SCALE_TRANSITION_TIME = 0.5f;
+        private static readonly Vector3 StartScaleBeforeAppearing = new Vector3(0.2f, 0.2f, 0.2f);
 
         [Inject] private IObjectPoolSource _objectPoolSource = null;
         [Inject] private IGrowthDataSource _growthDataSource = null;
@@ -19,45 +20,34 @@ namespace MyForest
         private TreeConfiguration.TreeConfigurationLevel _currentLevel = null;
         private GameObject _currentTree = null;
         private Vector3 _currentTreeBaseSize = default;
+        private Tween _scaleTween = null;
 
         #endregion
 
         #region METHODS
 
-        public void Initialize(TreeData treeData, bool withEntryAnimation)
+        public void Initialize(TreeData treeData, bool withAnimation)
         {
             _treeData = treeData;
             _growthDataSource.GrowthChangedObservable.Subscribe(OnGrowthChanged).AddTo(this);
             
-            OnGrowthChanged(_growthDataSource.GrowthData);
+            SetStartValues(_growthDataSource.GrowthData);
 
-            if (withEntryAnimation)
+            if (withAnimation)
             {
-                StartAppearAnimation();
-            }
-            else
-            {
-                StartIdleAnimation();
+                TriggerNewTreeAnimation();
             }
         }
 
-        private void StartIdleAnimation()
+        private void SetStartValues(GrowthData growthData)
         {
-            var currentTreeAnimator = _currentTree.GetComponentInChildren<Animator>();
-                
-            if (currentTreeAnimator == null) return;
-                
-            currentTreeAnimator.speed = Random.Range(0.8f, 1.2f);
-            currentTreeAnimator.Play(IDLE_STATE_NAME, 0, Random.value);
-        }
+            var age = growthData.CurrentGrowth - _treeData.CreationGrowth;
+            var currentLevel = _treeData.Configuration.GetConfigurationLevelByAge(age);
 
-        private void StartAppearAnimation()
-        {
-            var currentTreeAnimator = _currentTree.GetComponentInChildren<Animator>();
-                
-            if (currentTreeAnimator == null) return;
-                
-            currentTreeAnimator.Play(APPEAR_STATE_NAME);
+            if (currentLevel == null) return;
+
+            OnTreeLevelChanged(currentLevel);
+            OnTreeSizeChanged(age, false);
         }
 
         private void OnGrowthChanged(GrowthData growthData)
@@ -69,15 +59,15 @@ namespace MyForest
 
             if (currentLevel == _currentLevel)
             {
-                OnTreeSizeChanged(age);
+                OnTreeSizeChanged(age, true);
                 return;
             }
 
             OnTreeLevelChanged(currentLevel);
-            OnTreeSizeChanged(age);
+            TriggerNewTreeAnimation();
         }
 
-        private void OnTreeSizeChanged(int age)
+        private void OnTreeSizeChanged(int age, bool withAnimation)
         {
             var steps = age - _currentLevel.GrowthNeeded;
 
@@ -88,7 +78,17 @@ namespace MyForest
                 steps = Mathf.Clamp(steps, 0, _currentLevel.MaxSizeSteps);
             }
 
-            _currentTree.transform.localScale = (_currentTreeBaseSize + Vector3.one * steps * _currentLevel.SizeStep) * _treeData.SizeVariance;
+            var newScale = (_currentTreeBaseSize + Vector3.one * steps * _currentLevel.SizeStep) * _treeData.SizeVariance;
+            
+            if (withAnimation)
+            {
+                _scaleTween?.Kill();
+                _scaleTween = _currentTree.transform.DOScale(newScale, SCALE_TRANSITION_TIME).SetEase(Ease.OutQuint);
+            }
+            else
+            {
+                _currentTree.transform.localScale = newScale;
+            }
         }
 
         private void OnTreeLevelChanged(TreeConfiguration.TreeConfigurationLevel newLevel)
@@ -99,9 +99,13 @@ namespace MyForest
             _currentTree.SetLocal(Vector3.zero, transform);
 
             _currentTreeBaseSize = _currentLevel.Prefab.transform.localScale;
-            _currentTree.transform.localScale = _currentTreeBaseSize;
+        }
 
-            StartAppearAnimation();
+        private void TriggerNewTreeAnimation()
+        {
+            _scaleTween?.Kill();
+            var startScale = _currentTreeBaseSize * _treeData.SizeVariance;
+            _scaleTween = _currentTree.transform.DOScale(startScale, SCALE_TRANSITION_TIME).From(StartScaleBeforeAppearing).SetEase(Ease.OutQuint);
         }
 
         #endregion

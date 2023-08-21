@@ -35,7 +35,7 @@ namespace MyForest
         private void Initialize()
         {
             _forestDataSource.ForestObservable.Subscribe(BuildForest).AddTo(this);
-            _forestDataSource.NewTreeAddedObservable.Subscribe(CreateTreeWithEntryAnimation).AddTo(this);
+            _forestDataSource.NewTreeAddedObservable.Subscribe(CreateNewTree).AddTo(this);
 
             BuildForest(_forestDataSource.ForestData);
         }
@@ -60,16 +60,16 @@ namespace MyForest
             }
         }
 
-        private void CreateTreeWithEntryAnimation(TreeData treeData)
+        private void CreateNewTree(TreeData treeData)
         {
-            CreateTree(treeData, true);
+            CreateTree(treeData);
         }
 
-        private void CreateTree(TreeData treeData, bool withEntryAnimation)
+        private void CreateTree(TreeData treeData, bool withAnimation = true)
         {
             var newForestElement = _objectPoolSource.Borrow(_treePrefab);
             newForestElement.gameObject.Set(treeData.Position, _root);
-            newForestElement.Initialize(treeData, withEntryAnimation);
+            newForestElement.Initialize(treeData, withAnimation);
             _trees.Add(newForestElement);
         }
 
