@@ -18,12 +18,11 @@ MonoBehaviour:
   _description: trees/descriptions/tree_1
   _minSizeVariance: 0.8
   _maxSizeVariance: 1.2
-  _sizeStepsLimit: 10
   _levels:
   - _name: 1
     _growthNeeded: 0
     _prefab: {fileID: 2864931769401390778, guid: d31e30d66e65445018793fce3cff1398, type: 3}
-    _sizeStep: 0.01
+    _sizeStep: 0
     _maxSizeSteps: -1
   - _name: 2
     _growthNeeded: 5
@@ -33,10 +32,10 @@ MonoBehaviour:
   - _name: 3
     _growthNeeded: 20
     _prefab: {fileID: 127550, guid: 87a6cef862ce2cb4a88c5ca5d5af5d2b, type: 3}
-    _sizeStep: 0.01
+    _sizeStep: 0.005
     _maxSizeSteps: -1
   - _name: 4
     _growthNeeded: 50
     _prefab: {fileID: 116970, guid: 38ade0ba7c293f14a9b1b610879e9390, type: 3}
-    _sizeStep: 0.01
+    _sizeStep: 0.003
     _maxSizeSteps: 50
