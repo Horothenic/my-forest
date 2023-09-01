@@ -96,7 +96,7 @@ namespace MyForest
             _currentLevel = newLevel;
             _objectPoolSource.Return(_currentTree);
             _currentTree = _objectPoolSource.Borrow(_currentLevel.Prefab);
-            _currentTree.SetLocal(Vector3.zero, transform);
+            _currentTree.SetLocal(Vector3.zero, _treeData.Rotation, transform);
 
             _currentTreeBaseSize = _currentLevel.Prefab.transform.localScale;
         }

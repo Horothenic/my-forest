@@ -11,7 +11,7 @@ namespace MyForest
     {
         #region FIELDS
 
-        private const int MAX_TREE_ROTATION = 359;
+        private const int MAX_TREE_ROTATION = 360;
 
         [Inject] private ITreeConfigurationCollectionSource _treeConfigurationCollectionSource = null;
         [Inject] private IGrowthDataSource _growthDataSource = null;
