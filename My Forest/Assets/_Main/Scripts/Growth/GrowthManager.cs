@@ -23,11 +23,13 @@ namespace MyForest
 
         private void IncreaseGrowth(int increment)
         {
+            var previousGrowth = Data.CurrentGrowth;
+            
             Data.IncreaseGrowth(increment);
             EmitData();
             Save();
 
-            var events = _growthTrackSource.GetEventsForGrowth(Data.CurrentGrowth);
+            var events = _growthTrackSource.GetEventsForGrowth(previousGrowth, Data.CurrentGrowth);
             if (events.Count > 0)
             {
                 _growthEventsOcurredSubject.OnNext(events);
