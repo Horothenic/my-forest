@@ -31,23 +31,23 @@ namespace MyForest
             _treeData = treeData;
             _growthDataSource.GrowthChangedObservable.Subscribe(OnGrowthChanged).AddTo(this);
             
-            SetStartValues(_growthDataSource.GrowthData);
-
-            if (withAnimation)
-            {
-                TriggerNewTreeAnimation();
-            }
+            SetStartValues(_growthDataSource.GrowthData, withAnimation);
         }
 
-        private void SetStartValues(GrowthData growthData)
+        private void SetStartValues(GrowthData growthData, bool withAnimation)
         {
             var age = growthData.CurrentGrowth - _treeData.CreationGrowth;
             var currentLevel = _treeData.Configuration.GetConfigurationLevelByAge(age);
 
             if (currentLevel == null) return;
 
-            OnTreeLevelChanged(currentLevel);
+            SetNewTreeLevel(currentLevel);
             OnTreeSizeChanged(age, false);
+
+            if (withAnimation)
+            {
+                TriggerNewTreeAnimation(age);
+            }
         }
 
         private void OnGrowthChanged(GrowthData growthData)
@@ -63,22 +63,13 @@ namespace MyForest
                 return;
             }
 
-            OnTreeLevelChanged(currentLevel);
-            TriggerNewTreeAnimation();
+            SetNewTreeLevel(currentLevel);
+            TriggerNewTreeAnimation(age);
         }
 
         private void OnTreeSizeChanged(int age, bool withAnimation)
         {
-            var steps = age - _currentLevel.GrowthNeeded;
-
-            if (steps == 0) return;
-
-            if (_currentLevel.HasMaxSteps)
-            {
-                steps = Mathf.Clamp(steps, 0, _currentLevel.MaxSizeSteps);
-            }
-
-            var newScale = (_currentTreeBaseSize + Vector3.one * steps * _currentLevel.SizeStep) * _treeData.SizeVariance;
+            var newScale = (_currentTreeBaseSize + Vector3.one * GetStepsNeededForAge(age) * _currentLevel.SizeStep) * _treeData.SizeVariance;
             
             if (withAnimation)
             {
@@ -91,7 +82,7 @@ namespace MyForest
             }
         }
 
-        private void OnTreeLevelChanged(TreeConfiguration.TreeConfigurationLevel newLevel)
+        private void SetNewTreeLevel(TreeConfiguration.TreeConfigurationLevel newLevel)
         {
             _currentLevel = newLevel;
             _objectPoolSource.Return(_currentTree);
@@ -101,12 +92,26 @@ namespace MyForest
             _currentTreeBaseSize = _currentLevel.Prefab.transform.localScale;
         }
 
-        private void TriggerNewTreeAnimation()
+        private void TriggerNewTreeAnimation(int age)
         {
             _scaleTween?.Kill();
-            var newScale = _currentTreeBaseSize * _treeData.SizeVariance;
-            var startScale = newScale * NEW_TREE_START_SCALE_FACTOR;
+            
+            var newScale = (_currentTreeBaseSize + Vector3.one * GetStepsNeededForAge(age) * _currentLevel.SizeStep) * _treeData.SizeVariance;
+            var startScale = _currentTreeBaseSize * _treeData.SizeVariance * NEW_TREE_START_SCALE_FACTOR;
+            
             _scaleTween = _currentTree.transform.DOScale(newScale, SCALE_TRANSITION_TIME).From(startScale).SetEase(Ease.OutBounce);
+        }
+
+        private int GetStepsNeededForAge(int age)
+        {
+            var steps = age - _currentLevel.GrowthNeeded;
+
+            if (_currentLevel.HasMaxSteps)
+            {
+                steps = Mathf.Clamp(steps, 0, _currentLevel.MaxSizeSteps);
+            }
+
+            return steps;
         }
 
         #endregion

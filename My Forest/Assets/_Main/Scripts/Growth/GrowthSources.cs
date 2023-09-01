@@ -28,7 +28,8 @@ namespace MyForest
 
     public interface IGrowthTrackSource
     {
-        IReadOnlyList<IGrowthTrackEvent> GetEventsForGrowth(int growth);
+        IReadOnlyList<IGrowthTrackEvent> GetEventsForGrowth(int currentGrowth);
+        IReadOnlyList<IGrowthTrackEvent> GetEventsForGrowth(int previousGrowth, int currentGrowth);
     }
 }
 

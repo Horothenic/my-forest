@@ -64,7 +64,7 @@ namespace MyForest
         {
             var currentGrowth = growthData.CurrentGrowth;
 
-            if (currentGrowth == default && _lastLowLimit > currentGrowth)
+            if (currentGrowth == 0 && _lastLowLimit > currentGrowth)
             {
                 _lastLowLimit = -1;
             }
