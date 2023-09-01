@@ -99,4 +99,3 @@ MonoBehaviour:
   _meshRenderer: {fileID: 7147377391071985971}
   _meshFilter: {fileID: 5475706269923361464}
   _radius: 1
-  _coordinates: {x: 0, y: 0}
