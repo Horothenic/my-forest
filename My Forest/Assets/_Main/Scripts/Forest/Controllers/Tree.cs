@@ -11,7 +11,7 @@ namespace MyForest
         #region FIELDS
         
         private const float SCALE_TRANSITION_TIME = 0.5f;
-        private static readonly Vector3 StartScaleBeforeAppearing = new Vector3(0.2f, 0.2f, 0.2f);
+        private const float NEW_TREE_START_SCALE_FACTOR = 0.75f;
 
         [Inject] private IObjectPoolSource _objectPoolSource = null;
         [Inject] private IGrowthDataSource _growthDataSource = null;
@@ -104,8 +104,9 @@ namespace MyForest
         private void TriggerNewTreeAnimation()
         {
             _scaleTween?.Kill();
-            var startScale = _currentTreeBaseSize * _treeData.SizeVariance;
-            _scaleTween = _currentTree.transform.DOScale(startScale, SCALE_TRANSITION_TIME).From(StartScaleBeforeAppearing).SetEase(Ease.OutQuint);
+            var newScale = _currentTreeBaseSize * _treeData.SizeVariance;
+            var startScale = newScale * NEW_TREE_START_SCALE_FACTOR;
+            _scaleTween = _currentTree.transform.DOScale(newScale, SCALE_TRANSITION_TIME).From(startScale).SetEase(Ease.OutBounce);
         }
 
         #endregion
