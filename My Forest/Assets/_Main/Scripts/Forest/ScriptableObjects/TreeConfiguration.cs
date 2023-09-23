@@ -1,8 +1,6 @@
 using UnityEngine;
 using System;
 
-using Lean.Localization;
-
 namespace MyForest
 {
     [CreateAssetMenu(fileName = nameof(TreeConfiguration), menuName = MENU_NAME)]
@@ -32,23 +30,11 @@ namespace MyForest
         [SerializeField] private TreeRarity _rarity = default;
         [SerializeField] private BiomeType _biome = default;
 
-        [Header("Display Name")]
-        [LeanTranslationName]
-        [SerializeField]
-        private string _displayName = null;
-
-        [Header("Description")]
-        [LeanTranslationName]
-        [SerializeField]
-        private string _description = null;
-
         [SerializeField] private float _minSizeVariance = .8f;
         [SerializeField] private float _maxSizeVariance = 1.2f;
         [SerializeField] private TreeConfigurationLevel[] _levels = null;
 
         public string ID => name;
-        public string DisplayName => _displayName;
-        public string Description => _description;
         public TreeRarity Rarity => _rarity;
         public BiomeType Biome => _biome;
         public int MaxLevel => _levels.Length - 1;
