@@ -15,18 +15,18 @@ MonoBehaviour:
   _growthTrackRecurrentEvents:
   - _name: Recurring Tree
     _eventType: 0
-    _startDay: 10
-    _daysInterval: 10
+    _growthToStart: 10
+    _growthInterval: 10
   _growthTrackPinPointEvents:
   - _name: Welcome Extra Tree 1
     _eventType: 0
-    _dayForEvent: 1
+    _growthThreshold: 1
   - _name: Welcome Extra Tree 2
     _eventType: 0
-    _dayForEvent: 3
+    _growthThreshold: 3
   - _name: Welcome Extra Tree 3
     _eventType: 0
-    _dayForEvent: 6
+    _growthThreshold: 6
   - _name: Welcome Extra Tree 4
     _eventType: 0
-    _dayForEvent: 10
+    _growthThreshold: 10
