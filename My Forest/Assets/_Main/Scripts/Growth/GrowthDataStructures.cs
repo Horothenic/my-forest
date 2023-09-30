@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 
 using Newtonsoft.Json;
+using UnityEngine.Serialization;
 
 namespace MyForest
 {
@@ -67,13 +68,13 @@ namespace MyForest
     {
         [SerializeField] private string _name = default;
         [SerializeField] private GrowthTrackEventType _eventType = default;
-        [SerializeField] private int _startDay = default;
-        [SerializeField] private int _daysInterval = default;
+        [SerializeField] private int _growthToStart = default;
+        [SerializeField] private int _growthInterval = default;
 
         public string Name => _name;
         public GrowthTrackEventType EventType => _eventType;
-        public int StartDay => _startDay;
-        public int DaysInterval => _daysInterval;
+        public int GrowthToStart => _growthToStart;
+        public int GrowthInterval => _growthInterval;
     }
 
     [Serializable]
@@ -81,11 +82,11 @@ namespace MyForest
     {
         [SerializeField] private string _name = default;
         [SerializeField] private GrowthTrackEventType _eventType = default;
-        [SerializeField] private int _dayForEvent = default;
+        [SerializeField] private int _growthThreshold = default;
 
         public string Name => _name;
         public GrowthTrackEventType EventType => _eventType;
-        public int DayForEvent => _dayForEvent;
+        public int GrowthThreshold => _growthThreshold;
     }
 
     public enum GrowthTrackEventType

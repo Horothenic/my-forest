@@ -31,7 +31,7 @@ namespace MyForest
             {
                 foreach (var growthTrackEvent in _growthTrackPinPointEvents)
                 {
-                    if (growthTrackEvent.DayForEvent == growth)
+                    if (growthTrackEvent.GrowthThreshold == growth)
                     {
                         list.Add(growthTrackEvent);
                     }
@@ -39,7 +39,7 @@ namespace MyForest
 
                 foreach (var growthTrackEvent in _growthTrackRecurrentEvents)
                 {
-                    if (growth >= growthTrackEvent.StartDay && growth % growthTrackEvent.DaysInterval == default)
+                    if (growth >= growthTrackEvent.GrowthToStart && growth % growthTrackEvent.GrowthInterval == default)
                     {
                         list.Add(growthTrackEvent);
                     }
