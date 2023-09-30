@@ -9,40 +9,24 @@ namespace MyForest
     public class GrowthData
     {
         public int CurrentGrowth { get; private set; }
-        public DateTime LastClaimDateTime { get; private set; }
+        public DateTime NextClaimDateTime { get; private set; }
         public DateTime NextExtraClaimDateTime { get; private set; }
-
-        [JsonIgnore]
-        public double NextExtraDailyGrowthSecondsLeft
-        {
-            get
-            {
-                if (NextExtraClaimDateTime.Ticks == 0)
-                {
-                    return default;
-                }
-                else
-                {
-                    return (NextExtraClaimDateTime - DateTime.Now).TotalSeconds;
-                }
-            }
-        }
 
         public GrowthData() { }
 
         [JsonConstructor]
-        public GrowthData(int currentGrowth, string lastClaimDateTime, string nextExtraClaimDateTime)
+        public GrowthData(int currentGrowth, string nextClaimDateTime, string nextExtraClaimDateTime)
         {
             CurrentGrowth = currentGrowth;
 
-            if (!string.IsNullOrEmpty(lastClaimDateTime))
+            if (!string.IsNullOrEmpty(nextClaimDateTime))
             {
-                LastClaimDateTime = DateTime.Parse(lastClaimDateTime);
+                NextClaimDateTime = DateTime.Parse(nextClaimDateTime).ToUniversalTime();
             }
 
             if (!string.IsNullOrEmpty(nextExtraClaimDateTime))
             {
-                NextExtraClaimDateTime = DateTime.Parse(nextExtraClaimDateTime);
+                NextExtraClaimDateTime = DateTime.Parse(nextExtraClaimDateTime).ToUniversalTime();
             }
         }
 
@@ -51,27 +35,24 @@ namespace MyForest
             CurrentGrowth += increment;
         }
 
-        public void SetLastClaimDateTime(DateTime dateTime)
+        public void SetNextClaimDateTime(DateTime dateTime)
         {
-            LastClaimDateTime = dateTime;
+            NextClaimDateTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day);
         }
 
         public void SetNextExtraClaimDateTime(int secondsToNextExtraClaimDate)
         {
-            NextExtraClaimDateTime = DateTime.Now + TimeSpan.FromSeconds(secondsToNextExtraClaimDate);
+            NextExtraClaimDateTime = DateTime.UtcNow + TimeSpan.FromSeconds(secondsToNextExtraClaimDate);
         }
 
         public bool IsDailyClaimAvailable()
         {
-            var lastClaimDateTime = new DateTime(LastClaimDateTime.Year, LastClaimDateTime.Month, LastClaimDateTime.Day);
-            var today = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
-
-            return DateTime.Compare(lastClaimDateTime, today) < 0;
+            return NextClaimDateTime < DateTime.UtcNow;
         }
 
         public bool IsDailyExtraClaimAvailable()
         {
-            return NextExtraDailyGrowthSecondsLeft <= 0;
+            return NextExtraClaimDateTime < DateTime.UtcNow;
         }
     }
 

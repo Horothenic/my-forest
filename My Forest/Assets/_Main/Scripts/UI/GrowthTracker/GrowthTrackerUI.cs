@@ -48,8 +48,8 @@ namespace MyForest
             var positionStep = _stepsContainer.rect.width / (float)_stepsToShow;
             for (var i = 0; i < _stepsToShow + 1; i++)
             {
-                var newStep = _objectPoolSource.Borrow<GrowthTrackerStepUI>(_stepPrefab);
-                newStep.gameObject.Set(_stepsStartingPoint.position, _stepsContainer);
+                var newStep = _objectPoolSource.Borrow(_stepPrefab);
+                newStep.gameObject.Set(_stepsStartingPoint.position, _stepsContainer).SetScale(Vector3.one);
 
                 newStep.GetRectTransform().anchoredPosition += Vector2.right * positionStep * i;
                 _steps.Add(newStep);

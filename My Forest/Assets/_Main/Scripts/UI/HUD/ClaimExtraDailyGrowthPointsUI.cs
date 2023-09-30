@@ -1,10 +1,12 @@
+using System;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
 
 using Zenject;
 using UniRx;
-using EasyMobile;
+using Cysharp.Threading.Tasks;
+using TMPro;
 
 namespace MyForest.UI
 {
@@ -14,115 +16,136 @@ namespace MyForest.UI
 
         [Inject] private IGrowthDataSource _growthDataSource = null;
         [Inject] private IGrowthEventSource _growthEventSource = null;
+        [Inject] private IAdsSource _adsSource = null;
 
         [Header("COMPONENTS")]
-        [SerializeField] private Button _adButton = null;
         [SerializeField] private GameObject _buttonContainer = null;
-        [SerializeField] private TimerUI _timerUI = null;
+        [SerializeField] private TextMeshProUGUI _timerText = null;
+        [SerializeField] private Button _adButton = null;
         
-        private bool _loaded = false;
-
         #endregion
 
         #region UNITY
 
-        [Obsolete]
         private void Start()
         {
             Initialize();
-        }
-
-        [Obsolete]
-        private void OnDestroy()
-        {
-            Clean();
-        }
-
-        private void OnApplicationPause(bool paused)
-        {
-            if (paused || !_loaded) return;
-
-            StartTimer();
         }
 
         #endregion
 
         #region METHOD
 
-        [Obsolete]
         private void Initialize()
         {
-            _buttonContainer.SetActive(false);
+            DisableAll();
+            
             _adButton.onClick.AddListener(ShowAd);
 
-            _growthDataSource.ClaimDailyGrowthAvailable.Subscribe(ClaimAvailableUpdated).AddTo(this);
-            _growthDataSource.ClaimDailyExtraGrowthAvailable.Subscribe(ExtraClaimAvailableUpdated).AddTo(this);
-            _timerUI.TimerCompleteObservable.Subscribe(OnTimerCompleted).AddTo(this);
+            _growthDataSource.ClaimDailyGrowthAvailable.Subscribe(IsClaimAvailable).AddTo(this);
+            _growthDataSource.DailyExtraGrowthTimer.TimeLeftObservable.Subscribe(OnTimerInterval).AddTo(this);
+            _adsSource.IsInitializedObservable.Subscribe(OnAdsInitialized).AddTo(this);
 
-            Advertising.RewardedAdCompleted += RewardedAdCompletedHandler;
-
-            _loaded = true;
-            
-            ClaimAvailableUpdated(_growthDataSource.GrowthData.IsDailyClaimAvailable());
-            ExtraClaimAvailableUpdated(_growthDataSource.GrowthData.IsDailyExtraClaimAvailable());
+            IsClaimAvailable(_growthDataSource.GrowthData.IsDailyClaimAvailable());
         }
-
-        [Obsolete]
-        private void Clean()
+        
+        private void OnTimerInterval(TimeSpan timeLeft)
         {
-            Advertising.RewardedAdCompleted -= RewardedAdCompletedHandler;
+            var secondsLeft = (long)timeLeft.TotalSeconds;
+            
+            var hours = secondsLeft / 3600;
+            var minutes = secondsLeft / 60;
+            var seconds = secondsLeft % 60;
+
+            var format = hours == 0 ? Constants.Formats.MINUTE_TIMER_FORMAT : Constants.Formats.HOUR_TIMER_FORMAT;
+
+            _timerText.text = string.Format(format, seconds, minutes, hours);
         }
 
-        private void ClaimAvailableUpdated(bool available)
+        private void IsClaimAvailable(bool available)
         {
             _buttonContainer.SetActive(!available);
+        }
+        
+        private void OnAdsInitialized(bool initialized)
+        {
+            if (!initialized) return;
+
+            _growthDataSource.ClaimDailyExtraGrowthAvailable.Subscribe(ExtraClaimAvailableUpdated).AddTo(this);
+            
+            ExtraClaimAvailableUpdated(_growthDataSource.GrowthData.IsDailyExtraClaimAvailable());
         }
 
         private void ExtraClaimAvailableUpdated(bool available)
         {
             if (available)
             {
-                EnableButton();
+                LoadAd();
             }
             else
             {
-                StartTimer();
                 DisableButton();
+            }
+        }
+
+        private void LoadAd()
+        {
+            _adsSource.LoadRewardedAd(OnAdLoaded);
+        }
+        
+        private void OnAdLoaded(AdLoadStatus adLoadStatus)
+        {
+            switch (adLoadStatus)
+            {
+                case AdLoadStatus.Loaded:
+                    EnableButton();
+                    break;
+                case AdLoadStatus.Failed:
+                case AdLoadStatus.NotInitialized:
+                    DisableButton();
+                    break;
             }
         }
 
         private void ShowAd()
         {
-            if (Advertising.IsRewardedAdReady())
+            _adsSource.ShowRewardedAd(OnShowAd);
+        }
+
+        private void OnShowAd(AdShowStatus adShowStatus)
+        {
+            switch (adShowStatus)
             {
-                Advertising.ShowRewardedAd();
+                case AdShowStatus.Skipped:
+                    LoadAd();
+                    break;
+                case AdShowStatus.Completed:
+                    _growthEventSource.ClaimExtraDailyGrowth();
+                    break;
+                case AdShowStatus.Failed:
+                case AdShowStatus.NotInitialized:
+                case AdShowStatus.Unknown:
+                    LoadAd();
+                    break;
             }
-        }
-
-        private void StartTimer()
-        {
-            _timerUI.StartTimer(_growthDataSource.ExtraDailyGrowthSecondsLeft);
-        }
-
-        private void OnTimerCompleted()
-        {
-            EnableButton();
         }
 
         private void EnableButton()
         {
+            _timerText.gameObject.TurnOff();
             _adButton.interactable = true;
         }
 
         private void DisableButton()
         {
+            _timerText.gameObject.TurnOn();
             _adButton.interactable = false;
         }
 
-        [System.Obsolete]
-        private void RewardedAdCompletedHandler(RewardedAdNetwork network, AdLocation location)
+        private void DisableAll()
         {
-            _growthEventSource.ClaimExtraDailyGrowth();
+            _timerText.gameObject.TurnOff();
+            _adButton.interactable = false;
         }
 
         #endregion

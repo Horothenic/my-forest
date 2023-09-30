@@ -10,7 +10,8 @@ namespace MyForest
         IObservable<IReadOnlyList<IGrowthTrackEvent>> GrowthEventsOccurredObservable { get; }
         IObservable<bool> ClaimDailyGrowthAvailable { get; }
         IObservable<bool> ClaimDailyExtraGrowthAvailable { get; }
-        double ExtraDailyGrowthSecondsLeft { get; }
+        ITimer DailyGrowthTimer { get; }
+        ITimer DailyExtraGrowthTimer { get; }
     }
 
     public interface IGrowthEventSource

@@ -38,9 +38,9 @@ namespace MyForest.UI
             SetClaimAvailableState(_growthDataSource.GrowthData.IsDailyClaimAvailable());
         }
 
-        private void SetClaimAvailableState(bool isAvailable)
+        private void SetClaimAvailableState(bool available)
         {
-            _buttonContainer.SetActive(isAvailable);
+            _buttonContainer.SetActive(available);
         }
 
         #endregion

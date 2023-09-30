@@ -26,5 +26,11 @@ namespace MyForest
             public const string FIRST_INTRO_KEY = "first_intro";
             public const string INTRO_KEY = "intro";
         }
+
+        public class Formats
+        {
+            public const string HOUR_TIMER_FORMAT = "{2:00}:{1:00}:{0:00}";
+            public const string MINUTE_TIMER_FORMAT = "{1:00}:{0:00}";
+        }
     }
 }
