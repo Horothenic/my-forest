@@ -9,13 +9,17 @@ namespace MyForest
     public partial class GrowthManager
     {
         #region FIELDS
+        
+        private const string GROWTH_DAILY_TIMER_KEY = "GrowthDailyTimer";
+        private const string GROWTH_DAILY_EXTRA_TIMER_KEY = "GrowthDailyExtraTimer";
 
         [Inject] private IGrowthConfigurationsSource _configurations = null;
         [Inject] private IGrowthTrackSource _growthTrackSource = null;
+        [Inject] private ITimersSource _timersSource = null;
 
-        private DataSubject<IReadOnlyList<IGrowthTrackEvent>> _growthEventsOcurredSubject = new DataSubject<IReadOnlyList<IGrowthTrackEvent>>();
-        private DataSubject<bool> _growthDailyClaimAvailableSubject = new DataSubject<bool>();
-        private DataSubject<bool> _growthDailyExtraClaimAvailableSubject = new DataSubject<bool>();
+        private readonly DataSubject<IReadOnlyList<IGrowthTrackEvent>> _growthEventsOccuredSubject = new DataSubject<IReadOnlyList<IGrowthTrackEvent>>();
+        private readonly DataSubject<bool> _growthDailyClaimAvailableSubject = new DataSubject<bool>();
+        private readonly DataSubject<bool> _growthDailyExtraClaimAvailableSubject = new DataSubject<bool>();
 
         #endregion
 
@@ -32,7 +36,7 @@ namespace MyForest
             var events = _growthTrackSource.GetEventsForGrowth(previousGrowth, Data.CurrentGrowth);
             if (events.Count > 0)
             {
-                _growthEventsOcurredSubject.OnNext(events);
+                _growthEventsOccuredSubject.OnNext(events);
             }
         }
 
@@ -45,11 +49,21 @@ namespace MyForest
 
         protected override void OnPreLoad(ref GrowthData data)
         {
-            var isDailyClaimAvailable = data.IsDailyClaimAvailable();
-            var isDailyExtraClaimAvailable = data.IsDailyExtraClaimAvailable();
+            _timersSource.AddTimer(GROWTH_DAILY_TIMER_KEY, data.NextClaimDateTime, TimeSpan.FromDays(1));
+            _timersSource.AddTimer(GROWTH_DAILY_EXTRA_TIMER_KEY, data.NextExtraClaimDateTime, TimeSpan.FromSeconds(1));
 
-            _growthDailyClaimAvailableSubject.OnNext(isDailyClaimAvailable);
-            _growthDailyExtraClaimAvailableSubject.OnNext(isDailyExtraClaimAvailable);
+            DailyGrowthTimer.TimerCompletedObservable.Subscribe(OnDailyGrowthTimerCompleted).AddTo(_disposables);
+            DailyExtraGrowthTimer.TimerCompletedObservable.Subscribe(OnDailyExtraGrowthTimerCompleted).AddTo(_disposables);
+        }
+        
+        private void OnDailyGrowthTimerCompleted()
+        {
+            _growthDailyClaimAvailableSubject.OnNext(true);
+        }
+        
+        private void OnDailyExtraGrowthTimerCompleted()
+        {
+            _growthDailyExtraClaimAvailableSubject.OnNext(true);
         }
     }
 
@@ -57,17 +71,21 @@ namespace MyForest
     {
         GrowthData IGrowthDataSource.GrowthData => Data;
         IObservable<GrowthData> IGrowthDataSource.GrowthChangedObservable => DataObservable;
-        IObservable<IReadOnlyList<IGrowthTrackEvent>> IGrowthDataSource.GrowthEventsOccurredObservable => _growthEventsOcurredSubject.AsObservable();
+        IObservable<IReadOnlyList<IGrowthTrackEvent>> IGrowthDataSource.GrowthEventsOccurredObservable => _growthEventsOccuredSubject.AsObservable();
         IObservable<bool> IGrowthDataSource.ClaimDailyGrowthAvailable => _growthDailyClaimAvailableSubject.AsObservable();
         IObservable<bool> IGrowthDataSource.ClaimDailyExtraGrowthAvailable => _growthDailyExtraClaimAvailableSubject.AsObservable();
-        double IGrowthDataSource.ExtraDailyGrowthSecondsLeft => Data.NextExtraDailyGrowthSecondsLeft;
+        public ITimer DailyGrowthTimer => _timersSource.GetTimer(GROWTH_DAILY_TIMER_KEY);
+        public ITimer DailyExtraGrowthTimer => _timersSource.GetTimer(GROWTH_DAILY_EXTRA_TIMER_KEY);
     }
 
     public partial class GrowthManager : IGrowthEventSource
     {
         void IGrowthEventSource.ClaimDailyGrowth()
         {
-            Data.SetLastClaimDateTime(DateTime.Now);
+            if (!Data.IsDailyClaimAvailable()) return;
+
+            Data.SetNextClaimDateTime(DateTime.UtcNow + TimeSpan.FromDays(1));
+            DailyGrowthTimer.RestartWithNewTargetTime(Data.NextClaimDateTime);
             _growthDailyClaimAvailableSubject.OnNext(false);
 
             IncreaseGrowth(_configurations.DailyGrowth);
@@ -75,7 +93,10 @@ namespace MyForest
 
         void IGrowthEventSource.ClaimExtraDailyGrowth()
         {
+            if (!Data.IsDailyExtraClaimAvailable()) return;
+            
             Data.SetNextExtraClaimDateTime(_configurations.ExtraDailyGrowthSecondsInterval);
+            DailyExtraGrowthTimer.RestartWithNewTargetTime(Data.NextExtraClaimDateTime);
             _growthDailyExtraClaimAvailableSubject.OnNext(false);
 
             IncreaseGrowth(_configurations.DailyGrowth);
@@ -88,7 +109,10 @@ namespace MyForest
 
         void Debug.IGrowthDebugSource.ResetDailyClaim()
         {
-            _growthDailyClaimAvailableSubject.OnNext(true);
+            DailyGrowthTimer.RestartWithNewTargetTime(DateTime.UtcNow);
+            Data.SetNextClaimDateTime(DateTime.UtcNow);
+            
+            Save();
         }
     }
 }

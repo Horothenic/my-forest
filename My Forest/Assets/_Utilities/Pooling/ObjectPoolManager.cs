@@ -5,7 +5,7 @@ using Zenject;
 
 namespace UnityEngine
 {
-    public partial class ObjectPool : MonoBehaviour
+    public partial class ObjectPoolManager : MonoBehaviour
     {
         #region FIELDS
 
@@ -68,7 +68,7 @@ namespace UnityEngine
         #endregion
     }
 
-    public partial class ObjectPool : IObjectPoolSource
+    public partial class ObjectPoolManager : IObjectPoolSource
     {
         GameObject IObjectPoolSource.Borrow(GameObject prefab) => Borrow(prefab);
         T IObjectPoolSource.Borrow<T>(GameObject prefab) => Borrow<T>(prefab);

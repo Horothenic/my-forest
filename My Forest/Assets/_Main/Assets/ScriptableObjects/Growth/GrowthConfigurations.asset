@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: GrowthConfigurations
   m_EditorClassIdentifier: 
   _dailyGrowth: 1
-  _extraDailyGrowthSecondsInterval: 1800
-  _treeCharIcon: \uf1bb
+  _extraDailyGrowthSecondsInterval: 120
+  _treeCharIcon: T

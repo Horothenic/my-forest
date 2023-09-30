@@ -41,6 +41,12 @@ namespace UnityEngine
             return gameObject;
         }
 
+        public static GameObject SetScale(this GameObject gameObject, Vector3 scale)
+        {
+            gameObject.transform.localScale = scale;
+            return gameObject;
+        }
+
         public static GameObject TurnOn(this GameObject gameObject)
         {
             gameObject.SetActive(true);

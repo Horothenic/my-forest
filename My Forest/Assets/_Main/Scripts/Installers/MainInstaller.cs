@@ -1,5 +1,4 @@
 using UnityEngine;
-
 using Zenject;
 
 namespace MyForest
@@ -17,12 +16,12 @@ namespace MyForest
         [SerializeField] private GrowthTrack _growthTrack = null;
 
         [Header("OTHERS")]
-        [SerializeField] private ObjectPool _objectPool = null;
+        [SerializeField] private ObjectPoolManager _objectPoolManager = null;
+        [SerializeField] private TimersManager _timersManager = null;
 
         public override void InstallBindings()
         {
             Container.BindInterfacesTo<GameManager>().AsSingle();
-            Container.BindInterfacesTo<ServicesManager>().AsSingle();
             Container.BindInterfacesTo<ForestManager>().AsSingle();
             Container.BindInterfacesTo<GrowthManager>().AsSingle();
             Container.BindInterfacesTo<SaveManager>().AsSingle();
@@ -30,6 +29,7 @@ namespace MyForest
             Container.BindInterfacesTo<AudioManager>().AsSingle();
             Container.BindInterfacesTo<VisualizerManager>().AsSingle();
             Container.BindInterfacesTo<GridManager>().AsSingle();
+            Container.BindInterfacesTo<AdsManager>().AsSingle();
 
             Container.BindInterfacesTo<ForestConfiguration>().FromScriptableObject(_forestConfigurations).AsSingle();
             Container.BindInterfacesTo<TreeConfigurationCollection>().FromScriptableObject(_treeConfigurationCollection).AsSingle();
@@ -39,7 +39,8 @@ namespace MyForest
 
             Container.BindInterfacesTo<GrowthTrack>().FromScriptableObject(_growthTrack).AsSingle();
 
-            Container.BindInterfacesTo<ObjectPool>().FromInstance(_objectPool).AsSingle();
+            Container.BindInterfacesTo<ObjectPoolManager>().FromInstance(_objectPoolManager).AsSingle();
+            Container.BindInterfacesTo<TimersManager>().FromInstance(_timersManager).AsSingle();
         }
     }
 }
