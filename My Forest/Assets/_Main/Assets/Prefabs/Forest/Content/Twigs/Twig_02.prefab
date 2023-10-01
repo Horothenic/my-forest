@@ -42,7 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2864931769401390777}
   m_Layer: 0
-  m_Name: Twig_01
+  m_Name: Twig_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -125,7 +125,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 116b8137012af9a4d8f5efd1afb9f8c6, type: 2}
+  - {fileID: 2100000, guid: 37c7f39bf19c5124b9b4aa88c32b03d5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -208,7 +208,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 116b8137012af9a4d8f5efd1afb9f8c6, type: 2}
+  - {fileID: 2100000, guid: aabd8b6eab4c103418e6c7189003b722, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
