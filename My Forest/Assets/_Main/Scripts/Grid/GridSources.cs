@@ -17,12 +17,12 @@ namespace MyForest
 
     public interface IGridPositioningSource
     {
-        void SetRadius(float radius);
         Vector3 GetWorldPosition(TileCoordinates coordinates);
     }
 
     public interface IGridConfigurationsSource
     {
+        float HexagonRadius { get; }
         Color GetBiomeColor(BiomeType biomeType);
     }
 }

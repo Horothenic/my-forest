@@ -13,5 +13,14 @@ MonoBehaviour:
   m_Name: TreeConfigurationCollection
   m_EditorClassIdentifier: 
   _treeConfigurations:
+  - {fileID: 11400000, guid: e79e3aa2318b4dd4598e1cbbab8e27aa, type: 2}
+  - {fileID: 11400000, guid: 0a6a8be867959ce4185db4c02a0376b6, type: 2}
+  - {fileID: 11400000, guid: b616762aa8f3f384ab81208a3e1f7863, type: 2}
   - {fileID: 11400000, guid: 52357c69e69f84f20a7dec54ac4ccf2c, type: 2}
-  - {fileID: 11400000, guid: f46e65dabc55f4671a2afcc68d8242a9, type: 2}
+  - {fileID: 11400000, guid: 9f202f25ee17b504e9ea39d488757c3b, type: 2}
+  - {fileID: 11400000, guid: b0e6efab7b1f7f14dbaeb7b0d51f5b52, type: 2}
+  - {fileID: 11400000, guid: 8d2d6d124bf7efb4c8f74c2f9f9d7db7, type: 2}
+  - {fileID: 11400000, guid: dc191f6d07bda3441a43d8cccb585b93, type: 2}
+  - {fileID: 11400000, guid: e38f0dea43928244b80b95a8182c53f4, type: 2}
+  - {fileID: 11400000, guid: d481007c51f36724c8a149e41b9fe691, type: 2}
+  - {fileID: 11400000, guid: b43c4f867de0b584280a63a2d2e68b30, type: 2}

@@ -37,16 +37,10 @@ namespace MyForest
 
         private void Initialize()
         {
-            CalculateParameters();
             _gridDataSource.GridObservable.Subscribe(LoadGrid).AddTo(this);
             _gridDataSource.NewTileAddedObservable.Subscribe(CreateNewTile).AddTo(this);
 
             LoadGrid(_gridDataSource.GridData);
-        }
-
-        private void CalculateParameters()
-        {
-            _gridPositioningSource.SetRadius(_tilePrefab.Radius);
         }
 
         private void ResetGrid()

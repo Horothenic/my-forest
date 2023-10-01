@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e30ece191c3a4495a5518332b1ed067, type: 3}
   m_Name: ForestConfiguration
   m_EditorClassIdentifier: 
-  _endangeredProbability: 0.05
-  _exquisiteProbability: 0.1
-  _rareProbability: 0.3
-  _commonProbability: 0.55
+  _endangeredThreshold: 0.05
+  _exquisiteThreshold: 0.15
+  _rareThreshold: 0.35
