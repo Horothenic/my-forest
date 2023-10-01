@@ -10,14 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab5f624c5e6254602b6a8a18021d456a, type: 3}
-  m_Name: Cactus_1
+  m_Name: Forest_Tree_6
   m_EditorClassIdentifier: 
   _rarity: 0
-  _biome: 1
-  _displayName: trees/display_names/tree_1
-  _description: trees/descriptions/tree_1
-  _minSizeVariance: 0.7
-  _maxSizeVariance: 1.4
+  _biome: 0
+  _minSizeVariance: 0.8
+  _maxSizeVariance: 1.2
   _levels:
   - _name: 1
     _growthNeeded: 0
@@ -25,12 +23,12 @@ MonoBehaviour:
     _sizeStep: 0
     _maxSizeSteps: -1
   - _name: 2
-    _growthNeeded: 10
-    _prefab: {fileID: 3047954142536407742, guid: caa013f0e355140c896329505e16eab0, type: 3}
+    _growthNeeded: 12
+    _prefab: {fileID: 2864931769401390778, guid: 00fc30775ade34525aa8e56c5d2fd3a1, type: 3}
     _sizeStep: 0.01
-    _maxSizeSteps: -1
+    _maxSizeSteps: 30
   - _name: 3
-    _growthNeeded: 25
-    _prefab: {fileID: 4219890744877998480, guid: b67cb489d1dcb4f418e69c8441b6f301, type: 3}
-    _sizeStep: 0.01
+    _growthNeeded: 35
+    _prefab: {fileID: 116970, guid: 38ade0ba7c293f14a9b1b610879e9390, type: 3}
+    _sizeStep: 0.003
     _maxSizeSteps: 50

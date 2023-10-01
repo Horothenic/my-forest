@@ -786,6 +786,10 @@ PrefabInstance:
       propertyPath: _tilePrefab
       value: 
       objectReference: {fileID: 4734755528566803741, guid: 2382372a16e28b745a6e49ccd366dd8a, type: 3}
+    - target: {fileID: 4314569094889067562, guid: 27aa0a429a6569243975ebca774349b7, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2242cd68234e048978c2b6a50fcbce8c, type: 2}
     - target: {fileID: 4672876415393207370, guid: 27aa0a429a6569243975ebca774349b7, type: 3}
       propertyPath: m_RootOrder
       value: 11

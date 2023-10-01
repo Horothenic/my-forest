@@ -19,39 +19,17 @@ namespace MyForest
         [Header("COMPONENTS")]
         [SerializeField] private MeshRenderer _meshRenderer = null;
         [SerializeField] private MeshFilter _meshFilter = null;
-        
-        [Header("CONFIGURATIONS")]
-        [SerializeField] private float _radius = 1f;
 
         private Mesh _mesh = null;
-
-        public float Radius => _radius;
         
         #endregion
 
         #region UNITY
 
-        private void Awake()
+        private void Start()
         {
             GenerateMesh().Forget();
         }
-
-#if UNITY_EDITOR
-        private void OnValidate()
-        {
-            GenerateMesh().Forget();
-        }
-
-        private void OnDrawGizmos()
-        {
-            if (_mesh == null)
-            {
-                GenerateMesh().Forget();
-            }
-
-            Gizmos.DrawMesh(_mesh, transform.position, transform.rotation, Vector3.one);
-        }
-#endif
 
         #endregion
 
@@ -83,8 +61,8 @@ namespace MyForest
             for (var i = 1; i <= SIDES; i++)
             {
                 var angle = i * angleStep;
-                var x = _radius * Mathf.Cos(angle * Mathf.Deg2Rad);
-                var z = _radius * Mathf.Sin(angle * Mathf.Deg2Rad);
+                var x = _gridConfigurationsSource.HexagonRadius * Mathf.Cos(angle * Mathf.Deg2Rad);
+                var z = _gridConfigurationsSource.HexagonRadius * Mathf.Sin(angle * Mathf.Deg2Rad);
                 vertices[i] = new Vector3(z, 0, x);
                 normals[i] = Vector3.up;
 

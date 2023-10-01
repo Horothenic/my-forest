@@ -78,6 +78,7 @@ namespace MyForest
     public enum BiomeType
     {
         Forest,
-        Desert
+        Desert,
+        Mountain
     }
 }

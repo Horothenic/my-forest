@@ -11,7 +11,8 @@ namespace MyForest
 {
     public partial class GridManager
     {
-        private float _hexRadius = 0;
+        [Inject] private IGridConfigurationsSource _gridConfigurationsSource = null;
+        
         private float _squareRootOfThree = 0;
         private float _threeOverTwo = 0;
 
@@ -136,18 +137,13 @@ namespace MyForest
 
     public partial class GridManager : IGridPositioningSource
     {
-        void IGridPositioningSource.SetRadius(float radius)
-        {
-            _hexRadius = radius;
-        }
-
         Vector3 IGridPositioningSource.GetWorldPosition(TileCoordinates coordinates)
         {
             var q = coordinates.Q;
             var r = coordinates.R;
 
-            var positionX = _hexRadius * _squareRootOfThree * (q + r / 2f);
-            var positionZ = _hexRadius * _threeOverTwo * r;
+            var positionX = _gridConfigurationsSource.HexagonRadius * _squareRootOfThree * (q + r / 2f);
+            var positionZ = _gridConfigurationsSource.HexagonRadius * _threeOverTwo * r;
 
             return new Vector3(positionX, 0, positionZ);
         }

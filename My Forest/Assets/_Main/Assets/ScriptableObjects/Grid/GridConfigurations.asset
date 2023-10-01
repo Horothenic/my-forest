@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dd3ccd4cec91bd408c7f99031652269, type: 3}
   m_Name: GridConfigurations
   m_EditorClassIdentifier: 
-  _forestColor: {r: 0.24705884, g: 0.45882356, b: 0.17254902, a: 1}
+  _hexagonRadius: 1.5
+  _forestColor: {r: 0.30319738, g: 0.5377358, b: 0.22067462, a: 1}
   _desertColor: {r: 0.74509805, g: 0.59607846, b: 0.41176474, a: 1}
+  _mountainColor: {r: 0.16960894, g: 0.3584906, b: 0.103150584, a: 1}

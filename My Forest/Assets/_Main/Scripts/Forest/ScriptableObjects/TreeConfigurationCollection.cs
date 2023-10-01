@@ -41,8 +41,6 @@ namespace MyForest
         {
             var randomRarity = _forestConfigurationSource.GetRandomTreeRarity();
 
-            randomRarity = TreeRarity.Endangered;
-
             List<TreeConfiguration> configurationsWithRarity = null;
             do
             {
