@@ -22,9 +22,7 @@ namespace MyForest
 
     public partial class TreeConfigurationCollection : ITreeConfigurationCollectionSource
     {
-        IReadOnlyList<TreeConfiguration> ITreeConfigurationCollectionSource.GetAllElementConfigurations() => _treeConfigurations;
-
-        TreeConfiguration ITreeConfigurationCollectionSource.GetTreeConfiguration(string treeID)
+        TreeConfiguration ITreeConfigurationCollectionSource.GetTreeConfiguration(int treeID)
         {
             foreach (var elementConfiguration in _treeConfigurations)
             {

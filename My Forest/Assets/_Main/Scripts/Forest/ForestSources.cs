@@ -17,8 +17,7 @@ namespace MyForest
 
     public interface ITreeConfigurationCollectionSource
     {
-        TreeConfiguration GetTreeConfiguration(string treeID);
-        IReadOnlyList<TreeConfiguration> GetAllElementConfigurations();
+        TreeConfiguration GetTreeConfiguration(int treeID);
         TreeConfiguration GetRandomConfiguration();
     }
 }

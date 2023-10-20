@@ -33,40 +33,31 @@ namespace MyForest
     }
 
     [Serializable]
-    public class TreeData
+    public class ForestElementData
     {
-        public int Id { get; private set; }
-        public string TreeID { get; private set; }
-        public int CreationGrowth { get; private set; }
-        public SerializedVector3 Position { get; private set; }
-        public SerializedVector3 Rotation { get; private set; }
-        public float SizeVariance { get; private set; }
-
-        [JsonIgnore]
-        public TreeConfiguration Configuration { get; private set; }
-
+        public int ID { get; private set; }
+        public Coordinates Coordinates { get; private set; }
+        public float Rotation { get; private set; }
+        
+        public TreeData TreeData { get; private set; }
+        public DecorationData DecorationData { get; private set; }
+        
         [JsonConstructor]
-        public TreeData(int id, string treeID, int creationGrowth, Vector3 position, Vector3 rotation, float sizeVariance)
+        public ForestElementData(int id, Coordinates coordinates, float rotation)
         {
-            Id = id;
-            TreeID = treeID;
-            CreationGrowth = creationGrowth;
-            Position = position;
+            ID = id;
+            Coordinates = coordinates;
             Rotation = rotation;
-            SizeVariance = sizeVariance;
         }
-
-        public void Hydrate(ITreeConfigurationCollectionSource treeConfigurationCollectionSource)
+        
+        public void SetTreeData(TreeData treeData)
         {
-            Configuration = treeConfigurationCollectionSource.GetTreeConfiguration(TreeID);
+            TreeData = treeData;
         }
-    }
-
-    public enum TreeRarity
-    {
-        Common,
-        Rare,
-        Exquisite,
-        Endangered
+        
+        public void SetDecorationData(DecorationData decorationData)
+        {
+            DecorationData = decorationData;
+        }
     }
 }

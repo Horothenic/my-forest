@@ -59,19 +59,19 @@ namespace MyForest
             var originTile = possibleOriginTiles.GetRandom();
             var originSurroundingCoordinates = GetTileSurroundingCoordinates(originTile.Coordinates, shuffle: true);
             
-            TileCoordinates newTileCoordinates = default;
+            Coordinates newCoordinates = default;
             foreach (var surroundingCoordinate in originSurroundingCoordinates)
             {
                 if (Data.TilesMap.ContainsKey(surroundingCoordinate)) continue;
                 
-                newTileCoordinates = surroundingCoordinate;
+                newCoordinates = surroundingCoordinate;
                 break;
             }
 
             var newTileData = new TileData
             (
                 biomeType,
-                newTileCoordinates,
+                newCoordinates,
                 false
             );
 
@@ -113,23 +113,23 @@ namespace MyForest
             }
         }
 
-        private IReadOnlyList<TileCoordinates> GetTileSurroundingCoordinates(TileCoordinates coordinates, bool shuffle = false, bool includeSelf = false)
+        private IReadOnlyList<Coordinates> GetTileSurroundingCoordinates(Coordinates coordinates, bool shuffle = false, bool includeSelf = false)
         {
             var q = coordinates.Q;
             var r = coordinates.R;
-            var possibleTiles = new List<TileCoordinates>();
+            var possibleTiles = new List<Coordinates>();
 
             if (includeSelf)
             {
-                possibleTiles.Add(new TileCoordinates(q, r));
+                possibleTiles.Add(new Coordinates(q, r));
             }
 
-            possibleTiles.Add(new TileCoordinates(q, r + 1));
-            possibleTiles.Add(new TileCoordinates(q + 1, r));
-            possibleTiles.Add(new TileCoordinates(q + 1, r - 1));
-            possibleTiles.Add(new TileCoordinates(q, r - 1));
-            possibleTiles.Add(new TileCoordinates(q - 1, r));
-            possibleTiles.Add(new TileCoordinates(q - 1, r + 1));
+            possibleTiles.Add(new Coordinates(q, r + 1));
+            possibleTiles.Add(new Coordinates(q + 1, r));
+            possibleTiles.Add(new Coordinates(q + 1, r - 1));
+            possibleTiles.Add(new Coordinates(q, r - 1));
+            possibleTiles.Add(new Coordinates(q - 1, r));
+            possibleTiles.Add(new Coordinates(q - 1, r + 1));
 
             return shuffle ? possibleTiles.Shuffle() : possibleTiles;
         }
@@ -137,7 +137,7 @@ namespace MyForest
 
     public partial class GridManager : IGridPositioningSource
     {
-        Vector3 IGridPositioningSource.GetWorldPosition(TileCoordinates coordinates)
+        Vector3 IGridPositioningSource.GetWorldPosition(Coordinates coordinates)
         {
             var q = coordinates.Q;
             var r = coordinates.R;

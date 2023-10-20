@@ -15,7 +15,7 @@ namespace MyForest
             [SerializeField] private float _sizeStep = .01f;
             [SerializeField] private int _maxSizeSteps = -1;
 
-            public string ID => _name;
+            public string Name => _name;
             public int GrowthNeeded => _growthNeeded;
             public GameObject Prefab => _prefab;
             public float SizeStep => _sizeStep;
@@ -27,6 +27,7 @@ namespace MyForest
 
         private const string MENU_NAME = nameof(MyForest) + "/Forest/" + nameof(TreeConfiguration);
 
+        [SerializeField] private int _id = default;
         [SerializeField] private TreeRarity _rarity = default;
         [SerializeField] private BiomeType _biome = default;
 
@@ -34,7 +35,7 @@ namespace MyForest
         [SerializeField] private float _maxSizeVariance = 1.2f;
         [SerializeField] private TreeConfigurationLevel[] _levels = null;
 
-        public string ID => name;
+        public int ID => _id;
         public TreeRarity Rarity => _rarity;
         public BiomeType Biome => _biome;
         public int MaxLevel => _levels.Length - 1;

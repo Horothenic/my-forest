@@ -17,7 +17,7 @@ namespace MyForest
 
     public interface IGridPositioningSource
     {
-        Vector3 GetWorldPosition(TileCoordinates coordinates);
+        Vector3 GetWorldPosition(Coordinates coordinates);
     }
 
     public interface IGridConfigurationsSource

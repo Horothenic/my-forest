@@ -14,7 +14,7 @@ namespace MyForest
         public IReadOnlyList<TileData> Tiles => _tiles;
         
         [JsonIgnore]
-        public Dictionary<TileCoordinates, TileData> TilesMap { get; private set; } = new Dictionary<TileCoordinates, TileData>();
+        public Dictionary<Coordinates, TileData> TilesMap { get; private set; } = new Dictionary<Coordinates, TileData>();
         [JsonIgnore]
         public int TilesCount => TilesMap.Values.Count;
         [JsonIgnore]
@@ -45,10 +45,10 @@ namespace MyForest
     {
         public BiomeType BiomeType { get; private set; }
         public bool Surrounded { get; private set; }
-        public TileCoordinates Coordinates { get; private set; }
+        public Coordinates Coordinates { get; private set; }
 
         [JsonConstructor]
-        public TileData(BiomeType biomeType, TileCoordinates coordinates, bool surrounded)
+        public TileData(BiomeType biomeType, Coordinates coordinates, bool surrounded)
         {
             BiomeType = biomeType;
             Surrounded = surrounded;
@@ -62,16 +62,18 @@ namespace MyForest
     }
     
     [Serializable]
-    public struct TileCoordinates
+    public struct Coordinates
     {
         public int Q { get; private set; }
         public int R { get; private set; }
+        public bool Surrounded { get; private set; }
         
         [JsonConstructor]
-        public TileCoordinates(int q, int r)
+        public Coordinates(int q, int r, bool surrounded)
         {
             Q = q;
             R = r;
+            Surrounded = surrounded;
         }
     }
 

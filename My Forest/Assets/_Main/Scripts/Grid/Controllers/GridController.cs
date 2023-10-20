@@ -20,7 +20,7 @@ namespace MyForest
         [SerializeField] private Transform _gridParent = null;
         [SerializeField] private HexagonTile _tilePrefab = null;
 
-        private readonly Dictionary<TileCoordinates, HexagonTile> _tiles = new Dictionary<TileCoordinates, HexagonTile>();
+        private readonly Dictionary<Coordinates, HexagonTile> _tiles = new Dictionary<Coordinates, HexagonTile>();
 
         #endregion
 
