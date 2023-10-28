@@ -2,24 +2,16 @@ using UnityEngine;
 
 namespace MyForest
 {
-    public class TreesSources : MonoBehaviour
+    public interface ITreesServiceSource
     {
-        #region FIELDS
-        
-        
-        
-        #endregion
+        Tree CreateTree(Transform parent, TreeData treeData, bool withEntryAnimation);
+        TreeData GetRandomTreeDataForBiome(Biome biome);
+    }
 
-        #region UNITY
-
-        
-
-        #endregion
-
-        #region METHODS
-
-        
-
-        #endregion
+    public interface ITreeConfigurationCollectionSource
+    {
+        Tree TreePrefab { get; }
+        TreeConfiguration GetConfiguration(string treeID);
+        TreeConfiguration GetRandomConfigurationForBiome(Biome biome);
     }
 }

@@ -2,24 +2,16 @@ using UnityEngine;
 
 namespace MyForest
 {
-    public class DecorationsSources : MonoBehaviour
+    public interface IDecorationsServiceSource
     {
-        #region FIELDS
-        
-        
-        
-        #endregion
+        Decoration CreateDecoration(Transform parent, DecorationData treeData, bool withEntryAnimation);
+        DecorationData GetRandomDecorationDataForBiome(Biome biome);
+    }
 
-        #region UNITY
-
-        
-
-        #endregion
-
-        #region METHODS
-
-        
-
-        #endregion
+    public interface IDecorationsConfigurationCollectionSource
+    {
+        Decoration DecorationPrefab { get; }
+        DecorationConfiguration GetConfiguration(string decorationID);
+        DecorationConfiguration GetRandomConfigurationForBiome(Biome biome);
     }
 }

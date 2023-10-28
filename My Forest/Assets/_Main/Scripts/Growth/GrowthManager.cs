@@ -70,7 +70,7 @@ namespace MyForest
     public partial class GrowthManager : IGrowthDataSource
     {
         GrowthData IGrowthDataSource.GrowthData => Data;
-        IObservable<GrowthData> IGrowthDataSource.GrowthChangedObservable => DataObservable;
+        IObservable<GrowthData> IGrowthDataSource.GrowthChangedObservable => PreLoadObservable;
         IObservable<IReadOnlyList<IGrowthTrackEvent>> IGrowthDataSource.GrowthEventsOccurredObservable => _growthEventsOccuredSubject.AsObservable();
         IObservable<bool> IGrowthDataSource.ClaimDailyGrowthAvailable => _growthDailyClaimAvailableSubject.AsObservable();
         IObservable<bool> IGrowthDataSource.ClaimDailyExtraGrowthAvailable => _growthDailyExtraClaimAvailableSubject.AsObservable();

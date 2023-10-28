@@ -31,7 +31,7 @@ namespace MyForest.Testing
         [SerializeField] private float _treeLineSeparation = 5f;
         [SerializeField] private float _biomeSeparation = 8f;
         
-        private readonly Dictionary<BiomeType, List<TreeConfiguration>> _treeConfigurationsMap = new Dictionary<BiomeType, List<TreeConfiguration>>();
+        private readonly Dictionary<Biome, List<TreeConfiguration>> _treeConfigurationsMap = new Dictionary<Biome, List<TreeConfiguration>>();
 
         #endregion
 
@@ -182,7 +182,7 @@ namespace MyForest.Testing
 
                 foreach (var treeConfiguration in treeConfigurations)
                 {
-                    var treeOrigin = new GameObject(treeConfiguration.ID)
+                    var treeOrigin = new GameObject(treeConfiguration.ID.ToString())
                     {
                         transform =
                         {

@@ -91,6 +91,7 @@ namespace MyForest
 
     public enum GrowthTrackEventType
     {
-        NewTree
+        NewTree,
+        NewDecoration
     }
 }

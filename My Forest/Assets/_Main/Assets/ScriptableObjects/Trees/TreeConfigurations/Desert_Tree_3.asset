@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab5f624c5e6254602b6a8a18021d456a, type: 3}
   m_Name: Desert_Tree_3
   m_EditorClassIdentifier: 
+  _id: D3
   _rarity: 0
   _biome: 1
   _minSizeVariance: 0.8

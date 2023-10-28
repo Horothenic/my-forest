@@ -9,26 +9,26 @@ namespace MyForest
     [Serializable]
     public class ForestData
     {
-        private List<TreeData> _trees = new List<TreeData>();
+        private List<ForestElementData> _forestElements = new List<ForestElementData>();
 
-        public IReadOnlyList<TreeData> Trees => _trees;
+        public IReadOnlyList<ForestElementData> ForestElements => _forestElements;
 
         [JsonIgnore]
-        public int TreeCount => _trees.Count;
+        public int ForestElementsCount => _forestElements.Count;
         [JsonIgnore]
-        public bool IsEmpty => _trees.Count == default;
+        public bool IsEmpty => _forestElements.Count == default;
 
         public ForestData() { }
 
         [JsonConstructor]
-        public ForestData(List<TreeData> trees)
+        public ForestData(List<ForestElementData> forestElements)
         {
-            _trees = trees;
+            _forestElements = forestElements;
         }
 
-        public void AddForestElement(TreeData newForestElement)
+        public void AddForestElement(ForestElementData newForestElement)
         {
-            _trees.Add(newForestElement);
+            _forestElements.Add(newForestElement);
         }
     }
 
@@ -36,20 +36,27 @@ namespace MyForest
     public class ForestElementData
     {
         public int ID { get; private set; }
-        public Coordinates Coordinates { get; private set; }
-        public float Rotation { get; private set; }
+        public TileData TileData { get; private set; }
+        
+        [JsonIgnore]
+        public Biome Biome => TileData.Biome;
         
         public TreeData TreeData { get; private set; }
         public DecorationData DecorationData { get; private set; }
         
-        [JsonConstructor]
-        public ForestElementData(int id, Coordinates coordinates, float rotation)
+        public ForestElementData(int id, TileData tileData)
         {
             ID = id;
-            Coordinates = coordinates;
-            Rotation = rotation;
+            TileData = tileData;
         }
         
+        [JsonConstructor]
+        public ForestElementData(int id, TileData tileData, TreeData treeData, DecorationData decorationData) : this(id, tileData)
+        {
+            TreeData = treeData;
+            DecorationData = decorationData;
+        }
+
         public void SetTreeData(TreeData treeData)
         {
             TreeData = treeData;
@@ -59,5 +66,12 @@ namespace MyForest
         {
             DecorationData = decorationData;
         }
+    }
+
+    public enum Biome
+    {
+        Forest,
+        Desert,
+        Mountain
     }
 }

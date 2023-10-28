@@ -37,7 +37,7 @@ namespace MyForest
 
         public void Initialize(TileData tileData)
         {
-            _meshRenderer.material.SetColor(ShaderColorProperty, _gridConfigurationsSource.GetBiomeColor(tileData.BiomeType));
+            _meshRenderer.material.SetColor(ShaderColorProperty, _gridConfigurationsSource.GetBiomeColor(tileData.Biome));
         }
 
         private async UniTaskVoid GenerateMesh()

@@ -10,15 +10,13 @@ namespace MyForest
     public partial class ForestManager
     {
         #region FIELDS
-
-        private const int MAX_TREE_ROTATION = 360;
-
-        [Inject] private ITreeConfigurationCollectionSource _treeConfigurationCollectionSource = null;
+        
         [Inject] private IGrowthDataSource _growthDataSource = null;
-        [Inject] private IGridEventSource _gridEventSource = null;
-        [Inject] private IGridPositioningSource _gridPositioningSource = null;
+        [Inject] private IGridServiceSource _gridServiceSource = null;
+        [Inject] private ITreesServiceSource _treesServiceSource = null;
+        [Inject] private IDecorationsServiceSource _decorationsServiceSource = null;
 
-        private readonly Subject<TreeData> _newTreeAddedSubject = new Subject<TreeData>();
+        private readonly Subject<ForestElementData> _newForestElementAddedSubject = new Subject<ForestElementData>();
 
         #endregion
 
@@ -28,32 +26,49 @@ namespace MyForest
         {
             foreach (var growthTrackEvent in growthTrackEvents)
             {
-                if (growthTrackEvent.EventType != GrowthTrackEventType.NewTree) continue;
-
-                AddNewRandomTree();
+                switch (growthTrackEvent.EventType)
+                {
+                    case GrowthTrackEventType.NewTree:
+                        AddNewRandomTree();
+                        break;
+                    case GrowthTrackEventType.NewDecoration:
+                        AddNewRandomDecoration();
+                        break;
+                }
             }
+        }
+
+        private ForestElementData CreateNewForestElementData()
+        {
+            return new ForestElementData
+            (
+                Data.ForestElementsCount,
+                _gridServiceSource.GetRandomTileDataForBiome(EnumExtensions.Random<Biome>())
+            );
+        }
+
+        private void OnNewForestElementData(ForestElementData newForestElementData)
+        {
+            Data.AddForestElement(newForestElementData);
+            Save();
+
+            _newForestElementAddedSubject.OnNext(newForestElementData);
         }
 
         private void AddNewRandomTree()
         {
-            var randomTreeConfiguration = _treeConfigurationCollectionSource.GetRandomConfiguration();
-            var newTile = _gridEventSource.CreateRandomTileForBiome(randomTreeConfiguration.Biome);
+            var newForestElementData = CreateNewForestElementData();
+            newForestElementData.SetTreeData(_treesServiceSource.GetRandomTreeDataForBiome(newForestElementData.Biome));
+            
+            OnNewForestElementData(newForestElementData);
+        }
 
-            var newTreeData = new TreeData
-            (
-                Data.TreeCount,
-                randomTreeConfiguration.ID,
-                _growthDataSource.GrowthData.CurrentGrowth,
-                _gridPositioningSource.GetWorldPosition(newTile.Coordinates),
-                Vector3.up * UnityEngine.Random.Range(default(int), MAX_TREE_ROTATION),
-                UnityEngine.Random.Range(randomTreeConfiguration.MinSizeVariance, randomTreeConfiguration.MaxSizeVariance)
-            );
-
-            newTreeData.Hydrate(_treeConfigurationCollectionSource);
-            Data.AddForestElement(newTreeData);
-            Save();
-
-            _newTreeAddedSubject.OnNext(newTreeData);
+        private void AddNewRandomDecoration()
+        {
+            var newForestElementData = CreateNewForestElementData();
+            newForestElementData.SetDecorationData(_decorationsServiceSource.GetRandomDecorationDataForBiome(newForestElementData.Biome));
+            
+            OnNewForestElementData(newForestElementData);
         }
         
         #endregion
@@ -69,11 +84,6 @@ namespace MyForest
             {
                 data = _saveSource.LoadJSONFromResources<ForestData>(Constants.Forest.DEFAULT_FOREST_DATA_FILE);
             }
-
-            foreach (var element in data.Trees)
-            {
-                element.Hydrate(_treeConfigurationCollectionSource);
-            }
         }
 
         protected override void OnPostLoad(ForestData data)
@@ -85,7 +95,8 @@ namespace MyForest
     public partial class ForestManager : IForestDataSource
     {
         ForestData IForestDataSource.ForestData => Data;
-        IObservable<ForestData> IForestDataSource.ForestObservable => DataObservable;
-        IObservable<TreeData> IForestDataSource.NewTreeAddedObservable => _newTreeAddedSubject.AsObservable();
+        IObservable<ForestData> IForestDataSource.ForestPreLoadObservable => PreLoadObservable;
+        IObservable<ForestData> IForestDataSource.ForestPostLoadObservable => PostLoadObservable;
+        IObservable<ForestElementData> IForestDataSource.NewForestElementAddedObservable => _newForestElementAddedSubject.AsObservable();
     }
 }

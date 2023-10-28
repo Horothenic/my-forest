@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c9566cf9c0ee493fbd82fd575ea0a8f, type: 3}
+  m_Name: Forest_Decoration_6
+  m_EditorClassIdentifier: 
+  _id: F6
+  _biome: 0
+  _prefab: {fileID: 2905873230897228002, guid: c49cc2e261f1e468a8142aada5f29080, type: 3}

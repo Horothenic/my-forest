@@ -27,11 +27,13 @@ namespace MyForest
         [Inject] protected ISaveSource _saveSource = null;
 
         protected CompositeDisposable _disposables = new CompositeDisposable();
-        private readonly DataSubject<T> _dataSubject = new DataSubject<T>();
+        private readonly DataSubject<T> _preLoadSubject = new DataSubject<T>();
+        private readonly Subject<T> _postLoadSubject = new Subject<T>();
 
         protected abstract string Key { get; }
-        protected T Data => _dataSubject.Value;
-        protected IObservable<T> DataObservable => _dataSubject.AsObservable();
+        protected T Data => _preLoadSubject.Value;
+        protected IObservable<T> PreLoadObservable => _preLoadSubject.AsObservable();
+        protected IObservable<T> PostLoadObservable => _postLoadSubject.AsObservable();
 
         #endregion
 
@@ -42,8 +44,9 @@ namespace MyForest
             var data = _saveSource.Load<T>(Key, new T());
 
             OnPreLoad(ref data);
-            _dataSubject.OnNext(data);
+            _preLoadSubject.OnNext(data);
             OnPostLoad(data);
+            _postLoadSubject.OnNext(data);
         }
 
         protected void Save()
@@ -71,14 +74,14 @@ namespace MyForest
 
             if (newData != null)
             {
-                _dataSubject.OnNext(newData);
+                _preLoadSubject.OnNext(newData);
                 return;
             }
 
-            _dataSubject.OnNext();
+            _preLoadSubject.OnNext();
         }
 
-        protected virtual void OnPreLoad(ref T data) { }
+        protected virtual void OnPreLoad(ref T data){ }
 
         protected virtual void OnPostLoad(T data) { }
 

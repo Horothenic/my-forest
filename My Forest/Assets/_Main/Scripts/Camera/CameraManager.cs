@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Zenject;
 using UniRx;
 
 namespace MyForest
@@ -10,10 +9,7 @@ namespace MyForest
     public partial class CameraManager
     {
         #region FIELDS
-
-        [Inject] private IGridDataSource _gridDataSource = null;
-        [Inject] private IGridPositioningSource _gridPositioningSource = null;
-
+        
         private readonly Subject<Unit> _rotateLeftSubject = new Subject<Unit>();
         private readonly Subject<Unit> _rotateRightSubject = new Subject<Unit>();
         private readonly DataSubject<float> _rotationAnglesSubject = new DataSubject<float>(Constants.Camera.ROTATION_STEP_ANGLES);
@@ -25,25 +21,11 @@ namespace MyForest
         private readonly Subject<Vector3> _newCenterPositionSubject = new Subject<Vector3>();
 
         #endregion
-        
-        #region METHODS
-
-        private void ReadjustCameraPosition(TileData tileData)
-        {
-            _newCenterPositionSubject.OnNext(_gridPositioningSource.GetWorldPosition(tileData.Coordinates));
-        }
-        
-        #endregion
     }
 
     public partial class CameraManager : DataManager<CameraData>
     {
         protected override string Key => Constants.Camera.CAMERA_DATA_KEY;
-
-        protected override void Initialize()
-        {
-            _gridDataSource.NewTileAddedObservable.Subscribe(ReadjustCameraPosition).AddTo(_disposables);
-        }
     }
 
     public partial class CameraManager : ICameraRotationSource
@@ -125,5 +107,10 @@ namespace MyForest
     public partial class CameraManager : ICameraRepositionDataSource
     {
         IObservable<Vector3> ICameraRepositionDataSource.NewCenterPositionObservable => _newCenterPositionSubject.AsObservable();
+        
+        void ICameraRepositionDataSource.RepositionCamera(Vector3 newPosition)
+        {
+            _newCenterPositionSubject.OnNext(newPosition);
+        }
     }
 }

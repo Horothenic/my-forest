@@ -1,25 +1,43 @@
 using UnityEngine;
 
+using Zenject;
+
 namespace MyForest
 {
-    public class TreesManager : MonoBehaviour
+    public partial class TreesManager
     {
-        #region FIELDS
+        [Inject] private ITreeConfigurationCollectionSource _treeConfigurationCollectionSource = null;
+        [Inject] private IObjectPoolSource _objectPoolSource = null;
+        [Inject] private IGrowthDataSource _growthDataSource = null;
+    }
+
+    public partial class TreesManager : ITreesServiceSource
+    {
+        Tree ITreesServiceSource.CreateTree(Transform parent, TreeData treeData, bool withEntryAnimation)
+        {
+            if (treeData.Configuration == null)
+            {
+                treeData.Hydrate(_treeConfigurationCollectionSource);
+            }
+            
+            var newTree = _objectPoolSource.Borrow(_treeConfigurationCollectionSource.TreePrefab);
+            newTree.gameObject.Set(parent.position, parent);
+            newTree.Initialize(treeData, withEntryAnimation);
+            return newTree;
+        }
         
-        
-        
-        #endregion
+        TreeData ITreesServiceSource.GetRandomTreeDataForBiome(Biome biome)
+        {
+            var randomTreeConfiguration = _treeConfigurationCollectionSource.GetRandomConfigurationForBiome(biome);
 
-        #region UNITY
-
-        
-
-        #endregion
-
-        #region METHODS
-
-        
-
-        #endregion
+            return new TreeData
+            (
+                randomTreeConfiguration.ID,
+                Random.Range(0, Constants.ForestElements.MAX_ROTATION),
+                _growthDataSource.GrowthData.CurrentGrowth,
+                Random.Range(randomTreeConfiguration.MinSizeVariance, randomTreeConfiguration.MaxSizeVariance),
+                randomTreeConfiguration
+            );
+        }
     }
 }

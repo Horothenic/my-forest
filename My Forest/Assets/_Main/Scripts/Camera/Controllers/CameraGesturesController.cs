@@ -34,8 +34,8 @@ namespace MyForest
 
         private Vector2 _dragPreviousPosition = default;
         private Vector2 _dragNextPosition = default;
-        private Vector2 _minDragLimits = new Vector2(float.MaxValue, float.MaxValue);
-        private Vector2 _maxDragLimits = new Vector2(float.MinValue, float.MinValue);
+        private Vector2 _minDragLimits;
+        private Vector2 _maxDragLimits;
         private float? _firstDistanceBetweenTouches = null;
         private float _currentZoom = default;
         private float _zoomOnStartPinch = default;
@@ -210,28 +210,20 @@ namespace MyForest
         
         private void UpdateDragLimits(IReadOnlyList<Vector3> hexagonTiles)
         {
-            var minX = _minDragLimits.x;
-            var minZ = _minDragLimits.y;
-            var maxX = _maxDragLimits.x;
-            var maxZ = _maxDragLimits.y;
-
             foreach (var position in hexagonTiles)
             {
-                if (position.x < minX)
-                    minX = position.x;
+                if (position.x < _minDragLimits.x)
+                    _minDragLimits.x = position.x;
 
-                if (position.z < minZ)
-                    minZ = position.z;
+                if (position.z < _minDragLimits.y)
+                    _minDragLimits.y = position.z;
 
-                if (position.x > maxX)
-                    maxX = position.x;
+                if (position.x > _maxDragLimits.x)
+                    _maxDragLimits.x = position.x;
 
-                if (position.z > maxZ)
-                    maxZ = position.z;
+                if (position.z > _maxDragLimits.y)
+                    _maxDragLimits.y = position.z;
             }
-
-            _minDragLimits = new Vector2(minX, minZ);
-            _maxDragLimits = new Vector2(maxX, maxZ);
         }
 
         private void SetContainerDragPosition()

@@ -40,5 +40,6 @@ namespace MyForest
     public interface ICameraRepositionDataSource
     {
         IObservable<Vector3> NewCenterPositionObservable { get; }
+        void RepositionCamera(Vector3 newPosition);
     }
 }

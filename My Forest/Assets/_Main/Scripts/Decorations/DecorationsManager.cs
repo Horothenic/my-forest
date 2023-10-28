@@ -1,25 +1,40 @@
 using UnityEngine;
 
+using Zenject;
+
 namespace MyForest
 {
-    public class DecorationsManager : MonoBehaviour
+    public partial class DecorationsManager
     {
-        #region FIELDS
+        [Inject] private IDecorationsConfigurationCollectionSource _decorationsConfigurationCollectionSource = null;
+        [Inject] private IObjectPoolSource _objectPoolSource = null;
+    }
+
+    public partial class DecorationsManager : IDecorationsServiceSource
+    {
+        Decoration IDecorationsServiceSource.CreateDecoration(Transform parent, DecorationData decorationData, bool withEntryAnimation)
+        {
+            if (decorationData.Configuration == null)
+            {
+                decorationData.Hydrate(_decorationsConfigurationCollectionSource);
+            }
+
+            var newDecoration = _objectPoolSource.Borrow(_decorationsConfigurationCollectionSource.DecorationPrefab);
+            newDecoration.gameObject.Set(parent.position, parent);
+            newDecoration.Initialize(decorationData, withEntryAnimation);
+            return newDecoration;
+        }
         
-        
-        
-        #endregion
+        DecorationData IDecorationsServiceSource.GetRandomDecorationDataForBiome(Biome biome)
+        {
+            var randomDecorationConfiguration = _decorationsConfigurationCollectionSource.GetRandomConfigurationForBiome(biome);
 
-        #region UNITY
-
-        
-
-        #endregion
-
-        #region METHODS
-
-        
-
-        #endregion
+            return new DecorationData
+            (
+                randomDecorationConfiguration.ID,
+                Random.Range(0, Constants.ForestElements.MAX_ROTATION),
+                randomDecorationConfiguration
+            );
+        }
     }
 }

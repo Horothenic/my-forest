@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e30ece191c3a4495a5518332b1ed067, type: 3}
-  m_Name: ForestConfiguration
+  m_Script: {fileID: 11500000, guid: 7c9566cf9c0ee493fbd82fd575ea0a8f, type: 3}
+  m_Name: Desert_Decoration_1
   m_EditorClassIdentifier: 
-  _endangeredThreshold: 0.05
-  _exquisiteThreshold: 0.15
-  _rareThreshold: 0.35
+  _id: D1
+  _biome: 1
+  _prefab: {fileID: 3906155507211174361, guid: 56b6dec0eece440d5858c789fbbdccef, type: 3}
