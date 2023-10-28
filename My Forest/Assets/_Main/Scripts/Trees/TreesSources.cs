@@ -5,7 +5,7 @@ namespace MyForest
     public interface ITreesServiceSource
     {
         Tree CreateTree(Transform parent, TreeData treeData, bool withEntryAnimation);
-        TreeData GetRandomTreeDataForBiome(Biome biome);
+        TreeData GetRandomTreeDataForBiome(Biome biome, int growth);
     }
 
     public interface ITreeConfigurationCollectionSource

@@ -17,7 +17,7 @@ namespace MyForest
         [Inject] private IGrowthTrackSource _growthTrackSource = null;
         [Inject] private ITimersSource _timersSource = null;
 
-        private readonly DataSubject<IReadOnlyList<IGrowthTrackEvent>> _growthEventsOccuredSubject = new DataSubject<IReadOnlyList<IGrowthTrackEvent>>();
+        private readonly DataSubject<IReadOnlyList<(IGrowthTrackEvent growthTackEvent, int growth)>> _growthEventsOccuredSubject = new DataSubject<IReadOnlyList<(IGrowthTrackEvent growthTackEvent, int growth)>>();
         private readonly DataSubject<bool> _growthDailyClaimAvailableSubject = new DataSubject<bool>();
         private readonly DataSubject<bool> _growthDailyExtraClaimAvailableSubject = new DataSubject<bool>();
 
@@ -27,17 +27,15 @@ namespace MyForest
 
         private void IncreaseGrowth(int increment)
         {
-            var previousGrowth = Data.CurrentGrowth;
-            
-            Data.IncreaseGrowth(increment);
-            EmitData();
-            Save();
-
-            var events = _growthTrackSource.GetEventsForGrowth(previousGrowth, Data.CurrentGrowth);
+            var events = _growthTrackSource.GetEventsForGrowth(Data.CurrentGrowth, Data.CurrentGrowth + increment);
             if (events.Count > 0)
             {
                 _growthEventsOccuredSubject.OnNext(events);
             }
+            
+            Data.IncreaseGrowth(increment);
+            EmitData();
+            Save();
         }
 
         #endregion
@@ -49,6 +47,9 @@ namespace MyForest
 
         protected override void OnPreLoad(ref GrowthData data)
         {
+            _timersSource.RemoveTimer(GROWTH_DAILY_TIMER_KEY);
+            _timersSource.RemoveTimer(GROWTH_DAILY_EXTRA_TIMER_KEY);
+            
             _timersSource.AddTimer(GROWTH_DAILY_TIMER_KEY, data.NextClaimDateTime, TimeSpan.FromDays(1));
             _timersSource.AddTimer(GROWTH_DAILY_EXTRA_TIMER_KEY, data.NextExtraClaimDateTime, TimeSpan.FromSeconds(1));
 
@@ -71,7 +72,7 @@ namespace MyForest
     {
         GrowthData IGrowthDataSource.GrowthData => Data;
         IObservable<GrowthData> IGrowthDataSource.GrowthChangedObservable => PreLoadObservable;
-        IObservable<IReadOnlyList<IGrowthTrackEvent>> IGrowthDataSource.GrowthEventsOccurredObservable => _growthEventsOccuredSubject.AsObservable();
+        IObservable<IReadOnlyList<(IGrowthTrackEvent growthTackEvent, int growth)>> IGrowthDataSource.GrowthEventsOccurredObservable => _growthEventsOccuredSubject.AsObservable();
         IObservable<bool> IGrowthDataSource.ClaimDailyGrowthAvailable => _growthDailyClaimAvailableSubject.AsObservable();
         IObservable<bool> IGrowthDataSource.ClaimDailyExtraGrowthAvailable => _growthDailyExtraClaimAvailableSubject.AsObservable();
         public ITimer DailyGrowthTimer => _timersSource.GetTimer(GROWTH_DAILY_TIMER_KEY);

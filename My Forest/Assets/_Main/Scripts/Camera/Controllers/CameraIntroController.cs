@@ -10,6 +10,7 @@ namespace MyForest
         #region FIELDS
 
         [Inject] private ICameraIntroSource _cameraIntroSource = null;
+        [Inject] private ICameraGesturesControlSource _cameraGesturesControlSource = null;
 
         [Header("COMPONENTS")]
         [SerializeField] private Camera _camera = null;
@@ -55,6 +56,7 @@ namespace MyForest
             sequence.AppendInterval(0.3f);
             sequence.AppendCallback(_cameraIntroSource.IntroEnded);
             sequence.AppendCallback(_cameraIntroSource.FirstIntroPlayed);
+            sequence.AppendCallback(_cameraGesturesControlSource.EnableInput);
         }
 
         private void NormalIntro()
@@ -65,6 +67,7 @@ namespace MyForest
             sequence.AppendCallback(() => _container.TurnOff());
             sequence.AppendInterval(0.2f);
             sequence.AppendCallback(_cameraIntroSource.IntroEnded);
+            sequence.AppendCallback(_cameraGesturesControlSource.EnableInput);
         }
 
         #endregion

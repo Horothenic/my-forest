@@ -34,6 +34,7 @@ namespace MyForest
         {
             if (forestData == null) return;
 
+            _tilesMap.Clear();
             foreach (var forestElementData in forestData.ForestElements)
             {
                 AddTile(forestElementData.TileData);

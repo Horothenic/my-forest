@@ -7,7 +7,7 @@ namespace MyForest
     {
         GrowthData GrowthData { get; }
         IObservable<GrowthData> GrowthChangedObservable { get; }
-        IObservable<IReadOnlyList<IGrowthTrackEvent>> GrowthEventsOccurredObservable { get; }
+        IObservable<IReadOnlyList<(IGrowthTrackEvent growthTackEvent, int growth)>> GrowthEventsOccurredObservable { get; }
         IObservable<bool> ClaimDailyGrowthAvailable { get; }
         IObservable<bool> ClaimDailyExtraGrowthAvailable { get; }
         ITimer DailyGrowthTimer { get; }
@@ -29,8 +29,8 @@ namespace MyForest
 
     public interface IGrowthTrackSource
     {
-        IReadOnlyList<IGrowthTrackEvent> GetEventsForGrowth(int currentGrowth);
-        IReadOnlyList<IGrowthTrackEvent> GetEventsForGrowth(int previousGrowth, int currentGrowth);
+        IReadOnlyList<(IGrowthTrackEvent growthTackEvent, int growth)> GetEventsForGrowth(int currentGrowth);
+        IReadOnlyList<(IGrowthTrackEvent growthTackEvent, int growth)> GetEventsForGrowth(int previousGrowth, int currentGrowth);
     }
 }
 

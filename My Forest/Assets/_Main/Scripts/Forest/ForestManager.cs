@@ -22,14 +22,14 @@ namespace MyForest
 
         #region METHODS
         
-        private void OnGrowthEventOccurred(IReadOnlyList<IGrowthTrackEvent> growthTrackEvents)
+        private void OnGrowthEventOccurred(IReadOnlyList<(IGrowthTrackEvent growthTrackEvent, int growth)> growthTrackEvents)
         {
             foreach (var growthTrackEvent in growthTrackEvents)
             {
-                switch (growthTrackEvent.EventType)
+                switch (growthTrackEvent.growthTrackEvent.EventType)
                 {
                     case GrowthTrackEventType.NewTree:
-                        AddNewRandomTree();
+                        AddNewRandomTree(growthTrackEvent.growth);
                         break;
                     case GrowthTrackEventType.NewDecoration:
                         AddNewRandomDecoration();
@@ -55,10 +55,10 @@ namespace MyForest
             _newForestElementAddedSubject.OnNext(newForestElementData);
         }
 
-        private void AddNewRandomTree()
+        private void AddNewRandomTree(int growth)
         {
             var newForestElementData = CreateNewForestElementData();
-            newForestElementData.SetTreeData(_treesServiceSource.GetRandomTreeDataForBiome(newForestElementData.Biome));
+            newForestElementData.SetTreeData(_treesServiceSource.GetRandomTreeDataForBiome(newForestElementData.Biome, growth));
             
             OnNewForestElementData(newForestElementData);
         }

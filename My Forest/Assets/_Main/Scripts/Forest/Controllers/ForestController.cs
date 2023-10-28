@@ -41,11 +41,21 @@ namespace MyForest
         private void BuildForest(ForestData forestData)
         {
             if (forestData == null) return;
-            
+
+            DeleteForest();
             for (var i = 0; i < forestData.ForestElementsCount; i++)
             {
                 var forestDataElement = forestData.ForestElements[i];
                 CreateForestElement(forestDataElement, false);
+            }
+        }
+
+        private void DeleteForest()
+        {
+            var childCount = _root.childCount;
+            for (var i = childCount - 1; i >= 0; i--)
+            {
+                Destroy(_root.GetChild(i).gameObject);
             }
         }
 

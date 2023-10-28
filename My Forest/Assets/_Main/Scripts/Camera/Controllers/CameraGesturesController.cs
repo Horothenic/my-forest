@@ -57,6 +57,8 @@ namespace MyForest
 
         private void Start()
         {
+            BlockInput();
+            
             _cameraGesturesControlSource.ZoomObservable.Subscribe(SetZoomWithTransition).AddTo(this);
             _cameraGesturesControlSource.EnableInputObservable.Subscribe(EnableInput).AddTo(this);
             _cameraGesturesControlSource.BlockInputObservable.Subscribe(BlockInput).AddTo(this);

@@ -8,7 +8,6 @@ namespace MyForest
     {
         [Inject] private ITreeConfigurationCollectionSource _treeConfigurationCollectionSource = null;
         [Inject] private IObjectPoolSource _objectPoolSource = null;
-        [Inject] private IGrowthDataSource _growthDataSource = null;
     }
 
     public partial class TreesManager : ITreesServiceSource
@@ -26,7 +25,7 @@ namespace MyForest
             return newTree;
         }
         
-        TreeData ITreesServiceSource.GetRandomTreeDataForBiome(Biome biome)
+        TreeData ITreesServiceSource.GetRandomTreeDataForBiome(Biome biome, int growth)
         {
             var randomTreeConfiguration = _treeConfigurationCollectionSource.GetRandomConfigurationForBiome(biome);
 
@@ -34,7 +33,7 @@ namespace MyForest
             (
                 randomTreeConfiguration.ID,
                 Random.Range(0, Constants.ForestElements.MAX_ROTATION),
-                _growthDataSource.GrowthData.CurrentGrowth,
+                growth,
                 Random.Range(randomTreeConfiguration.MinSizeVariance, randomTreeConfiguration.MaxSizeVariance),
                 randomTreeConfiguration
             );
