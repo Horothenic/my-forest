@@ -52,6 +52,11 @@ namespace MyForest
 
     public partial class TimersManager : ITimersSource
     {
+        void ITimersSource.RemoveTimer(string key)
+        {
+            _timers.Remove(key);
+        }
+
         ITimer ITimersSource.AddTimer(string key, DateTime targetTime, TimeSpan updateInterval)
         {
             var newTimer = new Timer(targetTime, updateInterval);

@@ -1,7 +1,7 @@
+using DG.Tweening;
 using UnityEngine;
 
 using Zenject;
-using UniRx;
 
 namespace MyForest
 {
@@ -9,10 +9,15 @@ namespace MyForest
     {
         #region FIELDS
 
-        [Inject] private ICameraFirstIntroSource _cameraFirstIntroSource = null;
+        [Inject] private ICameraIntroSource _cameraIntroSource = null;
+        [Inject] private ICameraGesturesControlSource _cameraGesturesControlSource = null;
 
         [Header("COMPONENTS")]
-        [SerializeField] private Animator _animator = null;
+        [SerializeField] private Camera _camera = null;
+        
+        [Header("UI")]
+        [SerializeField] private GameObject _container = null;
+        [SerializeField] private CanvasGroup _blocker = null;
 
         #endregion
 
@@ -29,20 +34,40 @@ namespace MyForest
 
         private void SelectIntro()
         {
-            if (_cameraFirstIntroSource.HasFirstIntroAlreadyPlayed)
+            if (_cameraIntroSource.HasFirstIntroAlreadyPlayed)
             {
-                _animator.SetTrigger(Constants.Camera.INTRO_KEY);
+                NormalIntro();
                 return;
             }
 
-            _animator.SetTrigger(Constants.Camera.FIRST_INTRO_KEY);
-            _cameraFirstIntroSource.FirstIntroPlayed();
+            FirstIntro();
         }
 
-        public void IntroFinishedPlaying()
+        private void FirstIntro()
         {
-            _animator.enabled = false;
-            _cameraFirstIntroSource.IntroFinishedPlaying();
+            _camera.orthographicSize = 20;
+                
+            var sequence = DOTween.Sequence();
+            sequence.AppendInterval(0.4f);
+            sequence.AppendCallback(_cameraIntroSource.IntroStarted);
+            sequence.Insert(0.2f, DOTween.To(() => _camera.orthographicSize, size => _camera.orthographicSize = size, 6, 2.4f).SetEase(Ease.InQuad));
+            sequence.Insert(0.2f, _blocker.DOFade(0, 0.45f));
+            sequence.AppendCallback(() => _container.TurnOff());
+            sequence.AppendInterval(0.3f);
+            sequence.AppendCallback(_cameraIntroSource.IntroEnded);
+            sequence.AppendCallback(_cameraIntroSource.FirstIntroPlayed);
+            sequence.AppendCallback(_cameraGesturesControlSource.EnableInput);
+        }
+
+        private void NormalIntro()
+        {
+            var sequence = DOTween.Sequence();;
+            sequence.AppendCallback(_cameraIntroSource.IntroStarted);
+            sequence.Append(_blocker.DOFade(0, 0.3f));
+            sequence.AppendCallback(() => _container.TurnOff());
+            sequence.AppendInterval(0.2f);
+            sequence.AppendCallback(_cameraIntroSource.IntroEnded);
+            sequence.AppendCallback(_cameraGesturesControlSource.EnableInput);
         }
 
         #endregion

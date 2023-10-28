@@ -11,7 +11,7 @@ namespace MyForest
     {
         #region FIELDS
 
-        [Inject] private ICameraFirstIntroSource _cameraFirstIntroSource = null;
+        [Inject] private ICameraIntroSource _cameraIntroSource = null;
 
         [Header("CONFIGURATIONS")]
         [SerializeField] private Vector2 _endPosition = default;
@@ -32,7 +32,7 @@ namespace MyForest
 
         private void Start()
         {
-            _cameraFirstIntroSource.IntroFinishedObservable.Subscribe(OnIntroFinished).AddTo(_disposables);
+            _cameraIntroSource.IntroEndedObservable.Subscribe(OnIntroFinished).AddTo(_disposables);
         }
 
         #endregion

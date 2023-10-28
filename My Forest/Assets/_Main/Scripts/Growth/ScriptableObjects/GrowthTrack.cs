@@ -18,14 +18,14 @@ namespace MyForest
 
     public partial class GrowthTrack : IGrowthTrackSource
     {
-        public IReadOnlyList<IGrowthTrackEvent> GetEventsForGrowth(int currentGrowth)
+        public IReadOnlyList<(IGrowthTrackEvent growthTackEvent, int growth)> GetEventsForGrowth(int currentGrowth)
         {
             return GetEventsForGrowth(currentGrowth, currentGrowth);
         }
         
-        public IReadOnlyList<IGrowthTrackEvent> GetEventsForGrowth(int previousGrowth, int currentGrowth)
+        public IReadOnlyList<(IGrowthTrackEvent growthTackEvent, int growth)> GetEventsForGrowth(int previousGrowth, int currentGrowth)
         {
-            var list = new List<IGrowthTrackEvent>();
+            var list = new List<(IGrowthTrackEvent growthTackEvent, int growth)>();
 
             for (var growth = previousGrowth; growth <= currentGrowth; growth++)
             {
@@ -33,7 +33,7 @@ namespace MyForest
                 {
                     if (growthTrackEvent.GrowthThreshold == growth)
                     {
-                        list.Add(growthTrackEvent);
+                        list.Add((growthTrackEvent, growth));
                     }
                 }
 
@@ -41,7 +41,7 @@ namespace MyForest
                 {
                     if (growth >= growthTrackEvent.GrowthToStart && growth % growthTrackEvent.GrowthInterval == default)
                     {
-                        list.Add(growthTrackEvent);
+                        list.Add((growthTrackEvent, growth));
                     }
                 }
             }

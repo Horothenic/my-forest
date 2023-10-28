@@ -9,64 +9,69 @@ namespace MyForest
     [Serializable]
     public class ForestData
     {
-        private List<TreeData> _trees = new List<TreeData>();
+        private List<ForestElementData> _forestElements = new List<ForestElementData>();
 
-        public IReadOnlyList<TreeData> Trees => _trees;
+        public IReadOnlyList<ForestElementData> ForestElements => _forestElements;
 
         [JsonIgnore]
-        public int TreeCount => _trees.Count;
+        public int ForestElementsCount => _forestElements.Count;
         [JsonIgnore]
-        public bool IsEmpty => _trees.Count == default;
+        public bool IsEmpty => _forestElements.Count == default;
 
         public ForestData() { }
 
         [JsonConstructor]
-        public ForestData(List<TreeData> trees)
+        public ForestData(List<ForestElementData> forestElements)
         {
-            _trees = trees;
+            _forestElements = forestElements;
         }
 
-        public void AddForestElement(TreeData newForestElement)
+        public void AddForestElement(ForestElementData newForestElement)
         {
-            _trees.Add(newForestElement);
+            _forestElements.Add(newForestElement);
         }
     }
 
     [Serializable]
-    public class TreeData
+    public class ForestElementData
     {
-        public int Id { get; private set; }
-        public string TreeID { get; private set; }
-        public int CreationGrowth { get; private set; }
-        public SerializedVector3 Position { get; private set; }
-        public SerializedVector3 Rotation { get; private set; }
-        public float SizeVariance { get; private set; }
-
+        public int ID { get; private set; }
+        public TileData TileData { get; private set; }
+        
         [JsonIgnore]
-        public TreeConfiguration Configuration { get; private set; }
-
-        [JsonConstructor]
-        public TreeData(int id, string treeID, int creationGrowth, Vector3 position, Vector3 rotation, float sizeVariance)
+        public Biome Biome => TileData.Biome;
+        
+        public TreeData TreeData { get; private set; }
+        public DecorationData DecorationData { get; private set; }
+        
+        public ForestElementData(int id, TileData tileData)
         {
-            Id = id;
-            TreeID = treeID;
-            CreationGrowth = creationGrowth;
-            Position = position;
-            Rotation = rotation;
-            SizeVariance = sizeVariance;
+            ID = id;
+            TileData = tileData;
+        }
+        
+        [JsonConstructor]
+        public ForestElementData(int id, TileData tileData, TreeData treeData, DecorationData decorationData) : this(id, tileData)
+        {
+            TreeData = treeData;
+            DecorationData = decorationData;
         }
 
-        public void Hydrate(ITreeConfigurationCollectionSource treeConfigurationCollectionSource)
+        public void SetTreeData(TreeData treeData)
         {
-            Configuration = treeConfigurationCollectionSource.GetTreeConfiguration(TreeID);
+            TreeData = treeData;
+        }
+        
+        public void SetDecorationData(DecorationData decorationData)
+        {
+            DecorationData = decorationData;
         }
     }
 
-    public enum TreeRarity
+    public enum Biome
     {
-        Common,
-        Rare,
-        Exquisite,
-        Endangered
+        Forest,
+        Desert,
+        Mountain
     }
 }

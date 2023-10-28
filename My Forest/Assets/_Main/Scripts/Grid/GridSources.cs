@@ -1,28 +1,22 @@
-using System;
 using UnityEngine;
 
 namespace MyForest
 {
-    public interface IGridDataSource
+    public interface IGridServiceSource
     {
-        GridData GridData { get; }
-        IObservable<GridData> GridObservable { get; }
-        IObservable<TileData> NewTileAddedObservable { get; }
-    }
-
-    public interface IGridEventSource
-    {
-        TileData CreateRandomTileForBiome(BiomeType biomeType);
+        HexagonTile CreateTile(Transform parent, TileData tileData);
+        TileData GetRandomTileDataForBiome(Biome biome);
     }
 
     public interface IGridPositioningSource
     {
-        Vector3 GetWorldPosition(TileCoordinates coordinates);
+        Vector3 GetWorldPosition(Coordinates coordinates);
     }
 
     public interface IGridConfigurationsSource
     {
+        HexagonTile HexagonPrefab { get; }
         float HexagonRadius { get; }
-        Color GetBiomeColor(BiomeType biomeType);
+        Color GetBiomeColor(Biome biome);
     }
 }

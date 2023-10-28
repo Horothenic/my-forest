@@ -10,6 +10,7 @@ namespace MyForest
         private const string MENU_NAME = nameof(MyForest) + "/Grid/" + nameof(GridConfigurations);
 
         [Header("HEXAGONS")]
+        [SerializeField] private HexagonTile _hexagonPrefab = null;
         [SerializeField] private float _hexagonRadius = 1f;
 
         [Header("COLORS")]
@@ -22,17 +23,18 @@ namespace MyForest
 
     public partial class GridConfigurations : IGridConfigurationsSource
     {
+        HexagonTile IGridConfigurationsSource.HexagonPrefab => _hexagonPrefab;
         float IGridConfigurationsSource.HexagonRadius => _hexagonRadius;
 
-        Color IGridConfigurationsSource.GetBiomeColor(BiomeType biomeType)
+        Color IGridConfigurationsSource.GetBiomeColor(Biome biome)
         {
-            switch (biomeType)
+            switch (biome)
             {
-                case BiomeType.Forest:
+                case Biome.Forest:
                     return _forestColor;
-                case BiomeType.Desert:
+                case Biome.Desert:
                     return _desertColor;
-                case BiomeType.Mountain:
+                case Biome.Mountain:
                     return _mountainColor;
                 default:
                     return Color.white;

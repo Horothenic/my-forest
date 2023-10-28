@@ -25,7 +25,7 @@ namespace MyForest
 
         #region METHODS
 
-        public void Initialize(IReadOnlyList<IGrowthTrackEvent> growthTrackEvents)
+        public void Initialize(IReadOnlyList<(IGrowthTrackEvent growthTackEvent, int growth)> growthTrackEvents)
         {
             if (growthTrackEvents == null || growthTrackEvents.Count == 0)
             {
@@ -40,7 +40,7 @@ namespace MyForest
 
                 if (i < growthTrackEvents.Count)
                 {
-                    icon.text = _growthConfigurations.GetIcon(growthTrackEvents[i].EventType);
+                    icon.text = _growthConfigurations.GetIcon(growthTrackEvents[i].growthTackEvent.EventType);
                     icon.gameObject.SetActive(true);
                 }
                 else

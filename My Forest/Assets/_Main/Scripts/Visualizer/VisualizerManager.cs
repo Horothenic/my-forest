@@ -9,7 +9,7 @@ namespace MyForest
     {
         #region FIELDS
 
-        private Subject<GameObject> _visualizerLoadedSubject = new Subject<GameObject>();
+        private readonly Subject<GameObject> _visualizerLoadedSubject = new Subject<GameObject>();
 
         #endregion
     }

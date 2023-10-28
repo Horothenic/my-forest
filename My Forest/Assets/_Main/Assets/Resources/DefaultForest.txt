@@ -1,20 +1,24 @@
 {
-  "Trees": [
+  "ForestElements":[
     {
-      "Id": "0",
-      "TreeID": "Forest_Tree_1",
-      "CreationGrowth": 0,
-      "Position": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
+      "ID": 0,
+      "TileData":
+      {
+        "Biome": 0,
+        "Surrounded": false,
+        "Coordinates":
+        {
+            "Q": 0,
+            "R": 0
+        }
       },
-      "Rotation": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "SizeVariance": 1
+      "TreeData":
+      {
+        "ID": "F1",
+        "CreationGrowth" : 0,
+        "SizeVariance": 1,
+        "Rotation": 0
+      }
     }
   ]
 }

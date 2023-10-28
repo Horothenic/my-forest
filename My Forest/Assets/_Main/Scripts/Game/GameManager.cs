@@ -8,7 +8,7 @@ namespace MyForest
     {
         #region FIELDS
 
-        private Subject<Unit> _resetGameSubject = new Subject<Unit>();
+        private readonly Subject<Unit> _resetGameSubject = new Subject<Unit>();
 
         #endregion
     }

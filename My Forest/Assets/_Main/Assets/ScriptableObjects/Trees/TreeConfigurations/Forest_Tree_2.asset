@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab5f624c5e6254602b6a8a18021d456a, type: 3}
+  m_Name: Forest_Tree_2
+  m_EditorClassIdentifier: 
+  _id: F2
+  _rarity: 0
+  _biome: 0
+  _minSizeVariance: 0.8
+  _maxSizeVariance: 1.2
+  _levels:
+  - _name: 1
+    _growthNeeded: 0
+    _prefab: {fileID: 2864931769401390778, guid: d31e30d66e65445018793fce3cff1398, type: 3}
+    _sizeStep: 0
+    _maxSizeSteps: -1
+  - _name: 2
+    _growthNeeded: 5
+    _prefab: {fileID: 2864931769401390778, guid: 00fc30775ade34525aa8e56c5d2fd3a1, type: 3}
+    _sizeStep: 0.01
+    _maxSizeSteps: 30
+  - _name: 3
+    _growthNeeded: 20
+    _prefab: {fileID: 8666497400121233045, guid: ec48d6ecae0c548e986c8bf705484354, type: 3}
+    _sizeStep: 0.01
+    _maxSizeSteps: 30
+  - _name: 4
+    _growthNeeded: 35
+    _prefab: {fileID: 5140423004035612676, guid: 9d225965d7a6048919e7ac3e34f63c5c, type: 3}
+    _sizeStep: 0.01
+    _maxSizeSteps: 30
+  - _name: 5
+    _growthNeeded: 70
+    _prefab: {fileID: 178208086277692562, guid: ccc3a1c64fc014180b830f3903a2c8c2, type: 3}
+    _sizeStep: 0.01
+    _maxSizeSteps: 30
+  - _name: 6
+    _growthNeeded: 120
+    _prefab: {fileID: 1933958222025073578, guid: 91f25483c68f64bd3a5bc8c32beb9a9a, type: 3}
+    _sizeStep: 0.003
+    _maxSizeSteps: 50
