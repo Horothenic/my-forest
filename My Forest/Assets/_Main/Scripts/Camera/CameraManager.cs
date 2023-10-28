@@ -13,10 +13,11 @@ namespace MyForest
         private readonly Subject<Unit> _rotateLeftSubject = new Subject<Unit>();
         private readonly Subject<Unit> _rotateRightSubject = new Subject<Unit>();
         private readonly DataSubject<float> _rotationAnglesSubject = new DataSubject<float>(Constants.Camera.ROTATION_STEP_ANGLES);
-        private readonly Subject<Unit> _introFinishedSubject = new Subject<Unit>();
+        private readonly Subject<Unit> _introStartedSubject = new Subject<Unit>();
+        private readonly Subject<Unit> _introEndedSubject = new Subject<Unit>();
         private readonly Subject<Unit> _enableInputSubject = new Subject<Unit>();
         private readonly Subject<Unit> _blockInputSubject = new Subject<Unit>();
-        private readonly Subject<Unit> _setDefaultZoomSubject = new Subject<Unit>();
+        private readonly Subject<(float zoom, bool withTransition)> _setZoomSubject = new Subject<(float zoom, bool withTransition)>();
         private readonly Subject<IReadOnlyList<Vector3>> _updateDragLimitsSubject = new Subject<IReadOnlyList<Vector3>>();
         private readonly Subject<Vector3> _newCenterPositionSubject = new Subject<Vector3>();
 
@@ -50,21 +51,28 @@ namespace MyForest
         }
     }
 
-    public partial class CameraManager : ICameraFirstIntroSource
+    public partial class CameraManager : ICameraIntroSource
     {
-        bool ICameraFirstIntroSource.HasFirstIntroAlreadyPlayed => Data.FirstIntroPlayed;
-
-        IObservable<Unit> ICameraFirstIntroSource.IntroFinishedObservable => _introFinishedSubject.AsObservable();
-
-        void ICameraFirstIntroSource.FirstIntroPlayed()
+        bool ICameraIntroSource.HasFirstIntroAlreadyPlayed => Data.FirstIntroPlayed;
+        
+        void ICameraIntroSource.FirstIntroPlayed()
         {
             Data.SetFirstIntroPlayed();
             Save();
         }
 
-        void ICameraFirstIntroSource.IntroFinishedPlaying()
+        IObservable<Unit> ICameraIntroSource.IntroStartedObservable => _introStartedSubject.AsObservable();
+
+        void ICameraIntroSource.IntroStarted()
         {
-            _introFinishedSubject.OnNext();
+            _introStartedSubject.OnNext();
+        }
+
+        IObservable<Unit> ICameraIntroSource.IntroEndedObservable => _introEndedSubject.AsObservable();
+
+        void ICameraIntroSource.IntroEnded()
+        {
+            _introEndedSubject.OnNext();
         }
     }
 
@@ -84,12 +92,17 @@ namespace MyForest
             _blockInputSubject.OnNext();
         }
 
-        IObservable<Unit> ICameraGesturesControlSource.SetDefaultZoomObservable => _setDefaultZoomSubject.AsObservable();
+        IObservable<(float zoom, bool withTransition)> ICameraGesturesControlSource.ZoomObservable => _setZoomSubject.AsObservable();
 
-        void ICameraGesturesControlSource.SetDefaultZoom()
+        void ICameraGesturesControlSource.SetZoom(float newZoom, bool withTransition)
         {
-            _setDefaultZoomSubject.OnNext();
+            Data.SetCurrentZoom(newZoom);
+            Save();
+            
+            _setZoomSubject.OnNext((newZoom, withTransition));
         }
+
+        float ICameraGesturesControlSource.GetCurrentZoom => Data.CurrentZoom;
 
         IObservable<IReadOnlyList<Vector3>> ICameraGesturesControlSource.UpdateDragLimitsObservable => _updateDragLimitsSubject.AsObservable();
 

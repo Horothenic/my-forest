@@ -11,7 +11,7 @@ namespace MyForest
     {
         #region FIELDS
 
-        [Inject] private ICameraFirstIntroSource _cameraFirstIntroSource = null;
+        [Inject] private ICameraIntroSource _cameraIntroSource = null;
 
         [Header("CONFIGURATIONS")]
         [SerializeField] private float _delay = default;
@@ -25,7 +25,7 @@ namespace MyForest
         private void Start()
         {
             gameObject.SetActive(false);
-            _cameraFirstIntroSource.IntroFinishedObservable.Subscribe(() => OnIntroFinished().Forget()).AddTo(_disposables);
+            _cameraIntroSource.IntroEndedObservable.Subscribe(() => OnIntroFinished().Forget()).AddTo(_disposables);
         }
 
         #endregion

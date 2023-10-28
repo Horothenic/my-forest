@@ -431,7 +431,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8937603819298328205}
-  - component: {fileID: 8937603819298328209}
   - component: {fileID: 8937603819298328211}
   - component: {fileID: 8937603819298328204}
   - component: {fileID: 8937603819298328208}
@@ -461,26 +460,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &8937603819298328209
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8937603819298328206}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 209267c6e236f42cfb5c1bf9a530a403, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
 --- !u!114 &8937603819298328211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -530,7 +509,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bb0c3a68c28649fe9a8ec8309374e71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 8937603819298328209}
+  _camera: {fileID: 8937603817614819233}
+  _container: {fileID: 8937603818885591708}
+  _blocker: {fileID: 8937603819149379087}
 --- !u!114 &2423232694697355803
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -544,4 +525,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cameraContainer: {fileID: 8937603819298328205}
-  _transitionSpeed: 2
+  _transitionTime: 0.6

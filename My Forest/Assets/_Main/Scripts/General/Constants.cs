@@ -24,8 +24,6 @@ namespace MyForest
         {
             public const string CAMERA_DATA_KEY = "camera_data";
             public const float ROTATION_STEP_ANGLES = 45f;
-            public const string FIRST_INTRO_KEY = "first_intro";
-            public const string INTRO_KEY = "intro";
         }
 
         public static class Formats

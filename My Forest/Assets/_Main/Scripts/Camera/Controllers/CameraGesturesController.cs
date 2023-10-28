@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using DG.Tweening;
 using UnityEngine;
 
+using DG.Tweening;
 using Zenject;
 using UniRx;
 
@@ -18,6 +18,7 @@ namespace MyForest
 
         [Inject] private ICameraRotationSource _cameraRotationSource = null;
         [Inject] private ICameraGesturesControlSource _cameraGesturesControlSource = null;
+        [Inject] private ICameraIntroSource _cameraIntroSource = null;
 
         [Header("DRAG CONFIGURATIONS")]
         [SerializeField] private Transform _cameraContainer = null;
@@ -56,12 +57,11 @@ namespace MyForest
 
         private void Start()
         {
-            _currentZoom = _minZoom;
-
-            _cameraGesturesControlSource.SetDefaultZoomObservable.Subscribe(SetDefaultZoomWithTransition).AddTo(this);
+            _cameraGesturesControlSource.ZoomObservable.Subscribe(SetZoomWithTransition).AddTo(this);
             _cameraGesturesControlSource.EnableInputObservable.Subscribe(EnableInput).AddTo(this);
             _cameraGesturesControlSource.BlockInputObservable.Subscribe(BlockInput).AddTo(this);
             _cameraGesturesControlSource.UpdateDragLimitsObservable.Subscribe(UpdateDragLimits).AddTo(this);
+            _cameraIntroSource.IntroStartedObservable.Subscribe(SetStoredZoom).AddTo(this);
         }
 
         private void Update()
@@ -174,7 +174,7 @@ namespace MyForest
             var currentDistance = Vector2.Distance(Input.GetTouch(FIRST_TOUCH_INDEX).position, Input.GetTouch(SECOND_TOUCH_INDEX).position);
             var zoomFactor = Mathf.Pow(((float)_firstDistanceBetweenTouches / currentDistance), _zoomTouchSensitivity);
 
-            SetZoom(_zoomOnStartPinch * zoomFactor);
+            ChangeZoom(_zoomOnStartPinch * zoomFactor);
         }
 
         #endregion
@@ -201,7 +201,7 @@ namespace MyForest
 
             if (mouseWheelDirection == 0f) return;
 
-            SetZoom(_currentZoom - (_zoomMouseSensitivity * mouseWheelDirection));
+            ChangeZoom(_currentZoom - (_zoomMouseSensitivity * mouseWheelDirection));
         }
 
         #endregion
@@ -252,22 +252,32 @@ namespace MyForest
         #endregion
 
         #region ZOOM
+        
+        private void SetStoredZoom()
+        {
+            if (!_cameraIntroSource.HasFirstIntroAlreadyPlayed) return;
+            
+            _currentZoom = _cameraGesturesControlSource.GetCurrentZoom < 0 ? _defaultZoom : _cameraGesturesControlSource.GetCurrentZoom;
+            SetZoomWithTransition((_currentZoom, false));
+        }
 
-        private void SetZoom(float newZoom)
+        private void ChangeZoom(float newZoom)
         {
             _currentZoom = Mathf.Clamp(newZoom, _minZoom, _maxZoom);
-            _camera.orthographicSize = _currentZoom;
+            _cameraGesturesControlSource.SetZoom(newZoom, true);
         }
 
-        private void SetZoomWithTransition(float newZoom)
+        private void SetZoomWithTransition((float zoom, bool withTransition) value)
         {
-            _zoomTween?.Kill();
-            _zoomTween = DOTween.To(() => _camera.orthographicSize, x => _camera.orthographicSize = x, newZoom, _zoomTransitionTime);
-        }
-
-        private void SetDefaultZoomWithTransition()
-        {
-            SetZoomWithTransition(_defaultZoom);
+            if (value.withTransition)
+            {
+                _zoomTween?.Kill();
+                _zoomTween = DOTween.To(() => _camera.orthographicSize, x => _camera.orthographicSize = x, value.zoom, _zoomTransitionTime);
+            }
+            else
+            {
+                _camera.orthographicSize = value.zoom;
+            }
         }
 
         #endregion
