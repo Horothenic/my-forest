@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GridConfigurations
   m_EditorClassIdentifier: 
   _hexagonPrefab: {fileID: 4734755528566803741, guid: 2382372a16e28b745a6e49ccd366dd8a, type: 3}
-  _hexagonRadius: 1.5
+  _hexagonRadius: 2
   _forestColor: {r: 0.30319738, g: 0.5377358, b: 0.22067462, a: 1}
   _desertColor: {r: 0.74509805, g: 0.59607846, b: 0.41176474, a: 1}
   _mountainColor: {r: 0.16960894, g: 0.3584906, b: 0.103150584, a: 1}
