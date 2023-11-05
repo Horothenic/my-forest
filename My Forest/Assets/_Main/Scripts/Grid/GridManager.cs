@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+
 using Zenject;
 using UniRx;
 
@@ -51,7 +52,7 @@ namespace MyForest
     {
         HexagonTile IGridServiceSource.CreateTile(Transform parent, TileData tileData)
         {
-            var tile = _objectPoolSource.Borrow(_gridConfigurationsSource.HexagonPrefab);
+            var tile = _objectPoolSource.Borrow(_gridConfigurationsSource.TilePrefab);
             tile.gameObject.Set(_gridPositioningSource.GetWorldPosition(tileData.Coordinates), parent);
 
             tile.Initialize(tileData);
@@ -83,7 +84,8 @@ namespace MyForest
             (
                 biome,
                 newCoordinates,
-                false
+                false,
+                _gridConfigurationsSource.GetRandomHeight(biome, originTile.Height)
             );
 
             AddTile(newTileData);
@@ -150,8 +152,8 @@ namespace MyForest
             var q = coordinates.Q;
             var r = coordinates.R;
 
-            var positionX = _gridConfigurationsSource.HexagonRadius * _squareRootOfThree * (q + r / 2f);
-            var positionZ = _gridConfigurationsSource.HexagonRadius * _threeOverTwo * r;
+            var positionX = _gridConfigurationsSource.TileRadius * _squareRootOfThree * (q + r / 2f);
+            var positionZ = _gridConfigurationsSource.TileRadius * _threeOverTwo * r;
 
             return new Vector3(positionX, 0, positionZ);
         }

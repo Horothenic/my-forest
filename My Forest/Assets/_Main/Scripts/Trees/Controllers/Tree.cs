@@ -26,6 +26,7 @@ namespace MyForest
         public void Initialize(TreeData treeData, bool withEntryAnimation)
         {
             _treeData = treeData;
+            
             _growthDataSource.GrowthChangedObservable.Subscribe(OnGrowthChanged).AddTo(this);
             
             SetStartValues(_growthDataSource.GrowthData, withEntryAnimation);

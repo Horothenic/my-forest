@@ -70,11 +70,11 @@ namespace MyForest
 
             if (forestElementData.TreeData != null)
             {
-                _treesServiceSource.CreateTree(tile.transform, forestElementData.TreeData, withEntryAnimation);
+                _treesServiceSource.CreateTree(tile.transform, forestElementData.TreeData, forestElementData.TileData.Height, withEntryAnimation);
             }
             else if (forestElementData.DecorationData != null)
             {
-                _decorationsServiceSource.CreateDecoration(tile.transform, forestElementData.DecorationData, withEntryAnimation);
+                _decorationsServiceSource.CreateDecoration(tile.transform, forestElementData.DecorationData, forestElementData.TileData.Height, withEntryAnimation);
             }
         }
 

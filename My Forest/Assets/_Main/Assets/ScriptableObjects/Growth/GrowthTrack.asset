@@ -16,7 +16,7 @@ MonoBehaviour:
   - _name: Recurring Tree
     _eventType: 0
     _growthToStart: 10
-    _growthInterval: 10
+    _growthInterval: 20
   - _name: Recurring Decoration 1
     _eventType: 1
     _growthToStart: 2
@@ -25,16 +25,4 @@ MonoBehaviour:
     _eventType: 1
     _growthToStart: 7
     _growthInterval: 10
-  _growthTrackPinPointEvents:
-  - _name: Welcome Extra Tree 1
-    _eventType: 0
-    _growthThreshold: 1
-  - _name: Welcome Extra Tree 2
-    _eventType: 0
-    _growthThreshold: 3
-  - _name: Welcome Extra Tree 3
-    _eventType: 0
-    _growthThreshold: 6
-  - _name: Welcome Extra Tree 4
-    _eventType: 0
-    _growthThreshold: 10
+  _growthTrackPinPointEvents: []
