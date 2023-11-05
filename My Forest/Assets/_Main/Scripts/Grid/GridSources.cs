@@ -15,8 +15,11 @@ namespace MyForest
 
     public interface IGridConfigurationsSource
     {
-        HexagonTile HexagonPrefab { get; }
-        float HexagonRadius { get; }
+        HexagonTile TilePrefab { get; }
+        float TileRadius { get; }
+        float TileBaseHeight { get; }
+        float TileRealHeight { get; }
         Color GetBiomeColor(Biome biome);
+        int GetRandomHeight(Biome biome, int originHeight);
     }
 }

@@ -7,20 +7,21 @@ namespace MyForest
     public partial class TreesManager
     {
         [Inject] private ITreeConfigurationCollectionSource _treeConfigurationCollectionSource = null;
+        [Inject] private IGridConfigurationsSource _gridConfigurationsSource = null;
         [Inject] private IObjectPoolSource _objectPoolSource = null;
     }
 
     public partial class TreesManager : ITreesServiceSource
     {
-        Tree ITreesServiceSource.CreateTree(Transform parent, TreeData treeData, bool withEntryAnimation)
+        Tree ITreesServiceSource.CreateTree(Transform parent, TreeData treeData, int height, bool withEntryAnimation)
         {
             if (treeData.Configuration == null)
             {
                 treeData.Hydrate(_treeConfigurationCollectionSource);
             }
-            
+
             var newTree = _objectPoolSource.Borrow(_treeConfigurationCollectionSource.TreePrefab);
-            newTree.gameObject.Set(parent.position, parent);
+            newTree.gameObject.SetLocal(Vector3.up * height * _gridConfigurationsSource.TileRealHeight, parent);
             newTree.Initialize(treeData, withEntryAnimation);
             return newTree;
         }

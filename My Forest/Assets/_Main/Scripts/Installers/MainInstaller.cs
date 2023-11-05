@@ -32,6 +32,7 @@ namespace MyForest
         {
             _treeConfigurationCollection.Initialize();
             _decorationConfigurationCollection.Initialize();
+            _gridConfigurations.Initialize();
         }
 
         private void SetBindings()
@@ -42,7 +43,6 @@ namespace MyForest
             Container.BindInterfacesTo<GrowthConfigurations>().FromScriptableObject(_growthConfigurations).AsSingle();
             Container.BindInterfacesTo<AudioConfigurations>().FromScriptableObject(_audioConfigurations).AsSingle();
             Container.BindInterfacesTo<GridConfigurations>().FromScriptableObject(_gridConfigurations).AsSingle();
-            
             Container.BindInterfacesTo<TreeConfigurationCollection>().FromScriptableObject(_treeConfigurationCollection).AsSingle().WhenInjectedInto<TreesManager>();
             Container.BindInterfacesTo<DecorationConfigurationCollection>().FromScriptableObject(_decorationConfigurationCollection).AsSingle().WhenInjectedInto<DecorationsManager>();
             

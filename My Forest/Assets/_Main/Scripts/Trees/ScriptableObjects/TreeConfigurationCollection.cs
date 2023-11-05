@@ -69,8 +69,8 @@ namespace MyForest
         
         TreeConfiguration ITreeConfigurationCollectionSource.GetConfiguration(string treeID)
         {
-            _treeConfigurationsMap.TryGetValue(treeID, out var decorationConfiguration);
-            return decorationConfiguration;
+            _treeConfigurationsMap.TryGetValue(treeID, out var treeConfiguration);
+            return treeConfiguration;
         }
 
         TreeConfiguration ITreeConfigurationCollectionSource.GetRandomConfigurationForBiome(Biome biome)
