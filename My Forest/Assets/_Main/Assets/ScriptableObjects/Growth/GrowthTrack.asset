@@ -13,16 +13,8 @@ MonoBehaviour:
   m_Name: GrowthTrack
   m_EditorClassIdentifier: 
   _growthTrackRecurrentEvents:
-  - _name: Recurring Tree
+  - _name: Recurring Tile
     _eventType: 0
-    _growthToStart: 10
-    _growthInterval: 20
-  - _name: Recurring Decoration 1
-    _eventType: 1
-    _growthToStart: 2
-    _growthInterval: 10
-  - _name: Recurring Decoration 2
-    _eventType: 1
-    _growthToStart: 7
-    _growthInterval: 10
+    _growthToStart: 1
+    _growthInterval: 1
   _growthTrackPinPointEvents: []

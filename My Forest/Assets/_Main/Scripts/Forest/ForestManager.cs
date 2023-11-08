@@ -28,6 +28,9 @@ namespace MyForest
             {
                 switch (growthTrackEvent.growthTrackEvent.EventType)
                 {
+                    case GrowthTrackEventType.NewTile:
+                        AddNewRandomTile();
+                        break;
                     case GrowthTrackEventType.NewTree:
                         AddNewRandomTree(growthTrackEvent.growth);
                         break;
@@ -53,6 +56,12 @@ namespace MyForest
             Save();
 
             _newForestElementAddedSubject.OnNext(newForestElementData);
+        }
+
+        private void AddNewRandomTile()
+        {
+            var newForestElementData = CreateNewForestElementData();
+            OnNewForestElementData(newForestElementData);
         }
 
         private void AddNewRandomTree(int growth)
