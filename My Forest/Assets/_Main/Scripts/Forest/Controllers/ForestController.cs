@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 using Zenject;
@@ -16,6 +17,8 @@ namespace MyForest
 
         [Header("CONFIGURATIONS")]
         [SerializeField] private Transform _root = null;
+        
+        private readonly Dictionary<Coordinates, HexagonTile> _tilesMap = new Dictionary<Coordinates, HexagonTile>();
 
         #endregion
 
@@ -33,7 +36,7 @@ namespace MyForest
         private void Initialize()
         {
             _forestDataSource.ForestPostLoadObservable.Subscribe(BuildForest).AddTo(this);
-            _forestDataSource.NewForestElementAddedObservable.Subscribe(CreateNewForestElement).AddTo(this);
+            _forestDataSource.ForestElementChangedObservable.Subscribe(data => OnForestElementChanged(data)).AddTo(this);
 
             BuildForest(_forestDataSource?.ForestData);
         }
@@ -46,7 +49,7 @@ namespace MyForest
             for (var i = 0; i < forestData.ForestElementsCount; i++)
             {
                 var forestDataElement = forestData.ForestElements[i];
-                CreateForestElement(forestDataElement, false);
+                OnForestElementChanged(forestDataElement, false);
             }
         }
 
@@ -59,14 +62,12 @@ namespace MyForest
             }
         }
 
-        private void CreateNewForestElement(ForestElementData forestElementData)
+        private void OnForestElementChanged(ForestElementData forestElementData, bool withEntryAnimation = true)
         {
-            CreateForestElement(forestElementData);
-        }
-
-        private void CreateForestElement(ForestElementData forestElementData, bool withEntryAnimation = true)
-        {
-            var tile = _gridServiceSource.CreateTile(_root, forestElementData.TileData);
+            if (!_tilesMap.TryGetValue(forestElementData.TileData.Coordinates, out var tile))
+            {
+                tile = _gridServiceSource.CreateTile(_root, forestElementData.TileData);
+            }
 
             if (forestElementData.TreeData != null)
             {

@@ -58,8 +58,8 @@ namespace MyForest
             tile.Initialize(tileData);
             return tile;
         }
-        
-        TileData IGridServiceSource.GetRandomTileDataForBiome(Biome biome)
+
+        TileData IGridServiceSource.CreateRandomTileDataForBiome(Biome biome)
         {
             var possibleOriginTiles = _tilesMap.Values.Where(t => !t.Surrounded && t.Biome == biome).ToList();
 

@@ -16,7 +16,9 @@ namespace MyForest
         [Inject] private ITreesServiceSource _treesServiceSource = null;
         [Inject] private IDecorationsServiceSource _decorationsServiceSource = null;
 
-        private readonly Subject<ForestElementData> _newForestElementAddedSubject = new Subject<ForestElementData>();
+        private readonly Subject<ForestElementData> _forestElementChangedSubject = new Subject<ForestElementData>();
+
+        private readonly OrderedList<ForestElementData> _emptyElementsByDistanceFromOrigin = new OrderedList<ForestElementData>(new ForestElementData.ByDistanceFromOrigin());
 
         #endregion
 
@@ -46,38 +48,53 @@ namespace MyForest
             return new ForestElementData
             (
                 Data.ForestElementsCount,
-                _gridServiceSource.GetRandomTileDataForBiome(EnumExtensions.Random<Biome>())
+                _gridServiceSource.CreateRandomTileDataForBiome(EnumExtensions.Random<Biome>())
             );
         }
 
-        private void OnNewForestElementData(ForestElementData newForestElementData)
+        private ForestElementData GetEmptyForestElementData()
         {
-            Data.AddForestElement(newForestElementData);
-            Save();
+            if (_emptyElementsByDistanceFromOrigin.Count == 0)
+            {
+                return CreateNewForestElementData();
+            }
+            
+            var minLimit = Mathf.FloorToInt(_emptyElementsByDistanceFromOrigin.Count * Constants.Forest.GET_EMPTY_TILE_OUTER_THRESHOLD);
+            var maxLimit = _emptyElementsByDistanceFromOrigin.Count;
+            
+            return _emptyElementsByDistanceFromOrigin.PopAt(UnityEngine.Random.Range(minLimit, maxLimit));
+        }
 
-            _newForestElementAddedSubject.OnNext(newForestElementData);
+        private void OnForestElementDataChanged(ForestElementData newForestElementData)
+        {
+            Save();
+            _forestElementChangedSubject.OnNext(newForestElementData);
         }
 
         private void AddNewRandomTile()
         {
             var newForestElementData = CreateNewForestElementData();
-            OnNewForestElementData(newForestElementData);
+                
+            _emptyElementsByDistanceFromOrigin.Add(newForestElementData);
+            Data.AddForestElement(newForestElementData);
+            
+            OnForestElementDataChanged(newForestElementData);
         }
 
         private void AddNewRandomTree(int growth)
         {
-            var newForestElementData = CreateNewForestElementData();
-            newForestElementData.SetTreeData(_treesServiceSource.GetRandomTreeDataForBiome(newForestElementData.Biome, growth));
+            var forestElementData = GetEmptyForestElementData();
+            forestElementData.SetTreeData(_treesServiceSource.GetRandomTreeDataForBiome(forestElementData.Biome, growth));
             
-            OnNewForestElementData(newForestElementData);
+            OnForestElementDataChanged(forestElementData);
         }
 
         private void AddNewRandomDecoration()
         {
-            var newForestElementData = CreateNewForestElementData();
-            newForestElementData.SetDecorationData(_decorationsServiceSource.GetRandomDecorationDataForBiome(newForestElementData.Biome));
+            var forestElementData = GetEmptyForestElementData();
+            forestElementData.SetDecorationData(_decorationsServiceSource.GetRandomDecorationDataForBiome(forestElementData.Biome));
             
-            OnNewForestElementData(newForestElementData);
+            OnForestElementDataChanged(forestElementData);
         }
         
         #endregion
@@ -98,6 +115,13 @@ namespace MyForest
         protected override void OnPostLoad(ForestData data)
         {
             _growthDataSource.GrowthEventsOccurredObservable.Subscribe(OnGrowthEventOccurred).AddTo(_disposables);
+
+            foreach (var forestElementData in data.ForestElements)
+            {
+                if (forestElementData.IsEmpty) continue;
+                
+                _emptyElementsByDistanceFromOrigin.Add(forestElementData);
+            }
         }
     }
 
@@ -106,6 +130,6 @@ namespace MyForest
         ForestData IForestDataSource.ForestData => Data;
         IObservable<ForestData> IForestDataSource.ForestPreLoadObservable => PreLoadObservable;
         IObservable<ForestData> IForestDataSource.ForestPostLoadObservable => PostLoadObservable;
-        IObservable<ForestElementData> IForestDataSource.NewForestElementAddedObservable => _newForestElementAddedSubject.AsObservable();
+        IObservable<ForestElementData> IForestDataSource.ForestElementChangedObservable => _forestElementChangedSubject.AsObservable();
     }
 }

@@ -17,4 +17,8 @@ MonoBehaviour:
     _eventType: 0
     _growthToStart: 1
     _growthInterval: 1
+  - _name: Recurring Tree
+    _eventType: 1
+    _growthToStart: 5
+    _growthInterval: 5
   _growthTrackPinPointEvents: []
