@@ -27,7 +27,7 @@ namespace MyForest
         {
             var list = new List<(IGrowthTrackEvent growthTackEvent, int growth)>();
 
-            for (var growth = previousGrowth; growth <= currentGrowth; growth++)
+            for (var growth = previousGrowth + 1; growth <= currentGrowth; growth++)
             {
                 foreach (var growthTrackEvent in _growthTrackPinPointEvents)
                 {

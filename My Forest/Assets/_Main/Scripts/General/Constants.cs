@@ -6,6 +6,7 @@ namespace MyForest
         {
             public const string FOREST_DATA_KEY = "forest_data";
             public const string DEFAULT_FOREST_DATA_FILE = "DefaultForest";
+            public const float GET_EMPTY_TILE_OUTER_THRESHOLD = 0.7f;
         }
 
         public static class ForestElements

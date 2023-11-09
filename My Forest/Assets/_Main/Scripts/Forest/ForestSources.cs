@@ -7,6 +7,6 @@ namespace MyForest
         ForestData ForestData { get; }
         IObservable<ForestData> ForestPreLoadObservable { get; }
         IObservable<ForestData> ForestPostLoadObservable { get; }
-        IObservable<ForestElementData> NewForestElementAddedObservable { get; }
+        IObservable<ForestElementData> ForestElementChangedObservable { get; }
     }
 }
