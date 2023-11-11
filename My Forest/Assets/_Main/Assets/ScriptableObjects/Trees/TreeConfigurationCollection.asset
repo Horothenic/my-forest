@@ -16,6 +16,8 @@ MonoBehaviour:
   _endangeredThreshold: 0.05
   _exquisiteThreshold: 0.15
   _rareThreshold: 0.35
+  x: 
+  z: {r: 0.15686275, g: 0.15686275, b: 0.15686275, a: 0}
   _treeConfigurations:
   - {fileID: 11400000, guid: e79e3aa2318b4dd4598e1cbbab8e27aa, type: 2}
   - {fileID: 11400000, guid: 0a6a8be867959ce4185db4c02a0376b6, type: 2}

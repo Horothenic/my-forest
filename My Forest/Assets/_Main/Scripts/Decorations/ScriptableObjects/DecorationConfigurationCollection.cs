@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-using Zenject;
-
 namespace MyForest
 {
     [CreateAssetMenu(fileName = nameof(DecorationConfigurationCollection), menuName = MENU_NAME)]
@@ -15,6 +13,11 @@ namespace MyForest
         
         [Header("TREES")]
         [SerializeField] private Decoration _decorationPrefab = null;
+        
+        [Header("PROBABILITIES")]
+        [SerializeField][Range(0, 1)] private float _endangeredThreshold = 0.05f;
+        [SerializeField][Range(0, 1)] private float _exquisiteThreshold = 0.15f;
+        [SerializeField][Range(0, 1)] private float _rareThreshold = 0.35f;
         
         [Header("COLLECTION")]
         [SerializeField] private DecorationConfiguration[] _decorationsConfigurations = null;
@@ -31,6 +34,28 @@ namespace MyForest
             {
                 _decorationConfigurationsMap.Add(decorationConfiguration.ID, decorationConfiguration);
             }
+        }
+
+        private Rarity GetRandomDecorationRarity()
+        {
+            var randomValue = Random.value;
+
+            if (randomValue <= _endangeredThreshold)
+            {
+                return Rarity.Endangered;
+            }
+            
+            if (randomValue <= _exquisiteThreshold)
+            {
+                return Rarity.Exquisite;
+            }
+            
+            if (randomValue <= _rareThreshold)
+            {
+                return Rarity.Rare;
+            }
+
+            return Rarity.Common;
         }
 
         #endregion

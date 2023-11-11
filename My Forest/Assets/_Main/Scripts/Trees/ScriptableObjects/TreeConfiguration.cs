@@ -28,7 +28,7 @@ namespace MyForest
         private const string MENU_NAME = nameof(MyForest) + "/Trees/" + nameof(TreeConfiguration);
 
         [SerializeField] private string _id = default;
-        [SerializeField] private TreeRarity _rarity = default;
+        [SerializeField] private Rarity _rarity = default;
         [SerializeField] private Biome _biome = default;
 
         [SerializeField] private float _minSizeVariance = .8f;
@@ -36,7 +36,7 @@ namespace MyForest
         [SerializeField] private TreeConfigurationLevel[] _levels = null;
 
         public string ID => _id;
-        public TreeRarity Rarity => _rarity;
+        public Rarity Rarity => _rarity;
         public Biome Biome => _biome;
         public int MaxLevel => _levels.Length - 1;
         public float MinSizeVariance => _minSizeVariance;

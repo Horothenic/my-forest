@@ -21,6 +21,9 @@ namespace MyForest
         [SerializeField][Range(0, 1)] private float _exquisiteThreshold = 0.15f;
         [SerializeField][Range(0, 1)] private float _rareThreshold = 0.35f;
 
+        [Header("TEST")]
+        [Probabilities(typeof(Rarity))] public string x = "123";
+
         [Header("COLLECTION")]
         [SerializeField] private TreeConfiguration[] _treeConfigurations = null;
         
@@ -38,26 +41,26 @@ namespace MyForest
             }
         }
 
-        private TreeRarity GetRandomTreeRarity()
+        private Rarity GetRandomTreeRarity()
         {
             var randomValue = Random.value;
 
             if (randomValue <= _endangeredThreshold)
             {
-                return TreeRarity.Endangered;
+                return Rarity.Endangered;
             }
             
             if (randomValue <= _exquisiteThreshold)
             {
-                return TreeRarity.Exquisite;
+                return Rarity.Exquisite;
             }
             
             if (randomValue <= _rareThreshold)
             {
-                return TreeRarity.Rare;
+                return Rarity.Rare;
             }
 
-            return TreeRarity.Common;
+            return Rarity.Common;
         }
 
         #endregion
