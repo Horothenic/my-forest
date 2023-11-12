@@ -4,11 +4,13 @@ namespace UnityEngine
 {
     public class ProbabilitiesAttribute : PropertyAttribute
     {
-        public Type Type { get; }
+        public string Title { get; }
+        public Type EnumType { get; }
 
-        public ProbabilitiesAttribute(Type type)
+        public ProbabilitiesAttribute(string title, Type enumType)
         {
-            Type = type;
+            Title = title;
+            EnumType = enumType;
         }
     }
 }

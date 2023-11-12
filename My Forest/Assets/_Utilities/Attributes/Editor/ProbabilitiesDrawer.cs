@@ -1,54 +1,234 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace UnityEditor
 {
     [CustomPropertyDrawer(typeof(ProbabilitiesAttribute))]
     public class ProbabilitiesDrawer : PropertyDrawer
     {
-        private static readonly Color BackgroundColor = ColorExtensions.HexToColor("282828");
-        private static readonly Color LinesColor = ColorExtensions.HexToColor("5E5E5E");
-        private static readonly Color HandlesColor = ColorExtensions.HexToColor("999999");
+        private const string BOX_STYLE_PATH = "Assets/_Utilities/Attributes/Editor/Styles/BoxStyle.uss";
+        private const int PRECISION_MULTIPLIER = 1000;
         
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-        {
-            return EditorGUIUtility.singleLineHeight;
-        }
+        private readonly List<Box> _boxes = new List<Box>();
         
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        private VisualElement _root;
+        private Array _sections;
+        private int _currentDragSeparator;
+        private SerializedProperty _probabilitiesArray;
+        
+        private bool _dragging;
+        
+        public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
-            if (!(attribute is ProbabilitiesAttribute probabilitiesAttribute && probabilitiesAttribute.Type.IsEnum)) return;
-
-            var type = probabilitiesAttribute.Type;
-
-            EditorGUI.LabelField(position, $"{type.Name}", EditorStyles.boldLabel);
-
-            position.x += EditorGUIUtility.labelWidth;
-            position.width -= EditorGUIUtility.labelWidth;
+            _root = new VisualElement();
+            _root.styleSheets.Add(AssetDatabase.LoadAssetAtPath<StyleSheet>(BOX_STYLE_PATH));
             
-            DrawBoxWithSections(position, Enum.GetValues(type).Length);
+            var probabilitiesAttribute = attribute as ProbabilitiesAttribute;
+            _probabilitiesArray = property.FindPropertyRelative("_probabilities");
+            var type = probabilitiesAttribute?.EnumType;
+
+            if (probabilitiesAttribute == null || _probabilitiesArray == null || type == null)
+            {
+                _root.Add(new Label("ERROR! Wrong types used."));
+                return _root;
+            }
+
+            _root.Add(DrawTitle(probabilitiesAttribute.Title));
+
+            if (!type.IsEnum)
+            {
+                _root.Add(new Label("You must use an Enum."));
+                return _root;
+            }
+
+            _sections = Enum.GetValues(type);
+            CreateDefaults(_probabilitiesArray);
+            
+            _root.Add(DrawContainer());
+            UpdateSizes();
+            
+            return _root;
         }
 
-        private void DrawBoxWithSections(Rect position, int numSections)
+        private void CreateDefaults(SerializedProperty property)
         {
-            var sectionWidth = position.width / numSections;
-
-            // Draw the box outline
-            Handles.DrawSolidRectangleWithOutline(new[]
+            if (_sections.Length != property.arraySize)
             {
-                new Vector3(position.x, position.y),
-                new Vector3(position.x + position.width, position.y),
-                new Vector3(position.x + position.width, position.y + EditorGUIUtility.singleLineHeight),
-                new Vector3(position.x, position.y + EditorGUIUtility.singleLineHeight),
-            }, BackgroundColor, BackgroundColor);
-
-            // Draw vertical lines to separate sections
-            Handles.color = LinesColor;
-            for (var i = 1; i < numSections; i++)
-            {
-                var x = position.x + i * sectionWidth;
-                Handles.DrawLine(new Vector3(x, position.y), new Vector3(x, position.y + EditorGUIUtility.singleLineHeight));
+                ResetProperty();
             }
+
+            var count = 0f;
+            for (var i = 0; i < property.arraySize; i++)
+            {
+                var element = property.GetArrayElementAtIndex(i);
+                count += element.floatValue;
+            }
+
+            if (count > 1f)
+            {
+                ResetProperty();
+            }
+            
+            void ResetProperty()
+            {
+                property.ClearArray();
+                
+                for (var i = 0; i < _sections.Length; i++)
+                {
+                    property.InsertArrayElementAtIndex(i);
+                    var element = property.GetArrayElementAtIndex(i);
+                    element.floatValue = 1f / _sections.Length;
+                }
+
+                property.serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            }
+        }
+
+        private VisualElement DrawTitle(string titleText)
+        {
+            var title = new BindableElement
+            {
+                style =
+                {
+                    flexDirection = FlexDirection.Row
+                }
+            };
+            
+            title.AddToClassList("title");
+            
+            var box = new Box();
+            box.AddToClassList("title-box");
+            
+            var titleLabel = new Label(titleText);
+            box.Add(titleLabel);
+
+            title.Add(box);
+
+            return title;
+        }
+
+        private VisualElement DrawContainer()
+        {
+            var container = new VisualElement()
+            {
+                style =
+                {
+                    flexDirection = FlexDirection.Row
+                }
+            };
+            
+            container.AddToClassList("container");
+            RegisterContainerToEvents(container);
+            _boxes.Clear();
+
+            for (var i = 0; i < _sections.Length; i++)
+            {
+                var box = new Box();
+                box.AddToClassList("box");
+                
+                var sectionName = new Label(_sections.GetValue(i).ToString());
+                var percentageAmount = new Label(FormatProbability(i))
+                {
+                    name = "percentageAmount"
+                };
+
+                box.Add(sectionName);
+                box.Add(percentageAmount);
+
+                container.Add(box);
+                _boxes.Add(box);
+
+                if (i >= _sections.Length - 1) continue;
+                
+                var separator = new Box();
+                separator.AddToClassList("box");
+                separator.AddToClassList("separator");
+                
+                container.Add(separator);
+                RegisterSeparatorEvents(separator, i);
+            }
+            
+            return container;
+        }
+
+        private void RegisterContainerToEvents(VisualElement container)
+        {
+            container.RegisterCallback<MouseUpEvent>(evt =>
+            {
+                CancelDrag();
+            });
+            
+            container.RegisterCallback<MouseLeaveEvent>(evt =>
+            {
+                CancelDrag();
+            });
+
+            void CancelDrag()
+            {
+                if (!_dragging) return;
+                
+                _dragging = false;
+                
+                _root.UnregisterCallback<MouseMoveEvent>(DragResize);
+            }
+        }
+
+        private void RegisterSeparatorEvents(Box separator, int index)
+        {
+            separator.RegisterCallback<MouseDownEvent>(evt =>
+            {
+                if (evt.button != (int)MouseButton.LeftMouse) return;
+
+                _dragging = true;
+                _currentDragSeparator = index;
+                
+                _root.RegisterCallback<MouseMoveEvent>(DragResize);
+            });
+        }
+
+        private float GetProbability(int index)
+        {
+            return _probabilitiesArray.GetArrayElementAtIndex(index).floatValue;
+        }
+
+        private void SetProbability(int index, float newValue)
+        {
+            _probabilitiesArray.GetArrayElementAtIndex(index).floatValue = newValue;
+        }
+        
+        private void DragResize(MouseMoveEvent evt)
+        {
+            var dx = evt.mouseDelta.x / _root.contentRect.width;
+            var fx = Mathf.Min( GetProbability(_currentDragSeparator) + dx, 0);
+            
+            fx = Mathf.Min(GetProbability(_currentDragSeparator + 1) - dx, fx);
+            dx += fx * Mathf.Sign(dx);
+
+            SetProbability(_currentDragSeparator, GetProbability(_currentDragSeparator) + dx);
+            SetProbability(_currentDragSeparator + 1, GetProbability(_currentDragSeparator + 1) - dx);
+            
+            SetProbability(_currentDragSeparator, Mathf.RoundToInt(GetProbability(_currentDragSeparator) * PRECISION_MULTIPLIER) / (float)PRECISION_MULTIPLIER);
+            SetProbability(_currentDragSeparator + 1, Mathf.RoundToInt(GetProbability(_currentDragSeparator + 1) * PRECISION_MULTIPLIER) / (float)PRECISION_MULTIPLIER);
+            
+            _probabilitiesArray.serializedObject.ApplyModifiedProperties();
+
+            UpdateSizes();
+        }
+        
+        private void UpdateSizes()
+        {
+            for (var i = 0; i < _boxes.Count; i++)
+            {
+                _boxes[i].style.flexGrow = GetProbability(i);
+                _boxes[i].Q<Label>("percentageAmount").text = FormatProbability(i);
+            }
+        }
+
+        private string FormatProbability(int index)
+        {
+            return $"{GetProbability(index):P0}";
         }
     }
 }
