@@ -13,7 +13,7 @@ namespace MyForest
         
         [Header("TREES")]
         [SerializeField] private Tree _treePrefab = null;
-        [Probabilities("Tree Rarity Probability", typeof(Rarity))] public Probability _treeRarityProbability;
+        [Probability("Tree Rarity Probability", typeof(Rarity))] public Probability _treeRarityProbability;
 
         [Header("COLLECTION")]
         [SerializeField] private TreeConfiguration[] _treeConfigurations = null;

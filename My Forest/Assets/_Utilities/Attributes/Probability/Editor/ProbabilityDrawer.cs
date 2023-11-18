@@ -5,10 +5,10 @@ using UnityEngine.UIElements;
 
 namespace UnityEditor
 {
-    [CustomPropertyDrawer(typeof(ProbabilitiesAttribute))]
-    public class ProbabilitiesDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(ProbabilityAttribute))]
+    public class ProbabilityDrawer : PropertyDrawer
     {
-        private const string BOX_STYLE_PATH = "Assets/_Utilities/Attributes/Editor/Styles/BoxStyle.uss";
+        private const string STYLESHEET = "Assets/_Utilities/Attributes/Probability/Editor/ProbabilityStylesheet.uss";
         private const int PRECISION_MULTIPLIER = 1000;
         
         private readonly List<Box> _boxes = new List<Box>();
@@ -23,9 +23,9 @@ namespace UnityEditor
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
             _root = new VisualElement();
-            _root.styleSheets.Add(AssetDatabase.LoadAssetAtPath<StyleSheet>(BOX_STYLE_PATH));
+            _root.styleSheets.Add(AssetDatabase.LoadAssetAtPath<StyleSheet>(STYLESHEET));
             
-            var probabilitiesAttribute = attribute as ProbabilitiesAttribute;
+            var probabilitiesAttribute = attribute as ProbabilityAttribute;
             _probabilitiesArray = property.FindPropertyRelative("_probabilities");
             var type = probabilitiesAttribute?.EnumType;
 
