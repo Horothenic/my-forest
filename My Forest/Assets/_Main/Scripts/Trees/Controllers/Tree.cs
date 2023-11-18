@@ -14,7 +14,7 @@ namespace MyForest
         [Inject] private IGrowthDataSource _growthDataSource = null;
 
         private TreeData _treeData = null;
-        private TreeConfiguration.TreeConfigurationLevel _currentLevel = null;
+        private TreeConfiguration.Level _currentLevel = null;
         private GameObject _currentTree = null;
         private Vector3 _currentTreeBaseSize = default;
         private Tween _scaleTween = null;
@@ -80,7 +80,7 @@ namespace MyForest
             }
         }
 
-        private void SetNewTreeLevel(TreeConfiguration.TreeConfigurationLevel newLevel)
+        private void SetNewTreeLevel(TreeConfiguration.Level newLevel)
         {
             _currentLevel = newLevel;
             _objectPoolSource.Return(_currentTree);

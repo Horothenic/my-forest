@@ -7,15 +7,13 @@ namespace MyForest
     public class TreeConfiguration : ScriptableObject
     {
         [Serializable]
-        public class TreeConfigurationLevel
+        public class Level
         {
-            [SerializeField] private string _name = default;
             [SerializeField] private int _growthNeeded = default;
             [SerializeField] private GameObject _prefab = null;
             [SerializeField] private float _sizeStep = .01f;
             [SerializeField] private int _maxSizeSteps = -1;
 
-            public string Name => _name;
             public int GrowthNeeded => _growthNeeded;
             public GameObject Prefab => _prefab;
             public float SizeStep => _sizeStep;
@@ -33,7 +31,7 @@ namespace MyForest
 
         [SerializeField] private float _minSizeVariance = .8f;
         [SerializeField] private float _maxSizeVariance = 1.2f;
-        [SerializeField] private TreeConfigurationLevel[] _levels = null;
+        [SerializeField] private Level[] _levels = null;
 
         public string ID => _id;
         public Rarity Rarity => _rarity;
@@ -46,9 +44,9 @@ namespace MyForest
 
         #region METHODS
 
-        public TreeConfigurationLevel GetConfigurationLevelByAge(int treeAge)
+        public Level GetConfigurationLevelByAge(int treeAge)
         {
-            TreeConfigurationLevel bestLevel = null;
+            Level bestLevel = null;
 
             foreach (var level in _levels)
             {
@@ -63,7 +61,7 @@ namespace MyForest
             return bestLevel;
         }
 
-        public TreeConfigurationLevel GetConfigurationLevel(int level)
+        public Level GetConfigurationLevel(int level)
         {
             return level > MaxLevel ? null : _levels[level];
         }

@@ -67,12 +67,12 @@ namespace MyForest
     {
         [SerializeField] private string _name = default;
         [SerializeField] private GrowthTrackEventType _eventType = default;
-        [SerializeField] private int _growthToStart = default;
+        [SerializeField] private int _startAfterGrowth = default;
         [SerializeField] private int _growthInterval = default;
 
         public string Name => _name;
         public GrowthTrackEventType EventType => _eventType;
-        public int GrowthToStart => _growthToStart;
+        public int StartAfterGrowth => _startAfterGrowth;
         public int GrowthInterval => _growthInterval;
     }
 

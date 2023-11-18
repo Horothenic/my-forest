@@ -14,4 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: D1
   _biome: 1
-  _prefab: {fileID: 3906155507211174361, guid: 56b6dec0eece440d5858c789fbbdccef, type: 3}
+  _rarity: 1
+  _variations:
+  - {fileID: 3906155507211174361, guid: fe5c9b5fa8bd10d47ba44d8763e6b7c6, type: 3}
+  - {fileID: 3906155507211174361, guid: 45002a89d81a05948beb9fec2287c8ec, type: 3}
+  - {fileID: 3906155507211174361, guid: d37596eb09f5df34a85932d3e5862b0e, type: 3}

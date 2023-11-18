@@ -11,13 +11,9 @@ namespace MyForest
 
         private const string MENU_NAME = nameof(MyForest) + "/Decorations/" + nameof(DecorationConfigurationCollection);
         
-        [Header("TREES")]
+        [Header("DECORATIONS")]
         [SerializeField] private Decoration _decorationPrefab = null;
-        
-        [Header("PROBABILITIES")]
-        [SerializeField][Range(0, 1)] private float _endangeredThreshold = 0.05f;
-        [SerializeField][Range(0, 1)] private float _exquisiteThreshold = 0.15f;
-        [SerializeField][Range(0, 1)] private float _rareThreshold = 0.35f;
+        [Probability("Decorations Rarity Probability", typeof(Rarity))] public Probability _decorationRarityProbability;
         
         [Header("COLLECTION")]
         [SerializeField] private DecorationConfiguration[] _decorationsConfigurations = null;
@@ -36,28 +32,6 @@ namespace MyForest
             }
         }
 
-        private Rarity GetRandomDecorationRarity()
-        {
-            var randomValue = Random.value;
-
-            if (randomValue <= _endangeredThreshold)
-            {
-                return Rarity.Endangered;
-            }
-            
-            if (randomValue <= _exquisiteThreshold)
-            {
-                return Rarity.Exquisite;
-            }
-            
-            if (randomValue <= _rareThreshold)
-            {
-                return Rarity.Rare;
-            }
-
-            return Rarity.Common;
-        }
-
         #endregion
     }
 
@@ -74,7 +48,17 @@ namespace MyForest
         DecorationConfiguration IDecorationsConfigurationCollectionSource.GetRandomConfigurationForBiome(Biome biome)
         {
             var decorationsForBiome = _decorationsConfigurations.Where(tc => tc.Biome == biome).ToList();
-            return decorationsForBiome[Random.Range(0, decorationsForBiome.Count - 1)];
+            var randomRarity = _decorationRarityProbability.Calculate<Rarity>();
+            
+            List<DecorationConfiguration> configurationsWithRarity = null;
+            do
+            {
+                configurationsWithRarity = decorationsForBiome.Where(dc => dc.Rarity == randomRarity).ToList();
+                randomRarity--;
+            }
+            while (configurationsWithRarity.Count == 0 && randomRarity >= 0);
+
+            return configurationsWithRarity[Random.Range(0, configurationsWithRarity.Count - 1)];
         }
     }
 }

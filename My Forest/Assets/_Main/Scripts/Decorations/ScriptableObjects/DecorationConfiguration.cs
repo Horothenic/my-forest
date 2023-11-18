@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 namespace MyForest
@@ -9,13 +10,27 @@ namespace MyForest
 
         private const string MENU_NAME = nameof(MyForest) + "/Decorations/" + nameof(DecorationConfiguration);
 
-        [SerializeField] private string _id = default;
-        [SerializeField] private Biome _biome = default;
-        [SerializeField] private GameObject _prefab = null;
+        [SerializeField] private string _id;
+        [SerializeField] private Biome _biome;
+        [SerializeField] private Rarity _rarity;
+        [SerializeField] private GameObject[] _variations;
 
         public string ID => _id;
         public Biome Biome => _biome;
-        public GameObject Prefab => _prefab;
+        public Rarity Rarity => _rarity;
+        public int AmountOfVariations => _variations.Length;
+
+        public GameObject GetVariation(int variation)
+        {
+            try
+            {
+                return _variations[variation];
+            }
+            catch
+            {
+                return _variations.FirstOrDefault();
+            }
+        }
 
         #endregion
     }

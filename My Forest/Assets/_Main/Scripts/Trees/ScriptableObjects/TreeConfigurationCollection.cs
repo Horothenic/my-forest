@@ -47,16 +47,16 @@ namespace MyForest
 
         TreeConfiguration ITreeConfigurationCollectionSource.GetRandomConfigurationForBiome(Biome biome)
         {
-            var treeFromBiome = _treeConfigurations.Where(tc => tc.Biome == biome).ToList();
+            var treesFromBiome = _treeConfigurations.Where(tc => tc.Biome == biome).ToList();
             var randomRarity = _treeRarityProbability.Calculate<Rarity>();
             
             List<TreeConfiguration> configurationsWithRarity = null;
             do
             {
-                configurationsWithRarity = treeFromBiome.Where(tc => tc.Rarity == randomRarity).ToList();
+                configurationsWithRarity = treesFromBiome.Where(tc => tc.Rarity == randomRarity).ToList();
                 randomRarity--;
             }
-            while (configurationsWithRarity.Count == 0);
+            while (configurationsWithRarity.Count == 0 && randomRarity >= 0);
 
             return configurationsWithRarity[Random.Range(0, configurationsWithRarity.Count - 1)];
         }
