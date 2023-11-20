@@ -14,4 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: F2
   _biome: 0
-  _prefab: {fileID: 4296319607504577351, guid: 0491755c96a9349c2a8b2fdd7e3b3506, type: 3}
+  _rarity: 1
+  _variations:
+  - {fileID: 1307091900151311289, guid: b9d6fb04e05f54735840386583e26330, type: 3}
+  - {fileID: 1307091900151311289, guid: a5b5739cfe096c446b8ff96b2675fc86, type: 3}

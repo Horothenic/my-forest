@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-using Zenject;
-
 namespace MyForest
 {
     [CreateAssetMenu(fileName = nameof(DecorationConfigurationCollection), menuName = MENU_NAME)]
@@ -13,8 +11,9 @@ namespace MyForest
 
         private const string MENU_NAME = nameof(MyForest) + "/Decorations/" + nameof(DecorationConfigurationCollection);
         
-        [Header("TREES")]
+        [Header("DECORATIONS")]
         [SerializeField] private Decoration _decorationPrefab = null;
+        [Probability("Decorations Rarity Probability", typeof(Rarity))] public Probability _decorationRarityProbability;
         
         [Header("COLLECTION")]
         [SerializeField] private DecorationConfiguration[] _decorationsConfigurations = null;
@@ -49,7 +48,17 @@ namespace MyForest
         DecorationConfiguration IDecorationsConfigurationCollectionSource.GetRandomConfigurationForBiome(Biome biome)
         {
             var decorationsForBiome = _decorationsConfigurations.Where(tc => tc.Biome == biome).ToList();
-            return decorationsForBiome[Random.Range(0, decorationsForBiome.Count - 1)];
+            var randomRarity = _decorationRarityProbability.Calculate<Rarity>();
+            
+            List<DecorationConfiguration> configurationsWithRarity = null;
+            do
+            {
+                configurationsWithRarity = decorationsForBiome.Where(dc => dc.Rarity == randomRarity).ToList();
+                randomRarity--;
+            }
+            while (configurationsWithRarity.Count == 0 && randomRarity >= 0);
+
+            return configurationsWithRarity[Random.Range(0, configurationsWithRarity.Count - 1)];
         }
     }
 }

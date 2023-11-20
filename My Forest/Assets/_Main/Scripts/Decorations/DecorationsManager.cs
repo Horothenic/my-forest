@@ -33,6 +33,7 @@ namespace MyForest
             return new DecorationData
             (
                 randomDecorationConfiguration.ID,
+                Random.Range(0, randomDecorationConfiguration.AmountOfVariations),
                 Random.Range(0, Constants.ForestElements.MAX_ROTATION),
                 randomDecorationConfiguration
             );

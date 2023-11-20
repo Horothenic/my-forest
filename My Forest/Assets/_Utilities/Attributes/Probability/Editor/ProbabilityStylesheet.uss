@@ -1,0 +1,56 @@
+VisualElement {}
+
+.title{
+    height: 22;
+    margin-top: 5;
+}
+
+.title-box{
+    flex-basis: 0;
+    flex-grow: 1;
+    background-color: #444444;
+}
+
+.title-box > Label{
+    margin-top: 3;
+    -unity-text-align: middle-center;
+    font-size: 12;
+    -unity-font-style: bold;
+}
+
+.container{
+    border-color: black;
+}
+
+.box{
+    margin-bottom: 10;
+    height: 50;
+    justify-content: center;
+    flex-basis: 0;
+    flex-grow: 1;
+}
+
+.box > Label{
+    -unity-text-align: middle-center;
+    overflow: hidden;
+    font-size: 12;
+    color: gray;
+}
+
+.box:hover{
+    border-color: black;
+}
+
+.box.separator{
+    cursor: resize-horizontal;
+    background-color: lightgray;
+    flex-grow: 0;
+    flex-basis: 3;
+    height: 45;
+    margin: 0 1;
+    margin-top: 2.5;
+}
+
+.box.separator:hover{
+    border-color: lightgray;
+}

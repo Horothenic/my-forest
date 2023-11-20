@@ -1,7 +1,6 @@
 using System;
 
 using Newtonsoft.Json;
-using UnityEngine;
 
 namespace MyForest
 {
@@ -34,13 +33,5 @@ namespace MyForest
         {
             Configuration = treeConfigurationCollectionSource.GetConfiguration(ID);
         }
-    }
-
-    public enum TreeRarity
-    {
-        Common,
-        Rare,
-        Exquisite,
-        Endangered
     }
 }

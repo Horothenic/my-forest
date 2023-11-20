@@ -2,8 +2,6 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 
-using Zenject;
-
 namespace MyForest
 {
     [CreateAssetMenu(fileName = nameof(TreeConfigurationCollection), menuName = MENU_NAME)]
@@ -15,11 +13,7 @@ namespace MyForest
         
         [Header("TREES")]
         [SerializeField] private Tree _treePrefab = null;
-        
-        [Header("PROBABILITIES")]
-        [SerializeField][Range(0, 1)] private float _endangeredThreshold = 0.05f;
-        [SerializeField][Range(0, 1)] private float _exquisiteThreshold = 0.15f;
-        [SerializeField][Range(0, 1)] private float _rareThreshold = 0.35f;
+        [Probability("Tree Rarity Probability", typeof(Rarity))] public Probability _treeRarityProbability;
 
         [Header("COLLECTION")]
         [SerializeField] private TreeConfiguration[] _treeConfigurations = null;
@@ -38,28 +32,6 @@ namespace MyForest
             }
         }
 
-        private TreeRarity GetRandomTreeRarity()
-        {
-            var randomValue = Random.value;
-
-            if (randomValue <= _endangeredThreshold)
-            {
-                return TreeRarity.Endangered;
-            }
-            
-            if (randomValue <= _exquisiteThreshold)
-            {
-                return TreeRarity.Exquisite;
-            }
-            
-            if (randomValue <= _rareThreshold)
-            {
-                return TreeRarity.Rare;
-            }
-
-            return TreeRarity.Common;
-        }
-
         #endregion
     }
 
@@ -75,16 +47,16 @@ namespace MyForest
 
         TreeConfiguration ITreeConfigurationCollectionSource.GetRandomConfigurationForBiome(Biome biome)
         {
-            var treeFromBiome = _treeConfigurations.Where(tc => tc.Biome == biome).ToList();
-            var randomRarity = GetRandomTreeRarity();
+            var treesFromBiome = _treeConfigurations.Where(tc => tc.Biome == biome).ToList();
+            var randomRarity = _treeRarityProbability.Calculate<Rarity>();
             
             List<TreeConfiguration> configurationsWithRarity = null;
             do
             {
-                configurationsWithRarity = treeFromBiome.Where(tc => tc.Rarity == randomRarity).ToList();
+                configurationsWithRarity = treesFromBiome.Where(tc => tc.Rarity == randomRarity).ToList();
                 randomRarity--;
             }
-            while (configurationsWithRarity.Count == 0);
+            while (configurationsWithRarity.Count == 0 && randomRarity >= 0);
 
             return configurationsWithRarity[Random.Range(0, configurationsWithRarity.Count - 1)];
         }

@@ -39,7 +39,7 @@ namespace MyForest
 
                 foreach (var growthTrackEvent in _growthTrackRecurrentEvents)
                 {
-                    if (growth >= growthTrackEvent.GrowthToStart && growth % growthTrackEvent.GrowthInterval == default)
+                    if (growth > growthTrackEvent.StartAfterGrowth && (growth - growthTrackEvent.StartAfterGrowth) % growthTrackEvent.GrowthInterval == default)
                     {
                         list.Add((growthTrackEvent, growth));
                     }

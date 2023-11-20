@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: TreeConfigurationCollection
   m_EditorClassIdentifier: 
   _treePrefab: {fileID: 4874896885170474990, guid: 3ad01476d207d4936b962c55596e9cf8, type: 3}
-  _endangeredThreshold: 0.05
-  _exquisiteThreshold: 0.15
-  _rareThreshold: 0.35
+  _treeRarityProbability:
+    _probabilities:
+    - 0.554
+    - 0.251
+    - 0.146
+    - 0.049
   _treeConfigurations:
   - {fileID: 11400000, guid: e79e3aa2318b4dd4598e1cbbab8e27aa, type: 2}
   - {fileID: 11400000, guid: 0a6a8be867959ce4185db4c02a0376b6, type: 2}

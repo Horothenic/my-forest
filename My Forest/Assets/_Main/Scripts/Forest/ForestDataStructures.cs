@@ -107,4 +107,12 @@ namespace MyForest
         Desert,
         Mountain
     }
+
+    public enum Rarity
+    {
+        Common,
+        Rare,
+        Exquisite,
+        Endangered
+    }
 }

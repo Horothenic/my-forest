@@ -31,7 +31,7 @@ namespace MyForest
         private void SetDecoration(DecorationData decorationData)
         {
             _objectPoolSource.Return(_currentDecoration);
-            _currentDecoration = _objectPoolSource.Borrow(decorationData.Configuration.Prefab);
+            _currentDecoration = _objectPoolSource.Borrow(decorationData.Configuration.GetVariation(decorationData.Variation));
             _currentDecoration.SetLocal(Vector3.zero, Vector3.up * decorationData.Rotation, transform);
         }
         

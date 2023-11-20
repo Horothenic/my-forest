@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
-namespace MyForest
+namespace UnityEngine
 {
     public partial class TimersManager : MonoBehaviour
     {
