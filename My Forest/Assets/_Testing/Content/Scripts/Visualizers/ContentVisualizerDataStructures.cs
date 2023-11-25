@@ -2,17 +2,17 @@ using UnityEngine;
 
 namespace MyForest.Testing
 {
-    public class TreeTest
+    public class ContentTestData<T>
     {
         public Transform Origin { get; }
         public Vector3 Position { get; }
-        public TreeConfiguration TreeConfiguration { get; }
+        public T Data { get; }
         
-        public TreeTest(Transform origin, Vector3 position, TreeConfiguration treeConfiguration)
+        public ContentTestData(Transform origin, Vector3 position, T data)
         {
             Origin = origin;
             Position = position;
-            TreeConfiguration = treeConfiguration;
+            Data = data;
         }
     }
 }
