@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 namespace MyForest.Testing.Editor
 {
-    public class TreeTestRefresher : EditorWindow
+    public class ContentRefresherButtons : EditorWindow
     {
         #region METHODS
 
@@ -16,7 +16,7 @@ namespace MyForest.Testing.Editor
         
         private static void OnSceneGUI(SceneView sceneView)
         {
-            if (SceneManager.GetActiveScene().name != "Trees") return;
+            if (SceneManager.GetActiveScene().name != "ContentVisualizer") return;
             
             Handles.BeginGUI();
 
@@ -26,12 +26,17 @@ namespace MyForest.Testing.Editor
             
             if (GUILayout.Button("Refresh All Elements", GUILayout.Height(30)))
             {
-                FindObjectOfType<TreeTesterController>()?.RefreshAllElements();
+                FindObjectOfType<AllContentVisualizer>()?.RefreshAllElements();
             }
             
-            if (GUILayout.Button("Refresh Tree Configurations", GUILayout.Height(30)))
+            if (GUILayout.Button("Refresh Trees", GUILayout.Height(30)))
             {
-                FindObjectOfType<TreeTesterController>()?.RefreshTreeConfigurations();
+                FindObjectOfType<TreesContentVisualizer>()?.RefreshConfigurations();
+            }
+            
+            if (GUILayout.Button("Refresh Decorations", GUILayout.Height(30)))
+            {
+                FindObjectOfType<DecorationsContentVisualizer>()?.RefreshConfigurations();
             }
 
             GUILayout.EndHorizontal();
