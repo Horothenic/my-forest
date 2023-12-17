@@ -1,11 +1,11 @@
+#if UNITY_IOS || UNITY_ANDROID
 using System;
 using System.Collections.Generic;
-using UnityEngine.Advertisements;
 
 using Zenject;
 using UniRx;
 
-namespace MyForest
+namespace UnityEngine.Advertisements
 {
     public partial class AdsManager
     {
@@ -177,3 +177,4 @@ namespace MyForest
         }
     }
 }
+#endif

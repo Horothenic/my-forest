@@ -1,6 +1,7 @@
+#if UNITY_IOS || UNITY_ANDROID
 using System;
 
-namespace MyForest
+namespace UnityEngine.Advertisements
 {
     public interface IAdsSource
     {
@@ -10,3 +11,4 @@ namespace MyForest
         void ShowRewardedAd(Action<AdShowStatus> onAdCompleted);
     }
 }
+#endif
