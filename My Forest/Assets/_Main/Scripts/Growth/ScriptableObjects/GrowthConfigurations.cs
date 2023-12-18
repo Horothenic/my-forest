@@ -23,15 +23,5 @@ namespace MyForest
     {
         int IGrowthConfigurationsSource.DailyGrowth => _dailyGrowth;
         int IGrowthConfigurationsSource.ExtraDailyGrowthSecondsInterval => _extraDailyGrowthSecondsInterval;
-
-        string IGrowthConfigurationsSource.GetIcon(GrowthTrackEventType eventType)
-        {
-            switch (eventType)
-            {
-                case GrowthTrackEventType.NewTree: return _treeCharIcon;
-            }
-
-            return null;
-        }
     }
 }

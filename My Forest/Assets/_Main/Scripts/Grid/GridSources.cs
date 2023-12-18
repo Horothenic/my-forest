@@ -5,7 +5,6 @@ namespace MyForest
     public interface IGridServiceSource
     {
         HexagonTile CreateTile(Transform parent, TileData tileData);
-        TileData CreateRandomTileDataForBiome(Biome biome);
     }
 
     public interface IGridPositioningSource

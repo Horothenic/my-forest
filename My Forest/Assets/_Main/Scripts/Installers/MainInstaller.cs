@@ -15,9 +15,6 @@ namespace MyForest
         [SerializeField] private TreeConfigurationCollection _treeConfigurationCollection = null;
         [SerializeField] private DecorationConfigurationCollection _decorationConfigurationCollection = null;
 
-        [Header("TRACKS")]
-        [SerializeField] private GrowthTrack _growthTrack = null;
-
         [Header("OTHERS")]
         [SerializeField] private ObjectPoolManager _objectPoolManager = null;
         [SerializeField] private TimersManager _timersManager = null;
@@ -39,14 +36,12 @@ namespace MyForest
         {
             Container.BindInterfacesTo<ObjectPoolManager>().FromInstance(_objectPoolManager).AsSingle();
             Container.BindInterfacesTo<TimersManager>().FromInstance(_timersManager).AsSingle();
-            
+
             Container.BindInterfacesTo<GrowthConfigurations>().FromScriptableObject(_growthConfigurations).AsSingle();
             Container.BindInterfacesTo<AudioConfigurations>().FromScriptableObject(_audioConfigurations).AsSingle();
             Container.BindInterfacesTo<GridConfigurations>().FromScriptableObject(_gridConfigurations).AsSingle();
             Container.BindInterfacesTo<TreeConfigurationCollection>().FromScriptableObject(_treeConfigurationCollection).AsSingle().WhenInjectedInto<TreesManager>();
             Container.BindInterfacesTo<DecorationConfigurationCollection>().FromScriptableObject(_decorationConfigurationCollection).AsSingle().WhenInjectedInto<DecorationsManager>();
-            
-            Container.BindInterfacesTo<GrowthTrack>().FromScriptableObject(_growthTrack).AsSingle();
             
             Container.BindInterfacesTo<GameManager>().AsSingle();
             Container.BindInterfacesTo<ForestManager>().AsSingle();
