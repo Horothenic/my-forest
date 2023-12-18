@@ -11,6 +11,7 @@ namespace MyForest
         private static readonly int ShaderColorProperty = Shader.PropertyToID("_BaseColor");
         
         [Inject] private IGridConfigurationsSource _gridConfigurationsSource = null;
+        [Inject] private ITerrainGenerationSource _terrainGenerationSource = null;
         
         [Header("COMPONENTS")]
         [SerializeField] private MeshRenderer _meshRenderer = null;
@@ -22,7 +23,9 @@ namespace MyForest
 
         public void Initialize(TileData tileData)
         {
-            _meshRenderer.material.SetColor(ShaderColorProperty, _gridConfigurationsSource.GetBiomeColor(tileData.Biome));
+            //_meshRenderer.material.SetColor(ShaderColorProperty, _gridConfigurationsSource.GetBiomeColor(tileData.Biome));
+            var value = _terrainGenerationSource.GetValueAtCoordinates(tileData.Coordinates);
+            _meshRenderer.material.SetColor(ShaderColorProperty, new Color(value, value, value));
             
             _model.localScale = new Vector3
             (

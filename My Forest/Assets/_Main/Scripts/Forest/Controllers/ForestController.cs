@@ -67,6 +67,7 @@ namespace MyForest
             if (!_tilesMap.TryGetValue(forestElementData.TileData.Coordinates, out var tile))
             {
                 tile = _gridServiceSource.CreateTile(_root, forestElementData.TileData);
+                _tilesMap.Add(forestElementData.TileData.Coordinates, tile);
             }
 
             if (forestElementData.TreeData != null)
