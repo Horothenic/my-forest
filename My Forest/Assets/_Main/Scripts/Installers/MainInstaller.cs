@@ -58,7 +58,6 @@ namespace MyForest
             Container.BindInterfacesTo<AudioManager>().AsSingle();
             Container.BindInterfacesTo<VisualizerManager>().AsSingle();
             Container.BindInterfacesTo<GridManager>().AsSingle();
-            Container.BindInterfacesTo<AdsManager>().AsSingle();
         }
     }
 }

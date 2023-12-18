@@ -1,4 +1,5 @@
-namespace MyForest
+#if UNITY_IOS || UNITY_ANDROID
+namespace UnityEngine.Advertisements
 {
     public enum AdShowStatus
     {
@@ -20,3 +21,4 @@ namespace MyForest
         NotInitialized
     }
 }
+#endif
