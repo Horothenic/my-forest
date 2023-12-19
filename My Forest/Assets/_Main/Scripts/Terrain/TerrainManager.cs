@@ -37,7 +37,8 @@ namespace MyForest
         
         float ITerrainGenerationSource.GetHeightAtCoordinates(Coordinates coordinates)
         {
-            return Mathf.Lerp(1f, _terrainConfigurationsSource.MaxHeight, GetValueAtCoordinates(coordinates, _terrainConfigurationsSource.HeightScale));
+            var heightAtCoordinates = GetValueAtCoordinates(coordinates, _terrainConfigurationsSource.HeightScale);
+            return Mathf.Lerp(_terrainConfigurationsSource.MinHeight, _terrainConfigurationsSource.MaxHeight, heightAtCoordinates);
         }
         
         private float GetValueAtCoordinates(Coordinates coordinates, float scale)

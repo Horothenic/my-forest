@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MyForest
 {
@@ -13,14 +14,12 @@ namespace MyForest
             [SerializeField] private string _name;
             [SerializeField] private Biome _biome;
             [SerializeField] private Color _color = Color.white;
-            [SerializeField] private float _heightFactor = 1;
             [SerializeField] private Vector2 _temperatureRange;
             [SerializeField] private Vector2 _humidityRange;
 
             public string Name => _name;
             public Biome Biome => _biome;
             public Color Color => _color;
-            public float HeightFactor => _heightFactor;
             
             public bool IsInMapRange(float temperature, float humidity)
             {
@@ -38,11 +37,19 @@ namespace MyForest
         [SerializeField] private float _humidityScale = 20;
         [SerializeField] private float _heightScale = 4;
         
-        [Header("CONFIGURATIONS")]
+        [Header("HEIGHT CONFIGURATIONS")]
         [SerializeField] private float _minHeight = 1;
         [SerializeField] private float _maxHeight = 20;
         
-        [Header("COLLECTION")]
+        [Header("LAKE CONFIGURATIONS")]
+        [SerializeField] private float _lakeHeight = 8;
+        [SerializeField] private Color _lakeColor = Color.white;
+        
+        [Header("TUNDRA CONFIGURATIONS")]
+        [SerializeField] private float _tundraHeight = 8;
+        [SerializeField] private Color _tundraColor = Color.white;
+        
+        [Header("BASE BIOMES")]
         [SerializeField] private BiomeConfiguration[] _biomeConfigurations = null;
         
         private readonly Dictionary<Biome, BiomeConfiguration> _biomeConfigurationsMap = new Dictionary<Biome, BiomeConfiguration>();
@@ -71,6 +78,11 @@ namespace MyForest
         float ITerrainConfigurationsSource.MinHeight => _minHeight;
         float ITerrainConfigurationsSource.MaxHeight => _maxHeight;
         
+        float ITerrainConfigurationsSource.LakeHeight => _lakeHeight;
+        Color ITerrainConfigurationsSource.LakeColor => _lakeColor;
+        float ITerrainConfigurationsSource.TundraHeight => _tundraHeight;
+        Color ITerrainConfigurationsSource.TundraColor => _tundraColor;
+        
         Biome ITerrainConfigurationsSource.GetBiomeForValues(float temperature, float humidity)
         {
             foreach (var biomeConfiguration in _biomeConfigurationsMap.Values)
@@ -88,11 +100,6 @@ namespace MyForest
         {
             _biomeConfigurationsMap.TryGetValue(biome, out var biomeConfiguration);
             return biomeConfiguration?.Color ?? Color.white;
-        }
-        float ITerrainConfigurationsSource.GetHeightFactorForBiome(Biome biome)
-        {
-            _biomeConfigurationsMap.TryGetValue(biome, out var biomeConfiguration);
-            return biomeConfiguration?.HeightFactor ?? 1f;
         }
     }
 }

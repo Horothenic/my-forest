@@ -24,22 +24,30 @@ namespace MyForest
 
         public void Initialize(Coordinates coordinates)
         {
+            var height = _terrainGenerationSource.GetHeightAtCoordinates(coordinates) * _tileConfigurationsSource.TileBaseHeight;
             var biome = _terrainGenerationSource.GetBiomeAtCoordinates(coordinates);
-            var height = CalculateHeight(_terrainGenerationSource.GetHeightAtCoordinates(coordinates), _terrainConfigurationsSource.GetHeightFactorForBiome(biome));
+            var color = _terrainConfigurationsSource.GetColorForBiome(biome);
+
+            if (height <= _terrainConfigurationsSource.LakeHeight)
+            {
+                height = _terrainConfigurationsSource.LakeHeight;
+                biome = Biome.Lake;
+                color = _terrainConfigurationsSource.LakeColor;
+            }
+            else if (biome == Biome.Mountain && height >= _terrainConfigurationsSource.TundraHeight)
+            {
+                biome = Biome.Tundra;
+                color = _terrainConfigurationsSource.TundraColor;
+            }
             
-            _meshRenderer.material.SetColor(ShaderColorProperty, _terrainConfigurationsSource.GetColorForBiome(biome));
+            _meshRenderer.material.SetColor(ShaderColorProperty, color);
             
             _model.localScale = new Vector3
             (
-                _tileConfigurationsSource.TileRadius, 
-                _tileConfigurationsSource.TileRadius, 
-                height * _tileConfigurationsSource.TileBaseHeight
+                _tileConfigurationsSource.TileRadius,
+                _tileConfigurationsSource.TileRadius,
+                height
             );
-        }
-
-        private float CalculateHeight(float terrainHeight, float biomeFactor)
-        {
-            return Mathf.Clamp(terrainHeight * biomeFactor, _terrainConfigurationsSource.MinHeight, float.MaxValue);
         }
 
         #endregion

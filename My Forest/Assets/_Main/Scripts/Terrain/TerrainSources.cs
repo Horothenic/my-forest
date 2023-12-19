@@ -21,8 +21,13 @@ namespace MyForest
         float HeightScale { get; }
         float MinHeight { get; }
         float MaxHeight { get; }
+        
+        float LakeHeight { get; }
+        Color LakeColor { get; }
+        float TundraHeight { get; }
+        Color TundraColor { get; }
+        
         Biome GetBiomeForValues(float temperature, float humidity);
         Color GetColorForBiome(Biome biome);
-        float GetHeightFactorForBiome(Biome biome);
     }
 }
