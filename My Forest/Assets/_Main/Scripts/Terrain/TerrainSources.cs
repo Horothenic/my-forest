@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace MyForest
 {
     public interface ITerrainInitializationSource
@@ -7,8 +9,20 @@ namespace MyForest
     
     public interface ITerrainGenerationSource
     {
-        private const float DEFAULT_SCALE = 10f;
+        Biome GetBiomeAtCoordinates(Coordinates coordinates);
+        float GetHeightAtCoordinates(Coordinates coordinates);
+    }
 
-        float GetValueAtCoordinates(Coordinates coordinates, float scale = DEFAULT_SCALE);
+    public interface ITerrainConfigurationsSource
+    {
+        float Resolution { get; }
+        float TemperatureScale { get; }
+        float HumidityScale { get; }
+        float HeightScale { get; }
+        float MinHeight { get; }
+        float MaxHeight { get; }
+        Biome GetBiomeForValues(float temperature, float humidity);
+        Color GetColorForBiome(Biome biome);
+        float GetHeightFactorForBiome(Biome biome);
     }
 }

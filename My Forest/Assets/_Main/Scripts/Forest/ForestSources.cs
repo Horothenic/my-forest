@@ -12,6 +12,6 @@ namespace MyForest
     
     public interface IForestEventsSource
     {
-        void DiscoverTile(TileData tileData);
+        void DiscoverTile(Coordinates coordinates);
     }
 }

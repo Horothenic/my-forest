@@ -36,10 +36,7 @@ namespace MyForest
     public class ForestElementData
     {
         public int ID { get; private set; }
-        public TileData TileData { get; private set; }
-        
-        [JsonIgnore]
-        public Biome Biome => TileData.Biome;
+        public Coordinates Coordinates { get; private set; }
         
         [JsonIgnore]
         public bool IsEmpty => TreeData == null && DecorationData == null;
@@ -47,14 +44,14 @@ namespace MyForest
         public TreeData TreeData { get; private set; }
         public DecorationData DecorationData { get; private set; }
         
-        public ForestElementData(int id, TileData tileData)
+        public ForestElementData(int id, Coordinates coordinates)
         {
             ID = id;
-            TileData = tileData;
+            Coordinates = coordinates;
         }
         
         [JsonConstructor]
-        public ForestElementData(int id, TileData tileData, TreeData treeData, DecorationData decorationData) : this(id, tileData)
+        public ForestElementData(int id, Coordinates coordinates, TreeData treeData, DecorationData decorationData) : this(id, coordinates)
         {
             TreeData = treeData;
             DecorationData = decorationData;
@@ -75,7 +72,10 @@ namespace MyForest
     {
         Forest,
         Desert,
-        Mountain
+        Mountain,
+        Swamp,
+        Lake,
+        Tundra
     }
 
     public enum Rarity

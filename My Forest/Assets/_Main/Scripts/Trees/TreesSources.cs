@@ -4,7 +4,7 @@ namespace MyForest
 {
     public interface ITreesServiceSource
     {
-        Tree CreateTree(Transform parent, TreeData treeData, int height, bool withEntryAnimation);
+        Tree CreateTree(Transform parent, TreeData treeData, float height, bool withEntryAnimation);
         TreeData GetRandomTreeDataForBiome(Biome biome, int growth);
     }
 

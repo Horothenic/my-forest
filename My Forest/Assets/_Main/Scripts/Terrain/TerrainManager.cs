@@ -1,10 +1,11 @@
 using UnityEngine;
+using Zenject;
 
 namespace MyForest
 {
     public partial class TerrainManager
     {
-        
+        [Inject] private ITerrainConfigurationsSource _terrainConfigurationsSource;
     }
 
     public partial class TerrainManager : ITerrainInitializationSource
@@ -26,12 +27,24 @@ namespace MyForest
 
     public partial class TerrainManager : ITerrainGenerationSource
     {
-        float ITerrainGenerationSource.GetValueAtCoordinates(Coordinates coordinates, float scale)
+        Biome ITerrainGenerationSource.GetBiomeAtCoordinates(Coordinates coordinates)
         {
-            var x = (_offsetX + coordinates.Q) / scale;
-            var y = (_offsetY + coordinates.R) / scale;
-            return Mathf.PerlinNoise(x, y);
+            var temperature = GetValueAtCoordinates(coordinates, _terrainConfigurationsSource.TemperatureScale);
+            var humidity = GetValueAtCoordinates(coordinates, _terrainConfigurationsSource.HumidityScale);
+            
+            return _terrainConfigurationsSource.GetBiomeForValues(temperature, humidity);
         }
         
+        float ITerrainGenerationSource.GetHeightAtCoordinates(Coordinates coordinates)
+        {
+            return Mathf.Lerp(1f, _terrainConfigurationsSource.MaxHeight, GetValueAtCoordinates(coordinates, _terrainConfigurationsSource.HeightScale));
+        }
+        
+        private float GetValueAtCoordinates(Coordinates coordinates, float scale)
+        {
+            var x = coordinates.Q / _terrainConfigurationsSource.Resolution * scale + _offsetX;
+            var y = coordinates.R / _terrainConfigurationsSource.Resolution * scale + _offsetY;
+            return Mathf.PerlinNoise(x, y);
+        }
     }
 }

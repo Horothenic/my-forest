@@ -49,7 +49,7 @@ namespace MyForest
                     testElements.Add(new ForestElementData
                     (
                         testElements.Count,
-                        new TileData(Biome.Forest, (i, j), 1)
+                        (i, j)
                     ));
                 } 
             }
@@ -68,12 +68,12 @@ namespace MyForest
 
     public partial class ForestManager : IForestEventsSource
     {
-        void IForestEventsSource.DiscoverTile(TileData tileData)
+        void IForestEventsSource.DiscoverTile(Coordinates coordinates)
         {
             var newForestElementData = new ForestElementData
             (
                 Data.ForestElementsCount,
-                tileData
+                coordinates
             );
             
             Data.AddForestElement(newForestElementData);

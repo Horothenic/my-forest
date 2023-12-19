@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace MyForest
@@ -9,7 +9,10 @@ namespace MyForest
         [Header("CONFIGURATIONS")]
         [SerializeField] private GrowthConfigurations _growthConfigurations = null;
         [SerializeField] private AudioConfigurations _audioConfigurations = null;
-        [SerializeField] private GridConfigurations _gridConfigurations = null;
+        [FormerlySerializedAs("_tileConfigurations")]
+        [FormerlySerializedAs("_gridConfigurations")]
+        [SerializeField] private TilesConfigurations _tilesConfigurations = null;
+        [SerializeField] private TerrainConfigurations _terrainConfigurations = null;
         
         [Header("COLLECTIONS")]
         [SerializeField] private TreeConfigurationCollection _treeConfigurationCollection = null;
@@ -29,7 +32,7 @@ namespace MyForest
         {
             _treeConfigurationCollection.Initialize();
             _decorationConfigurationCollection.Initialize();
-            _gridConfigurations.Initialize();
+            _terrainConfigurations.Initialize();
         }
 
         private void SetBindings()
@@ -39,7 +42,8 @@ namespace MyForest
 
             Container.BindInterfacesTo<GrowthConfigurations>().FromScriptableObject(_growthConfigurations).AsSingle();
             Container.BindInterfacesTo<AudioConfigurations>().FromScriptableObject(_audioConfigurations).AsSingle();
-            Container.BindInterfacesTo<GridConfigurations>().FromScriptableObject(_gridConfigurations).AsSingle();
+            Container.BindInterfacesTo<TilesConfigurations>().FromScriptableObject(_tilesConfigurations).AsSingle();
+            Container.BindInterfacesTo<TerrainConfigurations>().FromScriptableObject(_terrainConfigurations).AsSingle();
             Container.BindInterfacesTo<TreeConfigurationCollection>().FromScriptableObject(_treeConfigurationCollection).AsSingle().WhenInjectedInto<TreesManager>();
             Container.BindInterfacesTo<DecorationConfigurationCollection>().FromScriptableObject(_decorationConfigurationCollection).AsSingle().WhenInjectedInto<DecorationsManager>();
             
@@ -52,7 +56,7 @@ namespace MyForest
             Container.BindInterfacesTo<CameraManager>().AsSingle();
             Container.BindInterfacesTo<AudioManager>().AsSingle();
             Container.BindInterfacesTo<VisualizerManager>().AsSingle();
-            Container.BindInterfacesTo<GridManager>().AsSingle();
+            Container.BindInterfacesTo<TileManager>().AsSingle();
             Container.BindInterfacesTo<TerrainManager>().AsSingle();
         }
     }

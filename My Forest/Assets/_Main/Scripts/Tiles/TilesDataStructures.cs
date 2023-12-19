@@ -5,22 +5,6 @@ using Newtonsoft.Json;
 namespace MyForest
 {
     [Serializable]
-    public class TileData
-    {
-        public Biome Biome { get; private set; }
-        public int Height { get; private set; }
-        public Coordinates Coordinates { get; private set; }
-
-        [JsonConstructor]
-        public TileData(Biome biome, Coordinates coordinates, int height)
-        {
-            Biome = biome;
-            Coordinates = coordinates;
-            Height = height;
-        }
-    }
-    
-    [Serializable]
     public struct Coordinates
     {
         public int Q { get; private set; }
