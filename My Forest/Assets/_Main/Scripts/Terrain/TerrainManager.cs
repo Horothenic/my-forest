@@ -5,7 +5,8 @@ namespace MyForest
 {
     public partial class TerrainManager
     {
-        [Inject] private ITerrainConfigurationsSource _terrainConfigurationsSource;
+        [Inject] private IHeightConfigurationsSource _heightConfigurationsSource;
+        [Inject] private IBiomeConfigurationsSource _biomeConfigurationsSource;
     }
 
     public partial class TerrainManager : ITerrainInitializationSource
@@ -29,23 +30,57 @@ namespace MyForest
     {
         Biome ITerrainGenerationSource.GetBiomeAtCoordinates(Coordinates coordinates)
         {
-            var temperature = GetValueAtCoordinates(coordinates, _terrainConfigurationsSource.TemperatureScale);
-            var humidity = GetValueAtCoordinates(coordinates, _terrainConfigurationsSource.HumidityScale);
+            var temperatureNoiseConfiguration = _heightConfigurationsSource.HeightNoiseConfiguration;
+            var humidityNoiseConfiguration = _heightConfigurationsSource.HeightNoiseConfiguration;
             
-            return _terrainConfigurationsSource.GetBiomeForValues(temperature, humidity);
+            var temperature = GetValueAtCoordinates(coordinates,
+                temperatureNoiseConfiguration.Scale,
+                temperatureNoiseConfiguration.Octaves,
+                temperatureNoiseConfiguration.Persistance,
+                temperatureNoiseConfiguration.Lacunarity);
+            
+            var humidity = GetValueAtCoordinates(coordinates,
+                humidityNoiseConfiguration.Scale,
+                humidityNoiseConfiguration.Octaves,
+                humidityNoiseConfiguration.Persistance,
+                humidityNoiseConfiguration.Lacunarity);
+            
+            return _biomeConfigurationsSource.GetBiomeForValues(temperature, humidity);
         }
         
         float ITerrainGenerationSource.GetHeightAtCoordinates(Coordinates coordinates)
         {
-            var heightAtCoordinates = GetValueAtCoordinates(coordinates, _terrainConfigurationsSource.HeightScale);
-            return Mathf.Lerp(_terrainConfigurationsSource.MinHeight, _terrainConfigurationsSource.MaxHeight, heightAtCoordinates);
+            var heightNoiseConfiguration = _heightConfigurationsSource.HeightNoiseConfiguration;
+            
+            var heightAtCoordinates = GetValueAtCoordinates(coordinates,
+                heightNoiseConfiguration.Scale,
+                heightNoiseConfiguration.Octaves,
+                heightNoiseConfiguration.Persistance,
+                heightNoiseConfiguration.Lacunarity);
+
+            return _heightConfigurationsSource.HeightSpline.Evaluate(heightAtCoordinates);
         }
         
-        private float GetValueAtCoordinates(Coordinates coordinates, float scale)
+        private float GetValueAtCoordinates(Coordinates coordinates, float scale, int octaves, float persistance, float lacunarity)
         {
-            var x = coordinates.Q / _terrainConfigurationsSource.Resolution * scale + _offsetX;
-            var y = coordinates.R / _terrainConfigurationsSource.Resolution * scale + _offsetY;
-            return Mathf.PerlinNoise(x, y);
+            var total = 0f;
+            var frequency = 1f;
+            var amplitude = 1f;
+            var maxValue = 0f;
+
+            for (var i = 0; i < octaves; i++)
+            {
+                var x = ((coordinates.Q / scale) * frequency) + _offsetX;
+                var y = ((coordinates.R / scale) * frequency) + _offsetX;
+                
+                total += Mathf.PerlinNoise(x, y) * amplitude;
+
+                maxValue += amplitude;
+                amplitude *= persistance;
+                frequency *= lacunarity;
+            }
+            
+            return total / maxValue;
         }
     }
 }

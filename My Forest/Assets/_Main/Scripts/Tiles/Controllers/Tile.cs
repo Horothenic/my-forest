@@ -11,7 +11,8 @@ namespace MyForest
         private static readonly int ShaderColorProperty = Shader.PropertyToID("_BaseColor");
         
         [Inject] private ITileConfigurationsSource _tileConfigurationsSource = null;
-        [Inject] private ITerrainConfigurationsSource _terrainConfigurationsSource = null;
+        [Inject] private IHeightConfigurationsSource _heightConfigurationsSource = null;
+        [Inject] private IBiomeConfigurationsSource _biomeConfigurationsSource = null;
         [Inject] private ITerrainGenerationSource _terrainGenerationSource = null;
         
         [Header("COMPONENTS")]
@@ -26,18 +27,18 @@ namespace MyForest
         {
             var height = _terrainGenerationSource.GetHeightAtCoordinates(coordinates) * _tileConfigurationsSource.TileBaseHeight;
             var biome = _terrainGenerationSource.GetBiomeAtCoordinates(coordinates);
-            var color = _terrainConfigurationsSource.GetColorForBiome(biome);
+            var color = _biomeConfigurationsSource.GetColorForBiome(biome);
 
-            if (height <= _terrainConfigurationsSource.LakeHeight)
+            if (height <= _biomeConfigurationsSource.LakeHeight)
             {
-                height = _terrainConfigurationsSource.LakeHeight;
+                height = _biomeConfigurationsSource.LakeHeight;
                 biome = Biome.Lake;
-                color = _terrainConfigurationsSource.LakeColor;
+                color = _biomeConfigurationsSource.LakeColor;
             }
-            else if (biome == Biome.Mountain && height >= _terrainConfigurationsSource.TundraHeight)
+            else if (biome == Biome.Mountain && height >= _biomeConfigurationsSource.TundraHeight)
             {
                 biome = Biome.Tundra;
-                color = _terrainConfigurationsSource.TundraColor;
+                color = _biomeConfigurationsSource.TundraColor;
             }
             
             _meshRenderer.material.SetColor(ShaderColorProperty, color);

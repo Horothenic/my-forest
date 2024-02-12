@@ -13,14 +13,16 @@ namespace MyForest
         float GetHeightAtCoordinates(Coordinates coordinates);
     }
 
-    public interface ITerrainConfigurationsSource
+    public interface IHeightConfigurationsSource
     {
-        float Resolution { get; }
-        float TemperatureScale { get; }
-        float HumidityScale { get; }
-        float HeightScale { get; }
-        float MinHeight { get; }
-        float MaxHeight { get; }
+        PerlinNoiseConfiguration HeightNoiseConfiguration { get; }
+        Spline HeightSpline { get; }
+    }
+    
+    public interface IBiomeConfigurationsSource
+    {
+        PerlinNoiseConfiguration TemperatureNoiseConfiguration { get; }
+        PerlinNoiseConfiguration HumidityNoiseConfiguration { get; }
         
         float LakeHeight { get; }
         Color LakeColor { get; }

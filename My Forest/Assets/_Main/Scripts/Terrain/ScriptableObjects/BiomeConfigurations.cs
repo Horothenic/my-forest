@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace MyForest
 {
-    [CreateAssetMenu(fileName = nameof(TerrainConfigurations), menuName = MENU_NAME)]
-    public partial class TerrainConfigurations : ScriptableObject
+    [CreateAssetMenu(fileName = nameof(BiomeConfigurations), menuName = MENU_NAME)]
+    public partial class BiomeConfigurations : ScriptableObject
     {
         [Serializable]
         public class BiomeConfiguration
@@ -29,28 +28,20 @@ namespace MyForest
         
         #region FIELDS
 
-        private const string MENU_NAME = nameof(MyForest) + "/Terrain/" + nameof(TerrainConfigurations);
+        private const string MENU_NAME = nameof(MyForest) + "/Terrain/" + nameof(BiomeConfigurations);
 
         [Header("NOISE CONFIGURATIONS")]
-        [SerializeField] private float _resolution = 256;
-        [SerializeField] private float _temperatureScale = 10;
-        [SerializeField] private float _humidityScale = 20;
-        [SerializeField] private float _heightScale = 4;
-        
-        [Header("HEIGHT CONFIGURATIONS")]
-        [SerializeField] private float _minHeight = 1;
-        [SerializeField] private float _maxHeight = 20;
-        
-        [Header("LAKE CONFIGURATIONS")]
-        [SerializeField] private float _lakeHeight = 8;
-        [SerializeField] private Color _lakeColor = Color.white;
-        
-        [Header("TUNDRA CONFIGURATIONS")]
-        [SerializeField] private float _tundraHeight = 8;
-        [SerializeField] private Color _tundraColor = Color.white;
+        [SerializeField] private PerlinNoiseConfiguration _temperatureNoiseConfiguration;
+        [SerializeField] private PerlinNoiseConfiguration _humidityNoiseConfiguration;
         
         [Header("BASE BIOMES")]
         [SerializeField] private BiomeConfiguration[] _biomeConfigurations = null;
+        
+        [Header("FIXED BIOMES")]
+        [SerializeField] private float _lakeHeight = 8;
+        [SerializeField] private Color _lakeColor = Color.white;
+        [SerializeField] private float _tundraHeight = 8;
+        [SerializeField] private Color _tundraColor = Color.white;
         
         private readonly Dictionary<Biome, BiomeConfiguration> _biomeConfigurationsMap = new Dictionary<Biome, BiomeConfiguration>();
         
@@ -69,21 +60,17 @@ namespace MyForest
         #endregion
     }
 
-    public partial class TerrainConfigurations : ITerrainConfigurationsSource
+    public partial class BiomeConfigurations : IBiomeConfigurationsSource
     {
-        float ITerrainConfigurationsSource.Resolution => _resolution;
-        float ITerrainConfigurationsSource.TemperatureScale => _temperatureScale;
-        float ITerrainConfigurationsSource.HumidityScale => _humidityScale;
-        float ITerrainConfigurationsSource.HeightScale => _heightScale;
-        float ITerrainConfigurationsSource.MinHeight => _minHeight;
-        float ITerrainConfigurationsSource.MaxHeight => _maxHeight;
+        public PerlinNoiseConfiguration TemperatureNoiseConfiguration => _temperatureNoiseConfiguration;
+        public PerlinNoiseConfiguration HumidityNoiseConfiguration => _humidityNoiseConfiguration;
         
-        float ITerrainConfigurationsSource.LakeHeight => _lakeHeight;
-        Color ITerrainConfigurationsSource.LakeColor => _lakeColor;
-        float ITerrainConfigurationsSource.TundraHeight => _tundraHeight;
-        Color ITerrainConfigurationsSource.TundraColor => _tundraColor;
+        float IBiomeConfigurationsSource.LakeHeight => _lakeHeight;
+        Color IBiomeConfigurationsSource.LakeColor => _lakeColor;
+        float IBiomeConfigurationsSource.TundraHeight => _tundraHeight;
+        Color IBiomeConfigurationsSource.TundraColor => _tundraColor;
         
-        Biome ITerrainConfigurationsSource.GetBiomeForValues(float temperature, float humidity)
+        Biome IBiomeConfigurationsSource.GetBiomeForValues(float temperature, float humidity)
         {
             foreach (var biomeConfiguration in _biomeConfigurationsMap.Values)
             {
@@ -96,7 +83,7 @@ namespace MyForest
             return default(Biome);
         }
         
-        Color ITerrainConfigurationsSource.GetColorForBiome(Biome biome)
+        Color IBiomeConfigurationsSource.GetColorForBiome(Biome biome)
         {
             _biomeConfigurationsMap.TryGetValue(biome, out var biomeConfiguration);
             return biomeConfiguration?.Color ?? Color.white;

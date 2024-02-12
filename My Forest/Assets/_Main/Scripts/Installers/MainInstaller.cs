@@ -9,10 +9,10 @@ namespace MyForest
         [Header("CONFIGURATIONS")]
         [SerializeField] private GrowthConfigurations _growthConfigurations = null;
         [SerializeField] private AudioConfigurations _audioConfigurations = null;
-        [FormerlySerializedAs("_tileConfigurations")]
-        [FormerlySerializedAs("_gridConfigurations")]
         [SerializeField] private TilesConfigurations _tilesConfigurations = null;
-        [SerializeField] private TerrainConfigurations _terrainConfigurations = null;
+        [FormerlySerializedAs("_terrainConfigurations")]
+        [SerializeField] private HeightConfigurations _heightConfigurations = null;
+        [SerializeField] private BiomeConfigurations _biomeConfigurations = null;
         
         [Header("COLLECTIONS")]
         [SerializeField] private TreeConfigurationCollection _treeConfigurationCollection = null;
@@ -32,7 +32,7 @@ namespace MyForest
         {
             _treeConfigurationCollection.Initialize();
             _decorationConfigurationCollection.Initialize();
-            _terrainConfigurations.Initialize();
+            _biomeConfigurations.Initialize();
         }
 
         private void SetBindings()
@@ -43,7 +43,8 @@ namespace MyForest
             Container.BindInterfacesTo<GrowthConfigurations>().FromScriptableObject(_growthConfigurations).AsSingle();
             Container.BindInterfacesTo<AudioConfigurations>().FromScriptableObject(_audioConfigurations).AsSingle();
             Container.BindInterfacesTo<TilesConfigurations>().FromScriptableObject(_tilesConfigurations).AsSingle();
-            Container.BindInterfacesTo<TerrainConfigurations>().FromScriptableObject(_terrainConfigurations).AsSingle();
+            Container.BindInterfacesTo<HeightConfigurations>().FromScriptableObject(_heightConfigurations).AsSingle();
+            Container.BindInterfacesTo<BiomeConfigurations>().FromScriptableObject(_biomeConfigurations).AsSingle();
             Container.BindInterfacesTo<TreeConfigurationCollection>().FromScriptableObject(_treeConfigurationCollection).AsSingle().WhenInjectedInto<TreesManager>();
             Container.BindInterfacesTo<DecorationConfigurationCollection>().FromScriptableObject(_decorationConfigurationCollection).AsSingle().WhenInjectedInto<DecorationsManager>();
             
