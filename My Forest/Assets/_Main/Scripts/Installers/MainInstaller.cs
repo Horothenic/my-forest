@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace MyForest
@@ -9,14 +9,13 @@ namespace MyForest
         [Header("CONFIGURATIONS")]
         [SerializeField] private GrowthConfigurations _growthConfigurations = null;
         [SerializeField] private AudioConfigurations _audioConfigurations = null;
-        [SerializeField] private GridConfigurations _gridConfigurations = null;
+        [SerializeField] private TilesConfigurations _tilesConfigurations = null;
+        [SerializeField] private HeightConfigurations _heightConfigurations = null;
+        [SerializeField] private BiomeConfigurations _biomeConfigurations = null;
         
         [Header("COLLECTIONS")]
         [SerializeField] private TreeConfigurationCollection _treeConfigurationCollection = null;
         [SerializeField] private DecorationConfigurationCollection _decorationConfigurationCollection = null;
-
-        [Header("TRACKS")]
-        [SerializeField] private GrowthTrack _growthTrack = null;
 
         [Header("OTHERS")]
         [SerializeField] private ObjectPoolManager _objectPoolManager = null;
@@ -32,21 +31,21 @@ namespace MyForest
         {
             _treeConfigurationCollection.Initialize();
             _decorationConfigurationCollection.Initialize();
-            _gridConfigurations.Initialize();
+            _biomeConfigurations.Initialize();
         }
 
         private void SetBindings()
         {
             Container.BindInterfacesTo<ObjectPoolManager>().FromInstance(_objectPoolManager).AsSingle();
             Container.BindInterfacesTo<TimersManager>().FromInstance(_timersManager).AsSingle();
-            
+
             Container.BindInterfacesTo<GrowthConfigurations>().FromScriptableObject(_growthConfigurations).AsSingle();
             Container.BindInterfacesTo<AudioConfigurations>().FromScriptableObject(_audioConfigurations).AsSingle();
-            Container.BindInterfacesTo<GridConfigurations>().FromScriptableObject(_gridConfigurations).AsSingle();
+            Container.BindInterfacesTo<TilesConfigurations>().FromScriptableObject(_tilesConfigurations).AsSingle();
+            Container.BindInterfacesTo<HeightConfigurations>().FromScriptableObject(_heightConfigurations).AsSingle();
+            Container.BindInterfacesTo<BiomeConfigurations>().FromScriptableObject(_biomeConfigurations).AsSingle();
             Container.BindInterfacesTo<TreeConfigurationCollection>().FromScriptableObject(_treeConfigurationCollection).AsSingle().WhenInjectedInto<TreesManager>();
             Container.BindInterfacesTo<DecorationConfigurationCollection>().FromScriptableObject(_decorationConfigurationCollection).AsSingle().WhenInjectedInto<DecorationsManager>();
-            
-            Container.BindInterfacesTo<GrowthTrack>().FromScriptableObject(_growthTrack).AsSingle();
             
             Container.BindInterfacesTo<GameManager>().AsSingle();
             Container.BindInterfacesTo<ForestManager>().AsSingle();
@@ -57,7 +56,8 @@ namespace MyForest
             Container.BindInterfacesTo<CameraManager>().AsSingle();
             Container.BindInterfacesTo<AudioManager>().AsSingle();
             Container.BindInterfacesTo<VisualizerManager>().AsSingle();
-            Container.BindInterfacesTo<GridManager>().AsSingle();
+            Container.BindInterfacesTo<TileManager>().AsSingle();
+            Container.BindInterfacesTo<TerrainManager>().AsSingle();
         }
     }
 }

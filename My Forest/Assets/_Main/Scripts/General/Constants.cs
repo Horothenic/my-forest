@@ -6,7 +6,6 @@ namespace MyForest
         {
             public const string FOREST_DATA_KEY = "forest_data";
             public const string DEFAULT_FOREST_DATA_FILE = "DefaultForest";
-            public const float GET_EMPTY_TILE_OUTER_THRESHOLD = 0.7f;
         }
 
         public static class ForestElements
@@ -25,12 +24,6 @@ namespace MyForest
         {
             public const string CAMERA_DATA_KEY = "camera_data";
             public const float ROTATION_STEP_ANGLES = 45f;
-        }
-
-        public static class Formats
-        {
-            public const string HOUR_TIMER_FORMAT = "{2:00}:{1:00}:{0:00}";
-            public const string MINUTE_TIMER_FORMAT = "{1:00}:{0:00}";
         }
     }
 }

@@ -11,14 +11,12 @@ namespace MyForest
         #region FIELDS
         
         [Inject] private IForestDataSource _forestDataSource = null;
-        [Inject] private IGridServiceSource _gridServiceSource = null;
-        [Inject] private ITreesServiceSource _treesServiceSource = null;
-        [Inject] private IDecorationsServiceSource _decorationsServiceSource = null;
+        [Inject] private ITileServiceSource _tileServiceSource = null;
 
         [Header("CONFIGURATIONS")]
         [SerializeField] private Transform _root = null;
         
-        private readonly Dictionary<Coordinates, HexagonTile> _tilesMap = new Dictionary<Coordinates, HexagonTile>();
+        private readonly Dictionary<Coordinates, Tile> _tilesMap = new Dictionary<Coordinates, Tile>();
 
         #endregion
 
@@ -64,18 +62,10 @@ namespace MyForest
 
         private void OnForestElementChanged(ForestElementData forestElementData, bool withEntryAnimation = true)
         {
-            if (!_tilesMap.TryGetValue(forestElementData.TileData.Coordinates, out var tile))
+            if (!_tilesMap.TryGetValue(forestElementData.Coordinates, out var tile))
             {
-                tile = _gridServiceSource.CreateTile(_root, forestElementData.TileData);
-            }
-
-            if (forestElementData.TreeData != null)
-            {
-                _treesServiceSource.CreateTree(tile.transform, forestElementData.TreeData, forestElementData.TileData.Height, withEntryAnimation);
-            }
-            else if (forestElementData.DecorationData != null)
-            {
-                _decorationsServiceSource.CreateDecoration(tile.transform, forestElementData.DecorationData, forestElementData.TileData.Height, withEntryAnimation);
+                tile = _tileServiceSource.CreateTile(_root, forestElementData.Coordinates);
+                _tilesMap.Add(forestElementData.Coordinates, tile);
             }
         }
 

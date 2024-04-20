@@ -4,7 +4,7 @@ namespace MyForest
 {
     public interface IDecorationsServiceSource
     {
-        Decoration CreateDecoration(Transform parent, DecorationData treeData, int height, bool withEntryAnimation);
+        Decoration CreateDecoration(Transform parent, DecorationData treeData, float height, bool withEntryAnimation);
         DecorationData GetRandomDecorationDataForBiome(Biome biome);
     }
 

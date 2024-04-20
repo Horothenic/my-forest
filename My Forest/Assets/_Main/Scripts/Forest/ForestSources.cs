@@ -9,4 +9,9 @@ namespace MyForest
         IObservable<ForestData> ForestPostLoadObservable { get; }
         IObservable<ForestElementData> ForestElementChangedObservable { get; }
     }
+    
+    public interface IForestEventsSource
+    {
+        void DiscoverTile(Coordinates coordinates);
+    }
 }

@@ -24,6 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4758606795814018657}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -33,7 +34,6 @@ Transform:
   - {fileID: 1387050303802402388}
   - {fileID: 8348817341858069797}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9121403862614611929
 MonoBehaviour:
@@ -90,13 +90,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5108729383159479134}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8429474991571777805}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2039477809144688223
 MonoBehaviour:
@@ -134,13 +134,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6862962036144914519}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8429474991571777805}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3292561770650177765
 MonoBehaviour:
@@ -179,13 +179,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7644021295382012944}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8429474991571777805}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1838060754138913024
 MonoBehaviour:
@@ -201,9 +201,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _growthConfigurations: {fileID: 11400000, guid: c0afdc9f676f14c49a954d2ba2a5ec7f, type: 2}
   _audioConfigurations: {fileID: 11400000, guid: 89ded05031aee4cbda75b33330484ae6, type: 2}
-  _gridConfigurations: {fileID: 11400000, guid: b04f0416126882641928f2ed9cbb7a0d, type: 2}
+  _tilesConfigurations: {fileID: 11400000, guid: b04f0416126882641928f2ed9cbb7a0d, type: 2}
+  _heightConfigurations: {fileID: 11400000, guid: 0a126e8c11cab4e59a7589ad9cb5e276, type: 2}
+  _biomeConfigurations: {fileID: 11400000, guid: 6a5a621f7eb4147ceaf4ca9e4e2c7aaf, type: 2}
   _treeConfigurationCollection: {fileID: 11400000, guid: 4d976b4a05f6548beb671902371b8d10, type: 2}
   _decorationConfigurationCollection: {fileID: 11400000, guid: d2ba028e9f1fc44e5bfb4ff931d990b8, type: 2}
-  _growthTrack: {fileID: 11400000, guid: 1265dc948b2de42c788744f38a838a8c, type: 2}
   _objectPoolManager: {fileID: 3292561770650177765}
   _timersManager: {fileID: 2039477809144688223}
