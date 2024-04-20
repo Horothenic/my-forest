@@ -10,7 +10,6 @@ namespace MyForest
         [SerializeField] private GrowthConfigurations _growthConfigurations = null;
         [SerializeField] private AudioConfigurations _audioConfigurations = null;
         [SerializeField] private TilesConfigurations _tilesConfigurations = null;
-        [FormerlySerializedAs("_terrainConfigurations")]
         [SerializeField] private HeightConfigurations _heightConfigurations = null;
         [SerializeField] private BiomeConfigurations _biomeConfigurations = null;
         

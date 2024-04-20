@@ -9,8 +9,7 @@ namespace MyForest
     
     public interface ITerrainGenerationSource
     {
-        Biome GetBiomeAtCoordinates(Coordinates coordinates);
-        float GetHeightAtCoordinates(Coordinates coordinates);
+        (Biome biome, Color color, float height) GetTerrainValues(Coordinates coordinates);
     }
 
     public interface IHeightConfigurationsSource
@@ -26,10 +25,13 @@ namespace MyForest
         
         float LakeHeight { get; }
         Color LakeColor { get; }
+        float CoastalMinHeight { get; }
         float TundraHeight { get; }
         Color TundraColor { get; }
+        float TundraSteepness { get; }
         
         Biome GetBiomeForValues(float temperature, float humidity);
-        Color GetColorForBiome(Biome biome);
+        Color GetBiomeColor(Biome biome);
+        float GetBiomeSteepness(Biome biome);
     }
 }

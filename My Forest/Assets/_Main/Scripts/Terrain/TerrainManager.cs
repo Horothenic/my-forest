@@ -5,6 +5,7 @@ namespace MyForest
 {
     public partial class TerrainManager
     {
+        [Inject] private ITileConfigurationsSource _tileConfigurationsSource = null;
         [Inject] private IHeightConfigurationsSource _heightConfigurationsSource;
         [Inject] private IBiomeConfigurationsSource _biomeConfigurationsSource;
     }
@@ -28,19 +29,42 @@ namespace MyForest
 
     public partial class TerrainManager : ITerrainGenerationSource
     {
-        Biome ITerrainGenerationSource.GetBiomeAtCoordinates(Coordinates coordinates)
+        (Biome biome, Color color, float height) ITerrainGenerationSource.GetTerrainValues(Coordinates coordinates)
         {
-            var temperatureNoiseConfiguration = _heightConfigurationsSource.HeightNoiseConfiguration;
-            var humidityNoiseConfiguration = _heightConfigurationsSource.HeightNoiseConfiguration;
+            var biome = GetBiomeAtCoordinates(coordinates);
+            var color = _biomeConfigurationsSource.GetBiomeColor(biome);
+            var steepness = _biomeConfigurationsSource.GetBiomeSteepness(biome);
+            
+            var baseHeight = GetBaseHeightAtCoordinates(coordinates) * _tileConfigurationsSource.TileBaseHeight;
+            var height = SteepValue(baseHeight, steepness);
+            
+            if (baseHeight <= _biomeConfigurationsSource.LakeHeight)
+            {
+                height = _biomeConfigurationsSource.LakeHeight;
+                color = _biomeConfigurationsSource.LakeColor;
+            }
+            else if (biome == Biome.Mountain && baseHeight >= _biomeConfigurationsSource.TundraHeight)
+            {
+                biome = Biome.Tundra;
+                color = _biomeConfigurationsSource.TundraColor;
+            }
+            
+            return (biome, color, height);
+        }
+        
+        private Biome GetBiomeAtCoordinates(Coordinates coordinates)
+        {
+            var temperatureNoiseConfiguration = _biomeConfigurationsSource.TemperatureNoiseConfiguration;
+            var humidityNoiseConfiguration = _biomeConfigurationsSource.HumidityNoiseConfiguration;
             
             var temperature = GetValueAtCoordinates(coordinates,
-                temperatureNoiseConfiguration.Scale,
+                temperatureNoiseConfiguration.Smoothness,
                 temperatureNoiseConfiguration.Octaves,
                 temperatureNoiseConfiguration.Persistance,
                 temperatureNoiseConfiguration.Lacunarity);
             
             var humidity = GetValueAtCoordinates(coordinates,
-                humidityNoiseConfiguration.Scale,
+                humidityNoiseConfiguration.Smoothness,
                 humidityNoiseConfiguration.Octaves,
                 humidityNoiseConfiguration.Persistance,
                 humidityNoiseConfiguration.Lacunarity);
@@ -48,20 +72,20 @@ namespace MyForest
             return _biomeConfigurationsSource.GetBiomeForValues(temperature, humidity);
         }
         
-        float ITerrainGenerationSource.GetHeightAtCoordinates(Coordinates coordinates)
+        private float GetBaseHeightAtCoordinates(Coordinates coordinates)
         {
             var heightNoiseConfiguration = _heightConfigurationsSource.HeightNoiseConfiguration;
             
             var heightAtCoordinates = GetValueAtCoordinates(coordinates,
-                heightNoiseConfiguration.Scale,
+                heightNoiseConfiguration.Smoothness,
                 heightNoiseConfiguration.Octaves,
                 heightNoiseConfiguration.Persistance,
                 heightNoiseConfiguration.Lacunarity);
 
             return _heightConfigurationsSource.HeightSpline.Evaluate(heightAtCoordinates);
         }
-        
-        private float GetValueAtCoordinates(Coordinates coordinates, float scale, int octaves, float persistance, float lacunarity)
+
+        private float GetValueAtCoordinates(Coordinates coordinates, float smoothness, int octaves, float persistance, float lacunarity)
         {
             var total = 0f;
             var frequency = 1f;
@@ -70,8 +94,8 @@ namespace MyForest
 
             for (var i = 0; i < octaves; i++)
             {
-                var x = ((coordinates.Q / scale) * frequency) + _offsetX;
-                var y = ((coordinates.R / scale) * frequency) + _offsetX;
+                var x = ((coordinates.Q + _offsetX) / smoothness) * frequency;
+                var y = ((coordinates.R + _offsetY) / smoothness) * frequency;
                 
                 total += Mathf.PerlinNoise(x, y) * amplitude;
 
@@ -79,8 +103,13 @@ namespace MyForest
                 amplitude *= persistance;
                 frequency *= lacunarity;
             }
-            
+
             return total / maxValue;
+        }
+        
+        private float SteepValue(float value, float steepness)
+        {
+            return Mathf.Clamp(Mathf.Pow(value, steepness), _biomeConfigurationsSource.CoastalMinHeight, float.MaxValue);
         }
     }
 }

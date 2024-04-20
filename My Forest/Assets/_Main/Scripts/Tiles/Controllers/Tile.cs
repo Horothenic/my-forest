@@ -25,29 +25,14 @@ namespace MyForest
 
         public void Initialize(Coordinates coordinates)
         {
-            var height = _terrainGenerationSource.GetHeightAtCoordinates(coordinates) * _tileConfigurationsSource.TileBaseHeight;
-            var biome = _terrainGenerationSource.GetBiomeAtCoordinates(coordinates);
-            var color = _biomeConfigurationsSource.GetColorForBiome(biome);
-
-            if (height <= _biomeConfigurationsSource.LakeHeight)
-            {
-                height = _biomeConfigurationsSource.LakeHeight;
-                biome = Biome.Lake;
-                color = _biomeConfigurationsSource.LakeColor;
-            }
-            else if (biome == Biome.Mountain && height >= _biomeConfigurationsSource.TundraHeight)
-            {
-                biome = Biome.Tundra;
-                color = _biomeConfigurationsSource.TundraColor;
-            }
+            var terrainValues = _terrainGenerationSource.GetTerrainValues(coordinates);
             
-            _meshRenderer.material.SetColor(ShaderColorProperty, color);
-            
+            _meshRenderer.material.SetColor(ShaderColorProperty, terrainValues.color);
             _model.localScale = new Vector3
             (
                 _tileConfigurationsSource.TileRadius,
                 _tileConfigurationsSource.TileRadius,
-                height
+                terrainValues.height
             );
         }
 

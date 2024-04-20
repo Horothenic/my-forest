@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HeightConfigurations
   m_EditorClassIdentifier: 
   _heightNoiseConfiguration:
-    _scale: 10
+    _smoothness: 18
     _octaves: 3
     _persistance: 0.5
     _lacunarity: 2
@@ -31,22 +31,31 @@ MonoBehaviour:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 50
-        value: 21.597435
-        inSlope: 0.66842157
-        outSlope: 4.2129335
+        time: 0.21661612
+        value: 0.21357837
+        inSlope: 2.003853
+        outSlope: 0.08263285
         tangentMode: 1
         weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.07900292
+        inWeight: 0.21493311
+        outWeight: 0.14517869
       - serializedVersion: 3
-        time: 100
-        value: 80
-        inSlope: -0.118000634
-        outSlope: -0.118000634
+        time: 0.6968593
+        value: 0.6829973
+        inSlope: 1.5054526
+        outSlope: 0.016691143
+        tangentMode: 1
+        weightedMode: 0
+        inWeight: 0.11936538
+        outWeight: 0.33824694
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1.1840893
+        outSlope: 1.1840893
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.18985839
+        inWeight: 0.085532226
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2

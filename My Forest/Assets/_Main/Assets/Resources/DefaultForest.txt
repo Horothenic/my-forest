@@ -2,16 +2,10 @@
   "ForestElements":[
     {
       "ID": 0,
-      "TileData":
+      "Coordinates":
       {
-        "Biome": 0,
-        "Surrounded": false,
-        "Height": 1,
-        "Coordinates":
-        {
-            "Q": 0,
-            "R": 0
-        }
+          "Q": 0,
+          "R": 0
       },
       "TreeData":
       {
