@@ -33,7 +33,7 @@ namespace MyForest
 
         private void Initialize()
         {
-            _forestDataSource.ForestPostLoadObservable.Subscribe(BuildForest).AddTo(this);
+            _forestDataSource.ForestLoadObservable.Subscribe(BuildForest).AddTo(this);
             _forestDataSource.ForestElementChangedObservable.Subscribe(data => OnForestElementChanged(data)).AddTo(this);
 
             BuildForest(_forestDataSource?.ForestData);

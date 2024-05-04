@@ -39,8 +39,7 @@ namespace MyForest
     public partial class ForestManager : IForestDataSource
     {
         ForestData IForestDataSource.ForestData => Data;
-        IObservable<ForestData> IForestDataSource.ForestPreLoadObservable => PreLoadObservable;
-        IObservable<ForestData> IForestDataSource.ForestPostLoadObservable => PostLoadObservable;
+        IObservable<ForestData> IForestDataSource.ForestLoadObservable => LoadObservable;
         IObservable<ForestElementData> IForestDataSource.ForestElementChangedObservable => _forestElementChangedSubject.AsObservable();
     }
 
