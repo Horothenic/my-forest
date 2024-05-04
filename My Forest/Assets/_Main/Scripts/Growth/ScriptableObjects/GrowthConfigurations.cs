@@ -11,10 +11,6 @@ namespace MyForest
 
         [Header("INCREASE")]
         [SerializeField] private int _dailyGrowth = default;
-        [SerializeField] private int _extraDailyGrowthSecondsInterval = 10;
-
-        [Header("ICONS")]
-        [SerializeField] private string _treeCharIcon = default;
 
         #endregion
     }
@@ -22,6 +18,5 @@ namespace MyForest
     public partial class GrowthConfigurations : IGrowthConfigurationsSource
     {
         int IGrowthConfigurationsSource.DailyGrowth => _dailyGrowth;
-        int IGrowthConfigurationsSource.ExtraDailyGrowthSecondsInterval => _extraDailyGrowthSecondsInterval;
     }
 }
