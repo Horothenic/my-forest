@@ -23,7 +23,7 @@ namespace MyForest
         public static class Camera
         {
             public const string CAMERA_DATA_KEY = "camera_data";
-            public const float ROTATION_STEP_ANGLES = 45f;
+            public const int MAX_ROTATION = 360;
         }
     }
 }

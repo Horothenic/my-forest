@@ -10,14 +10,17 @@ namespace MyForest
     {
         #region FIELDS
         
-        private readonly Subject<Unit> _rotateLeftSubject = new Subject<Unit>();
-        private readonly Subject<Unit> _rotateRightSubject = new Subject<Unit>();
-        private readonly DataSubject<float> _rotationAnglesSubject = new DataSubject<float>(Constants.Camera.ROTATION_STEP_ANGLES);
         private readonly Subject<Unit> _introStartedSubject = new Subject<Unit>();
         private readonly Subject<Unit> _introEndedSubject = new Subject<Unit>();
+        
         private readonly Subject<Unit> _enableInputSubject = new Subject<Unit>();
         private readonly Subject<Unit> _blockInputSubject = new Subject<Unit>();
-        private readonly Subject<(float zoom, bool withTransition)> _setZoomSubject = new Subject<(float zoom, bool withTransition)>();
+        private readonly Subject<Unit> _inputEndedSubject = new Subject<Unit>();
+        
+        private readonly Subject<Vector3> _positionSubject = new Subject<Vector3>();
+        private readonly Subject<float> _rotationSubject = new Subject<float>();
+        private readonly Subject<float> _zoomSubject = new Subject<float>();
+        
         private readonly Subject<IReadOnlyList<Vector3>> _updateDragLimitsSubject = new Subject<IReadOnlyList<Vector3>>();
         private readonly Subject<Vector3> _newCenterPositionSubject = new Subject<Vector3>();
 
@@ -29,25 +32,29 @@ namespace MyForest
         protected override string Key => Constants.Camera.CAMERA_DATA_KEY;
     }
 
-    public partial class CameraManager : ICameraRotationSource
+    public partial class CameraManager : ICameraGesturesDataSource
     {
-        float ICameraRotationSource.CurrentRotationAngles => _rotationAnglesSubject.Value;
-        IObservable<Unit> ICameraRotationSource.RotatedLeftObservable => _rotateLeftSubject.AsObservable();
-        IObservable<Unit> ICameraRotationSource.RotatedRightObservable => _rotateRightSubject.AsObservable();
-
-        void ICameraRotationSource.ChangeCameraAngle(float anglesChange)
+        float ICameraGesturesDataSource.CurrentRotation => Data.CurrentRotation;
+        IObservable<float> ICameraGesturesDataSource.RotationObservable => _rotationSubject.AsObservable();
+        void ICameraGesturesDataSource.SetRotation(float rotation)
         {
-            _rotationAnglesSubject.OnNext(_rotationAnglesSubject.Value + anglesChange);
+            Data.SetRotation(rotation);
+            _rotationSubject.OnNext(rotation);
         }
-
-        void ICameraRotationSource.RotateLeft()
+        
+        float ICameraGesturesDataSource.CurrentZoom => Data.CurrentZoom;
+        IObservable<float> ICameraGesturesDataSource.ZoomObservable => _zoomSubject.AsObservable();
+        void ICameraGesturesDataSource.SetZoom(float zoom)
         {
-            _rotateLeftSubject.OnNext();
+            Data.SetZoom(zoom);
+            _zoomSubject.OnNext(zoom);
         }
-
-        void ICameraRotationSource.RotateRight()
+        Vector3 ICameraGesturesDataSource.CurrentPosition => Data.CurrentPosition;
+        IObservable<Vector3> ICameraGesturesDataSource.PositionObservable => _positionSubject.AsObservable();
+        void ICameraGesturesDataSource.SetPosition(Vector3 position)
         {
-            _rotateRightSubject.OnNext();
+            Data.SetPosition(position);
+            _positionSubject.OnNext(position);
         }
     }
 
@@ -79,31 +86,24 @@ namespace MyForest
     public partial class CameraManager : ICameraGesturesControlSource
     {
         IObservable<Unit> ICameraGesturesControlSource.EnableInputObservable => _enableInputSubject.AsObservable();
-
         void ICameraGesturesControlSource.EnableInput()
         {
             _enableInputSubject.OnNext();
         }
 
         IObservable<Unit> ICameraGesturesControlSource.BlockInputObservable => _blockInputSubject.AsObservable();
-
         void ICameraGesturesControlSource.BlockInput()
         {
             _blockInputSubject.OnNext();
         }
-
-        IObservable<(float zoom, bool withTransition)> ICameraGesturesControlSource.ZoomObservable => _setZoomSubject.AsObservable();
-
-        void ICameraGesturesControlSource.SetZoom(float newZoom, bool withTransition)
+        
+        IObservable<Unit> ICameraGesturesControlSource.InputEndedObservable => _inputEndedSubject.AsObservable();
+        void ICameraGesturesControlSource.InputEnded()
         {
-            Data.SetCurrentZoom(newZoom);
             Save();
-            
-            _setZoomSubject.OnNext((newZoom, withTransition));
+            _inputEndedSubject.OnNext();
         }
-
-        float ICameraGesturesControlSource.GetCurrentZoom => Data.CurrentZoom;
-
+        
         IObservable<IReadOnlyList<Vector3>> ICameraGesturesControlSource.UpdateDragLimitsObservable => _updateDragLimitsSubject.AsObservable();
 
         void ICameraGesturesControlSource.UpdateDragLimits(IReadOnlyList<Vector3> newPositions)
@@ -113,7 +113,7 @@ namespace MyForest
 
         void ICameraGesturesControlSource.UpdateDragLimits(Vector3 newPosition)
         {
-            _updateDragLimitsSubject.OnNext(new[] {newPosition});
+            _updateDragLimitsSubject.OnNext(new[] { newPosition });
         }
     }
 

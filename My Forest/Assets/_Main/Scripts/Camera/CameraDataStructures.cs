@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 using Newtonsoft.Json;
 
@@ -9,14 +10,18 @@ namespace MyForest
     {
         public bool FirstIntroPlayed { get; private set; }
         public float CurrentZoom { get; private set; } = -1;
+        public float CurrentRotation { get; private set; } = 0;
+        public SerializedVector3 CurrentPosition { get; private set; }
 
         public CameraData() { }
 
         [JsonConstructor]
-        public CameraData(bool firstIntroPlayed, float currentZoom)
+        public CameraData(bool firstIntroPlayed, float currentZoom, float currentRotation, SerializedVector3 currentPosition)
         {
             FirstIntroPlayed = firstIntroPlayed;
             CurrentZoom = currentZoom;
+            CurrentRotation = currentRotation;
+            CurrentPosition = currentPosition;
         }
 
         public void SetFirstIntroPlayed()
@@ -24,9 +29,19 @@ namespace MyForest
             FirstIntroPlayed = true;
         }
 
-        public void SetCurrentZoom(float currentZoom)
+        public void SetZoom(float zoom)
         {
-            CurrentZoom = currentZoom;
+            CurrentZoom = zoom;
+        }
+
+        public void SetRotation(float rotation)
+        {
+            CurrentRotation = rotation;
+        }
+
+        public void SetPosition(Vector3 position)
+        {
+            CurrentPosition = position;
         }
     }
 }

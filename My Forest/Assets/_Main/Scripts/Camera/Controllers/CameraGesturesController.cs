@@ -4,6 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using Zenject;
 using UniRx;
+using UnityEngine.Serialization;
 
 namespace MyForest
 {
@@ -14,35 +15,52 @@ namespace MyForest
         private const int FIRST_TOUCH_INDEX = 0;
         private const int SECOND_TOUCH_INDEX = 1;
         private const float PINCH_GESTURE_THRESHOLD = 10f;
-        private const string MOUSE_SCROLL_WHEEL_KEY = "Mouse ScrollWheel";
 
-        [Inject] private ICameraRotationSource _cameraRotationSource = null;
+        private const float MOUSE_SHORT_ZOOM_INCREASE = 1f;
+        private const float MOUSE_ZOOM_INCREASE = 4f;
+        private const float KEYBOARD_SHORT_ROTATION_INCREASE = 5f;
+        private const float KEYBOARD_ROTATION_INCREASE = 25f;
+        
+        [Inject] private ICameraGesturesDataSource _cameraGesturesDataSource = null;
         [Inject] private ICameraGesturesControlSource _cameraGesturesControlSource = null;
         [Inject] private ICameraIntroSource _cameraIntroSource = null;
+        
+        [Header("COMPONENTS")]
+        [SerializeField] private Transform _cameraMainContainer;
+        [SerializeField] private Transform _cameraSubContainer;
+        [SerializeField] private Camera _camera;
 
         [Header("DRAG CONFIGURATIONS")]
-        [SerializeField] private Transform _cameraContainer = null;
-        [SerializeField] private Camera _camera = null;
-        [SerializeField] private float _dragStrength = 1;
+        [SerializeField] private Spline _dragStrengthBasedOnZoom;
 
-        [Header("PINCH CONFIGURATIONS")]
+        [Header("ZOOM CONFIGURATIONS")]
         [SerializeField] private float _minZoom = 2;
         [SerializeField] private float _maxZoom = 8;
-        [SerializeField] private float _defaultZoom = 3;
-        [SerializeField] private float _zoomTouchSensitivity = 1;
-        [SerializeField] private float _zoomMouseSensitivity = 1;
-        [SerializeField] private float _zoomTransitionTime = 0.5f;
+        [SerializeField] private float _zoomSensitivity = 1.6f;
+        [SerializeField] private Spline _targetHeightBasedOnZoom;
+        [SerializeField] private Spline _cameraRadiusBasedOnZoom;
+        [SerializeField] private Spline _subContainerAngles;
+        
+        [Header("ROTATION CONFIGURATIONS")]
+        [SerializeField] private float _rotationSensitivity = 1f;
 
-        private Vector2 _dragPreviousPosition = default;
-        private Vector2 _dragNextPosition = default;
-        private Vector2 _minDragLimits;
-        private Vector2 _maxDragLimits;
-        private float? _firstDistanceBetweenTouches = null;
-        private float _currentZoom = default;
-        private float _zoomOnStartPinch = default;
         private GestureType _currentGesture = GestureType.None;
         private bool _inputEnabled = true;
-        private Tween _zoomTween = null;
+        
+        private Vector2 _dragPreviousPosition;
+        private Vector2 _dragNextPosition;
+        private Vector2 _currentDragPosition;
+        private Vector2 _minDragLimits;
+        private Vector2 _maxDragLimits;
+        private float? _firstDistanceBetweenTouches;
+        
+        private float _currentZoom;
+        private float _zoomOnStartPinch;
+        private Tween _zoomTween;
+        
+        private float _currentRotation;
+
+        private float CurrentZoomPercentage => Mathf.InverseLerp(_minZoom, _maxZoom, _currentZoom);
 
         private enum GestureType
         {
@@ -57,13 +75,13 @@ namespace MyForest
 
         private void Start()
         {
+            SetupCamera();
             BlockInput();
             
-            _cameraGesturesControlSource.ZoomObservable.Subscribe(SetZoomWithTransition).AddTo(this);
             _cameraGesturesControlSource.EnableInputObservable.Subscribe(EnableInput).AddTo(this);
             _cameraGesturesControlSource.BlockInputObservable.Subscribe(BlockInput).AddTo(this);
             _cameraGesturesControlSource.UpdateDragLimitsObservable.Subscribe(UpdateDragLimits).AddTo(this);
-            _cameraIntroSource.IntroStartedObservable.Subscribe(SetStoredZoom).AddTo(this);
+            _cameraIntroSource.IntroStartedObservable.Subscribe(SetupCamera).AddTo(this);
         }
 
         private void Update()
@@ -75,13 +93,20 @@ namespace MyForest
 
         #region METHODS
 
+        private void SetupCamera()
+        {
+            SetStoredRotation();
+            SetStoredZoom();
+        }
+
         private void CheckInput()
         {
             if (!_inputEnabled) return;
-
+            
 #if UNITY_EDITOR
             DragMouse();
-            PinchMouse();
+            ZoomMouse();
+            RotateMouse();
 #else
             if (Input.touchCount == 0) return;
 
@@ -149,6 +174,22 @@ namespace MyForest
             _inputEnabled = false;
         }
 
+        private void SetCameraRadius()
+        {
+            _camera.transform.localPosition = Vector3.back * _cameraRadiusBasedOnZoom.Evaluate(CurrentZoomPercentage);
+        }
+
+        private void CameraZoomFollow()
+        {
+            var t = Mathf.InverseLerp(_minZoom, _maxZoom, _currentZoom);
+            _cameraSubContainer.localRotation = Quaternion.Euler(Vector3.right * _subContainerAngles.Evaluate(t));
+            
+            var target = _cameraMainContainer.position.SetY(_targetHeightBasedOnZoom.Evaluate(CurrentZoomPercentage));
+            var direction = target - _camera.transform.position;
+            var rotation = Quaternion.LookRotation(direction);
+            _camera.transform.rotation = rotation;
+        }
+
         #endregion
 
         #region TOUCH
@@ -174,7 +215,7 @@ namespace MyForest
             if (_firstDistanceBetweenTouches == null) return;
 
             var currentDistance = Vector2.Distance(Input.GetTouch(FIRST_TOUCH_INDEX).position, Input.GetTouch(SECOND_TOUCH_INDEX).position);
-            var zoomFactor = Mathf.Pow(((float)_firstDistanceBetweenTouches / currentDistance), _zoomTouchSensitivity);
+            var zoomFactor = Mathf.Pow(((float)_firstDistanceBetweenTouches / currentDistance), _zoomSensitivity);
 
             ChangeZoom(_zoomOnStartPinch * zoomFactor);
         }
@@ -195,15 +236,73 @@ namespace MyForest
                 _dragNextPosition = Input.mousePosition;
                 SetContainerDragPosition();
             }
+            
+            if (Input.GetMouseButtonUp(FIRST_TOUCH_INDEX))
+            {
+                _cameraGesturesControlSource.InputEnded();
+            }
         }
 
-        private void PinchMouse()
+        private void ZoomMouse()
         {
-            var mouseWheelDirection = Input.GetAxisRaw(MOUSE_SCROLL_WHEEL_KEY);
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                if (Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.LeftShift))
+                {
+                    ChangeZoom(_currentZoom + MOUSE_SHORT_ZOOM_INCREASE);
+                    _cameraGesturesControlSource.InputEnded();
+                }
+                else
+                {
+                    ChangeZoom(_currentZoom + MOUSE_ZOOM_INCREASE);
+                    _cameraGesturesControlSource.InputEnded();
+                }
+            }
 
-            if (mouseWheelDirection == 0f) return;
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                if (Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.LeftShift))
+                {
+                    ChangeZoom(_currentZoom - MOUSE_SHORT_ZOOM_INCREASE);
+                    _cameraGesturesControlSource.InputEnded();
+                }
+                else
+                {
+                    ChangeZoom(_currentZoom - MOUSE_ZOOM_INCREASE);
+                    _cameraGesturesControlSource.InputEnded();
+                }
+            }
+        }
+        
+        private void RotateMouse()
+        {
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                if (Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.LeftShift))
+                {
+                    ChangeRotation(_currentRotation + KEYBOARD_SHORT_ROTATION_INCREASE);
+                    _cameraGesturesControlSource.InputEnded();
+                }
+                else
+                {
+                    ChangeRotation(_currentRotation + KEYBOARD_ROTATION_INCREASE);
+                    _cameraGesturesControlSource.InputEnded();
+                }
+            }
 
-            ChangeZoom(_currentZoom - (_zoomMouseSensitivity * mouseWheelDirection));
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                if (Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.LeftShift))
+                {
+                    ChangeRotation(_currentRotation - KEYBOARD_SHORT_ROTATION_INCREASE);
+                    _cameraGesturesControlSource.InputEnded();
+                }
+                else
+                {
+                    ChangeRotation(_currentRotation - KEYBOARD_ROTATION_INCREASE);
+                    _cameraGesturesControlSource.InputEnded();
+                }
+            }
         }
 
         #endregion
@@ -230,21 +329,24 @@ namespace MyForest
 
         private void SetContainerDragPosition()
         {
-            Vector3 deltaPosition = (_dragPreviousPosition - _dragNextPosition) * _dragStrength;
+            var dragStrength = _dragStrengthBasedOnZoom.Evaluate(CurrentZoomPercentage);
+            Vector3 deltaPosition = (_dragPreviousPosition - _dragNextPosition) * dragStrength;
 
             deltaPosition.z = deltaPosition.y;
-            deltaPosition.y = default;
+            deltaPosition.y = default(float);
 
-            deltaPosition = Quaternion.AngleAxis(_cameraRotationSource.CurrentRotationAngles, Vector3.up) * deltaPosition;
+            deltaPosition = Quaternion.AngleAxis(_cameraGesturesDataSource.CurrentRotation, Vector3.up) * deltaPosition;
 
-            var newPosition = ClampDragPositionInBounds(_cameraContainer.position + deltaPosition);
-            _cameraContainer.position = newPosition;
+            var newPosition = ClampDragPositionInBounds(_cameraMainContainer.position + deltaPosition);
+            _cameraMainContainer.position = newPosition;
 
             _dragPreviousPosition = _dragNextPosition;
         }
 
         private Vector3 ClampDragPositionInBounds(Vector3 newPosition)
         {
+            // TODO: Re-add functionality when we detect new tiles being created.
+            return newPosition;
             var x = Mathf.Clamp(newPosition.x, _minDragLimits.x, _maxDragLimits.x);
             var z = Mathf.Clamp(newPosition.z, _minDragLimits.y, _maxDragLimits.y);
 
@@ -259,29 +361,48 @@ namespace MyForest
         {
             if (!_cameraIntroSource.HasFirstIntroAlreadyPlayed) return;
             
-            _currentZoom = _cameraGesturesControlSource.GetCurrentZoom < 0 ? _defaultZoom : _cameraGesturesControlSource.GetCurrentZoom;
-            SetZoomWithTransition((_currentZoom, false));
+            _currentZoom = _cameraGesturesDataSource.CurrentZoom < 0 ? 3 : _cameraGesturesDataSource.CurrentZoom;
+            SetZoom(_currentZoom);
         }
 
         private void ChangeZoom(float newZoom)
         {
             _currentZoom = Mathf.Clamp(newZoom, _minZoom, _maxZoom);
-            _cameraGesturesControlSource.SetZoom(newZoom, true);
+            SetZoom(_currentZoom);
+            _cameraGesturesDataSource.SetZoom(_currentZoom);
         }
 
-        private void SetZoomWithTransition((float zoom, bool withTransition) value)
+        private void SetZoom(float zoom)
         {
-            if (value.withTransition)
-            {
-                _zoomTween?.Kill();
-                _zoomTween = DOTween.To(() => _camera.orthographicSize, x => _camera.orthographicSize = x, value.zoom, _zoomTransitionTime);
-            }
-            else
-            {
-                _camera.orthographicSize = value.zoom;
-            }
+            _cameraMainContainer.position = _cameraMainContainer.position.SetY(zoom);
+            SetCameraRadius();
+            CameraZoomFollow();
         }
 
+        #endregion
+
+        #region ROTATION
+        
+        private void SetStoredRotation()
+        {
+            if (!_cameraIntroSource.HasFirstIntroAlreadyPlayed) return;
+            
+            _currentRotation = _cameraGesturesDataSource.CurrentRotation;
+            SetRotation(_currentRotation);
+        }
+
+        private void ChangeRotation(float rotation)
+        {
+            _currentRotation = rotation % Constants.Camera.MAX_ROTATION;
+            SetRotation(_currentRotation);
+            _cameraGesturesDataSource.SetRotation(_currentRotation);
+        }
+
+        private void SetRotation(float rotation)
+        {
+            _cameraMainContainer.rotation = Quaternion.Euler(Vector3.up * rotation);
+        }
+        
         #endregion
     }
 }
