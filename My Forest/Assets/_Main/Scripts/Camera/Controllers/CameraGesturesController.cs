@@ -4,7 +4,6 @@ using UnityEngine;
 using DG.Tweening;
 using Zenject;
 using UniRx;
-using UnityEngine.Serialization;
 
 namespace MyForest
 {
@@ -95,6 +94,7 @@ namespace MyForest
 
         private void SetupCamera()
         {
+            SetStoredPosition();
             SetStoredRotation();
             SetStoredZoom();
         }
@@ -309,6 +309,13 @@ namespace MyForest
 
         #region DRAG
         
+        private void SetStoredPosition()
+        {
+            if (!_cameraIntroSource.HasFirstIntroAlreadyPlayed) return;
+            
+            _cameraMainContainer.position = _cameraGesturesDataSource.CurrentPosition;
+        }
+        
         private void UpdateDragLimits(IReadOnlyList<Vector3> hexagonTiles)
         {
             foreach (var position in hexagonTiles)
@@ -339,6 +346,7 @@ namespace MyForest
 
             var newPosition = ClampDragPositionInBounds(_cameraMainContainer.position + deltaPosition);
             _cameraMainContainer.position = newPosition;
+            _cameraGesturesDataSource.SetPosition(newPosition);
 
             _dragPreviousPosition = _dragNextPosition;
         }
