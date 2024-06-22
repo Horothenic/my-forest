@@ -23,9 +23,11 @@ namespace MyForest
         PerlinNoiseConfiguration TemperatureNoiseConfiguration { get; }
         PerlinNoiseConfiguration HumidityNoiseConfiguration { get; }
         
+        float BaseTileHeight { get; }
+        
+        float CoastalMinHeight { get; }
         float LakeHeight { get; }
         Color LakeColor { get; }
-        float CoastalMinHeight { get; }
         float TundraHeight { get; }
         Color TundraColor { get; }
         float TundraSteepness { get; }

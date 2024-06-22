@@ -36,12 +36,15 @@ namespace MyForest
         [SerializeField] private PerlinNoiseConfiguration _temperatureNoiseConfiguration;
         [SerializeField] private PerlinNoiseConfiguration _humidityNoiseConfiguration;
         
+        [Header("TILE ADJUSTMENTS")]
+        [SerializeField] private float _baseTileHeight = 1;
+        
         [Header("BASE BIOMES")]
         [SerializeField] private BiomeConfiguration[] _biomeConfigurations = null;
         
         [Header("FIXED BIOMES")]
-        [SerializeField] private float _lakeHeight = 8;
         [SerializeField] private float _coastalMinHeight = 9;
+        [SerializeField] private float _lakeHeight = 8;
         [SerializeField] private Color _lakeColor = Color.white;
         [SerializeField] private float _tundraHeight = 8;
         [SerializeField] private float _tundraSteepness = 2f;
@@ -69,9 +72,11 @@ namespace MyForest
         public PerlinNoiseConfiguration TemperatureNoiseConfiguration => _temperatureNoiseConfiguration;
         public PerlinNoiseConfiguration HumidityNoiseConfiguration => _humidityNoiseConfiguration;
         
+        float IBiomeConfigurationsSource.BaseTileHeight => _baseTileHeight;
+        
+        float IBiomeConfigurationsSource.CoastalMinHeight => _coastalMinHeight;
         float IBiomeConfigurationsSource.LakeHeight => _lakeHeight;
         Color IBiomeConfigurationsSource.LakeColor => _lakeColor;
-        float IBiomeConfigurationsSource.CoastalMinHeight => _coastalMinHeight;
         float IBiomeConfigurationsSource.TundraHeight => _tundraHeight;
         Color IBiomeConfigurationsSource.TundraColor => _tundraColor;
         float IBiomeConfigurationsSource.TundraSteepness => _tundraSteepness;

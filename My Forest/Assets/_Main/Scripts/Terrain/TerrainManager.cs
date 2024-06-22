@@ -48,6 +48,8 @@ namespace MyForest
                 biome = Biome.Tundra;
                 color = _biomeConfigurationsSource.TundraColor;
             }
+
+            height -= _biomeConfigurationsSource.LakeHeight - _biomeConfigurationsSource.BaseTileHeight;
             
             return (biome, color, height);
         }

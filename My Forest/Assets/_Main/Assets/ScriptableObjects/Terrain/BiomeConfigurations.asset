@@ -22,6 +22,7 @@ MonoBehaviour:
     _octaves: 1
     _persistance: 0.75
     _lacunarity: 4
+  _baseTileHeight: 1
   _biomeConfigurations:
   - _name: Forest
     _biome: 0
@@ -47,8 +48,9 @@ MonoBehaviour:
     _temperatureRange: {x: 0.5, y: 1}
     _humidityRange: {x: 0.5, y: 1}
     _steepness: 0.98
-  _lakeHeight: 23
+  _coastalMinHeight: 23
+  _lakeHeight: 22
   _lakeColor: {r: 0.17372729, g: 0.26493952, b: 0.6037736, a: 1}
   _tundraHeight: 50
-  _tundraColor: {r: 0.8396226, g: 0.8396226, b: 0.8396226, a: 1}
   _tundraSteepness: 1.25
+  _tundraColor: {r: 0.8396226, g: 0.8396226, b: 0.8396226, a: 1}

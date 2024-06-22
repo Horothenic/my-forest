@@ -596,25 +596,25 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 0
-        inSlope: 2
-        outSlope: 2
-        tangentMode: 0
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
         weightedMode: 0
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
         weightedMode: 0
         inWeight: 0
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    _evaluationRange: {x: 8, y: 40}
+    _evaluationRange: {x: 4, y: 40}
   _cameraRadiusBasedOnZoom:
     _map:
       serializedVersion: 2
@@ -622,20 +622,20 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 0
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
+        inSlope: 8.546173
+        outSlope: 8.546173
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0
+        outWeight: 0.025024012
       - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
+        inSlope: -0.4434029
+        outSlope: -0.4434029
+        tangentMode: 0
         weightedMode: 0
-        inWeight: 0
+        inWeight: 0.17492384
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -648,18 +648,18 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 0
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
         outWeight: 0
@@ -680,7 +680,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bb0c3a68c28649fe9a8ec8309374e71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _camera: {fileID: 8937603817614819233}
   _container: {fileID: 8937603818885591708}
   _blocker: {fileID: 8937603819149379087}
 --- !u!114 &2423232694697355803
