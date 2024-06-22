@@ -11,8 +11,6 @@ namespace MyForest
         private static readonly int ShaderColorProperty = Shader.PropertyToID("_BaseColor");
         
         [Inject] private ITileConfigurationsSource _tileConfigurationsSource = null;
-        [Inject] private IHeightConfigurationsSource _heightConfigurationsSource = null;
-        [Inject] private IBiomeConfigurationsSource _biomeConfigurationsSource = null;
         [Inject] private ITerrainGenerationSource _terrainGenerationSource = null;
         
         [Header("COMPONENTS")]
