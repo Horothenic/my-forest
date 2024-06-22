@@ -32,6 +32,15 @@ namespace MyForest
             if (data.IsEmpty)
             {
                 data = _saveSource.LoadJSONFromResources<ForestData>(Constants.Forest.DEFAULT_FOREST_DATA_FILE);
+
+                // Test code
+                for (var i = 1; i < 50; i++)
+                {
+                    for (var j = 0; j < 50; j++)
+                    {
+                        data.AddForestElement(new ForestElementData(i + j - 25, new Coordinates(i, j - 25)));
+                    }
+                }
             }
         }
     }
