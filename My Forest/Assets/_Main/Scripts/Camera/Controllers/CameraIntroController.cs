@@ -11,6 +11,7 @@ namespace MyForest
 
         [Inject] private ICameraIntroSource _cameraIntroSource = null;
         [Inject] private ICameraGesturesControlSource _cameraGesturesControlSource = null;
+        [Inject] private ICameraGesturesDataSource _cameraGesturesDataSource = null;
 
         [Header("COMPONENTS")]
         [SerializeField] private Camera _camera = null;
@@ -45,17 +46,16 @@ namespace MyForest
 
         private void FirstIntro()
         {
-            _camera.orthographicSize = 20;
-                
             var sequence = DOTween.Sequence();
             sequence.AppendInterval(0.4f);
             sequence.AppendCallback(_cameraIntroSource.IntroStarted);
-            sequence.Insert(0.2f, DOTween.To(() => _camera.orthographicSize, size => _camera.orthographicSize = size, 6, 2.4f).SetEase(Ease.InQuad));
+            sequence.AppendCallback(() => _cameraGesturesDataSource.SetZoom(40));
             sequence.Insert(0.2f, _blocker.DOFade(0, 0.45f));
             sequence.AppendCallback(() => _container.TurnOff());
             sequence.AppendInterval(0.3f);
             sequence.AppendCallback(_cameraIntroSource.IntroEnded);
             sequence.AppendCallback(_cameraIntroSource.FirstIntroPlayed);
+            sequence.Append(DOTween.To(() => _camera.orthographicSize, zoom => _cameraGesturesDataSource.SetZoom(zoom), 7, 2.4f).SetEase(Ease.InQuad));
             sequence.AppendCallback(_cameraGesturesControlSource.EnableInput);
         }
 
