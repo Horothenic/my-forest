@@ -80,6 +80,11 @@ namespace MyForest
             _cameraGesturesControlSource.EnableInputObservable.Subscribe(EnableInput).AddTo(this);
             _cameraGesturesControlSource.BlockInputObservable.Subscribe(BlockInput).AddTo(this);
             _cameraGesturesControlSource.UpdateDragLimitsObservable.Subscribe(UpdateDragLimits).AddTo(this);
+
+            _cameraGesturesDataSource.ZoomObservable.Subscribe(RefreshZoom).AddTo(this);
+            _cameraGesturesDataSource.PositionObservable.Subscribe(RefreshPosition).AddTo(this);
+            _cameraGesturesDataSource.RotationObservable.Subscribe(RefreshRotation).AddTo(this);
+            
             _cameraIntroSource.IntroStartedObservable.Subscribe(SetupCamera).AddTo(this);
         }
 
@@ -172,22 +177,6 @@ namespace MyForest
         private void BlockInput()
         {
             _inputEnabled = false;
-        }
-
-        private void SetCameraRadius()
-        {
-            _camera.transform.localPosition = Vector3.back * _cameraRadiusBasedOnZoom.Evaluate(CurrentZoomPercentage);
-        }
-
-        private void CameraZoomFollow()
-        {
-            var t = Mathf.InverseLerp(_minZoom, _maxZoom, _currentZoom);
-            _cameraSubContainer.localRotation = Quaternion.Euler(Vector3.right * _subContainerAngles.Evaluate(t));
-            
-            var target = _cameraMainContainer.position.SetY(_targetHeightBasedOnZoom.Evaluate(CurrentZoomPercentage));
-            var direction = target - _camera.transform.position;
-            var rotation = Quaternion.LookRotation(direction);
-            _camera.transform.rotation = rotation;
         }
 
         #endregion
@@ -345,10 +334,14 @@ namespace MyForest
             deltaPosition = Quaternion.AngleAxis(_cameraGesturesDataSource.CurrentRotation, Vector3.up) * deltaPosition;
 
             var newPosition = ClampDragPositionInBounds(_cameraMainContainer.position + deltaPosition);
-            _cameraMainContainer.position = newPosition;
             _cameraGesturesDataSource.SetPosition(newPosition);
 
             _dragPreviousPosition = _dragNextPosition;
+        }
+
+        private void RefreshPosition(Vector3 newPosition)
+        {
+            _cameraMainContainer.position = newPosition;
         }
 
         private Vector3 ClampDragPositionInBounds(Vector3 newPosition)
@@ -370,21 +363,32 @@ namespace MyForest
             if (!_cameraIntroSource.HasFirstIntroAlreadyPlayed) return;
             
             _currentZoom = _cameraGesturesDataSource.CurrentZoom < 0 ? 3 : _cameraGesturesDataSource.CurrentZoom;
-            SetZoom(_currentZoom);
+            _cameraGesturesDataSource.SetZoom(_currentZoom);
         }
 
         private void ChangeZoom(float newZoom)
         {
             _currentZoom = Mathf.Clamp(newZoom, _minZoom, _maxZoom);
-            SetZoom(_currentZoom);
             _cameraGesturesDataSource.SetZoom(_currentZoom);
         }
 
-        private void SetZoom(float zoom)
+        private void RefreshZoom(float zoom)
         {
-            _cameraMainContainer.position = _cameraMainContainer.position.SetY(zoom);
-            SetCameraRadius();
-            CameraZoomFollow();
+            // Container height
+            var containerPosition = _cameraMainContainer.position;
+            containerPosition = _cameraMainContainer.position = containerPosition.SetY(zoom);
+
+            // Camera radius around container
+            _camera.transform.localPosition = Vector3.back * _cameraRadiusBasedOnZoom.Evaluate(CurrentZoomPercentage);
+            
+            // Sub container rotation
+            var t = Mathf.InverseLerp(_minZoom, _maxZoom, _currentZoom);
+            _cameraSubContainer.localRotation = Quaternion.Euler(Vector3.right * _subContainerAngles.Evaluate(t));
+            
+            // Camera rotation
+            var target = containerPosition.SetY(_targetHeightBasedOnZoom.Evaluate(CurrentZoomPercentage));
+            var direction = target - _camera.transform.position;
+            _camera.transform.rotation = Quaternion.LookRotation(direction);
         }
 
         #endregion
@@ -396,17 +400,16 @@ namespace MyForest
             if (!_cameraIntroSource.HasFirstIntroAlreadyPlayed) return;
             
             _currentRotation = _cameraGesturesDataSource.CurrentRotation;
-            SetRotation(_currentRotation);
+            _cameraGesturesDataSource.SetRotation(_currentRotation);
         }
 
         private void ChangeRotation(float rotation)
         {
             _currentRotation = rotation % Constants.Camera.MAX_ROTATION;
-            SetRotation(_currentRotation);
             _cameraGesturesDataSource.SetRotation(_currentRotation);
         }
 
-        private void SetRotation(float rotation)
+        private void RefreshRotation(float rotation)
         {
             _cameraMainContainer.rotation = Quaternion.Euler(Vector3.up * rotation);
         }
