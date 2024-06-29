@@ -27,6 +27,9 @@ namespace MyForest
         Vector3 CurrentPosition { get; }
         IObservable<Vector3> PositionObservable { get; }
         void SetPosition(Vector3 position);
+        float CurrentAngle { get; }
+        IObservable<float> AngleObservable { get; }
+        void SetAngle(float angle);
     }
 
     public interface ICameraGesturesControlSource

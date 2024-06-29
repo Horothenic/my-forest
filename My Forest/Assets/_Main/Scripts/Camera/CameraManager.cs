@@ -20,6 +20,7 @@ namespace MyForest
         private readonly Subject<Vector3> _positionSubject = new Subject<Vector3>();
         private readonly Subject<float> _rotationSubject = new Subject<float>();
         private readonly Subject<float> _zoomSubject = new Subject<float>();
+        private readonly Subject<float> _angleSubject = new Subject<float>();
         
         private readonly Subject<IReadOnlyList<Vector3>> _updateDragLimitsSubject = new Subject<IReadOnlyList<Vector3>>();
         private readonly Subject<Vector3> _newCenterPositionSubject = new Subject<Vector3>();
@@ -49,12 +50,21 @@ namespace MyForest
             Data.SetZoom(zoom);
             _zoomSubject.OnNext(zoom);
         }
+        
         Vector3 ICameraGesturesDataSource.CurrentPosition => Data.CurrentPosition;
         IObservable<Vector3> ICameraGesturesDataSource.PositionObservable => _positionSubject.AsObservable();
         void ICameraGesturesDataSource.SetPosition(Vector3 position)
         {
             Data.SetPosition(position);
             _positionSubject.OnNext(position);
+        }
+        
+        float ICameraGesturesDataSource.CurrentAngle => Data.CurrentAngle;
+        IObservable<float> ICameraGesturesDataSource.AngleObservable => _angleSubject.AsObservable();
+        void ICameraGesturesDataSource.SetAngle(float angle)
+        {
+            Data.SetAngle(angle);
+            _angleSubject.OnNext(angle);
         }
     }
 

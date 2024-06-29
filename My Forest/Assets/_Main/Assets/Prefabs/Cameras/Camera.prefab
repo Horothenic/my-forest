@@ -1,5 +1,37 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5500835235626099496
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4128057443389127665}
+  m_Layer: 0
+  m_Name: RotationContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4128057443389127665
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5500835235626099496}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 263805047388985597}
+  m_Father: {fileID: 4413136975343003203}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6365132155361491767
 GameObject:
   m_ObjectHideFlags: 0
@@ -10,7 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4413136975343003203}
   m_Layer: 0
-  m_Name: SubContainer
+  m_Name: ZoomContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +61,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8937603817614819232}
+  - {fileID: 4128057443389127665}
   m_Father: {fileID: 6258025954819815454}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7499645185343301829
@@ -42,7 +74,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6258025954819815454}
   m_Layer: 0
-  m_Name: MainContainer
+  m_Name: MoveContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,6 +95,38 @@ Transform:
   m_Children:
   - {fileID: 4413136975343003203}
   m_Father: {fileID: 8937603819298328205}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7932034278100384431
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 263805047388985597}
+  m_Layer: 0
+  m_Name: AngleContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &263805047388985597
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7932034278100384431}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8937603817614819232}
+  m_Father: {fileID: 4128057443389127665}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8937603817374676051
 GameObject:
@@ -210,13 +274,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8937603817614819292}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalRotation: {x: 0.7071068, y: -0.000000029802319, z: 0.000000029802319, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4413136975343003203}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Father: {fileID: 263805047388985597}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!20 &8937603817614819233
 Camera:
   m_ObjectHideFlags: 0
@@ -557,9 +621,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 047c0ade3b19b44c4972c88dfec0a812, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cameraMainContainer: {fileID: 6258025954819815454}
-  _cameraSubContainer: {fileID: 4413136975343003203}
-  _camera: {fileID: 8937603817614819233}
+  _cameraMoveContainer: {fileID: 6258025954819815454}
+  _cameraZoomContainer: {fileID: 4413136975343003203}
+  _cameraRotationContainer: {fileID: 4128057443389127665}
+  _cameraAngleContainer: {fileID: 263805047388985597}
   _dragStrengthBasedOnZoom:
     _map:
       serializedVersion: 2
@@ -589,84 +654,6 @@ MonoBehaviour:
   _minZoom: 10
   _maxZoom: 80
   _zoomSensitivity: 1.6
-  _targetHeightBasedOnZoom:
-    _map:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 1
-        outSlope: 1
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    _evaluationRange: {x: 4, y: 40}
-  _cameraRadiusBasedOnZoom:
-    _map:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 8.546173
-        outSlope: 8.546173
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0.025024012
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: -0.4434029
-        outSlope: -0.4434029
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.17492384
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    _evaluationRange: {x: 5, y: 20}
-  _subContainerAngles:
-    _map:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 2
-        outSlope: 2
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    _evaluationRange: {x: 20, y: 85}
   _rotationSensitivity: 1
 --- !u!114 &8937603819298328208
 MonoBehaviour:
