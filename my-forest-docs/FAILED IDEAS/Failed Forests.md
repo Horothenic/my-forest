@@ -1,0 +1,12 @@
+- Simple Hexagon Grid
+	- Too simple, lacked variety when expanding to bigger forest, seemed it started on 0 height and always increased to the edges infinitely.
+	- The camera style was isometric, started looking good but we never figured what to do with the background.
+- Minecraft Style Grid
+	- For this one I even added biomes support, that were hard to include, biomes idea was there to increase the flora types, but added too many problems, we could maintain Biomes but with a different strategy.
+	- A good thing was that it added height using perlin noise, but at the end the forest did not look good enough.
+	- The height algorithm made it difficult to traverse in the forest so complex gestures were needed since I want to launch on mobile first, making it super difficult to control, I want traversing in the forest super easy, so this is a no go.
+	- We changed to non isometric because of that and the game did not have the same feel as before.
+	- With this I learned that the most difficult part is how the forest will grow, how we are going to calculate the next section for the forest, or how are we going to delimit it.
+	- I also learned that the camera should be super simple for the user to handle.
+	- I am not sure yet if isometric is better or not, need to check more styles to figure it out.
+	- Probably being stuck to a grid is not a good idea.
