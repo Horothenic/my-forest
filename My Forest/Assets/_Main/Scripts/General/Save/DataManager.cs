@@ -27,6 +27,8 @@ namespace MyForest
         private readonly DataSubject<T> _loadSubject = new DataSubject<T>();
 
         protected abstract string Key { get; }
+        protected abstract SaveStyle SaveStyle { get; }
+        
         protected T Data => _loadSubject.Value;
         protected IObservable<T> LoadObservable => _loadSubject.AsObservable();
 
@@ -36,7 +38,11 @@ namespace MyForest
 
         private void Load()
         {
-            var data = _saveSource.Load<T>(Key, new T());
+            var data = SaveStyle switch
+            {
+                SaveStyle.Json => _saveSource.LoadJson(Key, new T()),
+                SaveStyle.File => _saveSource.LoadFile(Key, new T()),
+            };
 
             OnPreLoad(ref data);
             _loadSubject.OnNext(data);
@@ -44,7 +50,15 @@ namespace MyForest
 
         protected void Save()
         {
-            _saveSource.Save(Key, Data);
+            switch (SaveStyle)
+            {
+                case SaveStyle.Json:
+                    _saveSource.SaveJson(Key, Data);
+                    break;
+                case SaveStyle.File:
+                    _saveSource.SaveFile(Key, Data);
+                    break;
+            }
         }
 
         private void Reset()
@@ -52,7 +66,15 @@ namespace MyForest
             _disposables.Dispose();
             _disposables = new CompositeDisposable();
 
-            _saveSource.Delete(Key);
+            switch (SaveStyle)
+            {
+                case SaveStyle.Json:
+                    _saveSource.DeleteJson(Key);
+                    break;
+                case SaveStyle.File:
+                    _saveSource.DeleteFile(Key);
+                    break;
+            }
             Load();
         }
 
