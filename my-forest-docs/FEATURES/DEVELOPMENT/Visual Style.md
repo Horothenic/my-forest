@@ -16,3 +16,5 @@ We can have premade chunks if the random algorithm does not work, and just have 
 This image made me think on increasing the forest like an island in the sky, if it grows from a side it should adapt the mesh on the top and the bottom to fill the gaps and still look like an island, that can be a challenge by itself tho
 
 The style also will help for animals since low poly animals are cute and easier to do.
+
+Continues in [[Terrain]]

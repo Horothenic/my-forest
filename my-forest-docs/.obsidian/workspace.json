@@ -8,12 +8,12 @@
         "type": "tabs",
         "children": [
           {
-            "id": "ddbfcb7fb8144e87",
+            "id": "322e76300120fb5c",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "FEATURES/FOREST/Terrain.md",
+                "file": "FEATURES/DEVELOPMENT/DEVELOPMENT.md",
                 "mode": "source",
                 "source": false
               }
@@ -22,17 +22,19 @@
         ]
       },
       {
-        "id": "c7cbfc9ce98d9783",
+        "id": "493cf2955f98e6da",
         "type": "tabs",
         "children": [
           {
-            "id": "93fc9504eee50bba",
+            "id": "b32e5ee1998cd38f",
             "type": "leaf",
-            "pinned": true,
             "state": {
-              "type": "graph",
-              "state": {},
-              "pinned": true
+              "type": "markdown",
+              "state": {
+                "file": "FEATURES/DEVELOPMENT/Terrain.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
         ]
@@ -101,7 +103,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "FEATURES/FOREST/Terrain.md",
+                "file": "FEATURES/DEVELOPMENT/Terrain.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -118,7 +120,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "FEATURES/FOREST/Terrain.md",
+                "file": "FEATURES/DEVELOPMENT/Terrain.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -141,7 +143,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "FEATURES/FOREST/Terrain.md"
+                "file": "FEATURES/DEVELOPMENT/Terrain.md"
               }
             }
           }
@@ -162,15 +164,16 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "ddbfcb7fb8144e87",
+  "active": "b32e5ee1998cd38f",
   "lastOpenFiles": [
-    "FEATURES/FOREST/Visual Style.md",
+    "FEATURES/DEVELOPMENT/DEVELOPMENT.md",
+    "FEATURES/DEVELOPMENT/Terrain.md",
+    "FEATURES/Growth.md",
+    "FEATURES/DEVELOPMENT/Visual Style.md",
+    "FEATURES/Natural Augment.md",
     "IMAGES/Pasted image 20240908204529.png",
     "FEATURES/Animals.md",
     "FEATURES/Botanical Compendium.md",
-    "FEATURES/Forest.md",
-    "FEATURES/Growth.md",
-    "FEATURES/Natural Augment.md",
     "FEATURES/Wildlife Almanac.md",
     "MY FOREST.md",
     "FAILED IDEAS/Failed Forests.md",
@@ -184,15 +187,13 @@
     "appearance.json",
     "graph.json",
     "workspace.json",
-    "FEATURES/FOREST/Terrain.md",
-    "FEATURES/FOREST/Terrain.md",
     "IMAGES",
     "IMAGES/Pasted image 20240908204625.png",
     "IMAGES/Pasted image 20240908204608.png",
     "IMAGES/Pasted image 20240908204550.png",
     "IMAGES/Pasted image 20240908204540.png",
     "FAILED IDEAS/Failed Forests.md",
-    "FEATURES/FOREST",
+    "FEATURES/DEVELOPMENT",
     "FAILED IDEAS",
     "FEATURES",
     "create a link.md"

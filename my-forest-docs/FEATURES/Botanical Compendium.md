@@ -1,6 +1,6 @@
 This is a register of all the trees, flowers, herbs or plants that you have cultivated in your forest.
 
-The compendium is a notebook where the user draws all the flora found in the [[Forest]].
+The compendium is a notebook where the user draws all the flora found in the [[DEVELOPMENT]].
 
 Subfeatures:
 - When new flora appears you can open the compendium and automatically go to a new page and see the drawing being made for the new flora.

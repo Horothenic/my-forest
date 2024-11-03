@@ -1,4 +1,4 @@
-These augments are like power ups for the [[Forest]] or the [[Botanical Compendium]], they affect different parts of it.
+These augments are like power ups for the [[DEVELOPMENT]] or the [[Botanical Compendium]], they affect different parts of it.
 
 They all cost [[Growth]] points (costs needs adjustment, currently are only for reference).
 

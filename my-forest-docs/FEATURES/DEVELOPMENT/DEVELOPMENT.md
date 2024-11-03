@@ -2,14 +2,16 @@ This is the most important feature and the hardest one to make, mainly because I
 
 You can review them in [[Failed Forests]] to check what has been tried and did not work.
 
-**VISUAL STYLE**
+**DEVELOPMENT STEPS**
+
+**1. VISUAL STYLE**
 We first need to find a [[Visual Style]], but seems that low poly is the absolute winner, that's nice cause we already have a lot of assets and they all are low poly.
 
-**TERRAIN**
+**2. TERRAIN**
 The next thing we need is how to create the [[Terrain]].
 
-**HUD**
+**3. HUD**
 You can see how many days you have taken care of the forest.
 
-**FLORA**
+**4. FLORA**
 Every day the trees grow a little and the user gain [[Growth]] points.
