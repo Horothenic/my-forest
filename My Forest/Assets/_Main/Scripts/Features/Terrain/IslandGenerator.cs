@@ -1,0 +1,167 @@
+using DelaunatorSharp;
+using DelaunatorSharp.Unity.Extensions;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+namespace MyForest
+{
+    public class IslandGenerator : MonoBehaviour
+    {
+        #region FIELDS
+
+        private const string BASE_SEED_PHRASE = "My Forest ";
+        
+        [Header("POISSON DISC SAMPLING")]
+        [SerializeField] private float _radius = 400;
+        [SerializeField] private float _minimumDistance = 10;
+        [SerializeField] private int _maxAttempts = 30;
+        
+        [Header("PERLIN NOISE")]
+        [SerializeField] [Range(1, 15)] private int _octaves = 6;
+        [SerializeField] [Range(0f, 1f)] private float _persistence = 0.274f;
+        [SerializeField] [Range(1f, 10f)] private float _lacunarity = 2.85f;
+        [SerializeField] [Range(1f, 3000f)] private float _heightScale = 823f;
+        [SerializeField] [Range(1f, 20)] private float _bottomReductionFactor = 10f;
+        [SerializeField] [Range(5f, 300f)] private float _scale = 256;
+        [SerializeField] [Range(0.001f, 1.00f)] private float _dampening = 0.144f;
+        
+        [Header("PERSONALIZATION")]
+        [SerializeField] private string _seedPhrase;
+        [SerializeField] private Gradient _heightColorGradient;
+
+        private MeshFilter _meshFilter;
+        private MeshCollider _meshCollider;
+        private Vector2 _positionOffset;
+        
+        private float _seedOffset = 0;
+        private float _minNoiseHeight;
+        private float _maxNoiseHeight;
+        
+        #endregion
+        
+        #region METHODS
+
+        public void Initialize()
+        {
+            _meshFilter = GetComponent<MeshFilter>();
+            _meshCollider = GetComponent<MeshCollider>();
+            
+            _minNoiseHeight = float.PositiveInfinity;
+            _maxNoiseHeight = float.NegativeInfinity;
+            
+            _seedOffset = RandomExtensions.GenerateFloatFromPhrase(BASE_SEED_PHRASE + _seedPhrase);
+            _positionOffset = new Vector2(transform.position.x, transform.position.z);
+            
+            var poissonSample = PoissonDiskSampler.Circle.GeneratePoints(_radius, _minimumDistance, _maxAttempts);
+            var poissonSamplePoints = poissonSample.ToPoints();
+            
+            var delaunayTriangulation = new Delaunator(poissonSamplePoints);
+
+            var mesh = CreateMesh(delaunayTriangulation);
+            
+            _meshFilter.mesh = mesh;
+            _meshCollider.sharedMesh = mesh;
+        }
+
+        private Vector3 GetElevatedVertex(IPoint point)
+        {
+            var amplitude = 1f;
+            var frequency = 1f;
+            var noiseHeight = 0f;
+
+            for (var o = 0; o < _octaves; o++)
+            {
+                var xValue = ((float)point.X + _positionOffset.x) / _scale * frequency;
+                var yValue = ((float)point.Y + _positionOffset.y) / _scale * frequency;
+
+                var perlinValue = Mathf.PerlinNoise(xValue + _seedOffset + _positionOffset.x, yValue + _seedOffset + _positionOffset.y) * 2 - 1;
+                perlinValue *= _dampening;
+
+                noiseHeight += perlinValue * amplitude;
+
+                amplitude *= _persistence;
+                frequency *= _lacunarity;
+            }
+
+            if (noiseHeight > _maxNoiseHeight)
+            {
+                _maxNoiseHeight = noiseHeight;
+            }
+            else if (noiseHeight < _minNoiseHeight)
+            {
+                _minNoiseHeight = noiseHeight;
+            }
+
+            noiseHeight = (noiseHeight < 0f) ? noiseHeight * _heightScale / _bottomReductionFactor : noiseHeight * _heightScale;
+        
+            return new Vector3((float)point.X, noiseHeight, (float)point.Y);
+        }
+        
+        private Color GetTriangleColor(Vector3 v0, Vector3 v1, Vector3 v2)
+        {
+            var height = (v0.y + v1.y + v2.y) / 3f;
+            height = (height < 0f) ? height / _heightScale * _bottomReductionFactor : height / _heightScale;
+                
+            var gradientVal = Mathf.InverseLerp(_minNoiseHeight, _maxNoiseHeight, height);
+            
+            return _heightColorGradient.Evaluate(gradientVal);
+        }
+
+        private Mesh CreateMesh(Delaunator delaunayTriangulation)
+        {
+            var vertices = new List<Vector3>();
+            var colors = new List<Color>();
+            var normals = new List<Vector3>();
+            var uvs = new List<Vector2>();
+            var triangles = new List<int>();
+            
+            // First we recreate the triangles cause the originals are 2D.
+            foreach (var triangle in delaunayTriangulation.GetTriangles())
+            {
+                var points = triangle.Points.ToArray();
+                
+                var v0 = GetElevatedVertex(points[0]);
+                var v1 = GetElevatedVertex(points[1]);
+                var v2 = GetElevatedVertex(points[2]);
+            
+                triangles.Add(vertices.Count);
+                triangles.Add(vertices.Count + 1);
+                triangles.Add(vertices.Count + 2);
+            
+                vertices.Add(v0);
+                vertices.Add(v1);
+                vertices.Add(v2);
+                
+                var normal = Vector3.Cross(v1 - v0, v2 - v0);
+                Repeater.Repeat(3, () => normals.Add(normal));
+            }
+            
+            // Then with we use the elevated vertices for the color calculations.
+            for (var i = 0; i < vertices.Count; i += 3)
+            {
+                var v0 = vertices[i];
+                var v1 = vertices[i + 1];
+                var v2 = vertices[i + 2];
+                
+                var triangleColor = GetTriangleColor(v0, v1, v2);
+                
+                Repeater.Repeat(3, () => uvs.Add(Vector2.zero));
+                Repeater.Repeat(3, () => colors.Add(triangleColor));
+            }
+            
+            var mesh = new Mesh
+            {
+                vertices = vertices.ToArray(),
+                triangles = triangles.ToArray(),
+                colors = colors.ToArray(),
+                normals = normals.ToArray(),
+                uv = uvs.ToArray()
+            };
+
+            return mesh;
+        }
+
+        #endregion
+    }
+}
