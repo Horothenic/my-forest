@@ -28,5 +28,15 @@ namespace UnityEngine
         {
             return value / HALF_DIVIDER;
         }
+
+        public static float Squared(this float value)
+        {
+            return value * value;
+        }
+
+        public static double Squared(this double value)
+        {
+            return value * value;
+        }
     }
 }

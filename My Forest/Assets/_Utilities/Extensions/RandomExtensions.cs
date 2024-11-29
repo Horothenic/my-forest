@@ -28,5 +28,18 @@ namespace UnityEngine
             var normalized = Math.Abs(hash) / (float)int.MaxValue;
             return min + normalized * (max - min);
         }
+        
+        public static float GenerateNormalizedFloatFromPhrase(string phrase)
+        {
+            if (string.IsNullOrEmpty(phrase)) return 0f;
+            
+            var hash = 0;
+            foreach (var c in phrase)
+            {
+                hash = (hash * 31 + c) % int.MaxValue;
+            }
+            
+            return Math.Abs(hash) / (float)int.MaxValue;
+        }
     }
 }

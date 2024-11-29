@@ -12,18 +12,20 @@ namespace MyForest
 
         private const string BASE_SEED_PHRASE = "My Forest ";
         
-        [Header("POISSON DISC SAMPLING")]
-        [SerializeField] private float _radius = 400;
-        [SerializeField] private float _minimumDistance = 10;
+        [Header("POINTS")]
+        [SerializeField] private float _radius = 100;
+        [SerializeField] private float _minimumDistance = 2;
         [SerializeField] private int _maxAttempts = 30;
+        [SerializeField] private float _falloffThreshold = 100;
         
         [Header("PERLIN NOISE")]
         [SerializeField] [Range(1, 15)] private int _octaves = 6;
         [SerializeField] [Range(0f, 1f)] private float _persistence = 0.274f;
         [SerializeField] [Range(1f, 10f)] private float _lacunarity = 2.85f;
-        [SerializeField] [Range(1f, 3000f)] private float _heightScale = 823f;
-        [SerializeField] [Range(1f, 20)] private float _bottomReductionFactor = 10f;
-        [SerializeField] [Range(5f, 300f)] private float _scale = 256;
+        [SerializeField] [Range(1f, 3000f)] private float _heightScale = 200;
+        [SerializeField] [Range(1f, 20f)] private float _bottomReductionFactor = 9;
+        [SerializeField] [Range(1f, 5f)] private float _topIncreaseFactor = 1f;
+        [SerializeField] [Range(5f, 300f)] private float _scale = 50;
         [SerializeField] [Range(0.001f, 1.00f)] private float _dampening = 0.144f;
         
         [Header("PERSONALIZATION")]
@@ -32,15 +34,15 @@ namespace MyForest
 
         private MeshFilter _meshFilter;
         private MeshCollider _meshCollider;
-        private Vector2 _positionOffset;
         
+        private Dictionary<IPoint, float> _heightMap;
         private float _seedOffset = 0;
         private float _minNoiseHeight;
         private float _maxNoiseHeight;
         
         #endregion
         
-        #region METHODS
+        #region METHODS 
 
         public void Initialize()
         {
@@ -51,61 +53,80 @@ namespace MyForest
             _maxNoiseHeight = float.NegativeInfinity;
             
             _seedOffset = RandomExtensions.GenerateFloatFromPhrase(BASE_SEED_PHRASE + _seedPhrase);
-            _positionOffset = new Vector2(transform.position.x, transform.position.z);
             
             var poissonSample = PoissonDiskSampler.Circle.GeneratePoints(_radius, _minimumDistance, _maxAttempts);
             var poissonSamplePoints = poissonSample.ToPoints();
+            CalculateElevations(poissonSamplePoints);
             
             var delaunayTriangulation = new Delaunator(poissonSamplePoints);
-
             var mesh = CreateMesh(delaunayTriangulation);
             
             _meshFilter.mesh = mesh;
             _meshCollider.sharedMesh = mesh;
         }
 
-        private Vector3 GetElevatedVertex(IPoint point)
+        private void CalculateElevations(IPoint[] points)
         {
-            var amplitude = 1f;
-            var frequency = 1f;
-            var noiseHeight = 0f;
-
-            for (var o = 0; o < _octaves; o++)
+            _heightMap = new Dictionary<IPoint, float>();
+            
+            foreach (var point in points)
             {
-                var xValue = ((float)point.X + _positionOffset.x) / _scale * frequency;
-                var yValue = ((float)point.Y + _positionOffset.y) / _scale * frequency;
+                var amplitude = 1f;
+                var frequency = 1f;
+                var noiseHeight = 0f;
 
-                var perlinValue = Mathf.PerlinNoise(xValue + _seedOffset + _positionOffset.x, yValue + _seedOffset + _positionOffset.y) * 2 - 1;
-                perlinValue *= _dampening;
+                for (var o = 0; o < _octaves; o++)
+                {
+                    var xValue = (float)point.X / _scale * frequency;
+                    var yValue = (float)point.Y / _scale * frequency;
 
-                noiseHeight += perlinValue * amplitude;
+                    var perlinValue = Mathf.PerlinNoise(xValue + _seedOffset, yValue + _seedOffset) * 2 - 1;
+                    perlinValue *= _dampening;
 
-                amplitude *= _persistence;
-                frequency *= _lacunarity;
+                    noiseHeight += perlinValue * amplitude;
+
+                    amplitude *= _persistence;
+                    frequency *= _lacunarity;
+                }
+
+                if (noiseHeight > _maxNoiseHeight)
+                {
+                    _maxNoiseHeight = noiseHeight;
+                }
+                else if (noiseHeight < _minNoiseHeight)
+                {
+                    _minNoiseHeight = noiseHeight;
+                }
+
+                noiseHeight = (noiseHeight < 0f) ? noiseHeight * _heightScale / _bottomReductionFactor : noiseHeight * _heightScale * _topIncreaseFactor;
+                noiseHeight *= GetProximityToCenter(point);
+            
+                _heightMap.Add(point, noiseHeight);
             }
-
-            if (noiseHeight > _maxNoiseHeight)
-            {
-                _maxNoiseHeight = noiseHeight;
-            }
-            else if (noiseHeight < _minNoiseHeight)
-            {
-                _minNoiseHeight = noiseHeight;
-            }
-
-            noiseHeight = (noiseHeight < 0f) ? noiseHeight * _heightScale / _bottomReductionFactor : noiseHeight * _heightScale;
+        }
         
-            return new Vector3((float)point.X, noiseHeight, (float)point.Y);
+        private float GetProximityToCenter(IPoint point)
+        {
+            var distance = Mathf.Sqrt((float)(point.X.Squared() + point.Y.Squared()));
+            
+            if (distance <= _falloffThreshold) return 1f;
+            
+            return 1f - Mathf.Clamp01((distance - _falloffThreshold) / (_radius - _falloffThreshold));
         }
         
         private Color GetTriangleColor(Vector3 v0, Vector3 v1, Vector3 v2)
         {
             var height = (v0.y + v1.y + v2.y) / 3f;
-            height = (height < 0f) ? height / _heightScale * _bottomReductionFactor : height / _heightScale;
+            height = (height < 0f) ? height / _heightScale * _bottomReductionFactor : height / _heightScale * _topIncreaseFactor;
                 
             var gradientVal = Mathf.InverseLerp(_minNoiseHeight, _maxNoiseHeight, height);
             
             return _heightColorGradient.Evaluate(gradientVal);
+        }
+        
+        private Vector3 GetPointPosition(IPoint point)
+        {
+            return new Vector3((float)point.X, _heightMap[point], (float)point.Y);
         }
 
         private Mesh CreateMesh(Delaunator delaunayTriangulation)
@@ -121,9 +142,9 @@ namespace MyForest
             {
                 var points = triangle.Points.ToArray();
                 
-                var v0 = GetElevatedVertex(points[0]);
-                var v1 = GetElevatedVertex(points[1]);
-                var v2 = GetElevatedVertex(points[2]);
+                var v0 = GetPointPosition(points[0]);
+                var v1 = GetPointPosition(points[1]);
+                var v2 = GetPointPosition(points[2]);
             
                 triangles.Add(vertices.Count);
                 triangles.Add(vertices.Count + 1);
@@ -149,6 +170,9 @@ namespace MyForest
                 Repeater.Repeat(3, () => uvs.Add(Vector2.zero));
                 Repeater.Repeat(3, () => colors.Add(triangleColor));
             }
+            
+            _heightMap.Clear();
+            _heightMap = null;
             
             var mesh = new Mesh
             {
