@@ -23,3 +23,8 @@ I have played with the algorithm and I understand how it is working, the next th
 - Load the save data separating the triangles in chunks.
 
 After we get this working we can start moving the configurations to SO and start using DI to separate in Managers and Controllers.
+
+***30/11/2024***
+After some experimentation I finally came with a terrain I like, we are creating a circle terrain using Perlin noise, then we are making another one but inverted in Y so it works as the bottom of the island.
+
+I still need to solve the issue when the Perlin noise creates holes in the middle, making it having negative numbers, those don't let the top and bottom sides snap.
