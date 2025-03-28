@@ -16,15 +16,17 @@ namespace MyForest
         [SerializeField] private float _radius = 100;
         [SerializeField] private float _minimumDistance = 2;
         [SerializeField] private int _maxAttempts = 30;
+        [SerializeField] private int _borderPoints = 500;
         [SerializeField] private float _falloffThreshold = 100;
+        [SerializeField] private float _extraBorderHeight = 0;
         
         [Header("PERLIN NOISE")]
         [SerializeField] [Range(1, 15)] private int _octaves = 6;
         [SerializeField] [Range(0f, 1f)] private float _persistence = 0.274f;
         [SerializeField] [Range(1f, 10f)] private float _lacunarity = 2.85f;
         [SerializeField] [Range(1f, 3000f)] private float _heightScale = 200;
-        [SerializeField] [Range(1f, 20f)] private float _bottomReductionFactor = 9;
-        [SerializeField] [Range(1f, 5f)] private float _topIncreaseFactor = 1f;
+        [SerializeField] [Range(-10f, 20f)] private float _bottomReductionFactor = 9;
+        [SerializeField] [Range(0.1f, 5f)] private float _topIncreaseFactor = 1f;
         [SerializeField] [Range(5f, 300f)] private float _scale = 50;
         [SerializeField] [Range(0.001f, 1.00f)] private float _dampening = 0.144f;
         
@@ -54,7 +56,7 @@ namespace MyForest
             
             _seedOffset = RandomExtensions.GenerateFloatFromPhrase(BASE_SEED_PHRASE + _seedPhrase);
             
-            var poissonSample = PoissonDiskSampler.Circle.GeneratePoints(_radius, _minimumDistance, _maxAttempts);
+            var poissonSample = PoissonDiskSampler.Circle.GeneratePoints(_radius, _minimumDistance, _maxAttempts, _borderPoints);
             var poissonSamplePoints = poissonSample.ToPoints();
             CalculateElevations(poissonSamplePoints);
             
@@ -100,7 +102,8 @@ namespace MyForest
 
                 noiseHeight = (noiseHeight < 0f) ? noiseHeight * _heightScale / _bottomReductionFactor : noiseHeight * _heightScale * _topIncreaseFactor;
                 noiseHeight *= GetProximityToCenter(point);
-            
+                noiseHeight += Mathf.Lerp(_extraBorderHeight, 0, GetProximityToCenter(point));
+                
                 _heightMap.Add(point, noiseHeight);
             }
         }
@@ -117,6 +120,7 @@ namespace MyForest
         private Color GetTriangleColor(Vector3 v0, Vector3 v1, Vector3 v2)
         {
             var height = (v0.y + v1.y + v2.y) / 3f;
+            height += _extraBorderHeight;
             height = (height < 0f) ? height / _heightScale * _bottomReductionFactor : height / _heightScale * _topIncreaseFactor;
                 
             var gradientVal = Mathf.InverseLerp(_minNoiseHeight, _maxNoiseHeight, height);
@@ -126,7 +130,7 @@ namespace MyForest
         
         private Vector3 GetPointPosition(IPoint point)
         {
-            return new Vector3((float)point.X, _heightMap[point], (float)point.Y);
+            return new Vector3((float)point.X, _heightMap[point] - _extraBorderHeight, (float)point.Y);
         }
 
         private Mesh CreateMesh(Delaunator delaunayTriangulation)
@@ -137,7 +141,7 @@ namespace MyForest
             var uvs = new List<Vector2>();
             var triangles = new List<int>();
             
-            // First we recreate the triangles cause the originals are 2D.
+            // First we recreate the triangles cause the originals will not allow us to color them properly.
             foreach (var triangle in delaunayTriangulation.GetTriangles())
             {
                 var points = triangle.Points.ToArray();

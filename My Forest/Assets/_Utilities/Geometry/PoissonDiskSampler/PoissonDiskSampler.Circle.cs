@@ -6,7 +6,7 @@ namespace UnityEngine
     {
         public static class Circle
         {
-            public static List<Vector2> GeneratePoints(float radius, float minDistance, int maxAttempts = 30)
+            public static List<Vector2> GeneratePoints(float radius, float minDistance, int maxAttempts = 30,  int borderPoints = 500)
             {
                 // Cell size for grid based on minDistance
                 var cellSize = minDistance / Mathf.Sqrt(2);
@@ -24,6 +24,7 @@ namespace UnityEngine
                 activeList.Add(initialPoint);
                 grid[gridRadius, gridRadius] = initialPoint;
 
+                // Add random sample points.
                 while (activeList.Count > 0)
                 {
                     var activeIndex = Random.Range(0, activeList.Count);
@@ -53,6 +54,17 @@ namespace UnityEngine
                     {
                         activeList.RemoveAt(activeIndex);
                     }
+                }
+
+                // Add border points for smoothness.
+                var angleStep = 2 * Mathf.PI / borderPoints;
+
+                for (var i = 0; i < borderPoints; i++)
+                {
+                    var angle = i * angleStep;
+                    var x = Mathf.Cos(angle) * radius;
+                    var y = Mathf.Sin(angle) * radius;
+                    points.Add(new Vector2(x, y));
                 }
 
                 return points;
