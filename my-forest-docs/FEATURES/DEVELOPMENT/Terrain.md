@@ -14,3 +14,17 @@ The bad thing is that we must store the points generated since they are randomly
 Luckily that is not a hard thing to do.
 
 > Now that we have the terrain, let's clean the repo of old code and start coding the real deal.
+
+I have played with the algorithm and I understand how it is working, the next thing I would like to do is calculate all the things needed for the terrain in files and then create chunks of triangles so we can have better performance on big forests.
+
+- Create Poisson Disc Sample points.
+- Triangulate using Delaunay.
+- Save points and triangles in files.
+- Load the save data separating the triangles in chunks.
+
+After we get this working we can start moving the configurations to SO and start using DI to separate in Managers and Controllers.
+
+***30/11/2024***
+After some experimentation I finally came with a terrain I like, we are creating a circle terrain using Perlin noise, then we are making another one but inverted in Y so it works as the bottom of the island.
+
+I still need to solve the issue when the Perlin noise creates holes in the middle, making it having negative numbers, those don't let the top and bottom sides snap.

@@ -15,3 +15,6 @@ You can see how many days you have taken care of the forest.
 
 **4. FLORA**
 Every day the trees grow a little and the user gain [[Growth]] points.
+
+**5. FAUNA**
+Every now and then some animals visit you.
