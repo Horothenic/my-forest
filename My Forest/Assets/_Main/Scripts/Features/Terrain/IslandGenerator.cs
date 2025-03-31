@@ -16,9 +16,11 @@ namespace MyForest
         [SerializeField] private float _radius = 100;
         [SerializeField] private float _minimumDistance = 2;
         [SerializeField] private int _maxAttempts = 30;
-        [SerializeField] private int _borderPoints = 500;
         [SerializeField] private float _falloffThreshold = 100;
-        [SerializeField] private float _extraBorderHeight = 0;
+        [SerializeField] private float _extraHeight = 1;
+        [SerializeField] private int _borderPoints = 500;
+        [SerializeField] private AnimationCurve _borderCurve;
+        [SerializeField] private float _borderHeight = 1;
         
         [Header("PERLIN NOISE")]
         [SerializeField] [Range(1, 15)] private int _octaves = 6;
@@ -33,6 +35,7 @@ namespace MyForest
         [Header("PERSONALIZATION")]
         [SerializeField] private string _seedPhrase;
         [SerializeField] private Gradient _heightColorGradient;
+        [SerializeField] private Gradient _borderColorGradient;
 
         private MeshFilter _meshFilter;
         private MeshCollider _meshCollider;
@@ -68,7 +71,7 @@ namespace MyForest
         }
 
         private void CalculateElevations(IPoint[] points)
-        {
+        {   
             _heightMap = new Dictionary<IPoint, float>();
             
             foreach (var point in points)
@@ -100,37 +103,58 @@ namespace MyForest
                     _minNoiseHeight = noiseHeight;
                 }
 
+                var pointDistance = GetDistance(point);
+                var falloffProximityFactor = GetFalloffProximityFactor(pointDistance);
+                
                 noiseHeight = (noiseHeight < 0f) ? noiseHeight * _heightScale / _bottomReductionFactor : noiseHeight * _heightScale * _topIncreaseFactor;
-                noiseHeight *= GetProximityToCenter(point);
-                noiseHeight += Mathf.Lerp(_extraBorderHeight, 0, GetProximityToCenter(point));
+                noiseHeight += _extraHeight;
+                noiseHeight *= falloffProximityFactor;
+
+                if (falloffProximityFactor < 1)
+                {
+                    var borderProximity = GetBorderProximity(pointDistance);
+                    noiseHeight += _borderCurve.Evaluate(borderProximity) * _borderHeight;
+                }
                 
                 _heightMap.Add(point, noiseHeight);
             }
         }
         
-        private float GetProximityToCenter(IPoint point)
+        private float GetFalloffProximityFactor(float distance)
         {
-            var distance = Mathf.Sqrt((float)(point.X.Squared() + point.Y.Squared()));
-            
             if (distance <= _falloffThreshold) return 1f;
             
             return 1f - Mathf.Clamp01((distance - _falloffThreshold) / (_radius - _falloffThreshold));
         }
         
+        private float GetBorderProximity(float distance)
+        {
+            return Mathf.InverseLerp(_falloffThreshold, _radius, distance);
+        }
+        
+        private float GetDistance(IPoint point)
+        {
+            return Mathf.Sqrt((float)(point.X.Squared() + point.Y.Squared()));
+        }
+        
         private Color GetTriangleColor(Vector3 v0, Vector3 v1, Vector3 v2)
         {
             var height = (v0.y + v1.y + v2.y) / 3f;
-            height += _extraBorderHeight;
+            height -= _extraHeight;
             height = (height < 0f) ? height / _heightScale * _bottomReductionFactor : height / _heightScale * _topIncreaseFactor;
-                
+            
             var gradientVal = Mathf.InverseLerp(_minNoiseHeight, _maxNoiseHeight, height);
             
-            return _heightColorGradient.Evaluate(gradientVal);
+            var center = (v0 + v1 + v2) / 3f;
+            var pointDistance = GetDistance(new Point(center.x, center.z));
+            var falloffProximityFactor = GetFalloffProximityFactor(pointDistance);
+
+            return falloffProximityFactor < 1 ? _borderColorGradient.Evaluate(gradientVal) : _heightColorGradient.Evaluate(gradientVal);
         }
         
         private Vector3 GetPointPosition(IPoint point)
         {
-            return new Vector3((float)point.X, _heightMap[point] - _extraBorderHeight, (float)point.Y);
+            return new Vector3((float)point.X, _heightMap[point], (float)point.Y);
         }
 
         private Mesh CreateMesh(Delaunator delaunayTriangulation)
