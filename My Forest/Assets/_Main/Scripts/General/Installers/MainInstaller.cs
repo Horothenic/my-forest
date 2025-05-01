@@ -8,6 +8,7 @@ namespace MyForest
         [Header("OTHERS")]
         [SerializeField] private ObjectPoolManager _objectPoolManager = null;
         [SerializeField] private TimersManager _timersManager = null;
+        [SerializeField] private SceneManager _sceneManager = null;
 
         public override void InstallBindings()
         {
@@ -18,7 +19,10 @@ namespace MyForest
         {
             Container.BindInterfacesTo<ObjectPoolManager>().FromInstance(_objectPoolManager).AsSingle();
             Container.BindInterfacesTo<TimersManager>().FromInstance(_timersManager).AsSingle();
+            Container.BindInterfacesTo<SceneManager>().FromInstance(_sceneManager).AsSingle();
+            
             Container.BindInterfacesTo<SaveManager>().AsSingle();
+            Container.BindInterfacesTo<IslandManager>().AsSingle();
         }
     }
 }
