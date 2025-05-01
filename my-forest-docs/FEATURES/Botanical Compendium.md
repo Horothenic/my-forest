@@ -8,7 +8,7 @@ Subfeatures:
 - An icon will appear in the HUD saying how many new flora types was found since last time the compendium was opened.
 - Inside the compendium you will have the first page displaying the following:
 	- Number of flora types found vs the maximum amount of flora types available.
-		- Initially the maximum will display "???" until a [[Natural Augment]] is bought.
+		- Initially the maximum will display "???" until a [[Natural Augments]] is bought.
 	- Size of the forest.
 	- Amount of flora in the forest.
 	- Amount of flora types discovered of every rarity.
