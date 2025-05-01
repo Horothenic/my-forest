@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "FEATURES/DEVELOPMENT/Terrain.md",
+                "file": "FEATURES/DEVELOPMENT/3. Game Flow + UI.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Terrain"
+              "title": "3. Game Flow + UI"
             }
           }
         ]
@@ -40,7 +40,8 @@
             "state": {
               "type": "file-explorer",
               "state": {
-                "sortOrder": "alphabetical"
+                "sortOrder": "alphabetical",
+                "autoReveal": false
               },
               "icon": "lucide-folder-closed",
               "title": "Files"
@@ -164,18 +165,19 @@
   },
   "active": "322e76300120fb5c",
   "lastOpenFiles": [
+    "FEATURES/Natural Augments.md",
+    "FEATURES/DEVELOPMENT/3. Game Flow + UI.md",
+    "FEATURES/DEVELOPMENT/2. Terrain.md",
+    "FEATURES/DEVELOPMENT/1. Visual Style.md",
+    "IMAGES/Pasted image 20240908204540.png",
+    "IMAGES/Pasted image 20240908204529.png",
     "FEATURES/DEVELOPMENT/DEVELOPMENT.md",
     "FEATURES/Animals.md",
-    "FEATURES/DEVELOPMENT/Terrain.md",
     "FEATURES/Growth.md",
-    "FEATURES/DEVELOPMENT/Visual Style.md",
-    "FEATURES/Natural Augment.md",
-    "IMAGES/Pasted image 20240908204529.png",
     "FEATURES/Botanical Compendium.md",
     "FEATURES/Wildlife Almanac.md",
     "MY FOREST.md",
     "FAILED IDEAS/Failed Forests.md",
-    "IMAGES/Pasted image 20240908204540.png",
     "IMAGES/Pasted image 20240908204550.png",
     "IMAGES/Pasted image 20240908204608.png",
     "IMAGES/Pasted image 20240908204625.png",
@@ -189,7 +191,6 @@
     "IMAGES/Pasted image 20240908204625.png",
     "IMAGES/Pasted image 20240908204608.png",
     "IMAGES/Pasted image 20240908204550.png",
-    "IMAGES/Pasted image 20240908204540.png",
     "FAILED IDEAS/Failed Forests.md",
     "FEATURES/DEVELOPMENT",
     "FAILED IDEAS",

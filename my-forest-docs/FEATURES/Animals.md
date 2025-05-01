@@ -14,4 +14,4 @@ If the animal likes an specific kind of tree it will appear close to one.
 
 The visit will end after 15 min automatically or if the game is closed.
 
-Only one visit can happen at a time, unless you buy more visit slots with a [[Natural Augment]].
+Only one visit can happen at a time, unless you buy more visit slots with a [[Natural Augments]].

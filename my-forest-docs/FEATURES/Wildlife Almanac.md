@@ -8,7 +8,7 @@ Subfeatures:
 - An icon will appear in the HUD saying how many new fauna types was found since last time the almanac was opened.
 - Inside the almanac you will have the first page displaying the following:
 	- Number of fauna types found vs the maximum amount of fauna types available.
-		- Initially the maximum will display "???" until a [[Natural Augment]] is bought.
+		- Initially the maximum will display "???" until a [[Natural Augments]] is bought.
 	- Number of visits to the forest.
 	- Amount of fauna types discovered of every rarity.
 - The following pages will have a single fauna type per page with the following:
