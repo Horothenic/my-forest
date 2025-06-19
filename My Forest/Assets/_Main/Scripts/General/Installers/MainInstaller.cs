@@ -1,3 +1,4 @@
+using Localization;
 using UnityEngine;
 using Zenject;
 
@@ -20,7 +21,8 @@ namespace MyForest
             Container.BindInterfacesTo<ObjectPoolManager>().FromInstance(_objectPoolManager).AsSingle();
             Container.BindInterfacesTo<TimersManager>().FromInstance(_timersManager).AsSingle();
             Container.BindInterfacesTo<SceneManager>().FromInstance(_sceneManager).AsSingle();
-            
+
+            Container.BindInterfacesTo<LocalizationManager>().AsSingle();
             Container.BindInterfacesTo<SaveManager>().AsSingle();
             Container.BindInterfacesTo<IslandManager>().AsSingle();
         }

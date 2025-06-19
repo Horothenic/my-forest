@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using System;
+using Localization;
 using UnityEngine;
 using Zenject;
 
@@ -28,7 +29,7 @@ namespace MyForest
         {
             await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
 
-            await _madeByText.TriggerTimedText();
+            await _madeByText.TriggerTimedText("made by Horothenic".Localize(), 0.1f);
             
             await UniTask.Delay(TimeSpan.FromSeconds(0.8f));
 
