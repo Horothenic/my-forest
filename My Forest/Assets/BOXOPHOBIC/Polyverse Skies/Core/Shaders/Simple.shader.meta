@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 6b473eb86b84ac5439972f473ab884bd
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 104017
+  packageName: Polyverse Skies | Low Poly Skybox Shaders
+  packageVersion: 3.5.0
+  assetPath: Assets/BOXOPHOBIC/Polyverse Skies/Core/Shaders/Simple.shader
+  uploadId: 756276

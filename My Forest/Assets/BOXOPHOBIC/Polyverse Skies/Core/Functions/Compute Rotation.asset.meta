@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d0fbe60918b2bc146b660122744f3d02
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 104017
+  packageName: Polyverse Skies | Low Poly Skybox Shaders
+  packageVersion: 3.5.0
+  assetPath: Assets/BOXOPHOBIC/Polyverse Skies/Core/Functions/Compute Rotation.asset
+  uploadId: 756276

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: bcb2ca69016b2684fa20fb79533c591a
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 104017
+  packageName: Polyverse Skies | Low Poly Skybox Shaders
+  packageVersion: 3.5.0
+  assetPath: Assets/BOXOPHOBIC/Utils/Scene/Light Standard Low.prefab
+  uploadId: 756276

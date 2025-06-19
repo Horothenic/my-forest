@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 13dc708cc67c98145be44921d58a7f5b
+timeCreated: 1509525908
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 104017
+  packageName: Polyverse Skies | Low Poly Skybox Shaders
+  packageVersion: 3.5.0
+  assetPath: Assets/BOXOPHOBIC/Polyverse Skies/Generator/Shaders/Rendering Clouds.mat
+  uploadId: 756276

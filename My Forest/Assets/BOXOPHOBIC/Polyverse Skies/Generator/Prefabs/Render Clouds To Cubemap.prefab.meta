@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 3dcbf159cf299944d8f1a5e1c9882117
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 104017
+  packageName: Polyverse Skies | Low Poly Skybox Shaders
+  packageVersion: 3.5.0
+  assetPath: Assets/BOXOPHOBIC/Polyverse Skies/Generator/Prefabs/Render Clouds To
+    Cubemap.prefab
+  uploadId: 756276
