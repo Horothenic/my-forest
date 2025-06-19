@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: f565d72a45b057844864991b801d3426
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/package.json
+  uploadId: 753328

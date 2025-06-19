@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 663cdc2ecb0d4e74694fdab1c8e9bbe3
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Materials/Polyline 2D Darken (JOIN_ROUND).mat
+  uploadId: 753328

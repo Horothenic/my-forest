@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 0667d849dbc155e49af6d8509c06bc0d
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Shaders/Resources/Sphere Screen.shader
+  uploadId: 753328

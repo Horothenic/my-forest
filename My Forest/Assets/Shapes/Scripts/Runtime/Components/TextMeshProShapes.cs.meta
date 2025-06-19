@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 22ee2c0c9abb6cc4fbe5c7cd16c094df
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Scripts/Runtime/Components/TextMeshProShapes.cs
+  uploadId: 753328

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 70fd05dfd6dbe624f89617428fa0175d
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Shaders/Resources/Sphere Multiplicative.shader
+  uploadId: 753328

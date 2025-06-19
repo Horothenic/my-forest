@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: f1ef4298bb91b5e48983a0a6eb59eca0
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Shaders/Resources/Cuboid ColorDodge.shader
+  uploadId: 753328

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4c5c07ca7d8914b49b41056dfe1c19f3
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Materials/Rect Transparent.mat
+  uploadId: 753328

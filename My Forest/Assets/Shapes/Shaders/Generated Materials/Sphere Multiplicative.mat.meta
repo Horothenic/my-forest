@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4fafb1a6756797347b081fe9e101137e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Materials/Sphere Multiplicative.mat
+  uploadId: 753328

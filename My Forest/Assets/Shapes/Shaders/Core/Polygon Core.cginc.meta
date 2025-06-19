@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 0e3b555d9ca923f4a9a729cd7ee79f97
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Core/Polygon Core.cginc
+  uploadId: 753328

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 16f283f45978cac41a7c04930ed11eae
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Shaders/Resources/Sphere ColorBurn.shader
+  uploadId: 753328

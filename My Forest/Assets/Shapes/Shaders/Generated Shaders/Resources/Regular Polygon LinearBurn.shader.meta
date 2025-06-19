@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 18069e4e96d36fd4197185e6832dfc5d
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Shaders/Resources/Regular Polygon LinearBurn.shader
+  uploadId: 753328

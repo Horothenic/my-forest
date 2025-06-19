@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 74a701edbce58664d80fc9c2ad6f7684
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Shaders/Resources/Rect Darken.shader
+  uploadId: 753328

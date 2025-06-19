@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 424127b890773db48ac7dca2bf4f8521
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Scripts/Editor/Components/PolygonEditor.cs
+  uploadId: 753328

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: fb4a7266a86ba6f49861a71fe4c21805
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Shaders/Resources/Torus ColorBurn.shader
+  uploadId: 753328

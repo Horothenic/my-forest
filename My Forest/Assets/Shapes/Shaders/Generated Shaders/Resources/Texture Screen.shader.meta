@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: b06e5c773d9989b4fb177d307bba650f
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Shaders/Resources/Texture Screen.shader
+  uploadId: 753328

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 1c746ffda7825e24780d680a666fb428
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Samples/FPS HUD.unity
+  uploadId: 753328

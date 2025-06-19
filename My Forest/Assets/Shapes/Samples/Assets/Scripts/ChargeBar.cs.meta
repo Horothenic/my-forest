@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: e8a979de604f90548891087cc71f3ac7
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Samples/Assets/Scripts/ChargeBar.cs
+  uploadId: 753328

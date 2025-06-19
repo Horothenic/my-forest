@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 1368635b34bc6794c97aa75340a44324
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Scripts/Editor/Utils/Codegen/OverloadGenerator.cs
+  uploadId: 753328

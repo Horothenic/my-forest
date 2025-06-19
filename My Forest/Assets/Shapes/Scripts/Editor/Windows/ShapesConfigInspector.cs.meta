@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: ea15a8f94abce66418de3a215a16ddc4
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Scripts/Editor/Windows/ShapesConfigInspector.cs
+  uploadId: 753328

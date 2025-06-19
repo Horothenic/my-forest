@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 64ae3bdbe4c22b84492c527cfd5e4424
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Samples/Assets/Enemy.prefab
+  uploadId: 753328

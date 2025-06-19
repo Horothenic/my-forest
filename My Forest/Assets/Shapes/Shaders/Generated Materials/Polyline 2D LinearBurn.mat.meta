@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a30b281003a194d40a2c2463ce450e06
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Materials/Polyline 2D LinearBurn.mat
+  uploadId: 753328

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: fb1016d478ceb274bb09c46d6e95170f
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Shaders/Resources/Torus Lighten.shader
+  uploadId: 753328

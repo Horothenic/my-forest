@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b1a2efc8b1c9e4943a0973eff5b13bce
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Samples/Assets/Capsules.mat
+  uploadId: 753328

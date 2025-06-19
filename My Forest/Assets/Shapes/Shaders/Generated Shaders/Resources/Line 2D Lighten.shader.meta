@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 79a3a9ec2647b644bba3b12455e6da6c
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Shaders/Resources/Line 2D Lighten.shader
+  uploadId: 753328

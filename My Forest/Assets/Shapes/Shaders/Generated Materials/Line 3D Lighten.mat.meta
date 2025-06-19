@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4d0382b482ac4fd4f97ea80e49f3087a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Materials/Line 3D Lighten.mat
+  uploadId: 753328

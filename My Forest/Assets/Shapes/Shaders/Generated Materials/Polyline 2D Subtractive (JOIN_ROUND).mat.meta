@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 3d33c8b1ed7d6114d8e058013bcb0974
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Materials/Polyline 2D Subtractive (JOIN_ROUND).mat
+  uploadId: 753328

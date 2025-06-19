@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b1d076a137daead438e6bb5e17f60962
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Materials/Rect Screen (BORDERED).mat
+  uploadId: 753328

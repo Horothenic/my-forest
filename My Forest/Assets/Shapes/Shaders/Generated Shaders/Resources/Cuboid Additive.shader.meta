@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 66c7fb0c6ddf17b438fcbefe1bd4d642
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Shaders/Resources/Cuboid Additive.shader
+  uploadId: 753328

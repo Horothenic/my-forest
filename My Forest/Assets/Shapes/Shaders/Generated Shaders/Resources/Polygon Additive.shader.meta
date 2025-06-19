@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: e172dc322b7ed144a9506606fb1a275d
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Shaders/Resources/Polygon Additive.shader
+  uploadId: 753328

@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 4ecbf94f6671d474694e9d8f38449eb3
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Scripts/Runtime/Immediate Mode/MetaMpbCustomMesh.cs
+  uploadId: 753328

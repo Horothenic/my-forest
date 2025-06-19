@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: a3624df8e7dc35b46add3978c0611c80
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Scripts/Runtime/Immediate Mode/StyleStack.cs
+  uploadId: 753328

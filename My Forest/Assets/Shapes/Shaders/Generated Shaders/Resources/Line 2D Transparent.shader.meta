@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 08972cbecdebc6944b65c598dec5cb43
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Shaders/Resources/Line 2D Transparent.shader
+  uploadId: 753328

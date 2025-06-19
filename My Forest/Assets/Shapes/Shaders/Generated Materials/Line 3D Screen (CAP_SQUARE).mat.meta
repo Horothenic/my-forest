@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 1d3ecd9499f016e4e954284a5a01d8ce
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Materials/Line 3D Screen (CAP_SQUARE).mat
+  uploadId: 753328

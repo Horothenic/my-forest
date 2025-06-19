@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 5f0032d7d9f3f4546a25cd955154c4a6
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Shaders/Resources/Sphere ColorDodge.shader
+  uploadId: 753328

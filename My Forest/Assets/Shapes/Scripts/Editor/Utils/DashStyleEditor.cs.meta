@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: e08a5101b5af31f48a0e54e186ca84a7
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Scripts/Editor/Utils/DashStyleEditor.cs
+  uploadId: 753328

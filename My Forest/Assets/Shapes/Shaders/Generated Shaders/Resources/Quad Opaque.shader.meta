@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: b6c03ddda6c279d4d98f6575ee0c880f
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Shaders/Resources/Quad Opaque.shader
+  uploadId: 753328

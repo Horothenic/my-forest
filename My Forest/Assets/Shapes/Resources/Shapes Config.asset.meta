@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 61319fb4f3fe6154fbba76e1799a323d
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Resources/Shapes Config.asset
+  uploadId: 753328
