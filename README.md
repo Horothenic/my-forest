@@ -2,8 +2,10 @@
 Idle game to create a forest little by little.
 
 ### Table of Contents
-1. [Structure Conventions](#structure-conventions)
-2. [Code Conventions](#code-conventions)
+1. Code
+    1. [Structure Conventions](#structure-conventions)
+    2. [Code Conventions](#code-conventions)
+2. [Credits](#credits)
 
 ## Structure Conventions
 
@@ -63,7 +65,7 @@ Most of the code here will be used by special UI components that will appear whe
 
 ## Code Conventions
 
-These are only special cases that tend to change pretty easily bewteen code styles.
+These are only special cases that tend to change pretty easily between code styles.
 
 - Everything must be under a namespace with project name `namespace MyProject`
 - Everything debug related must be under a debug namespace with project name `namespace MyProject.Debug`
@@ -82,3 +84,8 @@ These are only special cases that tend to change pretty easily bewteen code styl
 - Injected source fields must be private and on same line `[Inject] private`
 - Constants are all uppercase and sepaarted by underscores `const MY_CONSTANT = "example"`
 - Libraries are separated with extra line between plugins and system libraries.
+
+## Credits
+
+- [BOXOPHOBIC](https://boxophobic.com/) - Polyverse skies
+- [ACEGIKMO (Freya Holmer)](https://acegikmo.com/shapes/) - Shapes
