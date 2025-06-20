@@ -4,7 +4,7 @@ using Localization;
 using UnityEngine;
 using Zenject;
 
-namespace MyForest
+namespace MyIsland
 {
     public class SplashScreenController : MonoBehaviour
     {

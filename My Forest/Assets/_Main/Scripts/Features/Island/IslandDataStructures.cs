@@ -1,4 +1,4 @@
-namespace MyForest
+namespace MyIsland
 {
     public class IslandData
     {

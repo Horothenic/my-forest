@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MyForest.Testing
+namespace MyIsland.Testing
 {
     public class ContentTestData<T>
     {

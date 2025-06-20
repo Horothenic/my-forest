@@ -3,7 +3,7 @@ using System;
 using TMPro;
 using UnityEngine;
 
-namespace MyForest
+namespace MyIsland
 {
     public class TimedText : MonoBehaviour
     {

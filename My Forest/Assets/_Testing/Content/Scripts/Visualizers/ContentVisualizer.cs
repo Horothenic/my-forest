@@ -4,7 +4,7 @@ using UnityEngine;
 
 using TMPro;
 
-namespace MyForest.Testing
+namespace MyIsland.Testing
 {
     [ExecuteInEditMode]
     public abstract class ContentVisualizer<T> : MonoBehaviour where T : Object

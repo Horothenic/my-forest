@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace MyForest
+namespace MyIsland
 {
     public class TellMeYourNameController : MonoBehaviour
     {

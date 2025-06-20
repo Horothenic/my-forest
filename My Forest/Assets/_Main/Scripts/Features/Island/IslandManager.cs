@@ -1,4 +1,4 @@
-namespace MyForest
+namespace MyIsland
 {
     public partial class IslandManager : DataManager<IslandData>
     {

@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-namespace MyForest
+namespace MyIsland
 {
     [CreateAssetMenu(fileName = nameof(TreeConfiguration), menuName = MENU_NAME)]
     public class TreeConfiguration : ScriptableObject
@@ -23,7 +23,7 @@ namespace MyForest
 
         #region FIELDS
 
-        private const string MENU_NAME = nameof(MyForest) + "/Trees/" + nameof(TreeConfiguration);
+        private const string MENU_NAME = nameof(MyIsland) + "/Trees/" + nameof(TreeConfiguration);
 
         [SerializeField] private string _id = default;
         [SerializeField] private Rarity _rarity = default;

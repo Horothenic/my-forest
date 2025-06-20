@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 using UnitySceneManager = UnityEngine.SceneManagement.SceneManager;
 
-namespace MyForest
+namespace MyIsland
 {
     public partial class SceneManager : MonoBehaviour
     {

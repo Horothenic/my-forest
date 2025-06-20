@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace MyForest
+namespace MyIsland
 {
     public class IslandGenerator : MonoBehaviour
     {

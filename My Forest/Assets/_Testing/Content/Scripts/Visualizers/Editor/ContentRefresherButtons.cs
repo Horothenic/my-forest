@@ -3,7 +3,7 @@ using UnityEditor;
 
 using UnitySceneManager = UnityEngine.SceneManagement.SceneManager;
 
-namespace MyForest.Testing.Editor
+namespace MyIsland.Testing.Editor
 {
     public class ContentRefresherButtons : EditorWindow
     {
