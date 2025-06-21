@@ -1,4 +1,4 @@
-using Localization;
+using MyForest;
 using UnityEngine;
 using Zenject;
 
@@ -6,11 +6,9 @@ namespace MyIsland
 {
     public class MainInstaller : MonoInstaller
     {
-        [Header("OTHERS")]
-        [SerializeField] private ObjectPoolManager _objectPoolManager = null;
-        [SerializeField] private TimersManager _timersManager = null;
-        [SerializeField] private SceneManager _sceneManager = null;
-
+        [Header("INSTANCES")]
+        [SerializeField] private MainMenuController _mainMenuController = null;
+        
         public override void InstallBindings()
         {
             SetBindings();   
@@ -18,13 +16,7 @@ namespace MyIsland
 
         private void SetBindings()
         {
-            Container.BindInterfacesTo<ObjectPoolManager>().FromInstance(_objectPoolManager).AsSingle();
-            Container.BindInterfacesTo<TimersManager>().FromInstance(_timersManager).AsSingle();
-            Container.BindInterfacesTo<SceneManager>().FromInstance(_sceneManager).AsSingle();
-
-            Container.BindInterfacesTo<LocalizationManager>().AsSingle();
-            Container.BindInterfacesTo<SaveManager>().AsSingle();
-            Container.BindInterfacesTo<IslandManager>().AsSingle();
+            Container.BindInterfacesTo<MainMenuController>().FromInstance(_mainMenuController).AsSingle();
         }
     }
 }
