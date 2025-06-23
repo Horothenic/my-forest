@@ -1,3 +1,5 @@
+using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -18,13 +20,19 @@ namespace MyForest
 
         [Header("CONFIGURATIONS")]
         [SerializeField] private MenuPage _name;
-
+        
         public MenuPage Name => _name;
         public int Index => Name.Index();
+        public bool IsBeingAnimated { get; private set; }
 
         #endregion
 
         #region METHODS
+
+        private void Start()
+        {
+            DisappearPage();
+        }
 
         public void Animate(PageAnimation pageAnimation)
         {
@@ -55,6 +63,7 @@ namespace MyForest
         {
             if (appear)
             {
+                _mainContainer.anchoredPosition = Vector2.zero;
                 _canvasGroup.interactable = true;
                 AppearPage();
             }
@@ -67,21 +76,29 @@ namespace MyForest
 
         private async UniTaskVoid SideAnimation(bool appear, bool isRight)
         {
-            var objectivePosition = isRight ? _canvasRectTransform.rect.width : -_canvasRectTransform.rect.width;
+            IsBeingAnimated = true;
             
+            var width = _canvasRectTransform.rect.width;
+            var objectivePosition = isRight ? width : -width;
+
             if (appear)
             {
-                _mainContainer.anchoredPosition = Vector2.right * objectivePosition;
+                _mainContainer.anchoredPosition = new Vector2(objectivePosition, 0);
                 AppearPage();
-                await _mainContainer.DOAnchorPosX(0f, ANIMATION_DURATION, true).AsyncWaitForCompletion();
+
+                await _mainContainer.DOAnchorPosX(0f, ANIMATION_DURATION).AsyncWaitForCompletion();
+
                 _canvasGroup.interactable = true;
             }
             else
             {
-                await _mainContainer.DOAnchorPosX( objectivePosition, ANIMATION_DURATION, true).AsyncWaitForCompletion();
+                await _mainContainer.DOAnchorPosX(objectivePosition, ANIMATION_DURATION).AsyncWaitForCompletion();
+
                 DisappearPage();
-                _canvasGroup.interactable = true;
+                _canvasGroup.interactable = false;
             }
+
+            IsBeingAnimated = false;
         }
 
         private void AppearPage()
@@ -106,15 +123,15 @@ namespace MyForest
         FromTheRight,
         FromTheLeft,
         ToTheRight,
-        ToTheLeft
+        ToTheLeft,
     }
 
     public enum MenuPage
     {
-        Settings,
-        WildlifeAlmanac,
-        BotanicalCompendium,
         Growth,
-        NaturalAugments
+        BotanicalCompendium,
+        WildlifeAlmanac,
+        NaturalAugments,
+        Settings,
     }
 }

@@ -21,6 +21,11 @@ namespace MyForest
 
         #region METHODS
 
+        private void Start()
+        {
+            CloseMenu();
+        }
+
         private void ShowPage(PageController page)
         {
             if (!IsMenuOpen)
@@ -36,16 +41,18 @@ namespace MyForest
                 return;
             }
             
+            if (_currentPage.IsBeingAnimated || page.IsBeingAnimated) return;
+            
             if (page.Index > _currentPage.Index)
             {
                 _currentPage.Animate(PageAnimation.ToTheLeft);
-                page.Animate(PageAnimation.FromTheLeft);
+                page.Animate(PageAnimation.FromTheRight);
                 _currentPage = page;
             }
             else
             {
                 _currentPage.Animate(PageAnimation.ToTheRight);
-                page.Animate(PageAnimation.FromTheRight);
+                page.Animate(PageAnimation.FromTheLeft);
                 _currentPage = page;
             }
         }
@@ -58,6 +65,12 @@ namespace MyForest
         private void CloseMenu()
         {
             _mainMenuCanvas.enabled = false;
+
+            if (_currentPage != null)
+            {
+                _currentPage.Animate(PageAnimation.HideInstant);
+                _currentPage = null;
+            }
         }
 
         #endregion
@@ -75,7 +88,7 @@ namespace MyForest
                 return;
             }
 
-            if (_currentPage.Name == page.Name) return;
+            if (_currentPage != null && _currentPage.Name == page.Name) return;
 
             ShowPage(page);
         }
