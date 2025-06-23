@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 0fecc0d7927445440acc3ee89ed9f4fc
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 104017
+  packageName: Polyverse Skies | Low Poly Skybox Shaders
+  packageVersion: 3.5.0
+  assetPath: Assets/BOXOPHOBIC/Utils/Scene/Camera Universal.prefab
+  uploadId: 756276

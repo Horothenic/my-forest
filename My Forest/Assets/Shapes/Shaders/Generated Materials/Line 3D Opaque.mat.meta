@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 716bc2e5df969064fa2136cd9e6d2f11
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Materials/Line 3D Opaque.mat
+  uploadId: 753328

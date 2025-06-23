@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4412363a31d212b4fbce6d832fbf7675
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Materials/Cone Additive.mat
+  uploadId: 753328

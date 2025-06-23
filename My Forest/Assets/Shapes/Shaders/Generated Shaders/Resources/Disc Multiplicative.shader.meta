@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: e927d8a39e9575d43bfe3a7ec6984cf3
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Shaders/Resources/Disc Multiplicative.shader
+  uploadId: 753328

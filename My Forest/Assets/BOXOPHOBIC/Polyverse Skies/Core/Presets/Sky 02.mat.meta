@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 60dd2e7b10f2ce74e9c4478520e3f06a
+timeCreated: 1507064191
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 104017
+  packageName: Polyverse Skies | Low Poly Skybox Shaders
+  packageVersion: 3.5.0
+  assetPath: Assets/BOXOPHOBIC/Polyverse Skies/Core/Presets/Sky 02.mat
+  uploadId: 756276

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: da37cfda49e4c5f488a03817192471de
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Textures/Inconsolata/OFL.txt
+  uploadId: 753328

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: cd2b88f87378afc4481e0780a1657022
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Shaders/Resources/Texture ColorDodge.shader
+  uploadId: 753328

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 52908bebb4ec95240bedf3b094f65889
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Shaders/Resources/Triangle Transparent.shader
+  uploadId: 753328

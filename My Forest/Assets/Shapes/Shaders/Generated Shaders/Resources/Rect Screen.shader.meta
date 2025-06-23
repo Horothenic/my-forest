@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: e5ffb1f9e8f5ef6429f92831f9faf252
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Shaders/Resources/Rect Screen.shader
+  uploadId: 753328

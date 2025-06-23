@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d6eb10c035ec242479a0519a8ea4fd0f
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 104017
+  packageName: Polyverse Skies | Low Poly Skybox Shaders
+  packageVersion: 3.5.0
+  assetPath: Assets/BOXOPHOBIC/Polyverse Skies/Core/Functions/Remap To 0-1.asset
+  uploadId: 756276

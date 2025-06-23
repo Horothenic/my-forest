@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 8dad03fe0eb1a5540ab86ea0a6b45b58
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Materials/Disc Multiplicative (SECTOR).mat
+  uploadId: 753328

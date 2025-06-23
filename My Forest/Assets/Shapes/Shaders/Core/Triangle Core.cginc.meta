@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: a74ce8549fbb1d54a9c2ea7539cf6877
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Core/Triangle Core.cginc
+  uploadId: 753328

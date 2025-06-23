@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 92735153cc9a1654195992061f14331f
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Materials/Triangle Additive.mat
+  uploadId: 753328

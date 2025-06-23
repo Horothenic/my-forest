@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 1da1f869516645b4aaae58602395f89c
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Shaders/Resources/Line 2D Screen.shader
+  uploadId: 753328

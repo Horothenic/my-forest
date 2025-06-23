@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5c3be74818acb8c45bd63a956d653ba3
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Samples/Assets/Ground.mat
+  uploadId: 753328

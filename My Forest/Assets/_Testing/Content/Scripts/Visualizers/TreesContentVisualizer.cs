@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace MyForest.Testing
+namespace MyIsland.Testing
 {
     [ExecuteInEditMode]
     public class TreesContentVisualizer : ContentVisualizer<TreeConfiguration>

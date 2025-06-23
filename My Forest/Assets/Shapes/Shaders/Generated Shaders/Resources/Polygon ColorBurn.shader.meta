@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 16e748ebeda646c478ae4690ff5b0a38
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Shaders/Resources/Polygon ColorBurn.shader
+  uploadId: 753328

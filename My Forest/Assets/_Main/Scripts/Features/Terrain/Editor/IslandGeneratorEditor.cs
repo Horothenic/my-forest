@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-namespace MyForest
+namespace MyIsland
 {
     [CustomEditor(typeof(IslandGenerator))]
     [CanEditMultipleObjects]

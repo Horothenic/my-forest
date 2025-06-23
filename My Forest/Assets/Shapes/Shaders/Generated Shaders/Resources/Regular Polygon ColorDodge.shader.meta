@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: f738be81326243c409deb57538f55652
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Shaders/Resources/Regular Polygon ColorDodge.shader
+  uploadId: 753328

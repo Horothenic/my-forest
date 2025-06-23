@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c9f89a768ebccc04bb51efb23d199e9d
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Materials/Line 3D Transparent.mat
+  uploadId: 753328

@@ -4,7 +4,7 @@ using Cysharp.Threading.Tasks;
 using Zenject;
 using UniRx;
 
-namespace MyForest
+namespace MyIsland
 {
     public abstract partial class DataManager<T> : IInitializable
     {

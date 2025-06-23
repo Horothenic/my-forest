@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 5829c26677b511c4ab273a505814d2e4
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 104017
+  packageName: Polyverse Skies | Low Poly Skybox Shaders
+  packageVersion: 3.5.0
+  assetPath: Assets/BOXOPHOBIC/Polyverse Skies/Generator/Scripts/Boxophobic.PolyverseSkies.Scripts.asmdef
+  uploadId: 756276

@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace MyForest
+namespace MyIsland
 {
     public partial class SaveManager
     {

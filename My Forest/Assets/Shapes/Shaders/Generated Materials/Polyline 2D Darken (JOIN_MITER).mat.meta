@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b7cf489f3644b2d47bcac268251c389f
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Materials/Polyline 2D Darken (JOIN_MITER).mat
+  uploadId: 753328

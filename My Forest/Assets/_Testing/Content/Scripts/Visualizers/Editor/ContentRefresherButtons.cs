@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEditor;
-using UnityEngine.SceneManagement;
 
-namespace MyForest.Testing.Editor
+using UnitySceneManager = UnityEngine.SceneManagement.SceneManager;
+
+namespace MyIsland.Testing.Editor
 {
     public class ContentRefresherButtons : EditorWindow
     {
@@ -16,7 +17,7 @@ namespace MyForest.Testing.Editor
         
         private static void OnSceneGUI(SceneView sceneView)
         {
-            if (SceneManager.GetActiveScene().name != "ContentVisualizer") return;
+            if (UnitySceneManager.GetActiveScene().name != "ContentVisualizer") return;
             
             Handles.BeginGUI();
 

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 29d8b65b43c631743894729d236d3c51
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Materials/Polygon Subtractive.mat
+  uploadId: 753328

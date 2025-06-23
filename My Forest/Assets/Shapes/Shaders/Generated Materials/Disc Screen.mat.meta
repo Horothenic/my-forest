@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 06cd9b9e97a657d48b579346e82be3f1
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Materials/Disc Screen.mat
+  uploadId: 753328

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: c58356efff8494840b8ee9a3a9ca383a
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Samples/Shapes Samples.asmdef
+  uploadId: 753328

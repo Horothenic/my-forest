@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b07dcc85ed19c49448c575756a7b35cb
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Materials/Line 3D LinearBurn.mat
+  uploadId: 753328

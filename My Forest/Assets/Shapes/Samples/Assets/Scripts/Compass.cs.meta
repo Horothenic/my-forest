@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 96d2c9196c61dd74fb66bda4ea5fe63d
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Samples/Assets/Scripts/Compass.cs
+  uploadId: 753328

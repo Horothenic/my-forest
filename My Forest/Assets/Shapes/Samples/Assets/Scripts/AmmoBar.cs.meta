@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 36d06937cb06f4f44bfc610d44111110
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Samples/Assets/Scripts/AmmoBar.cs
+  uploadId: 753328

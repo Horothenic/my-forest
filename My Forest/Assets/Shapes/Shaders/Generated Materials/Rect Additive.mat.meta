@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 93037c497f6ccf8468b78fbb6156ed2c
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Materials/Rect Additive.mat
+  uploadId: 753328

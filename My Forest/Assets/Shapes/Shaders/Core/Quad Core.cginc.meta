@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 9a998794297efde439964fe4f3abb15c
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Core/Quad Core.cginc
+  uploadId: 753328

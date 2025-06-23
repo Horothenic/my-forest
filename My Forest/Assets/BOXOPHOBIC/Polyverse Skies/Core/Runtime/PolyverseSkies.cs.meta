@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 8fdf5921ba9788546a0a1fb47a5f6f44
+timeCreated: 1511691334
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 104017
+  packageName: Polyverse Skies | Low Poly Skybox Shaders
+  packageVersion: 3.5.0
+  assetPath: Assets/BOXOPHOBIC/Polyverse Skies/Core/Runtime/PolyverseSkies.cs
+  uploadId: 756276

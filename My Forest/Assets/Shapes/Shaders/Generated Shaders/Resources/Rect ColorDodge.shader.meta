@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: c02ba34bf88b09e42a753b5dcfc7d7bb
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Shaders/Resources/Rect ColorDodge.shader
+  uploadId: 753328

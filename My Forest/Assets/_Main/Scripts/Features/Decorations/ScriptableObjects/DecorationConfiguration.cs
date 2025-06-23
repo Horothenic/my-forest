@@ -1,14 +1,14 @@
 using System.Linq;
 using UnityEngine;
 
-namespace MyForest
+namespace MyIsland
 {
     [CreateAssetMenu(fileName = nameof(DecorationConfiguration), menuName = MENU_NAME)]
     public class DecorationConfiguration : ScriptableObject
     {
         #region FIELDS
 
-        private const string MENU_NAME = nameof(MyForest) + "/Decorations/" + nameof(DecorationConfiguration);
+        private const string MENU_NAME = nameof(MyIsland) + "/Decorations/" + nameof(DecorationConfiguration);
 
         [SerializeField] private string _id;
         [SerializeField] private Biome _biome;

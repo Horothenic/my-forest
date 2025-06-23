@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a3be56a1f984f5e428b969dba3b03c8b
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Materials/Polyline 2D Transparent (JOIN_BEVEL).mat
+  uploadId: 753328

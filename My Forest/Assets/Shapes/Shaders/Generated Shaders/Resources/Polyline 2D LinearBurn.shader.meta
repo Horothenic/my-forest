@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: e6cfe8b866dec67468274d9a950411dc
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Shaders/Resources/Polyline 2D LinearBurn.shader
+  uploadId: 753328

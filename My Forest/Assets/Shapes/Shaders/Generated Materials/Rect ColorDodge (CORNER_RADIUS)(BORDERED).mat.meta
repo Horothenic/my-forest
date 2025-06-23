@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b7397b2a74e08ae42ad224fc92a53618
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Materials/Rect ColorDodge (CORNER_RADIUS)(BORDERED).mat
+  uploadId: 753328

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 8f06c6ff4ecce6f4cb5ef031a19bdde5
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Shaders/Resources/Sphere Transparent.shader
+  uploadId: 753328

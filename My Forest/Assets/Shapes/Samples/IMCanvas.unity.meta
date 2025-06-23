@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 8afa9121d1bcb244582ba4bae29b08f3
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Samples/IMCanvas.unity
+  uploadId: 753328

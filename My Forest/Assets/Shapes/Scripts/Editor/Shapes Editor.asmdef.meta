@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 234839f5b92104d4fb68841aefec625b
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Scripts/Editor/Shapes Editor.asmdef
+  uploadId: 753328

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: b1fc4f934f29fa44a9b1bc3459f9756f
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Shaders/Resources/Line 3D Darken.shader
+  uploadId: 753328

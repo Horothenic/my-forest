@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 79eed1a1a276fea419db9805c4bcb8ac
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Shaders/Resources/Quad Subtractive.shader
+  uploadId: 753328

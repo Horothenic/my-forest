@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 7a75e4ea1303e8846a0670def6a354eb
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Core/Line 2D Core.cginc
+  uploadId: 753328

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 2ff2f8d08564fc84d80a4b2e2daa7c53
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Materials/Rect Transparent (BORDERED).mat
+  uploadId: 753328

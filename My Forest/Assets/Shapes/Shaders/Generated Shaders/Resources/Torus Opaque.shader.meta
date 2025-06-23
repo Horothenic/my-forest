@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 0e1f46fe23e65874aa44ae5824d18ae6
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Shaders/Resources/Torus Opaque.shader
+  uploadId: 753328

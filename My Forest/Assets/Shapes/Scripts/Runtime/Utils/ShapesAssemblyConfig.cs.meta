@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: c8b0e2a38198f8d4e86bca419c5c3457
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Scripts/Runtime/Utils/ShapesAssemblyConfig.cs
+  uploadId: 753328

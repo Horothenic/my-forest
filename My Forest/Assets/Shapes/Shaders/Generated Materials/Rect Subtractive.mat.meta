@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 212aa84e7fdb6c44f92697890aa3f028
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Materials/Rect Subtractive.mat
+  uploadId: 753328

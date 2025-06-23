@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f0db01ecd8394b54391e5be4d12f3350
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Materials/Line 2D Multiplicative (CAP_SQUARE).mat
+  uploadId: 753328

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7f739eb243923b04d98f2d8f141ec6aa
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Materials/Line 3D ColorDodge (CAP_ROUND).mat
+  uploadId: 753328

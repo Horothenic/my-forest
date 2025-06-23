@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 5a7988d439dbdcf46b3e681884ccbfbe
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 173167
+  packageName: Shapes
+  packageVersion: 4.5.1
+  assetPath: Assets/Shapes/Shaders/Generated Shaders/Resources/Line 2D LinearBurn.shader
+  uploadId: 753328
