@@ -22,12 +22,18 @@ namespace MyIsland
                 EditorGUILayout.PropertyField(property, true);
             }
             
+            GUILayout.Space(10);
+            EditorGUILayout.LabelField(new GUIContent("EDITOR-ONLY"), EditorStyles.boldLabel);
+
+            var testSeed = string.Empty;
+            EditorGUILayout.TextField(new GUIContent("Test seed"), testSeed);
+            
             if (serializedObjectTarget.ApplyModifiedProperties())
             {
                 foreach (var obj in targets)
                 {
                     var generator = (IslandGenerator)obj;
-                    generator.Initialize();
+                    generator.Initialize(testSeed);
                 }
             }
             
@@ -37,7 +43,7 @@ namespace MyIsland
                 {
                     var generator = (IslandGenerator)obj;
 
-                    generator.Initialize();
+                    generator.Initialize(testSeed);
                     EditorUtility.SetDirty(generator);
                 }
             }
