@@ -146,7 +146,8 @@ namespace MyIsland
         
         private Color GetTriangleColor(Vector3 v0, Vector3 v1, Vector3 v2)
         {
-            var height = (v0.y + v1.y + v2.y) / 3f;
+            var height = Mathf.Max(v0.y, v1.y, v2.y);
+            
             height -= _extraHeight;
             height = (height < 0f) ? height / _heightScale * _bottomReductionFactor : height / _heightScale * _topIncreaseFactor;
             
