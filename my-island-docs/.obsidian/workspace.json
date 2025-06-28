@@ -1,0 +1,215 @@
+{
+  "main": {
+    "id": "1e232916c1531083",
+    "type": "split",
+    "children": [
+      {
+        "id": "373a4268e6632cf6",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "322e76300120fb5c",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "FEATURES/Wildlife Almanac.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Wildlife Almanac"
+            }
+          },
+          {
+            "id": "374ed7b9a008eec1",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "FEATURES/DEVELOPMENT/1. Visual Style.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "1. Visual Style"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "118862db59d65ec9",
+    "type": "split",
+    "children": [
+      {
+        "id": "fc1fbeb475009e59",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c41a0626b053d148",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "29799b637acd6fa6",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "4e89728f30b3f65b",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "2534d20dc42bd464",
+    "type": "split",
+    "children": [
+      {
+        "id": "df7325842f200dc3",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c7316ff9652d0cb2",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "FEATURES/DEVELOPMENT/Terrain.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Terrain"
+            }
+          },
+          {
+            "id": "95f56b5fed0f9e51",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "FEATURES/DEVELOPMENT/Terrain.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Terrain"
+            }
+          },
+          {
+            "id": "325066d900505d8a",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "84197cd41cdfe482",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "FEATURES/DEVELOPMENT/Terrain.md"
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Terrain"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "374ed7b9a008eec1",
+  "lastOpenFiles": [
+    "FEATURES/DEVELOPMENT/2. Terrain.md",
+    "MY ISLAND.md",
+    "FEATURES/Natural Augments.md",
+    "FEATURES/DEVELOPMENT/1. Visual Style.md",
+    "FEATURES/DEVELOPMENT/3. Game Flow + UI.md",
+    "IMAGES/Pasted image 20240908204540.png",
+    "IMAGES/Pasted image 20240908204529.png",
+    "FEATURES/DEVELOPMENT/DEVELOPMENT.md",
+    "FEATURES/Animals.md",
+    "FEATURES/Growth.md",
+    "FEATURES/Botanical Compendium.md",
+    "FEATURES/Wildlife Almanac.md",
+    "FAILED IDEAS/Failed Forests.md",
+    "IMAGES/Pasted image 20240908204550.png",
+    "IMAGES/Pasted image 20240908204608.png",
+    "IMAGES/Pasted image 20240908204625.png",
+    "core-plugins.json",
+    "core-plugins-migration.json",
+    "app.json",
+    "appearance.json",
+    "graph.json",
+    "workspace.json",
+    "IMAGES",
+    "IMAGES/Pasted image 20240908204625.png",
+    "IMAGES/Pasted image 20240908204608.png",
+    "IMAGES/Pasted image 20240908204550.png",
+    "FAILED IDEAS/Failed Forests.md",
+    "FEATURES/DEVELOPMENT",
+    "FAILED IDEAS",
+    "FEATURES",
+    "create a link.md"
+  ]
+}
