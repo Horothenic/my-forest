@@ -30,7 +30,7 @@ namespace MyIsland
         protected abstract SaveStyle SaveStyle { get; }
         
         protected T Data => _loadSubject.Value;
-        protected IObservable<T> LoadObservable => _loadSubject.AsObservable();
+        protected IObservable<T> DataObservable => _loadSubject.AsObservable();
 
         #endregion
 
@@ -94,6 +94,12 @@ namespace MyIsland
             }
 
             _loadSubject.OnNext();
+        }
+
+        protected void SaveAndEmit()
+        {
+            Save();
+            EmitData();
         }
 
         protected virtual void OnPreLoad(ref T data){ }

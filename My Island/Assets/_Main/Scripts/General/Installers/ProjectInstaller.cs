@@ -25,6 +25,7 @@ namespace MyIsland
             Container.BindInterfacesTo<LocalizationManager>().AsSingle();
             Container.BindInterfacesTo<SaveManager>().AsSingle();
             Container.BindInterfacesTo<IslandManager>().AsSingle();
+            Container.BindInterfacesTo<GrowthManager>().AsSingle();
         }
     }
 }
