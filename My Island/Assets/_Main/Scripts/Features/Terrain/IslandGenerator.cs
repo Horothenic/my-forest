@@ -3,12 +3,15 @@ using DelaunatorSharp.Unity.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Zenject;
 
 namespace MyIsland
 {
     public class IslandGenerator : MonoBehaviour
     {
         #region FIELDS
+
+        [Inject] private IIslandSource _islandSource;
 
         private const string BASE_SEED_PHRASE = "My Forest ";
         
@@ -33,7 +36,6 @@ namespace MyIsland
         [SerializeField] [Range(0.001f, 1.00f)] private float _dampening = 0.144f;
         
         [Header("PERSONALIZATION")]
-        [SerializeField] private string _seedPhrase;
         [SerializeField] private Gradient _heightColorGradient;
         [SerializeField] private Gradient _borderColorGradient;
 
@@ -47,9 +49,14 @@ namespace MyIsland
         
         #endregion
         
-        #region METHODS 
+        #region METHODS
 
-        public void Initialize()
+        private void Start()
+        {
+            Initialize(_islandSource.CreatorName);
+        }
+
+        public void Initialize(string seed)
         {
             _meshFilter = GetComponent<MeshFilter>();
             _meshCollider = GetComponent<MeshCollider>();
@@ -57,7 +64,7 @@ namespace MyIsland
             _minNoiseHeight = float.PositiveInfinity;
             _maxNoiseHeight = float.NegativeInfinity;
             
-            _seedOffset = RandomExtensions.GenerateFloatFromPhrase(BASE_SEED_PHRASE + _seedPhrase);
+            _seedOffset = RandomExtensions.GenerateFloatFromPhrase(BASE_SEED_PHRASE + seed);
             
             var poissonSample = PoissonDiskSampler.Circle.GeneratePoints(_radius, _minimumDistance, _maxAttempts, _borderPoints);
             var poissonSamplePoints = poissonSample.ToPoints();
