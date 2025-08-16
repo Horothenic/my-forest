@@ -42,6 +42,7 @@ namespace MyIsland
             {
                 SaveStyle.Json => _saveSource.LoadJson(Key, new T()),
                 SaveStyle.File => _saveSource.LoadFile(Key, new T()),
+                _ => throw new NotImplementedException()
             };
 
             OnPreLoad(ref data);

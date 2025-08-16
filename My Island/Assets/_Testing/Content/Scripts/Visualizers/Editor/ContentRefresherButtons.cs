@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEditor;
 
@@ -10,11 +11,13 @@ namespace MyIsland.Testing.Editor
         #region METHODS
 
         [InitializeOnLoadMethod]
+        [Obsolete("Obsolete")]
         private static void Initialize()
         {
             SceneView.duringSceneGui += OnSceneGUI;
         }
         
+        [Obsolete("Obsolete")]
         private static void OnSceneGUI(SceneView sceneView)
         {
             if (UnitySceneManager.GetActiveScene().name != "ContentVisualizer") return;
