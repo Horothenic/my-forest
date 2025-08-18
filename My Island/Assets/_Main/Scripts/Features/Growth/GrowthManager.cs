@@ -6,6 +6,8 @@ namespace MyIsland
     {
         protected override string Key => "Growth";
         protected override SaveStyle SaveStyle => SaveStyle.Json;
+
+        public GrowthManager(ISaveSource saveSource) : base(saveSource) { } 
     }
 
     public partial class GrowthManager : IGrowthSource

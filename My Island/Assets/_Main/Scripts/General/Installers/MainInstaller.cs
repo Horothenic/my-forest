@@ -1,22 +1,17 @@
 using MyForest;
+using Reflex.Core;
 using UnityEngine;
-using Zenject;
 
 namespace MyIsland
 {
-    public class MainInstaller : MonoInstaller
+    public class MainInstaller : MonoBehaviour, IInstaller
     {
         [Header("INSTANCES")]
         [SerializeField] private MainMenuController _mainMenuController = null;
         
-        public override void InstallBindings()
+        public void InstallBindings(ContainerBuilder builder)
         {
-            SetBindings();   
-        }
-
-        private void SetBindings()
-        {
-            Container.BindInterfacesTo<MainMenuController>().FromInstance(_mainMenuController).AsSingle();
+            builder.AddSingleton(_mainMenuController, typeof(IMenuSource));
         }
     }
 }

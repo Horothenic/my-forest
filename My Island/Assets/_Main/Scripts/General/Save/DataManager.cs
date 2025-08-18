@@ -1,27 +1,14 @@
 using System;
-
 using Cysharp.Threading.Tasks;
-using Zenject;
 using UniRx;
 
 namespace MyIsland
 {
-    public abstract partial class DataManager<T> : IInitializable
-    {
-        void IInitializable.Initialize()
-        {
-            Load();
-            Initialize();
-        }
-
-        protected virtual void Initialize() { }
-    }
-
-    public abstract partial class DataManager<T> where T : class, new()
+    public abstract class DataManager<T> where T : class, new()
     {
         #region FIELDS
 
-        [Inject] protected ISaveSource _saveSource = null;
+        protected ISaveSource _saveSource = null;
 
         protected CompositeDisposable _disposables = new CompositeDisposable();
         private readonly DataSubject<T> _loadSubject = new DataSubject<T>();
@@ -32,6 +19,16 @@ namespace MyIsland
         protected T Data => _loadSubject.Value;
         protected IObservable<T> DataObservable => _loadSubject.AsObservable();
 
+        #endregion
+
+        #region CONSTRUCTORS
+        
+        protected DataManager(ISaveSource saveSource)
+        {
+            _saveSource = saveSource;
+            Load();
+        }
+        
         #endregion
 
         #region METHODS

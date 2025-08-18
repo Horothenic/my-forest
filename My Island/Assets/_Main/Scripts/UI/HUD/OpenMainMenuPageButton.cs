@@ -1,6 +1,6 @@
+using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.UI;
-using Zenject;
 
 namespace MyForest
 {

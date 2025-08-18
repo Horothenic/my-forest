@@ -2,10 +2,10 @@ using Cysharp.Threading.Tasks;
 using System;
 using DG.Tweening;
 using Localization;
+using Reflex.Attributes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Zenject;
 
 namespace MyIsland
 {

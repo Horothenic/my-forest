@@ -1,15 +1,13 @@
-using System;
 using System.Collections.Generic;
-
-using Zenject;
+using Reflex;
+using Reflex.Core;
+using Reflex.Injectors;
 
 namespace UnityEngine
 {
     public partial class ObjectPoolManager : MonoBehaviour
     {
         #region FIELDS
-
-        [Inject] private DiContainer _zenjectContainer = null;
 
         [Header("CONFIGURATIONS")]
         [SerializeField] private Transform _root = null;
@@ -36,7 +34,7 @@ namespace UnityEngine
 
             if (_pool[prefabName].Count == 0)
             {
-                return _zenjectContainer.Instantiate(prefab);
+                return Container.ProjectContainer.Instantiate(prefab);
             }
 
             var gameObject = _pool[prefabName].Dequeue();

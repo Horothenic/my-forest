@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Globalization;
-using Zenject;
 
 namespace Localization
 {
@@ -19,6 +18,15 @@ namespace Localization
         
         #endregion
         
+        #region CONSTRUCTORS
+
+        public LocalizationManager()
+        {
+            LoadTranslationFiles();
+        }
+        
+        #endregion
+        
         #region METHODS
 
         private void LoadTranslationFiles()
@@ -28,16 +36,7 @@ namespace Localization
         
         #endregion
     }
-
-
-    public partial class LocalizationManager : IInitializable
-    {
-        void IInitializable.Initialize()
-        {
-            LoadTranslationFiles();
-        }
-    }
-
+    
     public partial class LocalizationManager : ILocalizationSource
     {
         IReadOnlyDictionary<string, BetterCultureInfo> ILocalizationSource.AvailableLanguages => _availableLanguages;

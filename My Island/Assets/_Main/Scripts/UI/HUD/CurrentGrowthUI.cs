@@ -1,6 +1,6 @@
+using Reflex.Attributes;
 using TMPro;
 using UnityEngine;
-using Zenject;
 using UniRx;
 
 namespace MyIsland

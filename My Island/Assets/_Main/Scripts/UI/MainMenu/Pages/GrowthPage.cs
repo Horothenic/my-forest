@@ -1,7 +1,7 @@
 using Localization;
 using MyIsland;
+using Reflex.Attributes;
 using UnityEngine;
-using Zenject;
 
 namespace MyForest
 {
