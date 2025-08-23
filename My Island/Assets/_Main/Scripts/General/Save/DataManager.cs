@@ -1,27 +1,14 @@
 using System;
-
 using Cysharp.Threading.Tasks;
-using Zenject;
 using UniRx;
 
 namespace MyIsland
 {
-    public abstract partial class DataManager<T> : IInitializable
-    {
-        void IInitializable.Initialize()
-        {
-            Load();
-            Initialize();
-        }
-
-        protected virtual void Initialize() { }
-    }
-
-    public abstract partial class DataManager<T> where T : class, new()
+    public abstract class DataManager<T> where T : class, new()
     {
         #region FIELDS
 
-        [Inject] protected ISaveSource _saveSource = null;
+        protected ISaveSource _saveSource = null;
 
         protected CompositeDisposable _disposables = new CompositeDisposable();
         private readonly DataSubject<T> _loadSubject = new DataSubject<T>();
@@ -30,8 +17,18 @@ namespace MyIsland
         protected abstract SaveStyle SaveStyle { get; }
         
         protected T Data => _loadSubject.Value;
-        protected IObservable<T> LoadObservable => _loadSubject.AsObservable();
+        protected IObservable<T> DataObservable => _loadSubject.AsObservable();
 
+        #endregion
+
+        #region CONSTRUCTORS
+        
+        protected DataManager(ISaveSource saveSource)
+        {
+            _saveSource = saveSource;
+            Load();
+        }
+        
         #endregion
 
         #region METHODS
@@ -42,6 +39,7 @@ namespace MyIsland
             {
                 SaveStyle.Json => _saveSource.LoadJson(Key, new T()),
                 SaveStyle.File => _saveSource.LoadFile(Key, new T()),
+                _ => throw new NotImplementedException()
             };
 
             OnPreLoad(ref data);
@@ -94,6 +92,12 @@ namespace MyIsland
             }
 
             _loadSubject.OnNext();
+        }
+
+        protected void SaveAndEmit()
+        {
+            Save();
+            EmitData();
         }
 
         protected virtual void OnPreLoad(ref T data){ }

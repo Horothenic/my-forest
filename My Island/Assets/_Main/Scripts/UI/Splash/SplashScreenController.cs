@@ -1,8 +1,8 @@
 using Cysharp.Threading.Tasks;
 using System;
 using Localization;
+using Reflex.Attributes;
 using UnityEngine;
-using Zenject;
 
 namespace MyIsland
 {

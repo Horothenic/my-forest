@@ -4,6 +4,8 @@ namespace MyIsland
     {
         protected override string Key => "Island";
         protected override SaveStyle SaveStyle => SaveStyle.Json;
+
+        public IslandManager(ISaveSource saveSource) : base(saveSource) { }
     }
     
     public partial class IslandManager : IIslandSource

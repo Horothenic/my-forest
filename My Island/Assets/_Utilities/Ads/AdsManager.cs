@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 
-using Zenject;
 using UniRx;
 
 namespace UnityEngine.Advertisements
@@ -27,14 +26,15 @@ namespace UnityEngine.Advertisements
         private readonly Dictionary<string, Action<AdShowStatus>> _onAdShowMap = new Dictionary<string, Action<AdShowStatus>>();
 
         #endregion
-    }
 
-    public partial class AdsManager : IInitializable
-    {
-        void IInitializable.Initialize()
+        #region CONSTRUCTORS
+
+        public AdsManager()
         {
             Advertisement.Initialize(GAME_ID, TEST_MODE_ENABLED, this);
         }
+
+        #endregion
     }
 
     public partial class AdsManager : IUnityAdsInitializationListener
