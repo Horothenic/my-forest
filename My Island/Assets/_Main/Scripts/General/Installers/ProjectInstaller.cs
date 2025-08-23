@@ -21,6 +21,7 @@ namespace MyIsland
             builder.AddSingleton(typeof(SaveManager), typeof(ISaveSource));
             builder.AddSingleton(typeof(IslandManager), typeof(IIslandSource));
             builder.AddSingleton(typeof(GrowthManager), typeof(IGrowthSource), typeof(IGrowthDebugSource));
+            builder.AddSingleton(typeof(ForestManager), typeof(IForestSource));
         }
     }
 }
