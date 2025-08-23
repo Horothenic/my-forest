@@ -2,7 +2,7 @@ using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MyForest
+namespace MyIsland
 {
     public class OpenPageButton : MonoBehaviour
     {

@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace MyIsland
 {
-    public class TellMeYourNameController : MonoBehaviour
+    public class TellMeYourNameUIController : MonoBehaviour
     {
         #region FIELDS
 

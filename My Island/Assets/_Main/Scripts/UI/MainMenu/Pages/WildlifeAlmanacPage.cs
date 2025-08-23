@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MyForest
+namespace MyIsland
 {
     public class WildlifeAlmanacPage : MonoBehaviour
     {

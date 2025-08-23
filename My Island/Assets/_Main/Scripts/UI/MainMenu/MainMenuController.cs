@@ -1,7 +1,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace MyForest
+namespace MyIsland
 {
     public partial class MainMenuController : MonoBehaviour
     {

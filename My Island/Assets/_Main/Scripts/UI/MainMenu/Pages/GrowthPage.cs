@@ -3,7 +3,7 @@ using MyIsland;
 using Reflex.Attributes;
 using UnityEngine;
 
-namespace MyForest
+namespace MyIsland
 {
     public class GrowthPage : MonoBehaviour
     {

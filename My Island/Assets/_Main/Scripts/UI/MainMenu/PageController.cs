@@ -4,7 +4,7 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
-namespace MyForest
+namespace MyIsland
 {
     public class PageController : MonoBehaviour
     {

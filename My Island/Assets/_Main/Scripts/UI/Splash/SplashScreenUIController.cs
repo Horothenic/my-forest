@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace MyIsland
 {
-    public class SplashScreenController : MonoBehaviour
+    public class SplashScreenUIController : MonoBehaviour
     {
         #region FIELDS
 
