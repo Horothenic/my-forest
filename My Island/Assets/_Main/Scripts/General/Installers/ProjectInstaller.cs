@@ -7,12 +7,14 @@ namespace MyIsland
     public class ProjectInstaller : MonoBehaviour, IInstaller
     {
         [Header("INSTANCES")]
+        [SerializeField] private CameraInputManager _cameraInputManager = null;
         [SerializeField] private ObjectPoolManager _objectPoolManager = null;
         [SerializeField] private TimersManager _timersManager = null;
         [SerializeField] private SceneManager _sceneManager = null;
 
         public void InstallBindings(ContainerBuilder builder)
         {
+            builder.AddSingleton(_cameraInputManager, typeof(ICameraInputSource));
             builder.AddSingleton(_objectPoolManager, typeof(IObjectPoolSource));
             builder.AddSingleton(_timersManager, typeof(ITimersSource));
             builder.AddSingleton(_sceneManager, typeof(ISceneSource));
