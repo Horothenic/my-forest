@@ -30,7 +30,7 @@ namespace MyIsland
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.D))
+            if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.D))
             {
                 ToggleMenu();
             }
