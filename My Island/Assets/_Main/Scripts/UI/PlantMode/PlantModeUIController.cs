@@ -9,7 +9,7 @@ namespace MyIsland
     {
         #region FIELDS
         
-        [Inject] private IForestSource _forestSource;
+        [Inject] private IGameSource _gameSource;
         
         [Header("COMPONENTS")]
         [SerializeField] private GameObject _container;
@@ -21,25 +21,31 @@ namespace MyIsland
         
         private void Awake()
         {
-            _exitPlantModeButton.onClick.AddListener(_forestSource.ExitPlantMode);
-            _forestSource.IsPlantModeOpen.Subscribe(OnPlantMode).AddTo(this);
+            _exitPlantModeButton.onClick.AddListener(ExitPlantMode);
+            _gameSource.OnGameMode.Subscribe(OnGameMode).AddTo(this);
         }
 
         private void Start()
         {
             Hide();
         }
-
-        private void OnPlantMode(bool isActive)
+        
+        private void OnGameMode(GameMode gameMode)
         {
-            if (isActive)
+            switch (gameMode)
             {
-                Show();
+                case GameMode.Island:
+                    Hide();
+                    break;
+                default:
+                    Show();
+                    break;
             }
-            else
-            {
-                Hide();
-            }
+        }
+
+        private void ExitPlantMode()
+        {
+            _gameSource.SetGameMode(GameMode.Island);
         }
         
         private void Show()

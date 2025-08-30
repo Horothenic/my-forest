@@ -19,6 +19,7 @@ namespace MyIsland
             builder.AddSingleton(_timersManager, typeof(ITimersSource));
             builder.AddSingleton(_sceneManager, typeof(ISceneSource));
             
+            builder.AddSingleton(typeof(GameManager), typeof(IGameSource));
             builder.AddSingleton(typeof(LocalizationManager), typeof(ILocalizationSource));
             builder.AddSingleton(typeof(SaveManager), typeof(ISaveSource));
             builder.AddSingleton(typeof(IslandManager), typeof(IIslandSource));

@@ -12,7 +12,7 @@ namespace MyIsland
 
         [Inject] private IGrowthSource _growthSource;
         [Inject] private IMenuSource _menuSource;
-        [Inject] private IForestSource _forestSource;
+        [Inject] private IGameSource _gameSource;
         
         [Header("COMPONENTS")]
         [SerializeField] private GameObject _container;
@@ -35,25 +35,26 @@ namespace MyIsland
         private void Awake()
         {
             _openMainMenuButton.onClick.AddListener(OpenMenuPage);
-            _enterPlantModeButton.onClick.AddListener(_forestSource.EnterPlantMode);
+            _enterPlantModeButton.onClick.AddListener(EnterPlantMode);
         }
         
         private void Start()
         {
             _growthSource.DataObservables.Subscribe(_ => Refresh()).AddTo(this);
-            _forestSource.IsPlantModeOpen.Subscribe(OnPlantMode).AddTo(this);
+            _gameSource.OnGameMode.Subscribe(OnGameMode).AddTo(this);
             Refresh();
         }
 
-        private void OnPlantMode(bool isActive)
+        private void OnGameMode(GameMode gameMode)
         {
-            if (isActive)
+            switch (gameMode)
             {
-                Hide();
-            }
-            else
-            {
-                Show();
+                case GameMode.Island:
+                    Show();
+                    break;
+                default:
+                    Hide();
+                    break;
             }
         }
 
@@ -61,6 +62,11 @@ namespace MyIsland
         {
             _currentGrowthText.text = _growthSource.Data.CurrentGrowth.ToString();
             _allTimeGrowthText.text = _growthSource.Data.AllTimeGrowth.ToString();
+        }
+
+        private void EnterPlantMode()
+        {
+            _gameSource.SetGameMode(GameMode.Plant);
         }
 
         private void OpenMenuPage()
