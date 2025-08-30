@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3436522313626295357}
   - component: {fileID: 7551474057233599961}
   - component: {fileID: 8048682102158514053}
+  - component: {fileID: 6818245155042720594}
   m_Layer: 0
   m_Name: IslandCamera
   m_TagString: Untagged
@@ -139,3 +140,16 @@ MonoBehaviour:
       Wait: 1
       Time: 2
     Restrictions: 0
+--- !u!114 &6818245155042720594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1767891016950070979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e8b78ac948f05a46a6d8339a503172b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LookAtOffset: {x: 0, y: 0, z: 0}
