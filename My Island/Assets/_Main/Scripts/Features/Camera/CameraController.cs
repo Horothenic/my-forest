@@ -20,7 +20,8 @@ namespace MyIsland
         [SerializeField] private CinemachineCamera[] _cameras;
 
         [Header("COMPONENTS")]
-        [SerializeField] private Transform _islandCameraTarget;
+        [SerializeField] private Transform _islandTarget;
+        [SerializeField] private GameObject _islandTargetHighlight;
 
         private readonly List<CameraData> _allCameras = new List<CameraData>();
         private CameraData _currentCamera;
@@ -53,9 +54,11 @@ namespace MyIsland
             switch (gameMode)
             {
                 case GameMode.Plant:
+                    SetIslandTargetHighlightVisibility(true);
                     SelectCamera(CameraIndex.Plant);
                     break;
                 default:
+                    SetIslandTargetHighlightVisibility(false);
                     SelectCamera(CameraIndex.Island);
                     break;
             }
@@ -86,12 +89,17 @@ namespace MyIsland
             var forward = _currentCamera.OrbitalFollow.transform.forward;
             var forwardFlat = new Vector3(forward.x,0f, forward.z).normalized;
             
-            _islandCameraTarget.position += forwardFlat * deltaPosition;
+            _islandTarget.position += forwardFlat * deltaPosition;
         }
 
         private void OnRotate(float deltaPosition)
         {
             _currentCamera.OrbitalFollow.HorizontalAxis.Value += deltaPosition;
+        }
+
+        private void SetIslandTargetHighlightVisibility(bool visible)
+        {
+            _islandTargetHighlight.SetActive(visible);
         }
 
         #endregion
