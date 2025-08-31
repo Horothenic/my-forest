@@ -17,15 +17,13 @@ namespace MyIsland
         [Inject] private ICameraInputSource _cameraInputSource;
         
         [Header("CAMERAS")]
-        [SerializeField] private CinemachineCamera _islandCamera;
-        [SerializeField] private CinemachineCamera _plantCamera;
+        [SerializeField] private CinemachineCamera[] _cameras;
 
         [Header("COMPONENTS")]
         [SerializeField] private Transform _islandCameraTarget;
 
-        private readonly List<CinemachineCamera> _allCameras = new List<CinemachineCamera>();
-        private CinemachineCamera _currentCamera;
-        private CinemachineOrbitalFollow _currentCameraOrbitalFollow;
+        private readonly List<CameraData> _allCameras = new List<CameraData>();
+        private CameraData _currentCamera;
 
         #endregion
 
@@ -42,10 +40,12 @@ namespace MyIsland
 
         private void SetCameras()
         {
-            _allCameras.Add(_islandCamera);
-            _allCameras.Add(_plantCamera);
+            foreach (var camera in _cameras)
+            {
+                _allCameras.Add(new CameraData(camera));
+            }
             
-            SelectCamera(_islandCamera);
+            SelectCamera(CameraIndex.Island);
         }
         
         private void OnGameMode(GameMode gameMode)
@@ -53,33 +53,37 @@ namespace MyIsland
             switch (gameMode)
             {
                 case GameMode.Plant:
-                    SelectCamera(_plantCamera);
+                    SelectCamera(CameraIndex.Plant);
                     break;
                 default:
-                    SelectCamera(_islandCamera);
+                    SelectCamera(CameraIndex.Island);
                     break;
             }
         }
 
-        private void SelectCamera(CinemachineCamera selectedCamera)
+        private void SelectCamera(CameraIndex cameraIndex)
         {
+            var index = (int)cameraIndex;
+            var newCamera = _allCameras[index];
             
-            _currentCamera = selectedCamera;
-            _currentCameraOrbitalFollow = selectedCamera.GetComponent<CinemachineOrbitalFollow>();
-
-            selectedCamera.Priority = HIGH_PRIORITY;
+            if (_currentCamera == newCamera) return;
             
-            foreach (var camera in _allCameras)
+            if (_currentCamera != null)
             {
-                if (camera == selectedCamera) continue;
-
-                camera.Priority = LOW_PRIORITY;
+                newCamera.OrbitalFollow.HorizontalAxis.Value = _currentCamera.OrbitalFollow.HorizontalAxis.Value;
             }
+            
+            foreach (var cam in _allCameras)
+            {
+                cam.Camera.Priority = (cam == newCamera) ? HIGH_PRIORITY : LOW_PRIORITY;
+            }
+
+            _currentCamera = newCamera;
         }
 
         private void OnPan(float deltaPosition)
         {
-            var forward = _currentCameraOrbitalFollow.transform.forward;
+            var forward = _currentCamera.OrbitalFollow.transform.forward;
             var forwardFlat = new Vector3(forward.x,0f, forward.z).normalized;
             
             _islandCameraTarget.position += forwardFlat * deltaPosition;
@@ -87,7 +91,7 @@ namespace MyIsland
 
         private void OnRotate(float deltaPosition)
         {
-            _currentCameraOrbitalFollow.HorizontalAxis.Value += deltaPosition;
+            _currentCamera.OrbitalFollow.HorizontalAxis.Value += deltaPosition;
         }
 
         #endregion

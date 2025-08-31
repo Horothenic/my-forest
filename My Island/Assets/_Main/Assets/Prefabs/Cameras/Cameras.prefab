@@ -47,8 +47,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72384376d10154684aae5b28061bf6d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _islandCamera: {fileID: 775256583027843170}
-  _plantCamera: {fileID: 118386276734407893}
+  _cameras:
+  - {fileID: 775256583027843170}
+  - {fileID: 118386276734407893}
+  _islandCameraTarget: {fileID: 0}
 --- !u!1 &7934389547603877577
 GameObject:
   m_ObjectHideFlags: 0
