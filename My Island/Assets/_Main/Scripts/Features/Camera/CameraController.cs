@@ -18,6 +18,9 @@ namespace MyIsland
         
         [Header("CAMERAS")]
         [SerializeField] private CinemachineCamera[] _cameras;
+        
+        [Header("COMPONENTS")]
+        [SerializeField] private float _islandClampRadius = 100;
 
         [Header("COMPONENTS")]
         [SerializeField] private Transform _islandTarget;
@@ -90,6 +93,19 @@ namespace MyIsland
             var forwardFlat = new Vector3(forward.x,0f, forward.z).normalized;
             
             _islandTarget.position += forwardFlat * deltaPosition;
+            ClampPositionWithinIsland(_islandTarget);
+        }
+        
+        private void ClampPositionWithinIsland(Transform target)
+        {
+            var center = Vector3.zero;
+            var offset = target.position - center;
+            offset.y = 0f;
+
+            if (!(offset.sqrMagnitude > _islandClampRadius * _islandClampRadius)) return;
+            
+            offset = offset.normalized * _islandClampRadius;
+            target.position = new Vector3(center.x + offset.x, target.position.y, center.z + offset.z);
         }
 
         private void OnRotate(float deltaPosition)
