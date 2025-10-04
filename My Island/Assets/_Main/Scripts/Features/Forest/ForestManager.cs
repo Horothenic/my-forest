@@ -1,5 +1,4 @@
-using System;
-using UniRx;
+using UnityEngine;
 
 namespace MyIsland
 {
@@ -14,5 +13,20 @@ namespace MyIsland
     public partial class ForestManager : IForestSource
     {
         ForestData IForestSource.Data => Data;
+
+        void IForestSource.PlantTree(Ray ray)
+        {
+            DetectBiomeOnRaycast(ray);
+        }
+        
+        private Biome DetectBiomeOnRaycast(Ray ray)
+        {
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                Debug.Log(hit.collider.gameObject.name);
+            }
+
+            return Biome.Forest;
+        }
     }
 }

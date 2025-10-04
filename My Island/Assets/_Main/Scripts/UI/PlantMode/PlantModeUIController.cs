@@ -10,9 +10,12 @@ namespace MyIsland
         #region FIELDS
         
         [Inject] private IGameSource _gameSource;
+        [Inject] private IForestSource _forestSource;
+        [Inject] private ICameraTargetSource _cameraTargetSource;
         
         [Header("COMPONENTS")]
         [SerializeField] private GameObject _container;
+        [SerializeField] private Button _plantButton;
         [SerializeField] private Button _exitPlantModeButton;
         
         #endregion
@@ -21,6 +24,7 @@ namespace MyIsland
         
         private void Awake()
         {
+            _plantButton.onClick.AddListener(PlantTree);
             _exitPlantModeButton.onClick.AddListener(ExitPlantMode);
             _gameSource.OnGameMode.Subscribe(OnGameMode).AddTo(this);
         }
@@ -41,6 +45,11 @@ namespace MyIsland
                     Show();
                     break;
             }
+        }
+
+        private void PlantTree()
+        {
+            _forestSource.PlantTree(_cameraTargetSource.IslandTargetRay);
         }
 
         private void ExitPlantMode()

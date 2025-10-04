@@ -6,7 +6,7 @@ using Unity.Cinemachine;
 
 namespace MyIsland
 {
-    public class CameraController : MonoBehaviour
+    public partial class CameraController : MonoBehaviour
     {
         #region FIELDS
 
@@ -25,6 +25,7 @@ namespace MyIsland
         [Header("COMPONENTS")]
         [SerializeField] private Transform _islandTarget;
         [SerializeField] private GameObject _islandTargetHighlight;
+        [SerializeField] private Transform _islandTargetOriginRay;
 
         private readonly List<CameraData> _allCameras = new List<CameraData>();
         private CameraData _currentCamera;
@@ -119,5 +120,10 @@ namespace MyIsland
         }
 
         #endregion
+    }
+
+    public partial class CameraController : ICameraTargetSource
+    {
+        Ray ICameraTargetSource.IslandTargetRay => new Ray(_islandTargetOriginRay.position, _islandTargetOriginRay.forward);
     }
 }
