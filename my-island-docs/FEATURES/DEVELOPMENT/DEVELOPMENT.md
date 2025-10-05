@@ -14,13 +14,4 @@ The next thing we need is how to create the terrain.
 
 **3. GAME FLOW + UI**
 This will give me a sense of where it goes what things.
-[[3. Game Flow + UI]]
-
-**3. HUD**
-You can see how many days you have taken care of the forest.
-
-**4. FLORA**
-Every day the trees grow a little and the user gain [[Growth]] points.
-
-**5. FAUNA**
-Every now and then some animals visit you.
+[[3. Game Loop]]
