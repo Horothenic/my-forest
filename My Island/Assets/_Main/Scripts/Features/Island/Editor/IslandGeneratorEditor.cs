@@ -8,7 +8,8 @@ namespace MyIsland
     public class IslandGeneratorEditor : Editor
     {
         private SerializedObject serializedObjectTarget;
-
+        private string _testSeed = "My Island";
+        
         public override void OnInspectorGUI()
         {
             serializedObjectTarget = serializedObject;
@@ -25,15 +26,14 @@ namespace MyIsland
             GUILayout.Space(10);
             EditorGUILayout.LabelField(new GUIContent("EDITOR-ONLY"), EditorStyles.boldLabel);
 
-            var testSeed = string.Empty;
-            EditorGUILayout.TextField(new GUIContent("Test seed"), testSeed);
+            _testSeed = EditorGUILayout.TextField(new GUIContent("Test seed"), _testSeed);
             
             if (serializedObjectTarget.ApplyModifiedProperties())
             {
                 foreach (var obj in targets)
                 {
                     var generator = (IslandGenerator)obj;
-                    generator.Initialize(testSeed);
+                    generator.Initialize(_testSeed);
                 }
             }
             
@@ -43,7 +43,7 @@ namespace MyIsland
                 {
                     var generator = (IslandGenerator)obj;
 
-                    generator.Initialize(testSeed);
+                    generator.Initialize(_testSeed);
                     EditorUtility.SetDirty(generator);
                 }
             }

@@ -8,9 +8,4 @@ namespace MyIsland
         IObservable<float> OnPan { get; }
         IObservable<float> OnRotate { get; }
     }
-
-    public interface ICameraTargetSource
-    {
-        Ray IslandTargetRay { get; }
-    }
 }
