@@ -12,5 +12,12 @@ namespace Reflex
             GameObjectInjector.InjectSingle(gameObject, container);
             return gameObject;
         }
+        
+        public static GameObject Instantiate<T>(this Container container, T prefab) where T: MonoBehaviour
+        {
+            var component = Object.Instantiate(prefab);
+            GameObjectInjector.InjectSingle(component.gameObject, container);
+            return component.gameObject;
+        }
     }
 }

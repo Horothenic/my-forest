@@ -27,9 +27,7 @@ namespace MyIsland
     {
         Forest,
         Beach,
-        Mountain,
-        Lake,
-        Tundra
+        Mountain
     }
 
     public enum Rarity

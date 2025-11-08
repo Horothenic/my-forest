@@ -7,18 +7,17 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 588fc19c4358847cf9c4e138b1cebc9a, type: 3}
+  m_Script: {fileID: 11500000, guid: 5e204ea3b25ff2d42b4ea3414a2b5065, type: 3}
   m_Name: TreeConfigurationCollection
   m_EditorClassIdentifier: 
-  _treePrefab: {fileID: 4874896885170474990, guid: 3ad01476d207d4936b962c55596e9cf8, type: 3}
   _treeRarityProbability:
     _probabilities:
-    - 0.554
-    - 0.251
-    - 0.146
-    - 0.049
+    - 0.402
+    - 0.298
+    - 0.196
+    - 0.104
   _treeConfigurations:
   - {fileID: 11400000, guid: e79e3aa2318b4dd4598e1cbbab8e27aa, type: 2}
   - {fileID: 11400000, guid: 0a6a8be867959ce4185db4c02a0376b6, type: 2}
