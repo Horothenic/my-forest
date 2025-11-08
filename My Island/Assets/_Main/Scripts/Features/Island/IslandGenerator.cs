@@ -3,6 +3,7 @@ using DelaunatorSharp.Unity.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 using Reflex.Attributes;
+using Unity.AI.Navigation;
 using UnityEngine;
 
 namespace MyIsland
@@ -41,6 +42,7 @@ namespace MyIsland
 
         private MeshFilter _meshFilter;
         private MeshCollider _meshCollider;
+        private NavMeshSurface _navMeshSurface;
         
         private Dictionary<IPoint, float> _heightMap;
         private float _seedOffset = 0;
@@ -60,6 +62,7 @@ namespace MyIsland
         {
             _meshFilter = GetComponent<MeshFilter>();
             _meshCollider = GetComponent<MeshCollider>();
+            _navMeshSurface = GetComponent<NavMeshSurface>();
             
             _minNoiseHeight = float.PositiveInfinity;
             _maxNoiseHeight = float.NegativeInfinity;
@@ -75,6 +78,11 @@ namespace MyIsland
             
             _meshFilter.mesh = mesh;
             _meshCollider.sharedMesh = mesh;
+
+            if (_navMeshSurface != null)    
+            {
+                _navMeshSurface.BuildNavMesh();
+            }
         }
 
         private void CalculateElevations(IPoint[] points)
